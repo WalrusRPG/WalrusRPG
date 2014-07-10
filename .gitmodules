@@ -1,0 +1,5 @@
+[submodule "n2DLib"]
+	path = n2DLib
+	url = https://github.com/n2DLib/n2DLib.git
+	branch = master
+

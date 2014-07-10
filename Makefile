@@ -14,7 +14,7 @@ GXX = nspire-g++
 LD = nspire-ld-bflt
 LDFLAGS =
 CPPOBJS = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
-OBJS = $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.S,%.o,$(wildcard *.S)) $(CPPOBJS)
+OBJS = $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.S,%.o,$(wildcard *.S)) $(CPPOBJS) n2DLib/n2DLib.o
 ifneq ($(strip $(CPPOBJS)),)
 	LDFLAGS += --cpp
 endif
@@ -28,13 +28,13 @@ vpath %.tns $(DISTDIR)
 all: $(EXE)
 
 %.o: %.c headers
-	$(GCC) $(GCCFLAGS) -c $<
+	$(GCC) $(GCCFLAGS) -c $< -o $@
 
 %.o: %.cpp headers
-	$(GXX) $(GCCFLAGS) -c $<
+	$(GXX) $(GCCFLAGS) -c $< -o $@
 
 %.o: %.S headers
-	$(AS) -c $<
+	$(AS) -c $< -o $@
 
 headers:
 	makeheaders $(SOURCES)
@@ -47,5 +47,5 @@ ifeq ($(DEBUG),FALSE)
 endif
 
 clean:
-	rm -f *.h *.o *.elf $(DISTDIR)/*.gdb $(DISTDIR)/$(EXE)
+	rm -f *.h *.o *.elf $(DISTDIR)/*.gdb $(DISTDIR)/$(EXE) $(OBJS)
 
