@@ -1,0 +1,7 @@
+*.o
+*.tns
+bin
+*.h
+*.elf
+*.gdb
+
