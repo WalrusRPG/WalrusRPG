@@ -4,4 +4,5 @@ bin
 *.h
 *.elf
 *.gdb
+art/sprites.c
 

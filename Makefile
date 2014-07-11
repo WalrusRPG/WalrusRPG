@@ -14,12 +14,12 @@ GXX = nspire-g++
 LD = nspire-ld-bflt
 LDFLAGS =
 CPPOBJS = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
-OBJS = $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.S,%.o,$(wildcard *.S)) $(CPPOBJS) n2DLib/n2DLib.o
+OBJS = $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.S,%.o,$(wildcard *.S)) $(CPPOBJS) n2DLib/n2DLib.o art/sprites.o
 ifneq ($(strip $(CPPOBJS)),)
 	LDFLAGS += --cpp
 endif
 
-SOURCES = $(wildcard *.c) $(wildcard *.S) $(wildcard *.cpp)
+SOURCES = $(wildcard *.c) $(wildcard *.S) $(wildcard *.cpp) art/sprites.c
 
 EXE = pokespire.tns
 DISTDIR = bin
@@ -36,8 +36,11 @@ all: $(EXE)
 %.o: %.S headers
 	$(AS) -c $< -o $@
 
-headers:
+headers: sprites
 	makeheaders $(SOURCES)
+
+sprites:
+	$(MAKE) -C art/
 
 $(EXE): $(OBJS)
 	mkdir -p $(DISTDIR)
