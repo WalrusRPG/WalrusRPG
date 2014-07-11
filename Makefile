@@ -51,4 +51,5 @@ endif
 
 clean:
 	rm -f *.h *.o *.elf $(DISTDIR)/*.gdb $(DISTDIR)/$(EXE) $(OBJS)
+	$(MAKE) -C art/ clean
 
