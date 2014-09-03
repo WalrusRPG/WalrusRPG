@@ -53,3 +53,6 @@ clean:
 	rm -f *.h *.o *.elf $(DISTDIR)/*.gdb $(DISTDIR)/$(EXE) $(OBJS)
 	$(MAKE) -C art/ clean
 
+run: all
+	nspire-emu-send $(DISTDIR)/$(EXE)
+
