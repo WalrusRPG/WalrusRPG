@@ -43,7 +43,7 @@ int main()
 		if (isKeyPressed(KEY_NSPIRE_DOWN)) y+=2;
 		if (isKeyPressed(KEY_NSPIRE_LEFT)) x-=2;
 		if (isKeyPressed(KEY_NSPIRE_RIGHT)) x+=2;
-		map_draw(x, y, &map);
+		map_draw(x, y, map);
 		updateScreen();
 	}
 

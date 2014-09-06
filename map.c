@@ -11,7 +11,7 @@ typedef struct
 } Map;
 #endif
 
-void map_draw(unsigned x, unsigned y, const Map *map)
+void map_draw(unsigned x, unsigned y, const Map map)
 {
 	unsigned tile_x = x / 24;
 	unsigned tile_y = y / 24;
@@ -27,7 +27,7 @@ void map_draw(unsigned x, unsigned y, const Map *map)
 	for (i = 0; i < 15; i++)
 	for (j = 0; j < 11; j++)
 	{
-		tile = map->ground[(tile_x + i) + (tile_y + j) * map->w];
+		tile = map.ground[(tile_x + i) + (tile_y + j) * map.w];
 		sprite.x = tile * 24;
 		drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
 	}
