@@ -7,7 +7,9 @@ typedef struct
 {
 	unsigned w;
 	unsigned h;
-	unsigned *ground;
+	unsigned *layer0;
+	unsigned *layer1;
+	unsigned *layer2;
 } Map;
 #endif
 
@@ -18,7 +20,7 @@ void map_draw(unsigned x, unsigned y, const Map map)
 	unsigned offset_x = x % 24;
 	unsigned offset_y = y % 24;
 
-	unsigned i, j, tile;
+	unsigned i, j, tile_offset;
 	Rect sprite;
 	sprite.y = 0;
 	sprite.w = 24;
@@ -27,9 +29,16 @@ void map_draw(unsigned x, unsigned y, const Map map)
 	for (i = 0; i < 15; i++)
 	for (j = 0; j < 11; j++)
 	{
-		tile = map.ground[(tile_x + i) + (tile_y + j) * map.w];
-		sprite.x = tile * 24;
-		drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
+		tile_offset = (tile_x + i) + (tile_y + j) * map.w;
+
+		sprite.x = map.layer0[tile_offset] * 24;
+		if (sprite.x) drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
+
+		sprite.x = map.layer1[tile_offset] * 24;
+		if (sprite.x) drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
+
+		sprite.x = map.layer2[tile_offset] * 24;
+		if (sprite.x) drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
 	}
 }
 
