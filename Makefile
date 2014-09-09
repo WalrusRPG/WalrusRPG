@@ -2,7 +2,7 @@ DEBUG = FALSE
 GCC = nspire-gcc
 GCCFLAGS = -Wall -W -marm
 ifeq ($(DEBUG),FALSE)
-	GCCFLAGS += -Os
+	GCCFLAGS += -Ofast
 else
 	GCCFLAGS += -O0 -g
 	LDFLAGS += --debug
