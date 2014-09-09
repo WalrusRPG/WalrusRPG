@@ -9,7 +9,6 @@ typedef struct
 	unsigned h;
 	unsigned *layer0;
 	unsigned *layer1;
-	unsigned *layer2;
 } Map;
 #endif
 
@@ -35,9 +34,6 @@ void map_draw(unsigned x, unsigned y, const Map map)
 		if (sprite.x) drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
 
 		sprite.x = map.layer1[tile_offset] * 24;
-		if (sprite.x) drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
-
-		sprite.x = map.layer2[tile_offset] * 24;
 		if (sprite.x) drawSpritePart(tiles, (i * 24) - offset_x, (j * 24) - offset_y, &sprite);
 	}
 }
