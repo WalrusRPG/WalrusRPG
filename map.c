@@ -32,9 +32,6 @@ void map_draw(unsigned x, unsigned y, const Map map)
 			sprite.x = map.layer0[tile_offset] * 24;
 			drawSpritePart(tiles, offset_x, offset_y, &sprite);
 
-			sprite.x = map.layer1[tile_offset] * 24;
-			drawSpritePart(tiles, offset_x, offset_y, &sprite);
-
 			tile_offset++;
 			offset_x += 24;
 		}
