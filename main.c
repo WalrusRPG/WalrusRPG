@@ -5,6 +5,7 @@
 int main()
 {
 	initBuffering();
+	timer_init(0);
 
 	Map map;
 	map.w = 15;
@@ -64,18 +65,9 @@ int main()
 	map.layer0 = mapdata0;
 	map.layer1 = mapdata1;
 
-	unsigned x = 0;
-	unsigned y = 0;
-	while (!isKeyPressed(KEY_NSPIRE_ESC))
-	{
-		if (isKeyPressed(KEY_NSPIRE_UP)) y-=2;
-		if (isKeyPressed(KEY_NSPIRE_DOWN)) y+=2;
-		if (isKeyPressed(KEY_NSPIRE_LEFT)) x-=2;
-		if (isKeyPressed(KEY_NSPIRE_RIGHT)) x+=2;
-		map_draw(x, y, map);
-		bufferSwap();
-	}
+	map_walk(7, 5, map);
 
+	timer_restore(0);
 	deinitBuffering();
 	return 0;
 }
