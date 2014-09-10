@@ -47,9 +47,11 @@ void timer_restore(unsigned timer)
 	{
 		volatile unsigned *timer_ctl = (unsigned *) (TIMER + 0x08 + 0x0C * timer);
 		volatile unsigned *timer_divider = (unsigned *) (TIMER + 0x04 + 0x0C * timer);
+		volatile unsigned *timer_value = (unsigned *) (TIMER + 0x0C * timer);
 
 		*timer_ctl = timer_ctl_bkp[timer];
 		*timer_divider = timer_load_bkp[timer];
+		*timer_value = 32;
 	}
 }
 
