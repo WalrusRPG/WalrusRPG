@@ -1,10 +1,9 @@
 #include <os.h>
-#include "n2DLib/n2DLib.h"
 #include "main.h"
 
 int main()
 {
-	initBuffering();
+	buffer_allocate();
 	timer_init(0);
 
 	Map map;
@@ -68,7 +67,7 @@ int main()
 	map_walk(7, 5, map);
 
 	timer_restore(0);
-	deinitBuffering();
+	buffer_free();
 	return 0;
 }
 

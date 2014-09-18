@@ -1,5 +1,4 @@
 #include <os.h>
-#include "n2DLib/n2DLib.h"
 #include "map.h"
 
 #if INTERFACE
@@ -33,7 +32,7 @@ void map_draw(unsigned x, unsigned y, const Map map)
 		for (i = 0; i < 15; i++)
 		{
 			sprite.x = map.layer0[tile_offset] * 24;
-			drawSpritePart(tiles, offset_x, offset_y, &sprite);
+			draw_sprite_sheet(tiles, offset_x, offset_y, &sprite);
 
 			tile_offset++;
 			offset_x += 24;
@@ -88,7 +87,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 				{
 					while (i > map_walk_speed_read(walk_time, walk_div));
 					map_draw(x * 24, y * 24 + i, map);
-					bufferSwap();
+					buffer_swap();
 				}
 			}
 
@@ -105,7 +104,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 				{
 					while (i > map_walk_speed_read(walk_time, walk_div));
 					map_draw(x * 24, y * 24 - i, map);
-					bufferSwap();
+					buffer_swap();
 				}
 			}
 
@@ -122,7 +121,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 				{
 					while (i > map_walk_speed_read(walk_time, walk_div));
 					map_draw(x * 24 - i, y * 24, map);
-					bufferSwap();
+					buffer_swap();
 				}
 			}
 
@@ -139,7 +138,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 				{
 					while (i > map_walk_speed_read(walk_time, walk_div));
 					map_draw(x * 24 + i, y * 24, map);
-					bufferSwap();
+					buffer_swap();
 				}
 			}
 
@@ -147,7 +146,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 		}
 
 		map_draw(x * 24, y * 24, map);
-		bufferSwap();
+		buffer_swap();
 	}
 }
 

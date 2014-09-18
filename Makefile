@@ -14,7 +14,7 @@ GXX = nspire-g++
 LD = nspire-ld-bflt
 LDFLAGS =
 CPPOBJS = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
-OBJS = $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.S,%.o,$(wildcard *.S)) $(CPPOBJS) n2DLib/n2DLib.o art/sprites.o
+OBJS = $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.S,%.o,$(wildcard *.S)) $(CPPOBJS) art/sprites.o
 ifneq ($(strip $(CPPOBJS)),)
 	LDFLAGS += --cpp
 endif
