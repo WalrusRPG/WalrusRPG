@@ -51,6 +51,11 @@ void buffer_swap()
 	*lcd_base = (unsigned) buffer_front;
 }
 
+void buffer_copy()
+{
+	memcpy(buffer_front, buffer_back, BUFFER_SIZE);
+}
+
 void buffer_fill(unsigned color)
 {
 	unsigned *buffer_back_32 = buffer_back;
