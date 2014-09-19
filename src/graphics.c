@@ -51,11 +51,13 @@ void buffer_swap()
 	*lcd_base = (unsigned) buffer_front;
 }
 
-void buffer_fill(unsigned short color)
+void buffer_fill(unsigned color)
 {
+	unsigned *buffer_back_32 = buffer_back;
 	int i;
-	for (i = 0; i < (BUFFER_SIZE / 2); i++)
-		*((unsigned short *) (buffer_back + i)) = color;
+	color += color << 16;
+	for (i = 0; i < (BUFFER_SIZE / 4); i++)
+		buffer_back_32[i] = color;
 }
 
 
@@ -66,7 +68,7 @@ void buffer_fill(unsigned short color)
 void draw_pixel(unsigned x, unsigned y, unsigned short color)
 {
 	if (x < 320 && y < 240)
-		*((unsigned short *) (buffer_back + x + (y * 320))) = color;
+		buffer_back[x + (y * 320)] = color;
 }
 
 void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect* window)
