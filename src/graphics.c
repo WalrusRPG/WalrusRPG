@@ -10,6 +10,10 @@ typedef struct
 
 #define LCD_CONTROLLER 0xC0000000
 volatile unsigned *lcd_base = (unsigned *) (LCD_CONTROLLER + 0x10);
+volatile unsigned *lcd_ris = (unsigned *) (LCD_CONTROLLER + 0x20);
+volatile unsigned *lcd_icr = (unsigned *) (LCD_CONTROLLER + 0x28);
+volatile unsigned *lcd_control = (unsigned *) (LCD_CONTROLLER + 0x18);
+unsigned lcd_control_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
 unsigned short *buffer_front = NULL, *buffer_back = NULL, *buffer_os;
@@ -38,6 +42,11 @@ void buffer_allocate()
 
 	buffer_os = (unsigned short *) *lcd_base;
 	*lcd_base = (unsigned) buffer_front;
+
+	// Set up the controller in order to use vsync signals
+	lcd_control_bkp = *lcd_control;
+	*lcd_control &= ~(0b11 << 12);
+	*lcd_control |= 0b11 << 12;
 }
 
 void buffer_free()
@@ -46,10 +55,14 @@ void buffer_free()
 	free((unsigned short *) ((unsigned) buffer_back - buffer_back_offset));
 
 	*lcd_base = (unsigned) buffer_os;
+
+	*lcd_control = lcd_control_bkp;
 }
 
 void buffer_swap()
 {
+	lcd_vsync();
+
 	unsigned short *buffer_front_tmp = buffer_front;
 	unsigned buffer_front_offset_tmp = buffer_front_offset;
 	buffer_front = buffer_back;
@@ -62,6 +75,7 @@ void buffer_swap()
 
 void buffer_copy()
 {
+	lcd_vsync();
 	memcpy(buffer_front, buffer_back, BUFFER_SIZE);
 }
 
@@ -72,6 +86,17 @@ void buffer_fill(unsigned color)
 	color += color << 16;
 	for (i = 0; i < (BUFFER_SIZE / 4); i++)
 		buffer_back_32[i] = color;
+}
+
+
+/*
+ * Misc LCD functions
+ */
+
+void lcd_vsync()
+{
+	*lcd_icr = 1 << 3;
+	while (!(*lcd_ris & (1 << 3)));
 }
 
 
