@@ -81,7 +81,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 1; i < 24; i++)
+			for (i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{
@@ -98,7 +98,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 1; i < 24; i++)
+			for (i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{
@@ -115,7 +115,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 1; i < 24; i++)
+			for (i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{
@@ -132,7 +132,7 @@ void map_walk(unsigned x, unsigned y, Map map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 1; i < 24; i++)
+			for (i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{
@@ -145,8 +145,11 @@ void map_walk(unsigned x, unsigned y, Map map)
 			x++;
 		}
 
-		map_draw(x * 24, y * 24, map);
-		buffer_swap();
+		else
+		{
+			map_draw(x * 24, y * 24, map);
+			buffer_swap();
+		}
 	}
 }
 
