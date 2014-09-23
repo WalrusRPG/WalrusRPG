@@ -42,5 +42,5 @@ clean:
 	@$(MAKE) -C art/ clean
 
 run: all
-	nspire-emu-send $(DISTDIR)/$(EXE)
+	tilp -ns $(DISTDIR)/$(EXE) > /dev/null
 
