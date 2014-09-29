@@ -19,28 +19,17 @@ void map_draw(unsigned x, unsigned y, const Map map)
 	unsigned offset_x = x % 24 * -1;
 	unsigned offset_y = y % 24 * -1;
 
-	unsigned i, j, tile_offset;
+	unsigned i, j;
 	Rect sprite;
 	sprite.y = 0;
 	sprite.w = 24;
 	sprite.h = 24;
 
-	tile_offset = x / 24 - 7 + (y / 24 - 5) * map.w;
-
 	for (j = 0; j < 11; j++)
+	for (i = 0; i < 15; i++)
 	{
-		for (i = 0; i < 15; i++)
-		{
-			sprite.x = map.layer0[tile_offset] * 24;
-			draw_sprite_sheet(tiles, offset_x, offset_y, &sprite);
-
-			tile_offset++;
-			offset_x += 24;
-		}
-
-		tile_offset += map.w - 15;
-		offset_x -= 24 * 15;
-		offset_y += 24;
+		sprite.x = map.layer0[(x / 24 - 7 + i) + (y / 24 - 5 + j) * map.w] * 24;
+		draw_sprite_sheet(tiles, offset_x + i * 24, offset_y + j * 24, &sprite);
 	}
 }
 
