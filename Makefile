@@ -1,3 +1,5 @@
+NAME = Pokespire
+
 DEBUG = FALSE
 
 GCC = nspire-gcc
@@ -9,17 +11,21 @@ else
 	LDFLAGS += --debug
 endif
 
-LD = nspire-ld-bflt
+LD = nspire-ld
 LDFLAGS =
+
+ZEHN = genzehn
+ZEHNFLAGS = --name "$(NAME)"
+
+PRG = make-prg
 
 SOURCES = $(wildcard src/*.c) art/sprites.c
 HEADERS = $(patsubst %.c,%.h,$(SOURCES))
 OBJS = $(patsubst %.c,%.o,$(SOURCES))
 
-EXE = pokespire.tns
 DISTDIR = bin
 
-all: $(EXE)
+all: exe
 
 %.o: %.c headers
 	@$(GCC) $(GCCFLAGS) -c $< -o $@
@@ -30,17 +36,19 @@ headers: sprites
 sprites:
 	@$(MAKE) -C art/
 
-$(EXE): $(OBJS)
+exe: $(OBJS)
 	@mkdir -p $(DISTDIR)
-	$(LD) $^ -o $(DISTDIR)/$@ $(LDFLAGS)
+	$(LD) $^ -o $(DISTDIR)/$(NAME).elf $(LDFLAGS)
+	$(ZEHN) --input $(DISTDIR)/$(NAME).elf --output $(DISTDIR)/$(NAME).tns $(ZEHNFLAGS)
+	$(PRG) $(DISTDIR)/$(NAME).tns $(DISTDIR)/$(NAME).prg.tns
 ifeq ($(DEBUG),FALSE)
 	@rm -f $(DISTDIR)/*.gdb
 endif
 
 clean:
-	rm -f $(DISTDIR)/*.gdb $(DISTDIR)/$(EXE) $(OBJS) $(HEADERS)
+	rm -rf $(DISTDIR) $(OBJS) $(HEADERS)
 	@$(MAKE) -C art/ clean
 
 run: all
-	tilp -ns $(DISTDIR)/$(EXE) > /dev/null
+	tilp -ns $(DISTDIR)/$(NAME).prg.tns > /dev/null
 
