@@ -17,7 +17,6 @@ unsigned lcd_control_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
 unsigned short *buffer_front = NULL, *buffer_back = NULL, *buffer_os;
-unsigned buffer_front_offset, buffer_back_offset;
 
 /*
  * Buffer management
@@ -25,8 +24,8 @@ unsigned buffer_front_offset, buffer_back_offset;
 
 void buffer_allocate()
 {
-	buffer_front = (unsigned short *) malloc(BUFFER_SIZE + 8);
-	buffer_back = (unsigned short *) malloc(BUFFER_SIZE + 8);
+	buffer_front = (unsigned short *) malloc(BUFFER_SIZE);
+	buffer_back = (unsigned short *) malloc(BUFFER_SIZE);
 
 	if (buffer_front == NULL || buffer_back == NULL)
 	{
@@ -34,11 +33,6 @@ void buffer_allocate()
 		free(buffer_back);
 		exit(0);
 	}
-
-	buffer_front_offset = 8 - ((unsigned) buffer_front & 0x7);
-	buffer_back_offset = 8 - ((unsigned) buffer_back & 0x7);
-	buffer_front = (unsigned short *) ((unsigned) buffer_front + buffer_front_offset);
-	buffer_back = (unsigned short *) ((unsigned) buffer_back + buffer_back_offset);
 
 	buffer_os = (unsigned short *) *lcd_base;
 	*lcd_base = (unsigned) buffer_front;
@@ -51,8 +45,8 @@ void buffer_allocate()
 
 void buffer_free()
 {
-	free((unsigned short *) ((unsigned) buffer_front - buffer_front_offset));
-	free((unsigned short *) ((unsigned) buffer_back - buffer_back_offset));
+	free(buffer_front);
+	free(buffer_back);
 
 	*lcd_base = (unsigned) buffer_os;
 
@@ -64,11 +58,8 @@ void buffer_swap()
 	lcd_vsync();
 
 	unsigned short *buffer_front_tmp = buffer_front;
-	unsigned buffer_front_offset_tmp = buffer_front_offset;
 	buffer_front = buffer_back;
-	buffer_front_offset = buffer_back_offset;
 	buffer_back = buffer_front_tmp;
-	buffer_back_offset = buffer_front_offset_tmp;
 
 	*lcd_base = (unsigned) buffer_front;
 }
