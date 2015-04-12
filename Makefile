@@ -17,8 +17,6 @@ LDFLAGS =
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)"
 
-PRG = make-prg
-
 SOURCES = $(wildcard src/*.c) art/sprites.c
 HEADERS = $(patsubst %.c,%.h,$(SOURCES))
 OBJS = $(patsubst %.c,%.o,$(SOURCES))
@@ -40,7 +38,6 @@ exe: $(OBJS)
 	@mkdir -p $(DISTDIR)
 	$(LD) $^ -o $(DISTDIR)/$(NAME).elf $(LDFLAGS)
 	$(ZEHN) --input $(DISTDIR)/$(NAME).elf --output $(DISTDIR)/$(NAME).tns $(ZEHNFLAGS)
-	$(PRG) $(DISTDIR)/$(NAME).tns $(DISTDIR)/$(NAME).prg.tns
 ifeq ($(DEBUG),FALSE)
 	@rm -f $(DISTDIR)/*.gdb
 endif
@@ -50,5 +47,5 @@ clean:
 	@$(MAKE) -C art/ clean
 
 run: all
-	tilp -ns $(DISTDIR)/$(NAME).prg.tns > /dev/null
+	tilp -ns $(DISTDIR)/$(NAME).tns > /dev/null
 
