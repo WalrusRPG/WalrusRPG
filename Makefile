@@ -2,17 +2,18 @@ NAME = Pokespire
 
 DEBUG = FALSE
 
-GCC = nspire-gcc
-GCCFLAGS = -Wall -W -marm
-ifeq ($(DEBUG),FALSE)
-	GCCFLAGS += -Ofast -flto
-else
-	GCCFLAGS += -O0 -g
-	LDFLAGS += --debug
-endif
+CC = nspire-gcc
+CFLAGS = -Wall -W -marm -flto
 
 LD = nspire-ld
-LDFLAGS =
+LDFLAGS = -flto
+
+ifeq ($(DEBUG),FALSE)
+	CFLAGS += -Ofast
+else
+	CFLAGS += -O0 -g
+	LDFLAGS += --debug
+endif
 
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)"
@@ -22,11 +23,14 @@ HEADERS = $(patsubst %.c,%.h,$(SOURCES))
 OBJS = $(patsubst %.c,%.o,$(SOURCES))
 
 DISTDIR = bin
+ELF = $(DISTDIR)/$(NAME).elf
+EXE = $(DISTDIR)/$(NAME).tns
 
-all: exe
+all: $(EXE)
 
 %.o: %.c headers
-	@$(GCC) $(GCCFLAGS) -c $< -o $@
+	@echo "CC: $@"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 headers: sprites
 	makeheaders $(SOURCES)
@@ -34,18 +38,22 @@ headers: sprites
 sprites:
 	@$(MAKE) -C art/
 
-exe: $(OBJS)
+$(ELF): $(OBJS)
 	@mkdir -p $(DISTDIR)
-	$(LD) $^ -o $(DISTDIR)/$(NAME).elf $(LDFLAGS)
-	$(ZEHN) --input $(DISTDIR)/$(NAME).elf --output $(DISTDIR)/$(NAME).tns $(ZEHNFLAGS)
-ifeq ($(DEBUG),FALSE)
-	@rm -f $(DISTDIR)/*.gdb
-endif
+	@echo "LD: $@"
+	@$(LD) $^ -o $(ELF) $(LDFLAGS)
+
+$(EXE): $(ELF)
+	@mkdir -p $(DISTDIR)
+	@echo "ZEHN: $@"
+	@$(ZEHN) --input $(ELF) --output $(EXE) $(ZEHNFLAGS)
 
 clean:
-	rm -rf $(DISTDIR) $(OBJS) $(HEADERS)
+	rm -rf $(DISTDIR)
+	rm -f $(OBJS)
+	rm -f $(HEADERS)
 	@$(MAKE) -C art/ clean
 
 run: all
-	tilp -ns $(DISTDIR)/$(NAME).tns > /dev/null
+	tilp -ns $(EXE) > /dev/null
 
