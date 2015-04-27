@@ -20,7 +20,6 @@ ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)"
 
 SOURCES = $(wildcard src/*.c) art/sprites.c
-HEADERS = $(patsubst %.c,%.h,$(SOURCES))
 OBJS = $(patsubst %.c,%.o,$(SOURCES))
 
 DISTDIR = bin
@@ -29,12 +28,9 @@ EXE = $(DISTDIR)/$(NAME).tns
 
 all: $(EXE)
 
-%.o: %.c headers
+%.o: %.c
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
-
-headers: $(SOURCES)
-	makeheaders $(SOURCES)
 
 art/sprites.c:
 	@$(MAKE) -C art/
@@ -52,7 +48,6 @@ $(EXE): $(ELF)
 clean:
 	rm -rf $(DISTDIR)
 	rm -f $(OBJS)
-	rm -f $(HEADERS)
 	@$(MAKE) -C art/ clean
 
 run: all

@@ -1,13 +1,6 @@
 #include <os.h>
 #include "graphics.h"
 
-#if INTERFACE
-typedef struct
-{
-	int x, y, w, h;
-} Rect;
-#endif
-
 #define LCD_CONTROLLER 0xC0000000
 volatile unsigned *lcd_base = (unsigned *) (LCD_CONTROLLER + 0x10);
 volatile unsigned *lcd_ris = (unsigned *) (LCD_CONTROLLER + 0x20);
@@ -101,7 +94,7 @@ void draw_pixel(unsigned x, unsigned y, unsigned short color)
 		buffer_back[x + (y * 320)] = color;
 }
 
-void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect* window)
+void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect *window)
 {
 	unsigned short color;
 	int w = window->w + x;

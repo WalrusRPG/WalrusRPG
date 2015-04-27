@@ -1,15 +1,11 @@
 #include <os.h>
+#include "timers.h"
+#include "graphics.h"
+#include "../art/sprites.h"
 #include "map.h"
 
-#if INTERFACE
-typedef struct
-{
-	unsigned w;
-	unsigned h;
-	unsigned *layer0;
-	unsigned *layer1;
-} Map;
-#endif
+static void map_walk_speed_load(unsigned time);
+static unsigned map_walk_speed_read(unsigned time, unsigned div);
 
 void map_draw(unsigned x, unsigned y, const Map map)
 {

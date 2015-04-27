@@ -1,8 +1,14 @@
 #include <os.h>
+#include "timers.h"
+#include "graphics.h"
+#include "map.h"
 #include "main.h"
 
-int main()
+int main(int argc, char *argv[])
 {
+	(void) argc;
+	(void) argv;
+
 	buffer_allocate();
 	timer_init(0);
 
