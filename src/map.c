@@ -1,8 +1,8 @@
 #include <os.h>
-#include "timers.h"
-#include "graphics.h"
-#include "../art/sprites.h"
-#include "map.h"
+#include <timers.h>
+#include <graphics.h>
+#include <sprites.h>
+#include <map.h>
 
 static void map_walk_speed_load(unsigned time);
 static unsigned map_walk_speed_read(unsigned time, unsigned div);

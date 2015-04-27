@@ -1,5 +1,5 @@
 #include <os.h>
-#include "timers.h"
+#include <timers.h>
 
 #define TIMER 0x900D0000
 unsigned timer_ctl_bkp[2], timer_load_bkp[2];

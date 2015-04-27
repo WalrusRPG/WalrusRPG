@@ -3,7 +3,7 @@ NAME = Pokespire
 DEBUG = FALSE
 
 CC = nspire-gcc
-CFLAGS = -Wall -W -marm
+CFLAGS = -Wall -W -marm -I include -I art
 
 LD = nspire-ld
 LDFLAGS =

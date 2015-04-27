@@ -1,5 +1,5 @@
 #include <os.h>
-#include "graphics.h"
+#include <graphics.h>
 
 #define LCD_CONTROLLER 0xC0000000
 volatile unsigned *lcd_base = (unsigned *) (LCD_CONTROLLER + 0x10);
