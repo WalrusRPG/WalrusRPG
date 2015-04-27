@@ -15,14 +15,13 @@ void map_draw(unsigned x, unsigned y, const Map_t map)
 	unsigned offset_x = x % 24 * -1;
 	unsigned offset_y = y % 24 * -1;
 
-	unsigned i, j;
 	Rect_t sprite;
 	sprite.y = 0;
 	sprite.w = 24;
 	sprite.h = 24;
 
-	for (j = 0; j < 11; j++)
-	for (i = 0; i < 15; i++)
+	for (unsigned j = 0; j < 11; j++)
+	for (unsigned i = 0; i < 15; i++)
 	{
 		sprite.x = map.layer0[(x / 24 - 7 + i) + (y / 24 - 5 + j) * map.w] * 24;
 		draw_sprite_sheet(tiles, offset_x + i * 24, offset_y + j * 24, &sprite);
@@ -50,7 +49,7 @@ static unsigned map_walk_speed_read(unsigned time, unsigned div)
 
 void map_walk(unsigned x, unsigned y, Map_t map)
 {
-	unsigned i, walk_time, walk_div;
+	unsigned walk_time, walk_div;
 
 	while (!isKeyPressed(KEY_NSPIRE_ESC))
 	{
@@ -69,7 +68,7 @@ void map_walk(unsigned x, unsigned y, Map_t map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 0; i < 24; i++)
+			for (unsigned i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{
@@ -86,7 +85,7 @@ void map_walk(unsigned x, unsigned y, Map_t map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 0; i < 24; i++)
+			for (unsigned i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{
@@ -103,7 +102,7 @@ void map_walk(unsigned x, unsigned y, Map_t map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 0; i < 24; i++)
+			for (unsigned i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{
@@ -120,7 +119,7 @@ void map_walk(unsigned x, unsigned y, Map_t map)
 		{
 			map_walk_speed_load(walk_time);
 
-			for (i = 0; i < 24; i++)
+			for (unsigned i = 0; i < 24; i++)
 			{
 				if (i >= map_walk_speed_read(walk_time, walk_div))
 				{

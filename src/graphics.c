@@ -63,9 +63,8 @@ void buffer_copy()
 void buffer_fill(unsigned color)
 {
 	unsigned *buffer_back_32 = (unsigned *) buffer_back;
-	int i;
 	color += color << 16;
-	for (i = 0; i < (BUFFER_SIZE / 4); i++)
+	for (int i = 0; i < (BUFFER_SIZE / 4); i++)
 		buffer_back_32[i] = color;
 }
 
@@ -96,10 +95,9 @@ void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *
 	unsigned short color;
 	int w = window->w + x;
 	int h = window->h + y;
-	int i, j, k, l;
 
-	for (j = y, l = window->y; j < h; j++, l++)
-	for (i = x, k = window->x; i < w; i++, k++)
+	for (int j = y, l = window->y; j < h; j++, l++)
+	for (int i = x, k = window->x; i < w; i++, k++)
 	{
 		color = sprite_pixel_get(sheet, k, l);
 		if (color != sheet[2])
