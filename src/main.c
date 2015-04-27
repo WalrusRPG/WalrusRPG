@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	buffer_allocate();
 	timer_init(0);
 
-	Map map;
+	Map_t map;
 	map.w = 15;
 	map.h = 21;
 

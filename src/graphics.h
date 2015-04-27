@@ -1,10 +1,11 @@
 #ifndef SRC_GRAPHICS_H
 #define SRC_GRAPHICS_H
 
-typedef struct
+typedef struct Rect Rect_t;
+struct Rect
 {
 	int x, y, w, h;
-} Rect;
+};
 
 /*
  * Buffer management
@@ -29,7 +30,7 @@ void lcd_vsync();
  */
 
 void draw_pixel(unsigned x, unsigned y, unsigned short color);
-void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect *window);
+void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *window);
 
 
 /*

@@ -7,7 +7,7 @@
 static void map_walk_speed_load(unsigned time);
 static unsigned map_walk_speed_read(unsigned time, unsigned div);
 
-void map_draw(unsigned x, unsigned y, const Map map)
+void map_draw(unsigned x, unsigned y, const Map_t map)
 {
 	x += 20;
 	y += 12;
@@ -16,7 +16,7 @@ void map_draw(unsigned x, unsigned y, const Map map)
 	unsigned offset_y = y % 24 * -1;
 
 	unsigned i, j;
-	Rect sprite;
+	Rect_t sprite;
 	sprite.y = 0;
 	sprite.w = 24;
 	sprite.h = 24;
@@ -29,7 +29,7 @@ void map_draw(unsigned x, unsigned y, const Map map)
 	}
 }
 
-unsigned map_collide(unsigned x, unsigned y, const Map map)
+unsigned map_collide(unsigned x, unsigned y, const Map_t map)
 {
 	(void) x;
 	(void) y;
@@ -48,7 +48,7 @@ static unsigned map_walk_speed_read(unsigned time, unsigned div)
 	return (time - timer_read(0)) / div;
 }
 
-void map_walk(unsigned x, unsigned y, Map map)
+void map_walk(unsigned x, unsigned y, Map_t map)
 {
 	unsigned i, walk_time, walk_div;
 

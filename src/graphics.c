@@ -91,7 +91,7 @@ void draw_pixel(unsigned x, unsigned y, unsigned short color)
 		buffer_back[x + (y * 320)] = color;
 }
 
-void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect *window)
+void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *window)
 {
 	unsigned short color;
 	int w = window->w + x;
