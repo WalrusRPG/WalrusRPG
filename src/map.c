@@ -35,6 +35,9 @@ void map_draw(unsigned x, unsigned y, const Map map)
 
 unsigned map_collide(unsigned x, unsigned y, const Map map)
 {
+	(void) x;
+	(void) y;
+	(void) map;
 	return 0;
 }
 
