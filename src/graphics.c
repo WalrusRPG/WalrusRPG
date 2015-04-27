@@ -48,8 +48,6 @@ void buffer_free()
 
 void buffer_swap()
 {
-	lcd_vsync();
-
 	unsigned short *buffer_front_tmp = buffer_front;
 	buffer_front = buffer_back;
 	buffer_back = buffer_front_tmp;
@@ -59,7 +57,6 @@ void buffer_swap()
 
 void buffer_copy()
 {
-	lcd_vsync();
 	memcpy(buffer_front, buffer_back, BUFFER_SIZE);
 }
 
