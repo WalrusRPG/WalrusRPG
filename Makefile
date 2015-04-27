@@ -19,7 +19,7 @@ endif
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)"
 
-SOURCES = $(wildcard src/*.c) art/sprites.c
+SOURCES = art/sprites.c $(wildcard src/*.c)
 OBJS = $(patsubst %.c,%.o,$(SOURCES))
 
 DISTDIR = bin
