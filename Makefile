@@ -3,13 +3,14 @@ NAME = Pokespire
 DEBUG = FALSE
 
 CC = nspire-gcc
-CFLAGS = -Wall -W -marm -flto
+CFLAGS = -Wall -W -marm
 
 LD = nspire-ld
-LDFLAGS = -flto
+LDFLAGS =
 
 ifeq ($(DEBUG),FALSE)
-	CFLAGS += -Ofast
+	CFLAGS += -Ofast -flto
+	LDFLAGS += -flto
 else
 	CFLAGS += -O0 -g
 	LDFLAGS += --debug
@@ -32,16 +33,16 @@ all: $(EXE)
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-headers: sprites
+headers: $(SOURCES)
 	makeheaders $(SOURCES)
 
-sprites:
+art/sprites.c:
 	@$(MAKE) -C art/
 
 $(ELF): $(OBJS)
 	@mkdir -p $(DISTDIR)
 	@echo "LD: $@"
-	@$(LD) $^ -o $(ELF) $(LDFLAGS)
+	@+$(LD) $^ -o $(ELF) $(LDFLAGS)
 
 $(EXE): $(ELF)
 	@mkdir -p $(DISTDIR)
