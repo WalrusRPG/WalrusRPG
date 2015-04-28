@@ -14,7 +14,6 @@ struct Rect
 void buffer_allocate();
 void buffer_free();
 void buffer_swap();
-void buffer_copy();
 void buffer_fill(unsigned color);
 
 
