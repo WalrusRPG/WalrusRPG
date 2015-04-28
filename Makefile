@@ -5,15 +5,10 @@ DEBUG = FALSE
 CC = nspire-gcc
 CFLAGS = -Wall -W -marm -std=gnu11 -I include -I art
 
-LD = nspire-ld
-LDFLAGS =
-
 ifeq ($(DEBUG),FALSE)
 	CFLAGS += -Ofast -flto
-	LDFLAGS += -flto
 else
 	CFLAGS += -O0 -g
-	LDFLAGS += --debug
 endif
 
 ZEHN = genzehn
@@ -37,8 +32,8 @@ art/sprites.c:
 
 $(ELF): $(OBJS)
 	@mkdir -p $(DISTDIR)
-	@echo "LD: $@"
-	@+$(LD) $^ -o $(ELF) $(LDFLAGS)
+	@echo "CC: $@"
+	@+$(CC) $^ -o $(ELF) $(CFLAGS)
 
 $(EXE): $(ELF)
 	@mkdir -p $(DISTDIR)
