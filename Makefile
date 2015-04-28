@@ -1,4 +1,4 @@
-NAME = Pokespire
+NAME = WalrusRPG
 
 DEBUG = FALSE
 
