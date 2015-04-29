@@ -7,7 +7,7 @@
 static void map_walk_speed_load(unsigned time);
 static unsigned map_walk_speed_read(unsigned time, unsigned div);
 
-void map_draw(unsigned x, unsigned y, const Map_t map)
+void map_draw(unsigned x, unsigned y, const Map_t *map)
 {
 	x += 20;
 	y += 12;
@@ -23,12 +23,12 @@ void map_draw(unsigned x, unsigned y, const Map_t map)
 	for (unsigned j = 0; j < 11; j++)
 	for (unsigned i = 0; i < 15; i++)
 	{
-		sprite.x = map.layer0[(x / 24 - 7 + i) + (y / 24 - 5 + j) * map.w] * 24;
+		sprite.x = map->layer0[(x / 24 - 7 + i) + (y / 24 - 5 + j) * map->w] * 24;
 		draw_sprite_sheet(tiles, offset_x + i * 24, offset_y + j * 24, &sprite);
 	}
 }
 
-unsigned map_collide(unsigned x, unsigned y, const Map_t map)
+unsigned map_collide(unsigned x, unsigned y, const Map_t *map)
 {
 	(void) x;
 	(void) y;
@@ -47,7 +47,7 @@ static unsigned map_walk_speed_read(unsigned time, unsigned div)
 	return (time - timer_read(0)) / div;
 }
 
-void map_walk(unsigned x, unsigned y, Map_t map)
+void map_walk(unsigned x, unsigned y, Map_t *map)
 {
 	unsigned walk_time, walk_div;
 
