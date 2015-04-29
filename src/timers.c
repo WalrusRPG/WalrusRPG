@@ -11,10 +11,6 @@ void timer_init(unsigned timer)
 
 	timer_ctl_bkp[timer] = *timer_ctl;
 	timer_load_bkp[timer] = *timer_load;
-
-	*timer_ctl &= ~(1 << 7);
-	*timer_ctl = 0b01100011;
-	*timer_ctl |= (1 << 7);
 }
 
 void timer_restore(unsigned timer)
@@ -26,6 +22,15 @@ void timer_restore(unsigned timer)
 	*timer_ctl = timer_ctl_bkp[timer] & ~(1 << 7);
 	*timer_load = timer_load_bkp[timer];
 	*timer_ctl = timer_ctl_bkp[timer];
+}
+
+void timer_mode(unsigned timer, unsigned mode)
+{
+	volatile unsigned *timer_ctl = (unsigned *) (TIMER + 0x08 + 0x20 * timer);
+
+	*timer_ctl &= ~(1 << 7);
+	*timer_ctl = mode;
+	*timer_ctl |= (1 << 7);
 }
 
 void timer_load(unsigned timer, unsigned value)
