@@ -4,14 +4,8 @@
 #include <sprites.h>
 #include <map.h>
 
-static void map_walk_speed_load(unsigned time);
-static unsigned map_walk_speed_read(unsigned time, unsigned div);
-
 void map_draw(unsigned x, unsigned y, const Map_t *map)
 {
-	x += 20;
-	y += 12;
-
 	unsigned offset_x = x % 24 * -1;
 	unsigned offset_y = y % 24 * -1;
 
@@ -23,7 +17,7 @@ void map_draw(unsigned x, unsigned y, const Map_t *map)
 	for (unsigned j = 0; j < 11; j++)
 	for (unsigned i = 0; i < 15; i++)
 	{
-		sprite.x = map->layer0[(x / 24 - 7 + i) + (y / 24 - 5 + j) * map->w] * 24;
+		sprite.x = map->layer0[(x / 24 + i) + (y / 24 + j) * map->w] * 24;
 		draw_sprite_sheet(tiles, offset_x + i * 24, offset_y + j * 24, &sprite);
 	}
 }
@@ -36,107 +30,32 @@ unsigned map_collide(unsigned x, unsigned y, const Map_t *map)
 	return 0;
 }
 
-static void map_walk_speed_load(unsigned time)
+void map_loop(unsigned x, unsigned y, Map_t *map)
 {
-	timer_load(0, time);
-	while (timer_read(0) != time);
-}
+	timer_mode(0, 0b0000010); // Free-running, no interrupts, divider = 1, 32 bit, wrapping
+	timer_load(0, 0);
+	unsigned loop_time = 546; // 32768Hz/60ups
+	unsigned loop_next = -loop_time;
 
-static unsigned map_walk_speed_read(unsigned time, unsigned div)
-{
-	return (time - timer_read(0)) / div;
-}
-
-void map_walk(unsigned x, unsigned y, Map_t *map)
-{
-	unsigned walk_time, walk_div;
-
-	while (!isKeyPressed(KEY_NSPIRE_ESC))
+	unsigned keep_running = 1;
+	while (keep_running)
 	{
-		if (isKeyPressed(KEY_NSPIRE_VAR))
+		if (isKeyPressed(KEY_NSPIRE_ESC)) keep_running = 0;
+		if (isKeyPressed(KEY_NSPIRE_5)) y++;
+		if (isKeyPressed(KEY_NSPIRE_8)) y--;
+		if (isKeyPressed(KEY_NSPIRE_6)) x++;
+		if (isKeyPressed(KEY_NSPIRE_4)) x--;
+
+		// Frameskip
+		if (timer_read(0) > loop_next)
 		{
-			walk_time = 6554;
-			walk_div = 273;
-		}
-		else
-		{
-			walk_time = 13107;
-			walk_div = 546;
-		}
-
-		if (isKeyPressed(KEY_NSPIRE_5) && !map_collide(x, y + 1, map))
-		{
-			map_walk_speed_load(walk_time);
-
-			for (unsigned i = 0; i < 24; i++)
-			{
-				if (i >= map_walk_speed_read(walk_time, walk_div))
-				{
-					while (i > map_walk_speed_read(walk_time, walk_div));
-					map_draw(x * 24, y * 24 + i, map);
-					buffer_swap();
-				}
-			}
-
-			y++;
-		}
-
-		else if (isKeyPressed(KEY_NSPIRE_8) && !map_collide(x, y - 1, map))
-		{
-			map_walk_speed_load(walk_time);
-
-			for (unsigned i = 0; i < 24; i++)
-			{
-				if (i >= map_walk_speed_read(walk_time, walk_div))
-				{
-					while (i > map_walk_speed_read(walk_time, walk_div));
-					map_draw(x * 24, y * 24 - i, map);
-					buffer_swap();
-				}
-			}
-
-			y--;
-		}
-
-		else if (isKeyPressed(KEY_NSPIRE_4) && !map_collide(x - 1, y, map))
-		{
-			map_walk_speed_load(walk_time);
-
-			for (unsigned i = 0; i < 24; i++)
-			{
-				if (i >= map_walk_speed_read(walk_time, walk_div))
-				{
-					while (i > map_walk_speed_read(walk_time, walk_div));
-					map_draw(x * 24 - i, y * 24, map);
-					buffer_swap();
-				}
-			}
-
-			x--;
-		}
-
-		else if (isKeyPressed(KEY_NSPIRE_6) && !map_collide(x + 1, y, map))
-		{
-			map_walk_speed_load(walk_time);
-
-			for (unsigned i = 0; i < 24; i++)
-			{
-				if (i >= map_walk_speed_read(walk_time, walk_div))
-				{
-					while (i > map_walk_speed_read(walk_time, walk_div));
-					map_draw(x * 24 + i, y * 24, map);
-					buffer_swap();
-				}
-			}
-
-			x++;
-		}
-
-		else
-		{
-			map_draw(x * 24, y * 24, map);
+			map_draw(x, y, map);
 			buffer_swap();
 		}
+
+		// Frame limiting
+		while (timer_read(0) > loop_next);
+		loop_next -= loop_time;
 	}
 }
 

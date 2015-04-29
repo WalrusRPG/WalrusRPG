@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	map.layer0 = mapdata0;
 	map.layer1 = mapdata1;
 
-	map_walk(7, 5, &map);
+	map_loop(0, 0, &map);
 
 	timer_restore(0);
 	buffer_free();

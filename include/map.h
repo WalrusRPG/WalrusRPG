@@ -12,6 +12,6 @@ struct Map
 
 void map_draw(unsigned x, unsigned y, const Map_t *map);
 unsigned map_collide(unsigned x, unsigned y, const Map_t *map);
-void map_walk(unsigned x, unsigned y, Map_t *map);
+void map_loop(unsigned x, unsigned y, Map_t *map);
 
 #endif
