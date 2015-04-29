@@ -4,7 +4,8 @@
 typedef struct Rect Rect_t;
 struct Rect
 {
-	int x, y, w, h;
+	int x, y;
+	unsigned w, h;
 };
 
 /*

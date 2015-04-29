@@ -1,5 +1,6 @@
 #include <os.h>
 #include <graphics.h>
+#include <misc.h>
 
 #define LCD_CONTROLLER 0xC0000000
 volatile unsigned *lcd_base = (unsigned *) (LCD_CONTROLLER + 0x10);
@@ -59,7 +60,7 @@ void buffer_fill(unsigned color)
 {
 	unsigned *buffer_back_32 = (unsigned *) buffer_back;
 	color += color << 16;
-	for (int i = 0; i < (BUFFER_SIZE / 4); i++)
+	for (unsigned i = 0; i < (BUFFER_SIZE / 4); i++)
 		buffer_back_32[i] = color;
 }
 
@@ -81,18 +82,17 @@ void lcd_vsync()
 
 void draw_pixel(unsigned x, unsigned y, unsigned short color)
 {
-	if (x < 320 && y < 240)
-		buffer_back[x + (y * 320)] = color;
+	buffer_back[x + (y * 320)] = color;
 }
 
 void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *window)
 {
 	unsigned short color;
-	int w = window->w + x;
-	int h = window->h + y;
+	int w = min(window->w + x, 320);
+	int h = min(window->h + y, 240);
 
-	for (int j = y, l = window->y; j < h; j++, l++)
-	for (int i = x, k = window->x; i < w; i++, k++)
+	for (int j = max(y, 0), l = max(window->y - y, window->y); j < h; j++, l++)
+	for (int i = max(x, 0), k = max(window->x - x, window->x); i < w; i++, k++)
 	{
 		color = sprite_pixel_get(sheet, k, l);
 		if (color != sheet[2])
