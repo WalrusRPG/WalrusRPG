@@ -1,5 +1,5 @@
-#ifndef SRC_TIMERS_H
-#define SRC_TIMERS_H
+#ifndef INCLUDE_TIMERS_H
+#define INCLUDE_TIMERS_H
 
 void timer_init(unsigned timer);
 void timer_restore(unsigned timer);

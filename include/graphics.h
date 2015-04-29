@@ -1,5 +1,5 @@
-#ifndef SRC_GRAPHICS_H
-#define SRC_GRAPHICS_H
+#ifndef INCLUDE_GRAPHICS_H
+#define INCLUDE_GRAPHICS_H
 
 typedef struct Rect Rect_t;
 struct Rect

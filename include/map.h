@@ -1,5 +1,5 @@
-#ifndef SRC_MAP_H
-#define SRC_MAP_H
+#ifndef INCLUDE_MAP_H
+#define INCLUDE_MAP_H
 
 typedef struct Map Map_t;
 struct Map
