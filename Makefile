@@ -26,7 +26,7 @@ SRCDIR = src
 
 SOURCES_C = art/sprites.c $(wildcard $(SRCDIR)/*.c)
 SOURCES_CPP = $(wildcard $(SRCDIR)/*.cpp)
-OBJS = $(patsubst %.c,%.o,$(SOURCES_C)) $(patsubst %.cpp,%.o,$(SOURCES_CPP)) 
+OBJS = $(patsubst %.c,%.o,$(SOURCES_C)) $(patsubst %.cpp,%.o,$(SOURCES_CPP))
 
 DISTDIR = bin
 ELF = $(DISTDIR)/$(NAME).elf
