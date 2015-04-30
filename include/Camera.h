@@ -24,7 +24,7 @@ namespace WalrusRPG
 			~Camera();
 			// This doesn't need any render as it's the utility which helps rendering. Unless you want to show debnug things.
 			// void render(float dt) const;
-			void update(float dt);
+			void update(unsigned dt);
 	};
 }
 

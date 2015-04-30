@@ -21,8 +21,8 @@ namespace WalrusRPG
 		public:
 			Entity();
 			~Entity();
-			void render(Camera &camera, float dt) const;
-			void update(float dt);
+			void render(Camera &camera, unsigned dt) const;
+			void update(unsigned dt);
 	};
 }
 

@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include "Map.h"
 #include "Camera.h"
+#include "misc.h"
 
 using namespace WalrusRPG;
 
@@ -37,8 +38,8 @@ void map_loop(unsigned x, unsigned y, Map &map)
 
 int main(int argc, char *argv[])
 {
-	(void) argc;
-	(void) argv;
+	UNUSED(argc);
+	UNUSED(argv);
 
 	buffer_allocate();
 	timer_init(0);

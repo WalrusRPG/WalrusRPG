@@ -19,8 +19,8 @@ namespace WalrusRPG
 		public:
 			Map(int width, int height, unsigned *layer0, unsigned *layer1);
 			~Map();
-			void render(Camera &camera, float dt) const;
-			void update(float dt);
+			void render(Camera &camera, unsigned dt) const;
+			void update(unsigned dt);
 			bool entity_collide(Entity &entity) const;
 	};
 }

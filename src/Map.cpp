@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "graphics.h"
 #include "sprites.h"
+#include "misc.h"
 
 #define MAP WalrusRPG::Map
 
@@ -18,13 +19,15 @@ MAP::~Map()
 	// TODO if you allocate dynamically members
 }
 
-void MAP::update(float dt)
+void MAP::update(unsigned dt)
 {
+	UNUSED(dt);
 	// TODO update map's data according to elasped time
 }
 
-void MAP::render(WalrusRPG::Camera &camera, float dt) const
+void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
 {
+	UNUSED(dt);
 	unsigned offset_x = camera.x % 24 * -1;
 	unsigned offset_y = camera.y % 24 * -1;
 
@@ -45,6 +48,7 @@ void MAP::render(WalrusRPG::Camera &camera, float dt) const
 
 bool MAP::entity_collide(Entity &entity) const
 {
+	UNUSED(entity);
 	return false;
 }
 
