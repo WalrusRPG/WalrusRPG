@@ -16,8 +16,7 @@ CFLAGS = $(CFLAGS_COMMON) -std=gnu11
 CPP = nspire-g++
 CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++98
 
-LD = arm-none-eabi-ld.gold
-LDFLAGS =
+LDFLAGS = $(CFLAGS_COMMON)
 
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)"
@@ -50,7 +49,7 @@ art/sprites.c:
 $(ELF): $(OBJS)
 	@mkdir -p $(DISTDIR)
 	@echo "CC: $@"
-	@+$(LD) $^ -o $(ELF) $(LDFLAGS)
+	@+$(CC) $(LDFLAGS) $^ -o $(ELF)
 
 $(EXE): $(ELF)
 	@mkdir -p $(DISTDIR)
