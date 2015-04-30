@@ -2,14 +2,22 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CC = nspire-g++
-CFLAGS = -Wall -W -marm -std=gnu++98 -I include -I art
+CFLAGS_COMMON = -Wall -W -marm -I include -I art
 
 ifeq ($(DEBUG),FALSE)
-	CFLAGS += -Ofast -flto
+	CFLAGS_COMMON += -Ofast -flto
 else
-	CFLAGS += -O0 -g
+	CFLAGS_COMMON += -O0 -g
 endif
+
+CC = nspire-gcc
+CFLAGS = $(CFLAGS_COMMON) -std=gnu11
+
+CPP = nspire-g++
+CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++98
+
+LD = arm-none-eabi-ld.gold
+LDFLAGS =
 
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)"
@@ -17,8 +25,8 @@ ZEHNFLAGS = --name "$(NAME)"
 INCDIR = include
 SRCDIR = src
 
-SOURCES_C = art/sprites.c $(wildcard SRCDIR/*.c)
-SOURCES_CPP = $(wildcard SRCDIR/*.cpp)
+SOURCES_C = art/sprites.c $(wildcard $(SRCDIR)/*.c)
+SOURCES_CPP = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst %.c,%.o,$(SOURCES_C)) $(patsubst %.cpp,%.o,$(SOURCES_CPP)) 
 
 DISTDIR = bin
@@ -28,9 +36,13 @@ EXE = $(DISTDIR)/$(NAME).tns
 
 all: $(EXE)
 
-%.o: %.c %.cpp
+%.o: %.c
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+
+%.o: %.cpp
+	@echo "CPP: $@"
+	@$(CPP) $(CPPFLAGS) -I$(INCDIR) -c $< -o $@
 
 art/sprites.c:
 	@$(MAKE) -C art/
@@ -38,7 +50,7 @@ art/sprites.c:
 $(ELF): $(OBJS)
 	@mkdir -p $(DISTDIR)
 	@echo "CC: $@"
-	@+$(CC) $^ -o $(ELF) $(CFLAGS)
+	@+$(LD) $^ -o $(ELF) $(LDFLAGS)
 
 $(EXE): $(ELF)
 	@mkdir -p $(DISTDIR)
@@ -46,7 +58,6 @@ $(EXE): $(ELF)
 	@$(ZEHN) --input $(ELF) --output $(EXE) $(ZEHNFLAGS)
 
 clean:
-	echo $(OBJS)
 	rm -rf $(DISTDIR)
 	rm -f $(OBJS)
 	@$(MAKE) -C art/ clean
