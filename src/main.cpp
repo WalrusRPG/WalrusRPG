@@ -37,8 +37,6 @@ void map_loop(unsigned x, unsigned y, Map &map)
 	}
 }
 
-
-
 int main(int argc, char *argv[])
 {
 	(void) argc;

@@ -3,24 +3,28 @@
 
 #include "Camera.h"
 
-namespace WalrusRPG {
+namespace WalrusRPG
+{
 	/**
 	 * Well, for now, this class will be a non abstract for ALPHA PROGRAMMING REASONS.
 	 * Expect this sooner or later to be abstract.
 	 * I don't know at this moment how will we manage the different classes heriting or compositing from this, if we use components or heritance.
 	 */
-	class Entity {
-	protected:
-		unsigned x;
-		unsigned y;
-		unsigned width;
-		unsigned height;
-	public:
-		Entity();
-		~Entity();
-		void render(Camera &camera, float dt) const;
-		void update(float dt);
+	class Entity
+	{
+		protected:
+			unsigned x;
+			unsigned y;
+			unsigned width;
+			unsigned height;
 
+		public:
+			Entity();
+			~Entity();
+			void render(Camera &camera, float dt) const;
+			void update(float dt);
 	};
 }
+
 #endif
+

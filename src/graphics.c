@@ -92,11 +92,13 @@ void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *
 	int h = min(window->h + y, 240);
 
 	for (int j = max(y, 0), l = window->y - min(y, 0); j < h; j++, l++)
-	for (int i = max(x, 0), k = window->x - min(x, 0); i < w; i++, k++)
 	{
-		color = sprite_pixel_get(sheet, k, l);
-		if (color != sheet[2])
-			draw_pixel(i, j, color);
+		for (int i = max(x, 0), k = window->x - min(x, 0); i < w; i++, k++)
+		{
+			color = sprite_pixel_get(sheet, k, l);
+			if (color != sheet[2])
+				draw_pixel(i, j, color);
+		}
 	}
 }
 
