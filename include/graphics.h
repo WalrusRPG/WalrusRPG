@@ -1,6 +1,11 @@
 #ifndef INCLUDE_GRAPHICS_H
 #define INCLUDE_GRAPHICS_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 typedef struct Rect Rect_t;
 struct Rect
 {
@@ -39,5 +44,8 @@ void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *
 
 unsigned short sprite_pixel_get(const unsigned short *sprite, unsigned x, unsigned y);
 
+#ifdef __cplusplus
+}
+#endif
 #endif
 

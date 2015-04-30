@@ -1,11 +1,13 @@
+#include <os.h>
 #include "Camera.h"
 #include "Entity.h"
 
 #define CAMERA WalrusRPG::Camera
 
-CAMERA::Camera()
+CAMERA::Camera(unsigned x, unsigned y)
 {
-	// TODO
+	this->x = x;
+	this->y = y;
 }
 
 CAMERA::~Camera()
@@ -21,5 +23,10 @@ void CAMERA::update(float dt)
 		position += velocity * dt;
 		velocity += acceleration * dt;
 	 */
+
+	if (isKeyPressed(KEY_NSPIRE_5)) this->y++;
+	if (isKeyPressed(KEY_NSPIRE_8)) this->y--;
+	if (isKeyPressed(KEY_NSPIRE_6)) this->x++;
+	if (isKeyPressed(KEY_NSPIRE_4)) this->x--;
 }
 

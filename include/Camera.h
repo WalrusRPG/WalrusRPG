@@ -20,7 +20,7 @@ namespace WalrusRPG
 			unsigned render_area_width; // What if you only want to display the map on a part of the screen?
 			unsigned render_area_height;
 
-			Camera();
+			Camera(unsigned x, unsigned y);
 			~Camera();
 			// This doesn't need any render as it's the utility which helps rendering. Unless you want to show debnug things.
 			// void render(float dt) const;

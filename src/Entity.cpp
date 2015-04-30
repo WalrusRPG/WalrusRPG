@@ -1,18 +1,18 @@
 #include "Entity.h"
 
-#define Entity WalrusRPG::Entity
+#define ENTITY WalrusRPG::Entity
 
-Entity::Entity()
+ENTITY::Entity()
 {
 	// TODO
 }
 
-Entity::~Entity()
+ENTITY::~Entity()
 {
 	// TODO if you allocate dynamically members
 }
 
-void Entity::update(float dt)
+void ENTITY::update(float dt)
 {
 	// TODO update map's data according to elasped time
 	/*
