@@ -26,9 +26,29 @@ void CAMERA::update(unsigned dt)
 		velocity += acceleration * dt;
 	 */
 
-	if (isKeyPressed(KEY_NSPIRE_5)) this->y++;
-	if (isKeyPressed(KEY_NSPIRE_8)) this->y--;
-	if (isKeyPressed(KEY_NSPIRE_6)) this->x++;
-	if (isKeyPressed(KEY_NSPIRE_4)) this->x--;
+	if (isKeyPressed(KEY_NSPIRE_5)) y++;
+	if (isKeyPressed(KEY_NSPIRE_8)) y--;
+	if (isKeyPressed(KEY_NSPIRE_6)) x++;
+	if (isKeyPressed(KEY_NSPIRE_4)) x--;
+}
+
+void CAMERA::set_x(unsigned x)
+{
+	this->x = x;
+}
+
+unsigned CAMERA::get_x() const
+{
+	return this->x;
+}
+
+void CAMERA::set_y(unsigned y)
+{
+	this->y = y;
+}
+
+unsigned CAMERA::get_y() const
+{
+	return this->y;
 }
 
