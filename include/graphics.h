@@ -1,51 +1,47 @@
 #ifndef INCLUDE_GRAPHICS_H
 #define INCLUDE_GRAPHICS_H
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+namespace WalrusRPG{ namespace Graphics {
 
-typedef struct Rect Rect_t;
-struct Rect
-{
-	int x, y;
-	unsigned w, h;
-};
+	typedef struct Rect Rect_t;
+	struct Rect
+	{
+		int x, y;
+		unsigned w, h;
+	};
 
-/*
- * Buffer management
- */
+	/*
+	 * Buffer management
+	 */
 
-void buffer_allocate();
-void buffer_free();
-void buffer_swap();
-void buffer_fill(unsigned color);
+	void buffer_allocate();
+	void buffer_free();
+	void buffer_swap();
+	void buffer_fill(unsigned color);
 
 
-/*
- * Misc LCD functions
- */
+	/*
+	 * Misc LCD functions
+	 */
 
-void lcd_vsync();
-
-
-/*
- * Drawing
- */
-
-void draw_pixel(unsigned x, unsigned y, unsigned short color);
-void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *window);
+	void lcd_vsync();
 
 
-/*
- * Sprite manipulation
- */
+	/*
+	 * Drawing
+	 */
 
-unsigned short sprite_pixel_get(const unsigned short *sprite, unsigned x, unsigned y);
+	void draw_pixel(unsigned x, unsigned y, unsigned short color);
+	void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *window);
 
-#ifdef __cplusplus
+
+	/*
+	 * Sprite manipulation
+	 */
+
+	unsigned short sprite_pixel_get(const unsigned short *sprite, unsigned x, unsigned y);
+
 }
-#endif
-#endif
+}
 
+#endif
