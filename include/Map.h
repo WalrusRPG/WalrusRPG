@@ -15,7 +15,7 @@ namespace WalrusRPG
 			unsigned int height;
 			unsigned *layer0;
 			unsigned *layer1;
-
+			// TODO?: add a boolean/getter to know if a second layer exist?
 		public:
 			Map(int width, int height, unsigned *layer0, unsigned *layer1);
 			~Map();
@@ -26,4 +26,3 @@ namespace WalrusRPG
 }
 
 #endif
-

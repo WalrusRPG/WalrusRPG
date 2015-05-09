@@ -38,6 +38,7 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
 	signed end_y = start_y + 16;
 
 	// Bound-checking code. To avoid reading outside of the map.
+	// The offset edition allows the map to be correctly moved to the right to make up for the lack of renderable tiles.
 	if(start_x < 0){
 		offset_x -= start_x*24;
 		start_x = 0;
@@ -47,6 +48,7 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
 		offset_y -= start_y*24;
 		start_y = 0;
 	}
+	// warning fix. Even if end_x/y is negative, it should be higher than width/height.
 	if((unsigned)end_x > this->width) end_x = this->width;
 	if((unsigned)end_y > this->height) end_y = this->height;
 
@@ -54,6 +56,7 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
 	signed delta_x = end_x - start_x;
 	signed delta_y = end_y - start_y;
 
+	// Creating a region clip. Why does it smell like SDL?
 	WalrusRPG::Graphics::Rect_t sprite;
 	sprite.y = 0;
 	sprite.w = 24;
