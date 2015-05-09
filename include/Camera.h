@@ -7,8 +7,8 @@ namespace WalrusRPG
 	{
 		protected:
 			// So, how will track camera's position? Top left or center?
-			unsigned x; // You'll probably want to switch over signed coordonates.
-			unsigned y;
+			signed x; // You'll probably want to switch over signed coordonates.
+			signed y;
 			unsigned render_area_width; // What if you only want to display the map on a part of the screen?
 			unsigned render_area_height;
 
@@ -19,18 +19,17 @@ namespace WalrusRPG
 			// Vector2 acceleration;
 
 		public:
-			Camera(unsigned x, unsigned y);
+			Camera(signed x, signed y);
 			~Camera();
 			// This doesn't need any render as it's the utility which helps rendering. Unless you want to show debnug things.
 			// void render(float dt) const;
 			void update(unsigned dt);
 
-			void set_x(unsigned x);
-			unsigned get_x() const;
-			void set_y(unsigned y);
-			unsigned get_y() const;
+			void set_x(signed x);
+			signed get_x() const;
+			void set_y(signed y);
+			signed get_y() const;
 	};
 }
 
 #endif
-
