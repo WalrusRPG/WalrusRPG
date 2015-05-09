@@ -27,8 +27,9 @@ void map_loop(unsigned x, unsigned y, Map &map)
 		// Frameskip
 		if (timer_read(0) > loop_next)
 		{
+			Pixel pix(255, 255, 255);
 			// TODO?: Preset color macros/consts?
-			buffer_fill(0xff0000);
+			buffer_fill(pix);
 			map.render(camera, 1);
 			lcd_vsync();
 			buffer_swap();

@@ -3,6 +3,33 @@
 
 namespace WalrusRPG{ namespace Graphics {
 
+
+	/*
+	 * Pixel structure
+	 * TODO?: Convert this into a class to hide value?
+	 */
+	union Pixel {
+		::uint16_t value;
+		struct {
+			unsigned r : 5;
+			unsigned g : 6;
+			unsigned b : 5;
+		};
+
+		Pixel(::uint8_t red, ::uint8_t green, ::uint8_t blue) : r(red>>3), g(green>>2), b(blue>>3) {
+
+		}
+
+		// Overloading (unsigned) typecast
+		operator ::uint16_t() {
+			return value;
+		}
+		Pixel& operator=(unsigned value) {
+			this->value = value;
+			return *this;
+		}
+	};
+
 	typedef struct Rect Rect_t;
 	struct Rect
 	{
