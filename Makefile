@@ -61,5 +61,8 @@ clean:
 	rm -f $(OBJS)
 	@$(MAKE) -C art/ clean
 
+format:
+	clang-format -i -style=file src/*.c src/*.cpp include/*.h
+
 run: all
 	tilp -ns $(EXE) > /dev/null

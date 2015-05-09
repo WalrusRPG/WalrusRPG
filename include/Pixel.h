@@ -3,43 +3,48 @@
 
 #include <cstdint>
 
-namespace WalrusRPG { namespace Graphics {
-
-  /*
+namespace WalrusRPG
+{
+    namespace Graphics
+    {
+        /*
 	 * Pixel structure
 	 */
-	class Pixel {
-    union {
-  		std::uint16_t value;
-      public: // hack to be able to do pixel.r. Clever!
-  		struct {
-  			unsigned r : 5;
-  			unsigned g : 6;
-  			unsigned b : 5;
-  		};
-    };
+        class Pixel
+        {
+            union
+            {
+                std::uint16_t value;
 
-    public:
-		Pixel(std::uint16_t color);
+              public: // hack to be able to do pixel.r. Clever!
+                struct
+                {
+                    unsigned r : 5;
+                    unsigned g : 6;
+                    unsigned b : 5;
+                };
+            };
 
-		Pixel(Pixel &pix);
+          public:
+            Pixel(std::uint16_t color);
 
-		Pixel(std::uint8_t red, std::uint8_t green, std::uint8_t blue);
+            Pixel(Pixel &pix);
 
-		// Overloading (unsigned) typecast
-		operator std::uint16_t() const;
+            Pixel(std::uint8_t red, std::uint8_t green, std::uint8_t blue);
 
-		Pixel& operator=(unsigned value);
+            // Overloading (unsigned) typecast
+            operator std::uint16_t() const;
 
-	};
+            Pixel &operator=(unsigned value);
+        };
 
-  extern const Pixel Black;
-  extern const Pixel White;
-  extern const Pixel Red;
-  extern const Pixel Green;
-  extern const Pixel Blue;
-
-}}
+        extern const Pixel Black;
+        extern const Pixel White;
+        extern const Pixel Red;
+        extern const Pixel Green;
+        extern const Pixel Blue;
+    }
+}
 
 
 #endif
