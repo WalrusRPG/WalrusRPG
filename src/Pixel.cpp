@@ -1,6 +1,7 @@
 #include <Pixel.h>
 
 #define PIXEL WalrusRPG::Graphics::Pixel
+#define GRAPHICS WalrusRPG::Graphics
 
 PIXEL::Pixel(std::uint16_t color) : value(color) {
 
@@ -22,3 +23,9 @@ PIXEL& PIXEL::operator=(unsigned value) {
   this->value = value;
 	return *this;
 }
+
+const PIXEL GRAPHICS::Black(0, 0, 0);
+const PIXEL GRAPHICS::White(255, 255, 255);
+const PIXEL GRAPHICS::Red(255, 0, 0);
+const PIXEL GRAPHICS::Green(0, 255, 0);
+const PIXEL GRAPHICS::Blue(0, 0, 255);

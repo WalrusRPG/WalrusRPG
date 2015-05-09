@@ -18,7 +18,7 @@ namespace WalrusRPG { namespace Graphics {
   			unsigned b : 5;
   		};
     };
-    
+
     public:
 		Pixel(std::uint16_t color);
 
@@ -33,6 +33,13 @@ namespace WalrusRPG { namespace Graphics {
 
 	};
 
+  extern const Pixel Black;
+  extern const Pixel White;
+  extern const Pixel Red;
+  extern const Pixel Green;
+  extern const Pixel Blue;
+
 }}
+
 
 #endif

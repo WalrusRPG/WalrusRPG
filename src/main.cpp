@@ -28,7 +28,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
 		// Frameskip
 		if (timer_read(0) > loop_next)
 		{
-			Pixel pix(255, 255, 255);
+			Pixel pix(Green);
 			// TODO?: Preset color macros/consts?
 			buffer_fill(pix);
 			map.render(camera, 1);
