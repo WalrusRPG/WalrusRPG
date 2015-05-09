@@ -2,7 +2,7 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W -marm -I include -I art
+CFLAGS_COMMON = -Wall -W -marm -I include -I art -fdiagnostics-color=always
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto
