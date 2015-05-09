@@ -1,11 +1,12 @@
 #include <os.h>
 #include "timers.h"
-#include "graphics.h"
+#include "Graphics.h"
 #include "Map.h"
 #include "Camera.h"
 #include "misc.h"
 
 using namespace WalrusRPG;
+using namespace WalrusRPG::Graphics;
 
 void map_loop(unsigned x, unsigned y, Map &map)
 {
@@ -104,4 +105,3 @@ int main(int argc, char *argv[])
 	buffer_free();
 	return 0;
 }
-
