@@ -1,6 +1,7 @@
 #include <os.h>
 #include "timers.h"
 #include "Graphics.h"
+#include "Pixel.h"
 #include "Map.h"
 #include "Camera.h"
 #include "misc.h"
