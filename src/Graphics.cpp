@@ -61,7 +61,7 @@ void GRAPHICS::buffer_swap()
 void GRAPHICS::buffer_fill(unsigned color)
 {
 	unsigned *buffer_back_32 = (unsigned *) buffer_back;
-	color += color << 16;
+	color |= color << 16; // To avoid stupid overflows
 	for (unsigned i = 0; i < (BUFFER_SIZE / 4); i++)
 		buffer_back_32[i] = color;
 }

@@ -14,7 +14,7 @@ CC = nspire-gcc
 CFLAGS = $(CFLAGS_COMMON) -std=gnu11
 
 CPP = nspire-g++
-CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++98
+CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++11
 
 LDFLAGS = $(CFLAGS_COMMON)
 
@@ -63,4 +63,3 @@ clean:
 
 run: all
 	tilp -ns $(EXE) > /dev/null
-
