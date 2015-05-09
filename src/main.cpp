@@ -4,10 +4,12 @@
 #include "Pixel.h"
 #include "Map.h"
 #include "Camera.h"
+#include "Text.h"
 #include "misc.h"
 
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
+using namespace WalrusRPG::Graphics::Text;
 
 void map_loop(unsigned x, unsigned y, Map &map)
 {
@@ -31,7 +33,8 @@ void map_loop(unsigned x, unsigned y, Map &map)
 			Pixel pix(Green);
 			// TODO?: Preset color macros/consts?
 			buffer_fill(pix);
-			map.render(camera, 1);
+			map.render(camera, loop_next);
+			print_string("WalrusRPG test build \001", 0, 0);
 			lcd_vsync();
 			buffer_swap();
 		}
