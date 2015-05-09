@@ -16,7 +16,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
 	unsigned loop_next = -loop_time;
 
 	unsigned keep_running = 1;
-	Camera camera(x, y);
+	Camera camera((signed)x, (signed)y);
 
 	while (keep_running)
 	{
