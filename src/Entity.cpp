@@ -23,4 +23,3 @@ void ENTITY::update(unsigned dt)
 		velocity += acceleration * dt;
 	 */
 }
-
