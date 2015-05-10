@@ -23,6 +23,7 @@ namespace WalrusRPG
 
       public:
         Tileset(unsigned short *sheet, unsigned sheet_width, unsigned sheet_height, unsigned tile_width, unsigned tile_heihgt);
+        void add_animation(int index, std::vector<WalrusRPG::Frame> anim);
         void render_tile(unsigned int index, unsigned x, unsigned y) const;
         void render_tile(unsigned int index, unsigned x, unsigned y, unsigned time) const;
     };

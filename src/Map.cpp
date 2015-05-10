@@ -13,6 +13,7 @@ MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1)
     this->height = height;
     this->layer0 = layer0;
     this->layer1 = layer1;
+    tset.add_animation(2, {{2, 20}, {3, 10}});
 }
 
 MAP::~Map()

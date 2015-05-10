@@ -21,8 +21,11 @@ namespace
 TILESET::Tileset(unsigned short *sheet, unsigned sheet_width, unsigned sheet_height, unsigned tile_width, unsigned tile_height)
     : sheet(sheet), sheet_width(sheet_width), sheet_height(sheet_height), tile_width(tile_width), tile_height(tile_height)
 {
-    animations[2].push_back({2, 10}); // Testing
-    animations[2].push_back({3, 10}); // Testing
+}
+
+void TILESET::add_animation(int index, std::vector<WalrusRPG::Frame> anim)
+{
+    animations[index] = anim;
 }
 
 void TILESET::render_tile(unsigned int index, unsigned x, unsigned y) const
