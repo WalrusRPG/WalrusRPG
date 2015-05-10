@@ -16,7 +16,7 @@ CFLAGS = $(CFLAGS_COMMON) -std=gnu11
 CPP = nspire-g++
 CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++11
 
-LDFLAGS = $(CFLAGS_COMMON)
+LDFLAGS = $(CFLAGS_COMMON) -Wl,--gc-sections
 
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)"

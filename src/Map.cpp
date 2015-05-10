@@ -74,15 +74,13 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
         for (signed i = 0; i < delta_x; i++)
         {
             unsigned index = (start_x + i) + (start_y + j) * this->width;
-            tset.render_tile(this->layer0[index], offset_x + i * 24, offset_y + j * 24, time_render);
-
-            unsigned tile_over = this->layer1[index];
-            // layer1 : Over-layer
+            unsigned tile_over = this->layer0[index];
             if (tile_over != 0)
-            {
-                //sprite.x = tile_over * 24;
+                tset.render_tile(this->layer0[index], offset_x + i * 24, offset_y + j * 24, time_render);
+            // layer1 : Over-layer
+            tile_over = this->layer1[index];
+            if (tile_over != 0)
                 tset.render_tile(tile_over, offset_x + i * 24, offset_y + j * 24, time_render);
-            }
         }
     }
 }
