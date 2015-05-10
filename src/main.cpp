@@ -13,12 +13,16 @@ using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Graphics::Text;
 
-void print_debug_camera_data(const Camera &camera) {
-	print_format(0,8, "CAM : X : %d Y: %d", camera.get_x(), camera.get_y());
+void print_debug_camera_data(const Camera &camera)
+{
+    print_format(0, 8,
+                 "CAM : X : %d Y: %d", camera.get_x(), camera.get_y());
 }
 
-void print_debug_map_data(const Map &map) {
-	print_format(0,16, "MAP : W: %d, H:%d", map.get_width(), map.get_height());
+void print_debug_map_data(const Map &map)
+{
+    print_format(0, 16,
+                 "MAP : W: %d, H:%d", map.get_width(), map.get_height());
 }
 
 void map_loop(unsigned x, unsigned y, Map &map)
@@ -45,10 +49,11 @@ void map_loop(unsigned x, unsigned y, Map &map)
             // TODO?: Preset color macros/consts?
             buffer_fill(pix);
             map.render(camera, loop_next);
-						print_string("WalrusRPG test build \001", 0, 0);
+            print_string(
+                "WalrusRPG test build \001", 0, 0);
 
-						print_debug_camera_data(camera);
-						print_debug_map_data(map);
+            print_debug_camera_data(camera);
+            print_debug_map_data(map);
             lcd_vsync();
             buffer_swap();
         }
