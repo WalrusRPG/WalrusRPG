@@ -26,6 +26,9 @@ namespace WalrusRPG
         void add_animation(int index, std::vector<WalrusRPG::Frame> anim);
         void render_tile(unsigned int index, unsigned x, unsigned y) const;
         void render_tile(unsigned int index, unsigned x, unsigned y, unsigned time) const;
+
+        int get_tile_width() const;
+        int get_tile_height() const;
     };
 }
 

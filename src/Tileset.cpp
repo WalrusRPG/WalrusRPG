@@ -51,3 +51,12 @@ void TILESET::render_tile(unsigned int index, unsigned x, unsigned y, unsigned t
     else
         render_tile(index, x, y);
 }
+
+int TILESET::get_tile_width() const
+{
+    return tile_width;
+}
+int TILESET::get_tile_height() const
+{
+    return tile_height;
+}

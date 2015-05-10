@@ -7,13 +7,12 @@
 #define MAP WalrusRPG::Map
 
 MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1)
-    : tset(tiles, 192u, 24u, 24u, 24u), time_render(0)
+    : tset(overworld, 336, 144, 16, 16), time_render(0)
 {
     this->width = width;
     this->height = height;
     this->layer0 = layer0;
     this->layer1 = layer1;
-    tset.add_animation(2, {{2, 20}, {3, 10}});
 }
 
 MAP::~Map()
@@ -30,26 +29,28 @@ void MAP::update(unsigned dt)
 void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
 {
     time_render += dt;
+    signed t_width = tset.get_tile_width();
+    signed t_height = tset.get_tile_height();
     // By Eiyeron : I assumed that the camera's position is the top left pixel.
     // Margins moves the rendered map if we go outside of the bounds (specially on the left or on the top).
-    signed offset_x = camera.get_x() % 24 * -1;
-    signed offset_y = camera.get_y() % 24 * -1;
-    signed start_x = camera.get_x() / 24;
-    signed start_y = camera.get_y() / 24;
-    signed end_x = start_x + 15;
-    signed end_y = start_y + 16;
+    signed offset_x = camera.get_x() % t_width * -1;
+    signed offset_y = camera.get_y() % t_height * -1;
+    signed start_x = camera.get_x() / t_width;
+    signed start_y = camera.get_y() / t_height;
+    signed end_x = start_x + 320 / t_width + 2; // Why 2? I don't freaking know.
+    signed end_y = start_y + 240 / t_height + 1;
 
     // Bound-checking code. To avoid reading outside of the map.
     // The offset edition allows the map to be correctly moved to the right to make up for the lack of renderable tiles.
     if (start_x < 0)
     {
-        offset_x -= start_x * 24;
+        offset_x -= start_x * t_width;
         start_x = 0;
     }
 
     if (start_y < 0)
     {
-        offset_y -= start_y * 24;
+        offset_y -= start_y * t_height;
         start_y = 0;
     }
     // warning fix. Even if end_x/y is negative, it should be higher than width/height.
@@ -76,11 +77,13 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
             unsigned index = (start_x + i) + (start_y + j) * this->width;
             unsigned tile_over = this->layer0[index];
             if (tile_over != 0)
-                tset.render_tile(this->layer0[index], offset_x + i * 24, offset_y + j * 24, time_render);
+                tset.render_tile(this->layer0[index], offset_x + i * t_width, offset_y + j * t_height, time_render);
             // layer1 : Over-layer
+            if (this->layer1 == NULL)
+                continue;
             tile_over = this->layer1[index];
             if (tile_over != 0)
-                tset.render_tile(tile_over, offset_x + i * 24, offset_y + j * 24, time_render);
+                tset.render_tile(tile_over, offset_x + i * t_width, offset_y + j * t_height, time_render);
         }
     }
 }
@@ -94,7 +97,7 @@ bool MAP::is_tile_solid(unsigned x, unsigned y) const
 
 bool MAP::is_pixel_solid(unsigned x, unsigned y) const
 {
-    return is_tile_solid(x / 24, y / 24);
+    return is_tile_solid(x / tset.get_tile_width(), y / tset.get_tile_height());
 }
 
 unsigned MAP::get_width() const
