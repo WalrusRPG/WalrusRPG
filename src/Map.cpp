@@ -87,3 +87,13 @@ bool MAP::entity_collide(Entity &entity) const
 	UNUSED(entity);
 	return false;
 }
+
+unsigned MAP::get_width() const
+{
+	return this->width;
+}
+
+unsigned MAP::get_height() const
+{
+	return this->width;
+}

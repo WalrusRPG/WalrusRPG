@@ -6,3 +6,5 @@ bin
 art/sprites.c
 art/sprites.h
 
+# Atom editor files
+.atom-build.json

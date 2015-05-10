@@ -1,6 +1,8 @@
 #include "sprites.h"
 #include "Graphics.h"
 #include "Text.h"
+#include <cstdio>
+#include <cstdarg>
 #include <string>
 
 #define TEXT WalrusRPG::Graphics::Text
@@ -26,4 +28,20 @@ void TEXT::print_string(const char *str, unsigned x, unsigned y) {
     draw_sprite_sheet(font, x, y, &rect);
     x +=8;
   }
+}
+
+void TEXT::print_string(const std::string &str, unsigned x, unsigned y) {
+  TEXT::print_string(str.c_str(), x, y);
+}
+
+void TEXT::print_format(unsigned x, unsigned y, const char *format, ...) {
+	char buffer[256] = "";
+	va_list args;
+	va_start(args, format);
+	vsnprintf(buffer, 256, format, args);
+	print_string(buffer, x, y);
+}
+
+void TEXT::print_format(unsigned x, unsigned y, const std::string &format, ...) {
+  TEXT::print_format(x, y, format.c_str());
 }

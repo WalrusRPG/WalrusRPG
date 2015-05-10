@@ -22,6 +22,9 @@ namespace WalrusRPG
 			void render(Camera &camera, unsigned dt) const;
 			void update(unsigned dt);
 			bool entity_collide(Entity &entity) const;
+			unsigned get_width() const;
+			unsigned get_height() const;
+
 	};
 }
 
