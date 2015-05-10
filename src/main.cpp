@@ -48,7 +48,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
             Pixel pix(Green);
             // TODO?: Preset color macros/consts?
             buffer_fill(pix);
-            map.render(camera, loop_next);
+            map.render(camera, 1);
             print_string(
                 "WalrusRPG test build \001", 0, 0);
 

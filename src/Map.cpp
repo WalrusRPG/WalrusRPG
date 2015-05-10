@@ -7,6 +7,7 @@
 #define MAP WalrusRPG::Map
 
 MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1)
+    : tset(tiles, 192u, 24u, 24u, 24u), time_render(0)
 {
     this->width = width;
     this->height = height;
@@ -25,9 +26,9 @@ void MAP::update(unsigned dt)
     // TODO update map's data according to elasped time
 }
 
-void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
+void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
 {
-    UNUSED(dt);
+    time_render += dt;
     // By Eiyeron : I assumed that the camera's position is the top left pixel.
     // Margins moves the rendered map if we go outside of the bounds (specially on the left or on the top).
     signed offset_x = camera.get_x() % 24 * -1;
@@ -61,10 +62,10 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
     signed delta_y = end_y - start_y;
 
     // Creating a region clip. Why does it smell like SDL?
-    WalrusRPG::Graphics::Rect_t sprite;
+    /*WalrusRPG::Graphics::Rect_t sprite;
     sprite.y = 0;
     sprite.w = 24;
-    sprite.h = 24;
+    sprite.h = 24;*/
 
     // rendering part.
     for (signed j = 0; j < delta_y; j++)
@@ -72,15 +73,14 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
         for (signed i = 0; i < delta_x; i++)
         {
             unsigned index = (start_x + i) + (start_y + j) * this->width;
-            sprite.x = this->layer0[index] * 24;
-            draw_sprite_sheet(tiles, offset_x + i * 24, offset_y + j * 24, &sprite);
+            tset.render_tile(this->layer0[index], offset_x + i * 24, offset_y + j * 24, time_render);
 
             unsigned tile_over = this->layer1[index];
             // layer1 : Over-layer
             if (tile_over != 0)
             {
-                sprite.x = tile_over * 24;
-                draw_sprite_sheet(tiles, offset_x + i * 24, offset_y + j * 24, &sprite);
+                //sprite.x = tile_over * 24;
+                tset.render_tile(tile_over, offset_x + i * 24, offset_y + j * 24, time_render);
             }
         }
     }
