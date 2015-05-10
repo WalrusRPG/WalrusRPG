@@ -86,18 +86,24 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt) const
     }
 }
 
-bool MAP::entity_collide(Entity &entity) const
+bool MAP::is_tile_solid(unsigned x, unsigned y) const
 {
-    UNUSED(entity);
-    return false;
+    if (x >= width || y >= height)
+        return true;
+    return this->layer0[y * width + x] != 0;
+}
+
+bool MAP::is_pixel_solid(unsigned x, unsigned y) const
+{
+    return is_tile_solid(x / 24, y / 24);
 }
 
 unsigned MAP::get_width() const
 {
-	return this->width;
+    return this->width;
 }
 
 unsigned MAP::get_height() const
 {
-	return this->width;
+    return this->width;
 }
