@@ -2,8 +2,8 @@
 #define INCLUDE_TIMERS_H
 
 #ifdef __cplusplus
-extern "C"
-{
+extern
+    "C" {
 #endif
 
 // TODO : Move these functions to C++ namespace

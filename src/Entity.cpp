@@ -5,19 +5,19 @@
 
 ENTITY::Entity()
 {
-	// TODO
+    // TODO
 }
 
 ENTITY::~Entity()
 {
-	// TODO if you allocate dynamically members
+    // TODO if you allocate dynamically members
 }
 
 void ENTITY::update(unsigned dt)
 {
-	UNUSED(dt);
-	// TODO update map's data according to elasped time
-	/*
+    UNUSED(dt);
+    // TODO update map's data according to elasped time
+    /*
 		// Need to think aagain on how to go to a target point and/or we need to align the corner OR the center to this point.
 		position += velocity * dt;
 		velocity += acceleration * dt;
