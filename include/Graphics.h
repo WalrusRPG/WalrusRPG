@@ -9,7 +9,7 @@ namespace WalrusRPG
         struct Rect
         {
             int x, y;
-            unsigned w, h;
+            int w, h;
         };
 
         /*
