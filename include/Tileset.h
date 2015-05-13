@@ -1,8 +1,8 @@
 #ifndef INCLUDE_TILESET_H
 #define INCLUDE_TILESET_H
 
-#include <vector>
-#include <unordered_map>
+#include <TINYSTL/vector.h>
+#include <TINYSTL/unordered_map.h>
 
 namespace WalrusRPG
 {
@@ -19,13 +19,13 @@ namespace WalrusRPG
         unsigned sheet_height;
         unsigned tile_width;
         unsigned tile_height;
-        std::unordered_map<unsigned, std::vector<Frame>> animations;
+        tinystl::unordered_map<unsigned, tinystl::vector<Frame>> animations;
 
       public:
         Tileset(unsigned short *sheet, unsigned sheet_width, unsigned sheet_height, unsigned tile_width, unsigned tile_heihgt);
-        void add_animation(int index, std::vector<WalrusRPG::Frame> anim);
+        void add_animation(int index, tinystl::vector<WalrusRPG::Frame> anim);
         void render_tile(unsigned int index, unsigned x, unsigned y) const;
-        void render_tile(unsigned int index, unsigned x, unsigned y, unsigned time) const;
+        void render_tile(unsigned int index, unsigned x, unsigned y, unsigned time);
 
         int get_tile_width() const;
         int get_tile_height() const;

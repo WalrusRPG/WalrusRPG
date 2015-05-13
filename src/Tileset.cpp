@@ -6,7 +6,7 @@
 
 namespace
 {
-    unsigned find_frame(const std::vector<WalrusRPG::Frame> &anim, signed frame_time)
+    unsigned find_frame(const tinystl::vector<WalrusRPG::Frame> &anim, signed frame_time)
     {
         unsigned index = 0;
         do
@@ -23,7 +23,7 @@ TILESET::Tileset(unsigned short *sheet, unsigned sheet_width, unsigned sheet_hei
 {
 }
 
-void TILESET::add_animation(int index, std::vector<WalrusRPG::Frame> anim)
+void TILESET::add_animation(int index, tinystl::vector<WalrusRPG::Frame> anim)
 {
     animations[index] = anim;
 }
@@ -41,11 +41,11 @@ void TILESET::render_tile(unsigned int index, unsigned x, unsigned y) const
     draw_sprite_sheet(sheet, x, y, &sprite);
 }
 
-void TILESET::render_tile(unsigned int index, unsigned x, unsigned y, unsigned time) const
+void TILESET::render_tile(unsigned int index, unsigned x, unsigned y, unsigned time)
 {
-    if (animations.count(index))
+    if (!animations[index].empty())
     {
-        render_tile(animations.at(index).at(find_frame(this->animations.at(index), time)).frame, x, y);
+        render_tile(animations[index][find_frame(this->animations[index], time)].frame, x, y);
         // If an animation already exists.
     }
     else
