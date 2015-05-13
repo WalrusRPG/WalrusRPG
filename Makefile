@@ -19,7 +19,7 @@ CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++11
 LDFLAGS = $(CFLAGS_COMMON) -Wl,--gc-sections
 
 ZEHN = genzehn
-ZEHNFLAGS = --name "$(NAME)"
+ZEHNFLAGS = --name "$(NAME)" --compress
 
 INCDIR = include
 SRCDIR = src
