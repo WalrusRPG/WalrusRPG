@@ -2,7 +2,7 @@
 #define INCLUDE_TILESET_H
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 namespace WalrusRPG
 {
@@ -19,7 +19,7 @@ namespace WalrusRPG
         unsigned sheet_height;
         unsigned tile_width;
         unsigned tile_height;
-        std::map<unsigned, std::vector<Frame>> animations;
+        std::unordered_map<unsigned, std::vector<Frame>> animations;
 
       public:
         Tileset(unsigned short *sheet, unsigned sheet_width, unsigned sheet_height, unsigned tile_width, unsigned tile_heihgt);
