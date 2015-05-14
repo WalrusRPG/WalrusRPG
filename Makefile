@@ -35,16 +35,17 @@ EXE = $(DISTDIR)/$(NAME).tns
 
 all: $(EXE)
 
-%.o: %.c
+art/sprites.c:
+		@$(MAKE) -C art/
+
+%.o: %.c| art/sprites.c
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
 
-%.o: %.cpp
+%.o: %.cpp| art/sprites.c
 	@echo "CPP: $@"
 	@$(CPP) $(CPPFLAGS) -I$(INCDIR) -c $< -o $@
 
-art/sprites.c:
-	@$(MAKE) -C art/
 
 $(ELF): $(OBJS)
 	@mkdir -p $(DISTDIR)
