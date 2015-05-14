@@ -5,6 +5,7 @@ bin
 *.gdb
 art/sprites.c
 art/sprites.h
+art/*.cspr
 
 # Atom editor files
 .atom-build.json

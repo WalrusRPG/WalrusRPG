@@ -1,10 +1,16 @@
 SPRITES = $(wildcard *.png)
+SPR_DATA = $(patsubst %.png,%.cspr,$(SPRITES))
 
-all:
+%.cspr: %.png
+	@echo "Converting : $<"
+	@ConvertImg --format n2dlib $< > $@
+
+all: $(SPR_DATA)
+	@echo "Catting sprites into sprites.c"
 	@rm -f sprites.c
-	for FILE in $(SPRITES); do ConvertImg --format n2dlib $$FILE | sed "s/^static uint16_t/unsigned short/" >> sprites.c; done
-	makeheaders sprites.c
+	@cat  $(SPR_DATA)  | sed "s/^static uint16_t/unsigned short/" >> sprites.c
+	@echo "Making header sprites.h"
+	@makeheaders sprites.c
 
 clean:
-	rm -f sprites.c sprites.h
-
+	rm -f $(SPR_DATA) sprites.c sprites.h
