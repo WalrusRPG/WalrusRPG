@@ -32,22 +32,25 @@ DISTDIR = bin
 ELF = $(DISTDIR)/$(NAME).elf
 EXE = $(DISTDIR)/$(NAME).tns
 
+all: sprites $(EXE)
 
-all: $(EXE)
+.PHONY: format clean sprites all run
 
-art/sprites.c:
-		@$(MAKE) -C art/
+sprites:
+	@$(MAKE) -C art/
 
-%.o: %.c| art/sprites.c
+art/sprites.c: sprites
+
+%.o: %.c| sprites
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
 
-%.o: %.cpp| art/sprites.c
+%.o: %.cpp| sprites
 	@echo "CPP: $@"
 	@$(CPP) $(CPPFLAGS) -I$(INCDIR) -c $< -o $@
 
 
-$(ELF): $(OBJS)
+$(ELF): $(OBJS) |sprites
 	@mkdir -p $(DISTDIR)
 	@echo "CC: $@"
 	@+$(CC) $(LDFLAGS) $^ -o $(ELF)
