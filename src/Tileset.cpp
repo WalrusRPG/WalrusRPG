@@ -1,8 +1,11 @@
 #include "Tileset.h"
 #include "Graphics.h"
+#include "Rect.h"
 
+#define GRAPHICS WalrusRPG::Graphics
 #define TILESET WalrusRPG::Tileset
 #define FRAME WalrusRPG::Frame
+#define UTILS WalrusRPG::Utils
 
 namespace
 {
@@ -32,13 +35,7 @@ void TILESET::render_tile(unsigned int index, unsigned x, unsigned y) const
 {
     unsigned num_tiles_x = sheet_width / tile_width;
     //unsigned num_tiles_y = sheet_height / tile_height;
-
-    WalrusRPG::Graphics::Rect_t sprite;
-    sprite.w = tile_width;
-    sprite.h = tile_height;
-    sprite.x = tile_width * (index % num_tiles_x);
-    sprite.y = tile_height * (index / num_tiles_x);
-    draw_sprite_sheet(sheet, x, y, &sprite);
+    GRAPHICS::draw_sprite_sheet(sheet, x, y, UTILS::Rect(tile_width * (index % num_tiles_x), tile_height * (index / num_tiles_x), tile_width, tile_height));
 }
 
 void TILESET::render_tile(unsigned int index, unsigned x, unsigned y, unsigned time)

@@ -1,6 +1,7 @@
 #ifndef INCLUDE_ENTITY_H
 #define INCLUDE_ENTITY_H
 
+#include "Rect.h"
 #include "Camera.h"
 
 namespace WalrusRPG
@@ -13,10 +14,7 @@ namespace WalrusRPG
     class Entity
     {
       protected:
-        unsigned x;
-        unsigned y;
-        unsigned width;
-        unsigned height;
+        WalrusRPG::Utils::Rect coords;
 
       public:
         Entity();

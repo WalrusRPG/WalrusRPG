@@ -88,15 +88,15 @@ void GRAPHICS::draw_pixel(unsigned x, unsigned y, unsigned short color)
     buffer_back[x + (y * 320)] = color;
 }
 
-void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y, const GRAPHICS::Rect_t *window)
+void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y, const WalrusRPG::Utils::Rect &window)
 {
     unsigned short color;
-    int w = min(window->w + x, 320);
-    int h = min(window->h + y, 240);
+    int w = min(window.width + x, 320);
+    int h = min(window.height + y, 240);
 
-    for (int j = max(y, 0), l = window->y - min(y, 0); j < h; j++, l++)
+    for (int j = max(y, 0), l = window.y - min(y, 0); j < h; j++, l++)
     {
-        for (int i = max(x, 0), k = window->x - min(x, 0); i < w; i++, k++)
+        for (int i = max(x, 0), k = window.x - min(x, 0); i < w; i++, k++)
         {
             color = sprite_pixel_get(sheet, k, l);
             if (color != sheet[2])

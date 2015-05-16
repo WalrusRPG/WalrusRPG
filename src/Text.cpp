@@ -7,28 +7,24 @@
 
 #define TEXT WalrusRPG::Graphics::Text
 #define GRAPHICS WalrusRPG::Graphics
+#define UTILS WalrusRPG::Utils
 
 void TEXT::print_char(char c, unsigned x, unsigned y)
 {
-    GRAPHICS::Rect_t rect;
-    rect.w = 8;
-    rect.h = 8;
-    rect.x = (c % 16) * 8;
-    rect.y = (c / 16) * 8;
-    draw_sprite_sheet(font, x, y, &rect);
+    draw_sprite_sheet(font, x, y, UTILS::Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
 }
 
 void TEXT::print_string(const char *str, unsigned x, unsigned y)
 {
-    GRAPHICS::Rect_t rect;
-    rect.w = 8;
-    rect.h = 8;
+    UTILS::Rect rect;
+    rect.width = 8;
+    rect.height = 8;
     for (unsigned index = 0; str[index]; index++)
     {
         char c = str[index];
         rect.x = (c % 16) * 8;
         rect.y = (c / 16) * 8;
-        draw_sprite_sheet(font, x, y, &rect);
+        draw_sprite_sheet(font, x, y, rect);
         x += 8;
     }
 }

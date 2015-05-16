@@ -1,17 +1,12 @@
 #ifndef INCLUDE_GRAPHICS_H
 #define INCLUDE_GRAPHICS_H
 
+#include "Rect.h"
+
 namespace WalrusRPG
 {
     namespace Graphics
     {
-        typedef struct Rect Rect_t;
-        struct Rect
-        {
-            int x, y;
-            int w, h;
-        };
-
         /*
 	 * Buffer management
 	 */
@@ -34,7 +29,7 @@ namespace WalrusRPG
 	 */
 
         void draw_pixel(unsigned x, unsigned y, unsigned short color);
-        void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const Rect_t *window);
+        void draw_sprite_sheet(const unsigned short *sheet, int x, int y, const WalrusRPG::Utils::Rect &window);
 
 
         /*
