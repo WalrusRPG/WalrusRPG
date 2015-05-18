@@ -52,7 +52,7 @@ art/sprites.c: sprites
 
 $(ELF): $(OBJS) |sprites
 	@mkdir -p $(DISTDIR)
-	@echo "CC: $@"
+	@echo "CCLD: $@"
 	@+$(CC) $(LDFLAGS) $^ -o $(ELF)
 
 $(EXE): $(ELF)
