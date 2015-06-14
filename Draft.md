@@ -9,8 +9,8 @@ Extra notes by Streetwalrus in (S: <insert random crap here>)
   - Scripts? (S: possibly lua or some other embeddable script language)
   -  An entity should be able to move around a map or stay static
     - AABB collision with map tiles.
-    - Velocity : pixels/seconds! (S: what ? movement code is completely internal to the entity)
-    - Movement target? Random? Patroll? This should be extendable the same way than the AI.
+- Velocity : pixels/seconds! (S: what ? movement code is completely internal to the entity)
+- Movement target? Random? Patroll? This should be extendable the same way than the AI.
 - Spritesheet animation.
 - Controllable with events/scripts(?)
 - Should we count levers, chests, objects as immovable entities?
