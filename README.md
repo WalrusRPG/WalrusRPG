@@ -1,4 +1,4 @@
-![img](http://a.pomf.se/jtafgz.png)
+# WalrusRPG
 
 A J-RPG engine for the TI-Nspire. There's still a lot of work before anything works.
 
