@@ -1,19 +1,20 @@
 By @Eiyeron.
 This is only a paper where I'm collecting all the infos we need to work on.
+Extra notes by Streetwalrus in (S: <insert random crap here>)
 
 # Entity
-- An entity must be placed between map's layer.
-- An entity should have differents comportments according the the NPCs/enemies we want to do
+- An entity must be placed between map's layer. (S: entity class should have a layer attribute)
+- An entity should have differents behaviors according the the NPCs/enemies we want to do
   - AI : Composition? Derivation? @Eiyeron : I'd go for composition.
-  - Scripts?
+  - Scripts? (S: possibly lua or some other embeddable script language)
   -  An entity should be able to move around a map or stay static
     - AABB collision with map tiles.
-    - Velocity : pixels/seconds!
+    - Velocity : pixels/seconds! (S: what ? movement code is completely internal to the entity)
     - Movement target? Random? Patroll? This should be extendable the same way than the AI.
 - Spritesheet animation.
 - Controllable with events/scripts(?)
 - Should we count levers, chests, objects as immovable entities?
-  - It could make their creation easier but it also break the "Entity is movable or interactive abstract(?) character" idioms for a "dynamic interactive object".
+  - It could make their creation easier but it also break the "Entity is movable or interactive abstract(?) character" idioms for a "dynamic interactive object". (S: not really, an entity is anything interactive/dynamic)
 
 # Battle engine
 - Checkout/move HBE to this once the overworld system is done
@@ -33,7 +34,7 @@ This is only a paper where I'm collecting all the infos we need to work on.
 - HBE does have logic for one but it's way too linked to its custom string parser because it allows the engine to trigger effects on string updating/drawing and not parsing.
   - So, split them and find out how to force the engine to trigger said effects in the middle of reading them?
 
-# Objects (inventory)
+# Items (inventory)
 Disclaimer : Lots'o'text. Prepare your anus.
 - How to store them? I have three general ideas/way to do:
   1. Golden Sun/Earthbound : one item (be it armor, consommable or key item) take one inventory slot
