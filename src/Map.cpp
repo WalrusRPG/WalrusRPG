@@ -7,7 +7,7 @@
 #define MAP WalrusRPG::Map
 
 MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1)
-    : tset(overworld, 336, 144, 16, 16), time_render(0)
+    : tset(overworld, 16, 16), time_render(0)
 {
     this->width = width;
     this->height = height;
