@@ -9,6 +9,8 @@ CAMERA::Camera(signed x, signed y)
 {
     this->x = x;
     this->y = y;
+    render_area_width = 320;
+    render_area_height = 240;
 }
 
 CAMERA::~Camera()
@@ -54,4 +56,17 @@ void CAMERA::set_y(signed y)
 signed CAMERA::get_y() const
 {
     return this->y;
+}
+
+bool CAMERA::is_visible(const WalrusRPG::Utils::Rect &object) const
+{
+    if ((in_range(object.x, x, x + (signed) render_area_width) || in_range(object.x + (signed) object.width - 1, x, x + (signed) render_area_width))
+        && (in_range(object.y, y, y + (signed) render_area_height) || in_range(object.y + (signed) object.height - 1, y, y + (signed) render_area_height)))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

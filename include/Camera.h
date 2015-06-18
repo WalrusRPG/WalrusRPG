@@ -1,6 +1,8 @@
 #ifndef INCLUDE_CAMERA_H
 #define INCLUDE_CAMERA_H
 
+#include "Rect.h"
+
 namespace WalrusRPG
 {
     class Camera
@@ -29,6 +31,9 @@ namespace WalrusRPG
         signed get_x() const;
         void set_y(signed y);
         signed get_y() const;
+
+        // Can you see me, senpai ? >.<
+        bool is_visible(const WalrusRPG::Utils::Rect &object) const;
     };
 }
 
