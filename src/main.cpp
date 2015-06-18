@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Text.h"
 #include "misc.h"
+#include "sprites.h"
 
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
@@ -35,6 +36,9 @@ void map_loop(unsigned x, unsigned y, Map &map)
     unsigned keep_running = 1;
     Camera camera((signed) x, (signed) y);
 
+    Tileset asdf(better_character, 9, 16);
+    Entity test_char(115, 90, 9, 16, &asdf, 0);
+
     while (keep_running)
     {
         if (isKeyPressed(KEY_NSPIRE_ESC))
@@ -49,6 +53,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
             // TODO?: Preset color macros/consts?
             buffer_fill(pix);
             map.render(camera, 1);
+            test_char.render(camera, 1);
             print_string(
                 "WalrusRPG test build \001", 0, 0);
 
