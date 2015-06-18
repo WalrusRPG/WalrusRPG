@@ -1,0 +1,3 @@
+[submodule "external/tinystl"]
+	path = external/tinystl
+	url = git://github.com/mendsley/tinystl.git

@@ -2,7 +2,7 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W -marm -I include -I art -fdiagnostics-color=always
+CFLAGS_COMMON = -Wall -W -marm -fdiagnostics-color=always
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto
@@ -21,12 +21,12 @@ LDFLAGS = $(CFLAGS_COMMON) -Wl,--gc-sections
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)" --compress
 
-INCDIR = include
 SRCDIR = src
 
 SOURCES_C = art/sprites.c $(wildcard $(SRCDIR)/*.c)
 SOURCES_CPP = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst %.c,%.o,$(SOURCES_C)) $(patsubst %.cpp,%.o,$(SOURCES_CPP))
+INCLUDE = -I include -I art -I external/tinystl/include
 
 DISTDIR = bin
 ELF = $(DISTDIR)/$(NAME).elf
@@ -43,11 +43,11 @@ art/sprites.c: sprites
 
 %.o: %.c| sprites
 	@echo "CC: $@"
-	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 %.o: %.cpp| sprites
 	@echo "CPP: $@"
-	@$(CPP) $(CPPFLAGS) -I$(INCDIR) -c $< -o $@
+	@$(CPP) $(CPPFLAGS) $(INCLUDE) -c $< -o $@
 
 
 $(ELF): $(OBJS) |sprites
