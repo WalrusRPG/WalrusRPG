@@ -8,13 +8,17 @@
 
 namespace
 {
-    unsigned find_frame(const tinystl::vector<WalrusRPG::Frame> &anim, signed frame_time)
+    unsigned find_frame(const WalrusRPG::Animation &anim, signed frame_time)
     {
         unsigned index = 0;
         do
         {
-            frame_time -= anim[index].duration;
-            index = (index + 1) % anim.size();
+            frame_time -= anim.stripe[index].duration;
+            index++;
+            if (index >= anim.stripe.size() && anim.looping)
+                index -= anim.stripe.size();
+            else
+                return anim.stripe.size() - 1;
         } while (frame_time > 0);
         return index;
     }
@@ -33,7 +37,7 @@ unsigned ANIMATOR::get_animation_frame(unsigned id)
 {
     if (animations[id].stripe.empty())
         return id;
-    return find_frame(animations[id].stripe, elapsed_time);
+    return find_frame(animations[id], elapsed_time);
 }
 
 void ANIMATOR::update(unsigned dt)
