@@ -3,6 +3,7 @@
 
 #include "Rect.h"
 #include "Camera.h"
+#include "Renderer.h"
 #include "TileRenderer.h"
 
 namespace WalrusRPG
@@ -16,11 +17,11 @@ namespace WalrusRPG
     {
       protected:
         WalrusRPG::Utils::Rect coords;
-        WalrusRPG::TileRenderer *tset;
+        WalrusRPG::Renderer *tset;
         unsigned sprite_id;
 
       public:
-        Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::TileRenderer *tset, unsigned sprite_id);
+        Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset, unsigned sprite_id);
         ~Entity();
         void render(Camera &camera, unsigned dt) const;
         void update(unsigned dt);

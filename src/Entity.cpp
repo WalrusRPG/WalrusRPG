@@ -6,7 +6,7 @@
 #define ENTITY WalrusRPG::Entity
 #define RECT WalrusRPG::Utils::Rect
 
-ENTITY::Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::TileRenderer *tset, unsigned sprite_id)
+ENTITY::Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset, unsigned sprite_id)
     : coords(x, y, w, h), tset(tset), sprite_id(sprite_id)
 {
 }
