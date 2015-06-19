@@ -36,7 +36,8 @@ void map_loop(unsigned x, unsigned y, Map &map)
     unsigned keep_running = 1;
     Camera camera((signed) x, (signed) y);
 
-    Tileset asdf(better_character, 9, 16);
+    //Tileset asdf(better_character, 9, 16);
+    TileRenderer asdf(better_character, 9, 16);
     Entity test_char(115, 90, 9, 16, &asdf, 0);
 
     while (keep_running)

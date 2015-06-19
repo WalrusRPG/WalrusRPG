@@ -3,7 +3,8 @@
 
 #include "Camera.h"
 #include "Entity.h"
-#include "Tileset.h"
+#include "TileRenderer.h"
+#include "Animator.h"
 
 namespace WalrusRPG
 {
@@ -16,7 +17,8 @@ namespace WalrusRPG
         unsigned int height;
         unsigned *layer0;
         unsigned *layer1;
-        Tileset tset;
+        TileRenderer *renderer;
+        Animator anim;
         unsigned time_render;
         // TODO?: add a boolean/getter to know if a second layer exist?
       public:
