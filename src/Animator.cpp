@@ -31,6 +31,8 @@ void ANIMATOR::add_animation(int index, Animation anim)
 
 unsigned ANIMATOR::get_animation_frame(unsigned id)
 {
+    if (animations[id].stripe.empty())
+        return id;
     return find_frame(animations[id].stripe, elapsed_time);
 }
 

@@ -27,7 +27,7 @@ MAP::~Map()
 
 void MAP::update(unsigned dt)
 {
-    UNUSED(dt);
+    anim.update(dt);
     // TODO update map's data according to elasped time
 }
 
@@ -82,13 +82,13 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
             unsigned index = (start_x + i) + (start_y + j) * this->width;
             unsigned tile_over = this->layer0[index];
             if (tile_over != 0)
-                renderer->render(this->layer0[index], RECT(offset_x + i * t_width, offset_y + j * t_height));
+                renderer->render(anim.get_animation_frame(this->layer0[index]), RECT(offset_x + i * t_width, offset_y + j * t_height));
             // layer1 : Over-layer
             if (this->layer1 == NULL)
                 continue;
             tile_over = this->layer1[index];
             if (tile_over != 0)
-                renderer->render(tile_over, RECT(offset_x + i * t_width, offset_y + j * t_height));
+                renderer->render(anim.get_animation_frame(tile_over), RECT(offset_x + i * t_width, offset_y + j * t_height));
         }
     }
 }
