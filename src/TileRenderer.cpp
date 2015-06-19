@@ -30,4 +30,5 @@ int TILERENDERER::get_tile_height() const
 
 TILERENDERER::~TileRenderer()
 {
+  // Nothing else than the current object is dynamically allocated, nothing should be done here atm.
 }
