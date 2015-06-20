@@ -2,7 +2,7 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W -marm -fdiagnostics-color=always -DGIT_VERSION='"$(BRANCH_NAME)-$(COMMIT_NUMBER)"'
+CFLAGS_COMMON = -Wall -W -marm -fdiagnostics-color=always
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto

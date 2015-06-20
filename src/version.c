@@ -1,3 +1,3 @@
 #include "version.h"
 
-const char git_version[] = "renderer-4f06e40";
+const char git_version[] = "renderer-89b5e0b";
