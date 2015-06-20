@@ -2,7 +2,10 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W -marm -fdiagnostics-color=always
+COMMIT_NUMBER=$(shell git describe --always)
+BRANCH_NAME=$(shell git rev-parse --abbrev-ref HEAD)
+
+CFLAGS_COMMON = -Wall -W -marm -fdiagnostics-color=always -DGIT_VERSION='"$(BRANCH_NAME)-$(COMMIT_NUMBER)"'
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto

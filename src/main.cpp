@@ -55,8 +55,8 @@ void map_loop(unsigned x, unsigned y, Map &map)
             buffer_fill(pix);
             map.render(camera, 1);
             test_char.render(camera, 1);
-            print_string(
-                "WalrusRPG test build \001", 0, 0);
+            print_format(0, 0,
+                         "WalrusRPG test build %s", GIT_VERSION);
 
             print_debug_camera_data(camera);
             print_debug_map_data(map);
