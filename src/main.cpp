@@ -9,6 +9,7 @@
 #include "Text.h"
 #include "misc.h"
 #include "sprites.h"
+#include "version.h"
 
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
@@ -56,7 +57,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
             map.render(camera, 1);
             test_char.render(camera, 1);
             print_format(0, 0,
-                         "WalrusRPG test build %s", GIT_VERSION);
+                         "WalrusRPG test build %s", git_version);
 
             print_debug_camera_data(camera);
             print_debug_map_data(map);

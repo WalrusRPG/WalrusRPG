@@ -37,7 +37,7 @@ all: versionning sprites $(EXE)
 .PHONY: format clean sprites all run versionning
 
 versionning:
-	@$(SHELL) versionning.sh
+	@bash versionning.bash
 
 sprites:
 	@$(MAKE) -C art/
