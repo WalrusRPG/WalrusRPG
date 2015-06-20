@@ -2,9 +2,6 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-COMMIT_NUMBER=$(shell git describe --always)
-BRANCH_NAME=$(shell git rev-parse --abbrev-ref HEAD)
-
 CFLAGS_COMMON = -Wall -W -marm -fdiagnostics-color=always -DGIT_VERSION='"$(BRANCH_NAME)-$(COMMIT_NUMBER)"'
 
 ifeq ($(DEBUG),FALSE)
@@ -35,20 +32,23 @@ DISTDIR = bin
 ELF = $(DISTDIR)/$(NAME).elf
 EXE = $(DISTDIR)/$(NAME).tns
 
-all: sprites $(EXE)
+all: versionning sprites $(EXE)
 
-.PHONY: format clean sprites all run
+.PHONY: format clean sprites all run versionning
+
+versionning:
+	@$(SHELL) versionning.sh
 
 sprites:
 	@$(MAKE) -C art/
 
 art/sprites.c: sprites
 
-%.o: %.c| sprites
+%.o: %.c| sprites versionning
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-%.o: %.cpp| sprites
+%.o: %.cpp| sprites versionning
 	@echo "CPP: $@"
 	@$(CPP) $(CPPFLAGS) $(INCLUDE) -c $< -o $@
 
