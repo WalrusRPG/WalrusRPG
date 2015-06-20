@@ -10,12 +10,14 @@ namespace WalrusRPG
     class SpriteRenderer : public Renderer
     {
       protected:
-        tinystl::unordered_map<unsigned, WalrusRPG::Uils::Rect> sprites;
+        unsigned short *tilesheet;
+        tinystl::unordered_map<unsigned, WalrusRPG::Utils::Rect> sprites;
 
       public:
-        SpriteRenderer(/*char *tilesheet*/);
-        virtual void render(const unsigned id, const WalrusRPG::Utils::Rect &rect) const throw;
-    }
+        SpriteRenderer(unsigned short *tilesheet);
+        void add_sprite(unsigned id, WalrusRPG::Utils::Rect rect);
+        virtual void render(const unsigned id, const WalrusRPG::Utils::Rect &rect);
+    };
 }
 
 #endif

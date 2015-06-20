@@ -9,7 +9,7 @@ namespace WalrusRPG
     {
       public:
         virtual ~Renderer(){};
-        virtual void render(const unsigned id, const WalrusRPG::Utils::Rect &rect) const = 0;
+        virtual void render(const unsigned id, const WalrusRPG::Utils::Rect &rect) = 0;
     };
 }
 

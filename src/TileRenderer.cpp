@@ -11,7 +11,7 @@ TILERENDERER::TileRenderer(unsigned short *_tilesheet, unsigned tile_width, unsi
 {
 }
 
-void TILERENDERER::render(const unsigned id, const RECT &rect) const
+void TILERENDERER::render(const unsigned id, const RECT &rect)
 {
     unsigned num_tiles_x = tilesheet[0] / tile_width;
     //unsigned num_tiles_y = sheet_height / tile_height;
