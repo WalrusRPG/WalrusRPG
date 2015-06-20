@@ -20,9 +20,12 @@ namespace WalrusRPG
 
     class Animator
     {
+      public:
+        tinystl::unordered_map<unsigned, Animation> animations;
+
+
       protected:
         unsigned elapsed_time;
-        tinystl::unordered_map<unsigned, Animation> animations;
 
       public:
         Animator();

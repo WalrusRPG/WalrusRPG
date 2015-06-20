@@ -15,12 +15,15 @@ namespace
         {
             frame_time -= anim.stripe[index].duration;
             index++;
-            if (index >= anim.stripe.size() && anim.looping)
-                index -= anim.stripe.size();
-            else
-                return anim.stripe.size() - 1;
+            if (index >= anim.stripe.size())
+            {
+                if (anim.looping)
+                    index = 0;
+                else
+                    return anim.stripe[anim.stripe.size() - 1].frame;
+            }
         } while (frame_time > 0);
-        return index;
+        return anim.stripe[index].frame;
     }
 }
 

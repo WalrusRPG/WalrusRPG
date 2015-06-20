@@ -10,6 +10,9 @@ namespace WalrusRPG
 {
     class Map
     {
+      public:
+        Animator anim;
+
       protected:
         // <Tiles> data;
         // <Tileset> tileset;
@@ -18,8 +21,6 @@ namespace WalrusRPG
         unsigned *layer0;
         unsigned *layer1;
         TileRenderer *renderer;
-        Animator anim;
-        unsigned time_render;
         // TODO?: add a boolean/getter to know if a second layer exist?
       public:
         Map(int width, int height, unsigned *layer0, unsigned *layer1);

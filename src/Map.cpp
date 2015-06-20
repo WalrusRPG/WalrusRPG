@@ -11,7 +11,7 @@
 #define TILERENDERER WalrusRPG::TileRenderer
 
 MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1)
-    : anim(), time_render(0)
+    : anim()
 {
     this->renderer = new TileRenderer(overworld, 16, 16);
     this->width = width;
@@ -27,13 +27,12 @@ MAP::~Map()
 
 void MAP::update(unsigned dt)
 {
-    anim.update(dt);
     // TODO update map's data according to elasped time
 }
 
 void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
 {
-    time_render += dt;
+    anim.update(dt);
     signed t_width = renderer->get_tile_width();
     signed t_height = renderer->get_tile_height();
     // By Eiyeron : I assumed that the camera's position is the top left pixel.
@@ -80,13 +79,14 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
         for (signed i = 0; i < delta_x; i++)
         {
             unsigned index = (start_x + i) + (start_y + j) * this->width;
-            unsigned tile_over = this->layer0[index];
+            unsigned tile_over = anim.get_animation_frame(this->layer0[index]);
             if (tile_over != 0)
-                renderer->render(anim.get_animation_frame(this->layer0[index]), RECT(offset_x + i * t_width, offset_y + j * t_height));
+                renderer->render(tile_over, RECT(offset_x + i * t_width, offset_y + j * t_height));
+
             // layer1 : Over-layer
             if (this->layer1 == NULL)
                 continue;
-            tile_over = this->layer1[index];
+            tile_over = anim.get_animation_frame(this->layer1[index]);
             if (tile_over != 0)
                 renderer->render(anim.get_animation_frame(tile_over), RECT(offset_x + i * t_width, offset_y + j * t_height));
         }

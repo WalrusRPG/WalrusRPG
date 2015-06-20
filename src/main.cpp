@@ -173,8 +173,14 @@ int main(int argc, char *argv[])
          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     Map map(20, 20, dungeonTest, dungeonTest2);
-
-
+    tinystl::vector<Frame> stripe21;
+    tinystl::vector<Frame> stripe22;
+    stripe21.push_back({21, 23});
+    stripe21.push_back({22, 31});
+    stripe22.push_back({22, 37});
+    stripe22.push_back({21, 41});
+    map.anim.add_animation(21, {stripe21, true});
+    map.anim.add_animation(22, {stripe22, true});
     map_loop(0, 0, map);
 
     timer_restore(0);
