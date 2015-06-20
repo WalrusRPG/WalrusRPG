@@ -23,7 +23,7 @@ ZEHNFLAGS = --name "$(NAME)" --compress
 
 SRCDIR = src
 
-SOURCES_C = art/sprites.c $(wildcard $(SRCDIR)/*.c)
+SOURCES_C = art/sprites.c src/version.c $(wildcard $(SRCDIR)/*.c)
 SOURCES_CPP = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst %.c,%.o,$(SOURCES_C)) $(patsubst %.cpp,%.o,$(SOURCES_CPP))
 INCLUDE = -I include -I art -I external/tinystl/include
