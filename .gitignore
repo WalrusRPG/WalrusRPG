@@ -6,6 +6,8 @@ bin
 art/sprites.c
 art/sprites.h
 art/*.cspr
+src/version.c
+include/version.h
 
 # Atom editor files
 .atom-build.json
