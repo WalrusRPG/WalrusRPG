@@ -19,13 +19,13 @@ extern const char git_version[];
 EOF
 )
 
-diff src/version.c <(echo "$source")
+diff src/version.c <(echo "$source") > /dev/null 2>&1
 if [[ $? -ne 0 ]]
   then
   echo "Updating version source"
   echo "$source" > src/version.c
 fi
-diff include/version.h <(echo "$include")
+diff include/version.h <(echo "$include") > /dev/null 2>&1
 if [[ $? -ne 0 ]]
   then
   echo "Updating version include"
