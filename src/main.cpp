@@ -33,6 +33,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
     timer_load(0, 0);
     unsigned loop_time = 546; // 32768Hz/60ups
     unsigned loop_next = -loop_time;
+    unsigned last_frame = 0;
 
     unsigned keep_running = 1;
     Camera camera((signed) x, (signed) y);
@@ -61,6 +62,9 @@ void map_loop(unsigned x, unsigned y, Map &map)
 
             print_debug_camera_data(camera);
             print_debug_map_data(map);
+            unsigned frame_stamp = timer_read(0);
+            print_format(0, 240 - 8, "%u fps", 32768 / (last_frame - frame_stamp));
+            last_frame = frame_stamp;
             lcd_vsync();
             buffer_swap();
         }
