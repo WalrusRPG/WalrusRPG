@@ -13,7 +13,8 @@ namespace WalrusRPG
 
         void buffer_allocate();
         void buffer_free();
-        void buffer_swap();
+        void buffer_swap_screen();
+        void buffer_swap_render();
         void buffer_fill(unsigned color);
 
 

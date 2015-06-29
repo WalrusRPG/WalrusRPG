@@ -12,7 +12,7 @@ volatile unsigned *lcd_control = (unsigned *) (LCD_CONTROLLER + 0x18);
 unsigned lcd_control_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
-unsigned short *buffer_front = NULL, *buffer_back = NULL, *buffer_os;
+unsigned short *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL, *buffer_os;
 
 /*
  * Buffer management
@@ -20,18 +20,20 @@ unsigned short *buffer_front = NULL, *buffer_back = NULL, *buffer_os;
 
 void GRAPHICS::buffer_allocate()
 {
-    buffer_front = (unsigned short *) malloc(BUFFER_SIZE);
-    buffer_back = (unsigned short *) malloc(BUFFER_SIZE);
+    buffer_screen = (unsigned short *) malloc(BUFFER_SIZE);
+    buffer_render = (unsigned short *) malloc(BUFFER_SIZE);
+    buffer_ready = (unsigned short *) malloc(BUFFER_SIZE);
 
-    if (buffer_front == NULL || buffer_back == NULL)
+    if (buffer_screen == NULL || buffer_render == NULL || buffer_ready == NULL)
     {
-        free(buffer_front);
-        free(buffer_back);
+        free(buffer_screen);
+        free(buffer_render);
+        free(buffer_ready);
         exit(0);
     }
 
     buffer_os = (unsigned short *) *lcd_base;
-    *lcd_base = (unsigned) buffer_front;
+    *lcd_base = (unsigned) buffer_screen;
 
     // Set up the controller in order to use vsync signals
     lcd_control_bkp = *lcd_control;
@@ -41,29 +43,37 @@ void GRAPHICS::buffer_allocate()
 
 void GRAPHICS::buffer_free()
 {
-    free(buffer_front);
-    free(buffer_back);
+    free(buffer_screen);
+    free(buffer_render);
+    free(buffer_ready);
 
     *lcd_base = (unsigned) buffer_os;
 
     *lcd_control = lcd_control_bkp;
 }
 
-void GRAPHICS::buffer_swap()
+void GRAPHICS::buffer_swap_screen()
 {
-    unsigned short *buffer_front_tmp = buffer_front;
-    buffer_front = buffer_back;
-    buffer_back = buffer_front_tmp;
+    unsigned short *buffer_screen_tmp = buffer_screen;
+    buffer_screen = buffer_ready;
+    buffer_ready = buffer_screen_tmp;
 
-    *lcd_base = (unsigned) buffer_front;
+    *lcd_base = (unsigned) buffer_screen;
+}
+
+void GRAPHICS::buffer_swap_render()
+{
+    unsigned short *buffer_ready_tmp = buffer_ready;
+    buffer_ready = buffer_render;
+    buffer_render = buffer_ready_tmp;
 }
 
 void GRAPHICS::buffer_fill(unsigned color)
 {
-    unsigned *buffer_back_32 = (unsigned *) buffer_back;
+    unsigned *buffer_render_32 = (unsigned *) buffer_render;
     color |= color << 16; // To avoid stupid overflows
     for (unsigned i = 0; i < (BUFFER_SIZE / 4); i++)
-        buffer_back_32[i] = color;
+        buffer_render_32[i] = color;
 }
 
 
@@ -85,7 +95,7 @@ void GRAPHICS::lcd_vsync()
 
 void GRAPHICS::draw_pixel(unsigned x, unsigned y, unsigned short color)
 {
-    buffer_back[x + (y * 320)] = color;
+    buffer_render[x + (y * 320)] = color;
 }
 
 void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y, const WalrusRPG::Utils::Rect &window)

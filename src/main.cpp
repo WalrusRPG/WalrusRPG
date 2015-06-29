@@ -66,7 +66,8 @@ void map_loop(unsigned x, unsigned y, Map &map)
             print_format(0, 240 - 8, "%u fps", 32768 / (last_frame - frame_stamp));
             last_frame = frame_stamp;
             lcd_vsync();
-            buffer_swap();
+            buffer_swap_render();
+            buffer_swap_screen();
         }
 
         // Frame limiting
