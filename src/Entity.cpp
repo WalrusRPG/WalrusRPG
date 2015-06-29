@@ -18,6 +18,8 @@ ENTITY::~Entity()
 
 void ENTITY::render(Camera &camera, unsigned dt) const
 {
+    UNUSED(dt);
+
     if (camera.is_visible(coords))
     {
         tset->render(sprite_id, RECT(coords.x - camera.get_x(), coords.y - camera.get_y()));

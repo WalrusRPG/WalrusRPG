@@ -28,6 +28,7 @@ MAP::~Map()
 void MAP::update(unsigned dt)
 {
     // TODO update map's data according to elasped time
+    UNUSED(dt);
 }
 
 void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
