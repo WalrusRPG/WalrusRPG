@@ -10,6 +10,7 @@
 #include "misc.h"
 #include "sprites.h"
 #include "version.h"
+#include "Interrupts.h"
 
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
@@ -65,9 +66,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
             unsigned frame_stamp = timer_read(0);
             print_format(0, 240 - 8, "%u fps", 32768 / (last_frame - frame_stamp));
             last_frame = frame_stamp;
-            lcd_vsync();
             buffer_swap_render();
-            buffer_swap_screen();
         }
 
         // Frame limiting
@@ -84,6 +83,7 @@ int main(int argc, char *argv[])
 
     buffer_allocate();
     timer_init(0);
+    WalrusRPG::Interrupts::init();
 
     unsigned dungeonTest[] = {
         21, 21, 1, 1, 1, 1, 21, 22, 21, 22, 21, 22, 21, 21, 1, 22, 21, 1, 22, 22,
@@ -141,6 +141,7 @@ int main(int argc, char *argv[])
     map.anim.add_animation(22, {stripe22, true});
     map_loop(0, 0, map);
 
+    WalrusRPG::Interrupts::off();
     timer_restore(0);
     buffer_free();
     return 0;

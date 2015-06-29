@@ -23,6 +23,7 @@ namespace WalrusRPG
 	 */
 
         void lcd_vsync();
+        void vsync_isr();
 
 
         /*

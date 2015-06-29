@@ -10,6 +10,8 @@ volatile unsigned *lcd_ris = (unsigned *) (LCD_CONTROLLER + 0x20);
 volatile unsigned *lcd_icr = (unsigned *) (LCD_CONTROLLER + 0x28);
 volatile unsigned *lcd_control = (unsigned *) (LCD_CONTROLLER + 0x18);
 unsigned lcd_control_bkp;
+volatile unsigned *lcd_imsc = (unsigned *) (LCD_CONTROLLER + 0x1C);
+unsigned lcd_imsc_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
 unsigned short *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL, *buffer_os;
@@ -41,6 +43,8 @@ void GRAPHICS::buffer_allocate()
     lcd_control_bkp = *lcd_control;
     *lcd_control &= ~(0b11 << 12);
     *lcd_control |= 0b11 << 12;
+    lcd_imsc_bkp = *lcd_imsc;
+    *lcd_imsc = 1 << 3;
 }
 
 void GRAPHICS::buffer_free()
@@ -52,6 +56,7 @@ void GRAPHICS::buffer_free()
     *lcd_base = (unsigned) buffer_os;
 
     *lcd_control = lcd_control_bkp;
+    *lcd_imsc = lcd_imsc_bkp;
 }
 
 void GRAPHICS::buffer_swap_screen()
@@ -93,6 +98,12 @@ void GRAPHICS::lcd_vsync()
     *lcd_icr = 1 << 3;
     while (!(*lcd_ris & (1 << 3)))
         ;
+}
+
+void GRAPHICS::vsync_isr()
+{
+    buffer_swap_screen();
+    *lcd_icr = 1 << 3;
 }
 
 
