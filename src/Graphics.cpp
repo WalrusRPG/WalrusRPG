@@ -13,6 +13,7 @@ unsigned lcd_control_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
 unsigned short *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL, *buffer_os;
+bool buffer_swap_ready;
 
 /*
  * Buffer management
@@ -34,6 +35,7 @@ void GRAPHICS::buffer_allocate()
 
     buffer_os = (unsigned short *) *lcd_base;
     *lcd_base = (unsigned) buffer_screen;
+    buffer_swap_ready = false;
 
     // Set up the controller in order to use vsync signals
     lcd_control_bkp = *lcd_control;
@@ -54,11 +56,15 @@ void GRAPHICS::buffer_free()
 
 void GRAPHICS::buffer_swap_screen()
 {
-    unsigned short *buffer_screen_tmp = buffer_screen;
-    buffer_screen = buffer_ready;
-    buffer_ready = buffer_screen_tmp;
+    if (buffer_swap_ready)
+    {
+        unsigned short *buffer_screen_tmp = buffer_screen;
+        buffer_screen = buffer_ready;
+        buffer_ready = buffer_screen_tmp;
 
-    *lcd_base = (unsigned) buffer_screen;
+        *lcd_base = (unsigned) buffer_screen;
+        buffer_swap_ready = false;
+    }
 }
 
 void GRAPHICS::buffer_swap_render()
@@ -66,6 +72,7 @@ void GRAPHICS::buffer_swap_render()
     unsigned short *buffer_ready_tmp = buffer_ready;
     buffer_ready = buffer_render;
     buffer_render = buffer_ready_tmp;
+    buffer_swap_ready = true;
 }
 
 void GRAPHICS::buffer_fill(unsigned color)
