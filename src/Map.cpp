@@ -10,8 +10,7 @@
 #define RECT WalrusRPG::Utils::Rect
 #define TILERENDERER WalrusRPG::TileRenderer
 
-MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1)
-    : anim()
+MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1) : anim()
 {
     this->renderer = new TileRenderer(overworld, 16, 16);
     this->width = width;
@@ -37,7 +36,8 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
     signed t_width = renderer->get_tile_width();
     signed t_height = renderer->get_tile_height();
     // By Eiyeron : I assumed that the camera's position is the top left pixel.
-    // Margins moves the rendered map if we go outside of the bounds (specially on the left or on the top).
+    // Margins moves the rendered map if we go outside of the bounds (specially on the
+    // left or on the top).
     signed offset_x = camera.get_x() % t_width * -1;
     signed offset_y = camera.get_y() % t_height * -1;
     signed start_x = camera.get_x() / t_width;
@@ -46,7 +46,8 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
     signed end_y = start_y + 240 / t_height + 1;
 
     // Bound-checking code. To avoid reading outside of the map.
-    // The offset edition allows the map to be correctly moved to the right to make up for the lack of renderable tiles.
+    // The offset edition allows the map to be correctly moved to the right to make up for
+    // the lack of renderable tiles.
     if (start_x < 0)
     {
         offset_x -= start_x * t_width;
@@ -82,14 +83,16 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
             unsigned index = (start_x + i) + (start_y + j) * this->width;
             unsigned tile_over = anim.get_animation_frame(this->layer0[index]);
             if (tile_over != 0)
-                renderer->render(tile_over, RECT(offset_x + i * t_width, offset_y + j * t_height));
+                renderer->render(tile_over,
+                                 RECT(offset_x + i * t_width, offset_y + j * t_height));
 
             // layer1 : Over-layer
             if (this->layer1 == NULL)
                 continue;
             tile_over = anim.get_animation_frame(this->layer1[index]);
             if (tile_over != 0)
-                renderer->render(anim.get_animation_frame(tile_over), RECT(offset_x + i * t_width, offset_y + j * t_height));
+                renderer->render(anim.get_animation_frame(tile_over),
+                                 RECT(offset_x + i * t_width, offset_y + j * t_height));
         }
     }
 }

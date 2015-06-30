@@ -7,8 +7,7 @@
 #define GRAPHICS WalrusRPG::Graphics
 #define RECT WalrusRPG::Utils::Rect
 
-SPRITERENDERER::SpriteRenderer(unsigned short *_tilesheet)
-    : tilesheet(_tilesheet)
+SPRITERENDERER::SpriteRenderer(unsigned short *_tilesheet) : tilesheet(_tilesheet)
 {
 }
 

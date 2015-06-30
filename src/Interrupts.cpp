@@ -31,18 +31,22 @@ void INTERRUPTS::init()
 
     // Enable IRQ in the CPU
     asm("mrs r1, cpsr \n\t"
-            "bic r1, r1, #0x80 \n\t"
-            "msr cpsr, r1"
-            : : : "r1");
+        "bic r1, r1, #0x80 \n\t"
+        "msr cpsr, r1"
+        :
+        :
+        : "r1");
 }
 
 void INTERRUPTS::off()
 {
     // Disable IRQ in the CPU
     asm("mrs r1, cpsr \n\t"
-            "orr r1, r1, #0x80 \n\t"
-            "msr cpsr, r1"
-            : : : "r1");
+        "orr r1, r1, #0x80 \n\t"
+        "msr cpsr, r1"
+        :
+        :
+        : "r1");
 
     *interrupt_select = interrupt_select_bkp;
 

@@ -8,8 +8,8 @@ namespace WalrusRPG
     namespace Graphics
     {
         /*
-	 * Pixel structure
-	 */
+         * Pixel structure
+         */
         class Pixel
         {
             union

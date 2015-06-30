@@ -2,13 +2,11 @@
 
 #define PIXEL WalrusRPG::Graphics::Pixel
 
-PIXEL::Pixel(std::uint16_t color)
-    : value(color)
+PIXEL::Pixel(std::uint16_t color) : value(color)
 {
 }
 
-PIXEL::Pixel(Pixel &pix)
-    : value((std::uint8_t) pix)
+PIXEL::Pixel(Pixel &pix) : value((std::uint8_t) pix)
 {
 }
 
@@ -28,7 +26,8 @@ PIXEL &PIXEL::operator=(unsigned value)
     return *this;
 }
 
-#define CONST_COLOR(color, r, g, b) const WalrusRPG::Graphics::Pixel WalrusRPG::Graphics::color(r, g, b)
+#define CONST_COLOR(color, r, g, b) \
+    const WalrusRPG::Graphics::Pixel WalrusRPG::Graphics::color(r, g, b)
 CONST_COLOR(Black, 0, 0, 0);
 CONST_COLOR(White, 255, 255, 255);
 CONST_COLOR(Red, 255, 0, 0);

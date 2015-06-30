@@ -14,7 +14,8 @@ volatile unsigned *lcd_imsc = (unsigned *) (LCD_CONTROLLER + 0x1C);
 unsigned lcd_imsc_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
-unsigned short *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL, *buffer_os;
+unsigned short *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL,
+               *buffer_os;
 bool buffer_swap_ready;
 
 /*
@@ -116,7 +117,8 @@ void GRAPHICS::draw_pixel(unsigned x, unsigned y, unsigned short color)
     buffer_render[x + (y * 320)] = color;
 }
 
-void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y, const WalrusRPG::Utils::Rect &window)
+void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y,
+                                 const WalrusRPG::Utils::Rect &window)
 {
     unsigned short color;
     int w = min(window.width + x, 320);
@@ -138,7 +140,8 @@ void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y, cons
  * Sprite manipulation
  */
 
-unsigned short GRAPHICS::sprite_pixel_get(const unsigned short *sprite, unsigned x, unsigned y)
+unsigned short GRAPHICS::sprite_pixel_get(const unsigned short *sprite, unsigned x,
+                                          unsigned y)
 {
     if (x < sprite[0] && y < sprite[1])
         return sprite[x + (y * sprite[0]) + 3];

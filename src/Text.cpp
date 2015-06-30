@@ -36,8 +36,7 @@ void TEXT::print_string(const std::string &str, unsigned x, unsigned y)
 
 void TEXT::print_format(unsigned x, unsigned y, const char *format, ...)
 {
-    char buffer[256] =
-        "";
+    char buffer[256] = "";
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, 256, format, args);

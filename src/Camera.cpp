@@ -23,10 +23,11 @@ void CAMERA::update(unsigned dt)
     UNUSED(dt);
     // TODO update map's data according to elasped time
     /*
-		// Need to think aagain on how to go to a target point and/or we need to align the corner OR the center to this point.
-		position += velocity * dt;
-		velocity += acceleration * dt;
-	 */
+                // Need to think aagain on how to go to a target point and/or we need to
+       align the corner OR the center to this point.
+                position += velocity * dt;
+                velocity += acceleration * dt;
+         */
 
     if (isKeyPressed(KEY_NSPIRE_5))
         y++;
@@ -60,8 +61,12 @@ signed CAMERA::get_y() const
 
 bool CAMERA::is_visible(const WalrusRPG::Utils::Rect &object) const
 {
-    if ((in_range(object.x, x, x + (signed) render_area_width) || in_range(object.x + (signed) object.width - 1, x, x + (signed) render_area_width))
-        && (in_range(object.y, y, y + (signed) render_area_height) || in_range(object.y + (signed) object.height - 1, y, y + (signed) render_area_height)))
+    if ((in_range(object.x, x, x + (signed) render_area_width) ||
+         in_range(object.x + (signed) object.width - 1, x,
+                  x + (signed) render_area_width)) &&
+        (in_range(object.y, y, y + (signed) render_area_height) ||
+         in_range(object.y + (signed) object.height - 1, y,
+                  y + (signed) render_area_height)))
     {
         return true;
     }

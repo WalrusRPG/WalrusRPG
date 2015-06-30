@@ -14,7 +14,8 @@ namespace WalrusRPG
         unsigned tile_height;
 
       public:
-        TileRenderer(unsigned short *tilesheet, unsigned tile_width, unsigned tile_height);
+        TileRenderer(unsigned short *tilesheet, unsigned tile_width,
+                     unsigned tile_height);
         void render(const unsigned id, const WalrusRPG::Utils::Rect &rect);
 
         int get_tile_width() const;
