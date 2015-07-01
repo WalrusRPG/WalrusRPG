@@ -1,6 +1,7 @@
 #ifndef INCLUDE_MAP_H
 #define INCLUDE_MAP_H
 
+#include <stdint.h>
 #include "Camera.h"
 #include "Entity.h"
 #include "TileRenderer.h"
@@ -18,12 +19,12 @@ namespace WalrusRPG
         // <Tileset> tileset;
         unsigned int width;
         unsigned int height;
-        unsigned *layer0;
-        unsigned *layer1;
+        uint16_t *layer0;
+        uint16_t *layer1;
         TileRenderer *renderer;
         // TODO?: add a boolean/getter to know if a second layer exist?
       public:
-        Map(int width, int height, unsigned *layer0, unsigned *layer1);
+        Map(int width, int height, uint16_t *layer0, uint16_t *layer1);
         ~Map();
         void render(Camera &camera, unsigned dt);
         void update(unsigned dt);

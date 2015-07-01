@@ -10,7 +10,7 @@
 #define RECT WalrusRPG::Utils::Rect
 #define TILERENDERER WalrusRPG::TileRenderer
 
-MAP::Map(int width, int height, unsigned *layer0, unsigned *layer1) : anim()
+MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1) : anim()
 {
     this->renderer = new TileRenderer(overworld, 16, 16);
     this->width = width;
