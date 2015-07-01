@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstdarg>
 #include <os.h>
-#include "timers.h"
+#include "Timers.h"
 #include "Graphics.h"
 #include "Pixel.h"
 #include "Map.h"
@@ -29,8 +29,8 @@ void print_debug_map_data(const Map &map)
 void map_loop(unsigned x, unsigned y, Map &map)
 {
     // Free-running, no interrupts, divider = 1, 32 bit, wrapping
-    timer_mode(0, 0b0000010);
-    timer_load(0, 0);
+    WalrusRPG::Timers::mode(0, true, false, false, 1, true);
+    WalrusRPG::Timers::load(0, 0);
     unsigned loop_time = 546; // 32768Hz/60ups
     unsigned loop_next = -loop_time;
     unsigned last_frame = 0;
@@ -50,7 +50,7 @@ void map_loop(unsigned x, unsigned y, Map &map)
         camera.update(0);
 
         // Frameskip
-        if (timer_read(0) > loop_next)
+        if (WalrusRPG::Timers::read(0) > loop_next)
         {
             Pixel pix(Green);
             // TODO?: Preset color macros/consts?
@@ -61,14 +61,14 @@ void map_loop(unsigned x, unsigned y, Map &map)
 
             print_debug_camera_data(camera);
             print_debug_map_data(map);
-            unsigned frame_stamp = timer_read(0);
+            unsigned frame_stamp = WalrusRPG::Timers::read(0);
             print_format(0, 240 - 8, "%u fps", 32768 / (last_frame - frame_stamp));
             last_frame = frame_stamp;
             buffer_swap_render();
         }
 
         // Frame limiting
-        while (timer_read(0) > loop_next)
+        while (WalrusRPG::Timers::read(0) > loop_next)
             ;
         loop_next -= loop_time;
     }
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
     UNUSED(argv);
 
     buffer_allocate();
-    timer_init(0);
+    WalrusRPG::Timers::init(0);
     WalrusRPG::Interrupts::init();
 
     unsigned dungeonTest[] = {
@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
     map_loop(0, 0, map);
 
     WalrusRPG::Interrupts::off();
-    timer_restore(0);
+    WalrusRPG::Timers::restore(0);
     buffer_free();
     return 0;
 }
