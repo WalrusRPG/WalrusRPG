@@ -13,24 +13,22 @@
 #include "Interrupts.h"
 
 using namespace WalrusRPG;
-using namespace WalrusRPG::Graphics;
-using namespace WalrusRPG::Graphics::Text;
 
 void print_debug_camera_data(const Camera &camera)
 {
-    print_format(0, 8, "CAM : X : %d Y: %d", camera.get_x(), camera.get_y());
+    Graphics::Text::print_format(0, 8, "CAM : X : %d Y: %d", camera.get_x(), camera.get_y());
 }
 
 void print_debug_map_data(const Map &map)
 {
-    print_format(0, 16, "MAP : W: %d, H:%d", map.get_width(), map.get_height());
+    Graphics::Text::print_format(0, 16, "MAP : W: %d, H:%d", map.get_width(), map.get_height());
 }
 
 void map_loop(unsigned x, unsigned y, Map &map)
 {
     // Free-running, no interrupts, divider = 1, 32 bit, wrapping
-    WalrusRPG::Timers::mode(0, true, false, false, 1, true);
-    WalrusRPG::Timers::load(0, 0);
+    Timers::mode(0, true, false, false, 1, true);
+    Timers::load(0, 0);
     unsigned loop_time = 546; // 32768Hz/60ups
     unsigned loop_next = -loop_time;
     unsigned last_frame = 0;
@@ -50,25 +48,25 @@ void map_loop(unsigned x, unsigned y, Map &map)
         camera.update(0);
 
         // Frameskip
-        if (WalrusRPG::Timers::read(0) > loop_next)
+        if (Timers::read(0) > loop_next)
         {
-            Pixel pix(Green);
+            Graphics::Pixel pix(Graphics::Green);
             // TODO?: Preset color macros/consts?
-            buffer_fill(pix);
+            Graphics::buffer_fill(pix);
             map.render(camera, 1);
             test_char.render(camera, 1);
-            print_format(0, 0, "WalrusRPG test build %s", git_version);
+            Graphics::Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
 
             print_debug_camera_data(camera);
             print_debug_map_data(map);
-            unsigned frame_stamp = WalrusRPG::Timers::read(0);
-            print_format(0, 240 - 8, "%u fps", 32768 / (last_frame - frame_stamp));
+            unsigned frame_stamp = Timers::read(0);
+            Graphics::Text::print_format(0, 240 - 8, "%u fps", 32768 / (last_frame - frame_stamp));
             last_frame = frame_stamp;
-            buffer_swap_render();
+            Graphics::buffer_swap_render();
         }
 
         // Frame limiting
-        while (WalrusRPG::Timers::read(0) > loop_next)
+        while (Timers::read(0) > loop_next)
             ;
         loop_next -= loop_time;
     }
@@ -79,9 +77,9 @@ int main(int argc, char *argv[])
     UNUSED(argc);
     UNUSED(argv);
 
-    buffer_allocate();
-    WalrusRPG::Timers::init(0);
-    WalrusRPG::Interrupts::init();
+    Graphics::buffer_allocate();
+    Timers::init(0);
+    Interrupts::init();
 
     uint16_t dungeonTest[] = {
         21, 21,  1,   1,   1,   1,   21,  22,  21,  22, 21,  22,  21,  21,  1,   22,  21,
@@ -143,8 +141,8 @@ int main(int argc, char *argv[])
     map.anim.add_animation(22, {stripe22, true});
     map_loop(0, 0, map);
 
-    WalrusRPG::Interrupts::off();
-    WalrusRPG::Timers::restore(0);
-    buffer_free();
+    Interrupts::off();
+    Timers::restore(0);
+    Graphics::buffer_free();
     return 0;
 }
