@@ -9,5 +9,7 @@ art/*.cspr
 src/version.c
 include/version.h
 
+.ycm_extra_conf.pyc
+
 # Atom editor files
 .atom-build.json
