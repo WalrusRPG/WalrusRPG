@@ -10,6 +10,7 @@ namespace WalrusRPG
         class State
         {
           public:
+            virtual ~State(){};
             virtual void update(unsigned dt) = 0;
             virtual void render(unsigned dt) = 0;
         };

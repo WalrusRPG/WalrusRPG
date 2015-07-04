@@ -11,42 +11,9 @@
 #include "version.h"
 #include "Interrupts.h"
 #include "StateMap.h"
+#include "StateMachine.h"
 
 using namespace WalrusRPG;
-
-void map_loop(unsigned x, unsigned y, Map &map)
-{
-    // Free-running, no interrupts, divider = 1, 32 bit, wrapping
-    Timers::mode(0, true, false, false, 1, true);
-    Timers::load(0, 0);
-    unsigned loop_time = 546; // 32768Hz/60ups
-    unsigned loop_next = -loop_time;
-
-    unsigned keep_running = 1;
-
-    States::StateMap statemap(x, y, map);
-
-    while (keep_running)
-    {
-        if (isKeyPressed(KEY_NSPIRE_ESC))
-            keep_running = 0;
-
-        statemap.update(1);
-
-        // Frameskip
-        if (Timers::read(0) > loop_next)
-        {
-            statemap.render(1);
-            Graphics::Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
-            Graphics::buffer_swap_render();
-        }
-
-        // Frame limiting
-        while (Timers::read(0) > loop_next)
-            ;
-        loop_next -= loop_time;
-    }
-}
 
 int main(int argc, char *argv[])
 {
@@ -115,7 +82,9 @@ int main(int argc, char *argv[])
     stripe22.push_back({21, 41});
     map.anim.add_animation(21, {stripe21, true});
     map.anim.add_animation(22, {stripe22, true});
-    map_loop(0, 0, map);
+
+    StateMachine machine(new States::StateMap(0, 0, map));
+    machine.run();
 
     Interrupts::off();
     Timers::restore(0);
