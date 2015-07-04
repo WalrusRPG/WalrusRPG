@@ -29,6 +29,7 @@ namespace
 
 ANIMATOR::Animator()
 {
+    elapsed_time = 0;
 }
 
 void ANIMATOR::add_animation(int index, Animation anim)
