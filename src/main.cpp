@@ -1,14 +1,8 @@
-#include <cstdio>
-#include <cstdarg>
 #include <os.h>
 #include "Timers.h"
 #include "Graphics.h"
-#include "Pixel.h"
 #include "Map.h"
-#include "Text.h"
 #include "misc.h"
-#include "sprites.h"
-#include "version.h"
 #include "Interrupts.h"
 #include "StateMap.h"
 #include "StateMachine.h"
