@@ -5,24 +5,14 @@
 #include "Graphics.h"
 #include "Pixel.h"
 #include "Map.h"
-#include "Camera.h"
 #include "Text.h"
 #include "misc.h"
 #include "sprites.h"
 #include "version.h"
 #include "Interrupts.h"
+#include "StateMap.h"
 
 using namespace WalrusRPG;
-
-void print_debug_camera_data(const Camera &camera)
-{
-    Graphics::Text::print_format(0, 8, "CAM : X : %d Y: %d", camera.get_x(), camera.get_y());
-}
-
-void print_debug_map_data(const Map &map)
-{
-    Graphics::Text::print_format(0, 16, "MAP : W: %d, H:%d", map.get_width(), map.get_height());
-}
 
 void map_loop(unsigned x, unsigned y, Map &map)
 {
@@ -31,37 +21,23 @@ void map_loop(unsigned x, unsigned y, Map &map)
     Timers::load(0, 0);
     unsigned loop_time = 546; // 32768Hz/60ups
     unsigned loop_next = -loop_time;
-    unsigned last_frame = 0;
 
     unsigned keep_running = 1;
-    Camera camera((signed) x, (signed) y);
 
-    // Tileset asdf(better_character, 9, 16);
-    TileRenderer asdf(better_character, 9, 16);
-    Entity test_char(115, 90, 9, 16, &asdf, 0);
+    States::StateMap statemap(x, y, map);
 
     while (keep_running)
     {
         if (isKeyPressed(KEY_NSPIRE_ESC))
             keep_running = 0;
 
-        camera.update(0);
+        statemap.update(1);
 
         // Frameskip
         if (Timers::read(0) > loop_next)
         {
-            Graphics::Pixel pix(Graphics::Green);
-            // TODO?: Preset color macros/consts?
-            Graphics::buffer_fill(pix);
-            map.render(camera, 1);
-            test_char.render(camera, 1);
+            statemap.render(1);
             Graphics::Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
-
-            print_debug_camera_data(camera);
-            print_debug_map_data(map);
-            unsigned frame_stamp = Timers::read(0);
-            Graphics::Text::print_format(0, 240 - 8, "%u fps", 32768 / (last_frame - frame_stamp));
-            last_frame = frame_stamp;
             Graphics::buffer_swap_render();
         }
 
