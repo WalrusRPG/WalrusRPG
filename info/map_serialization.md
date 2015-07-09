@@ -1,4 +1,4 @@
-```
+```markdown
 MAP_MAGIC_HEADER : 'WRPG_MAP'    <=> 8 bytes
 MAP_WIDTH        : unsigned int  <=> 4 bytes
 MAP_HEIGHT       : unsigned int  <=> 4 bytes
@@ -15,7 +15,7 @@ Size for a map of n*m * l layers = 24 bytes + up to n*m*l*4 bytes
 ```
 
 Loader draft:
-```
+```c++
 struct Map_Data {
     char magic_string[8];
     unsigned width : 4;
