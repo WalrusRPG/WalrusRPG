@@ -4,14 +4,11 @@ all: $(EXE)
 
 include $(wildcard */rules.mk)
 
-versionning:
-	@bash versionning.bash
-
-%.o: %.c | versionning
+%.o: %.c
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: %.cpp | art/sprites.h versionning
+%.o: %.cpp | art/sprites.h
 	@echo "CPP: $@"
 	@$(CPP) $(CPPFLAGS) -c $< -o $@
 
@@ -40,3 +37,5 @@ format:
 run: all
 	@echo "Sending $(EXE) to calculator"
 	@tilp -ns $(EXE) > /dev/null
+
+.FORCE:
