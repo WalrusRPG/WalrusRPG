@@ -5,6 +5,7 @@ art_SPR_DATA := $(patsubst %.png,%.cspr,$(art_SPRITES))
 
 SRCS_C += $(art_LOCAL_PATH)/sprites.c
 INCLUDE += $(art_LOCAL_PATH)
+BUILT_SRCS += $(art_LOCAL_PATH)/sprites.h
 
 CLEAN_SPEC += $(art_SPR_DATA) $(art_LOCAL_PATH)/sprites.c $(art_LOCAL_PATH)/sprites.h
 

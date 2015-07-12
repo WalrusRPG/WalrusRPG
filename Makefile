@@ -25,6 +25,7 @@ SRCS_C :=
 SRCS_CPP :=
 OBJS = $(SRCS_C:%.c=%.o) $(SRCS_CPP:%.cpp=%.o)
 INCLUDE :=
+BUILT_SRCS :=
 
 DISTDIR = bin
 ELF = $(DISTDIR)/$(NAME).elf

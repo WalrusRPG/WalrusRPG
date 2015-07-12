@@ -4,11 +4,11 @@ all: $(EXE)
 
 include $(wildcard */rules.mk)
 
-%.o: %.c
+%.o: %.c | $(BUILT_SRCS)
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: %.cpp | art/sprites.h
+%.o: %.cpp | $(BUILT_SRCS)
 	@echo "CPP: $@"
 	@$(CPP) $(CPPFLAGS) -c $< -o $@
 
