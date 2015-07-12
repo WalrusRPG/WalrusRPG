@@ -25,9 +25,9 @@ if [[ $? -ne 0 ]]
   echo "Updating version source"
   echo "$source" > src/version.c
 fi
-diff include/version.h <(echo "$include") > /dev/null 2>&1
+diff src/version.h <(echo "$include") > /dev/null 2>&1
 if [[ $? -ne 0 ]]
   then
   echo "Updating version include"
-  echo "$include" > include/version.h
+  echo "$include" > src/version.h
 fi

@@ -2,7 +2,7 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W -marm -fdiagnostics-color=always
+CFLAGS_COMMON = -Wall -W -marm $(addprefix -I,$(INCLUDE))
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto
@@ -21,55 +21,27 @@ LDFLAGS = $(CFLAGS_COMMON) -Wl,--gc-sections
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)" --compress
 
-SRCDIR = src
-
-SOURCES_C = art/sprites.c src/version.c $(wildcard $(SRCDIR)/*.c)
-SOURCES_CPP = $(wildcard $(SRCDIR)/*.cpp)
-OBJS = $(patsubst %.c,%.o,$(SOURCES_C)) $(patsubst %.cpp,%.o,$(SOURCES_CPP))
-INCLUDE = -I include -I art -I external/tinystl/include
+SRCS_C :=
+SRCS_CPP :=
+OBJS = $(SRCS_C:%.c=%.o) $(SRCS_CPP:%.cpp=%.o)
+INCLUDE :=
 
 DISTDIR = bin
 ELF = $(DISTDIR)/$(NAME).elf
 EXE = $(DISTDIR)/$(NAME).tns
 
-all: versionning sprites $(EXE)
+CLEAN_SPEC :=
 
-.PHONY: format clean sprites all run versionning
+# Figure out where we are.
+define whereami
+$(strip \
+  $(eval LOCAL_MODULE_MAKEFILE := $$(lastword $$(MAKEFILE_LIST))) \
+  $(if $(filter $(BUILD_SYSTEM)/% $(OUT_DIR)/%,$(LOCAL_MODULE_MAKEFILE)), \
+    $(error my-dir must be called before including any other makefile.) \
+   , \
+    $(patsubst %/,%,$(dir $(LOCAL_MODULE_MAKEFILE))) \
+   ) \
+ )
+endef
 
-versionning:
-	@bash versionning.bash
-
-sprites:
-	@$(MAKE) -C art/
-
-art/sprites.c: sprites
-
-%.o: %.c| sprites versionning
-	@echo "CC: $@"
-	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-
-%.o: %.cpp| sprites versionning
-	@echo "CPP: $@"
-	@$(CPP) $(CPPFLAGS) $(INCLUDE) -c $< -o $@
-
-
-$(ELF): $(OBJS) |sprites
-	@mkdir -p $(DISTDIR)
-	@echo "CCLD: $@"
-	@+$(CC) $(LDFLAGS) $^ -o $(ELF)
-
-$(EXE): $(ELF)
-	@mkdir -p $(DISTDIR)
-	@echo "ZEHN: $@"
-	@$(ZEHN) --input $(ELF) --output $(EXE) $(ZEHNFLAGS)
-
-clean:
-	rm -rf $(DISTDIR)
-	rm -f $(OBJS)
-	@$(MAKE) -C art/ clean
-
-format:
-	clang-format -i -style=file src/*.c src/*.cpp include/*.h
-
-run: all
-	tilp -ns $(EXE) > /dev/null
+include rules.mk

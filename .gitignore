@@ -7,7 +7,7 @@ art/sprites.c
 art/sprites.h
 art/*.cspr
 src/version.c
-include/version.h
+src/version.h
 
 .ycm_extra_conf.pyc
 
