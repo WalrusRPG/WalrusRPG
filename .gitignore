@@ -3,9 +3,6 @@
 bin
 *.elf
 *.gdb
-art/sprites.c
-art/sprites.h
-art/*.cspr
 
 .ycm_extra_conf.pyc
 
