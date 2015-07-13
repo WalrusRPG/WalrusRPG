@@ -15,9 +15,9 @@ CLEAN_SPEC += $(art_SPR_DATA) $(art_LOCAL_PATH)/sprites.c $(art_LOCAL_PATH)/spri
 
 $(art_LOCAL_PATH)/sprites.c: $(art_SPR_DATA)
 	@echo "Catting sprites into sprites.c"
-	@rm -f sprites.c
-	@cat $^ | sed "s/^static uint16_t/unsigned short/" >> $(art_LOCAL_PATH)/sprites.c
+	@rm -f $@
+	@cat $^ | sed "s/^static uint16_t/unsigned short/" >> $@
 
 $(art_LOCAL_PATH)/sprites.h: $(art_LOCAL_PATH)/sprites.c
 	@echo "Making header sprites.h"
-	@cat $(art_LOCAL_PATH)/sprites.c | grep "=" | sed -e "s/ =.*/;/" -e "s/^/extern /" > $(art_LOCAL_PATH)/sprites.h
+	@cat $< | grep "=" | sed -e "s/ =.*/;/" -e "s/^/extern /" > $@
