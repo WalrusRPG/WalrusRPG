@@ -56,7 +56,7 @@ void STATEMACHINE::run()
 
             Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
             Text::print_format(0, 240 - 8, "%ufps, %uups", 32768 / frame_time,
-                                         32768 / update_time);
+                               32768 / update_time);
             Graphics::buffer_swap_render();
         }
 
