@@ -1,10 +1,10 @@
 #ifndef INCLUDE_ENTITY_H
 #define INCLUDE_ENTITY_H
 
-#include "Rect.h"
-#include "Camera.h"
-#include "Renderer.h"
-#include "TileRenderer.h"
+#include "../utility/Rect.h"
+#include "../render/Camera.h"
+#include "../render/Renderer.h"
+#include "../render/TileRenderer.h"
 
 namespace WalrusRPG
 {

@@ -1,10 +1,10 @@
 #include <os.h>
-#include "Timers.h"
-#include "Graphics.h"
-#include "Map.h"
-#include "misc.h"
-#include "Interrupts.h"
-#include "StateMap.h"
+#include "../drivers/Timers.h"
+#include "../drivers/Graphics.h"
+#include "../map/Map.h"
+#include "../utility/misc.h"
+#include "../drivers/Interrupts.h"
+#include "../map/StateMap.h"
 #include "StateMachine.h"
 
 using namespace WalrusRPG;

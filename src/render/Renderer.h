@@ -1,7 +1,7 @@
 #ifndef INCLUDE_RENDERER_H
 #define INCLUDE_RENDERER_H
 
-#include "Rect.h"
+#include "../utility/Rect.h"
 
 namespace WalrusRPG
 {

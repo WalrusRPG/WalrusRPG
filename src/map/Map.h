@@ -2,10 +2,10 @@
 #define INCLUDE_MAP_H
 
 #include <stdint.h>
-#include "Camera.h"
-#include "Entity.h"
-#include "TileRenderer.h"
-#include "Animator.h"
+#include "../render/Camera.h"
+#include "../map/Entity.h"
+#include "../render/TileRenderer.h"
+#include "../render/Animator.h"
 
 namespace WalrusRPG
 {

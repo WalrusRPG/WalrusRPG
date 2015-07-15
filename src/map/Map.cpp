@@ -1,14 +1,14 @@
 #include "Map.h"
-#include "Camera.h"
-#include "Graphics.h"
-#include "sprites.h"
-#include "Rect.h"
-#include "TileRenderer.h"
-#include "misc.h"
+#include "../render/Camera.h"
+#include "../drivers/Graphics.h"
+#include <sprites.h>
+#include "../utility/Rect.h"
+#include "../render/TileRenderer.h"
+#include "../utility/misc.h"
 
 #define MAP WalrusRPG::Map
-#define RECT WalrusRPG::Utils::Rect
-#define TILERENDERER WalrusRPG::TileRenderer
+using namespace WalrusRPG;
+using namespace WalrusRPG::Utils;
 
 MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1) : anim()
 {
@@ -84,15 +84,15 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
             unsigned tile_over = anim.get_animation_frame(this->layer0[index]);
             if (tile_over != 0)
                 renderer->render(tile_over,
-                                 RECT(offset_x + i * t_width, offset_y + j * t_height));
+                                 Rect(offset_x + i * t_width, offset_y + j * t_height));
 
             // layer1 : Over-layer
-            if (this->layer1 == NULL)
+            if (this->layer1 == nullptr)
                 continue;
             tile_over = anim.get_animation_frame(this->layer1[index]);
             if (tile_over != 0)
                 renderer->render(anim.get_animation_frame(tile_over),
-                                 RECT(offset_x + i * t_width, offset_y + j * t_height));
+                                 Rect(offset_x + i * t_width, offset_y + j * t_height));
         }
     }
 }

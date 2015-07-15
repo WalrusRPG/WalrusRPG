@@ -1,10 +1,10 @@
 #include "Animator.h"
-#include "Graphics.h"
-#include "Rect.h"
+#include "../drivers/Graphics.h"
+#include "../utility/Rect.h"
 
 #define ANIMATOR WalrusRPG::Animator
-#define FRAME WalrusRPG::Frame
-#define UTILS WalrusRPG::Utils
+
+using namespace WalrusRPG;
 
 namespace
 {

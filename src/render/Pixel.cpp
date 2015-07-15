@@ -1,4 +1,4 @@
-#include <Pixel.h>
+#include "Pixel.h"
 
 #define PIXEL WalrusRPG::Graphics::Pixel
 

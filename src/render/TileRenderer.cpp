@@ -1,10 +1,10 @@
 #include "TileRenderer.h"
-#include "Graphics.h"
-#include "Rect.h"
+#include "../drivers/Graphics.h"
+#include "../utility/Rect.h"
 
-#define GRAPHICS WalrusRPG::Graphics
 #define TILERENDERER WalrusRPG::TileRenderer
-#define RECT WalrusRPG::Utils::Rect
+using namespace WalrusRPG;
+using namespace WalrusRPG::Utils;
 
 TILERENDERER::TileRenderer(unsigned short *_tilesheet, unsigned tile_width,
                            unsigned tile_height)
@@ -12,12 +12,12 @@ TILERENDERER::TileRenderer(unsigned short *_tilesheet, unsigned tile_width,
 {
 }
 
-void TILERENDERER::render(const unsigned id, const RECT &rect)
+void TILERENDERER::render(const unsigned id, const Rect &rect)
 {
     unsigned num_tiles_x = tilesheet[0] / tile_width;
     // unsigned num_tiles_y = sheet_height / tile_height;
-    GRAPHICS::draw_sprite_sheet(tilesheet, rect.x, rect.y,
-                                RECT(tile_width * (id % num_tiles_x),
+    Graphics::draw_sprite_sheet(tilesheet, rect.x, rect.y,
+                                Rect(tile_width * (id % num_tiles_x),
                                      tile_height * (id / num_tiles_x), tile_width,
                                      tile_height));
 }

@@ -1,10 +1,10 @@
 #include "Entity.h"
-#include "misc.h"
-#include "Rect.h"
-#include "Text.h"
+#include "../utility/misc.h"
+#include "../utility/Rect.h"
+#include "../render/Text.h"
 
 #define ENTITY WalrusRPG::Entity
-#define RECT WalrusRPG::Utils::Rect
+using namespace WalrusRPG::Utils;
 
 ENTITY::Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
                unsigned sprite_id)
@@ -24,7 +24,7 @@ void ENTITY::render(Camera &camera, unsigned dt) const
     if (camera.is_visible(coords))
     {
         tset->render(sprite_id,
-                     RECT(coords.x - camera.get_x(), coords.y - camera.get_y()));
+                     Rect(coords.x - camera.get_x(), coords.y - camera.get_y()));
         //(*tset).render_tile(sprite_id, coords.x - camera.get_x(), coords.y -
         // camera.get_y(), dt);
     }

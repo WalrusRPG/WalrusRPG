@@ -1,22 +1,22 @@
-#include "sprites.h"
-#include "Graphics.h"
+#include <sprites.h>
+#include "../drivers/Graphics.h"
 #include "Text.h"
 #include <cstdio>
 #include <cstdarg>
 #include <string>
 
 #define TEXT WalrusRPG::Graphics::Text
-#define GRAPHICS WalrusRPG::Graphics
-#define UTILS WalrusRPG::Utils
+using namespace WalrusRPG::Graphics;
+using namespace WalrusRPG::Utils;
 
 void TEXT::print_char(char c, unsigned x, unsigned y)
 {
-    draw_sprite_sheet(font, x, y, UTILS::Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
+    draw_sprite_sheet(font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
 }
 
 void TEXT::print_string(const char *str, unsigned x, unsigned y)
 {
-    UTILS::Rect rect;
+    Rect rect;
     rect.width = 8;
     rect.height = 8;
     for (unsigned index = 0; str[index]; index++)

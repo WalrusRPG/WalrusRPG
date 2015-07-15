@@ -1,7 +1,7 @@
 #ifndef INCLUDE_STATE_H
 #define INCLUDE_STATE_H
 
-#include "Camera.h"
+#include "../render/Camera.h"
 
 namespace WalrusRPG
 {

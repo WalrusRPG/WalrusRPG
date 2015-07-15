@@ -1,7 +1,7 @@
 #include <os.h>
 #include "Camera.h"
-#include "Entity.h"
-#include "misc.h"
+#include "../map/Entity.h"
+#include "../utility/misc.h"
 
 #define CAMERA WalrusRPG::Camera
 

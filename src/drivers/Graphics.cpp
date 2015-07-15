@@ -1,6 +1,6 @@
 #include <os.h>
-#include <Graphics.h>
-#include <misc.h>
+#include "Graphics.h"
+#include "../utility/misc.h"
 
 #define GRAPHICS WalrusRPG::Graphics
 

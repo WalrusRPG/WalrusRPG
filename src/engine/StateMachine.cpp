@@ -1,13 +1,17 @@
 #include "StateMachine.h"
-#include "Timers.h"
-#include "Graphics.h"
-#include "Text.h"
-#include "version.h"
+#include "../drivers/Timers.h"
+#include "../drivers/Graphics.h"
+#include "../render/Text.h"
+#include "../version/version.h"
 #include <os.h>
+
+using namespace WalrusRPG::Graphics;
+using namespace WalrusRPG::States;
+using namespace WalrusRPG::Timers;
 
 #define STATEMACHINE WalrusRPG::StateMachine
 
-STATEMACHINE::StateMachine(WalrusRPG::States::State *state)
+STATEMACHINE::StateMachine(State *state)
 {
     push(state);
 }
@@ -16,7 +20,7 @@ STATEMACHINE::~StateMachine()
 {
 }
 
-void STATEMACHINE::push(WalrusRPG::States::State *state)
+void STATEMACHINE::push(State *state)
 {
     stack.push_back(state);
 }
@@ -50,8 +54,8 @@ void STATEMACHINE::run()
             stack.back()->render(frame_time);
             last_frame = frame_stamp;
 
-            Graphics::Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
-            Graphics::Text::print_format(0, 240 - 8, "%ufps, %uups", 32768 / frame_time,
+            Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
+            Text::print_format(0, 240 - 8, "%ufps, %uups", 32768 / frame_time,
                                          32768 / update_time);
             Graphics::buffer_swap_render();
         }
