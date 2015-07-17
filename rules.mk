@@ -1,4 +1,4 @@
-.PHONY: format clean all run versionning
+.PHONY: format clean all run versionning include
 
 all: $(EXE)
 
@@ -33,6 +33,9 @@ clean:
 format:
 	@echo "Formatting source using clang-format"
 	@clang-format -i -style=file $(SRCS_C) $(SRCS_CPP) $(wildcard $(addsuffix /*.h,$(INCLUDE)))
+
+include:
+	@echo $(addprefix -I ,$(INCLUDE))
 
 run: all
 	@echo "Sending $(EXE) to calculator"

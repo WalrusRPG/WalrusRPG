@@ -1,5 +1,5 @@
 #include <sprites.h>
-#include "../drivers/Graphics.h"
+#include "drivers/Graphics.h"
 #include "Text.h"
 #include <cstdio>
 #include <cstdarg>

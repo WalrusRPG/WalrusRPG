@@ -1,7 +1,7 @@
 #ifndef INCLUDE_CAMERA_H
 #define INCLUDE_CAMERA_H
 
-#include "../utility/Rect.h"
+#include "utility/Rect.h"
 
 namespace WalrusRPG
 {

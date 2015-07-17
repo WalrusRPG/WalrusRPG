@@ -1,7 +1,7 @@
 #ifndef INCLUDE_STATEMAP_H
 #define INCLUDE_STATEMAP_H
 
-#include "../engine/State.h"
+#include "engine/State.h"
 #include "Map.h"
 
 namespace WalrusRPG

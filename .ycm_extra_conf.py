@@ -30,6 +30,7 @@
 
 import os
 import ycm_core
+import subprocess
 
 # These are the compilation flags that will be used in case there's no
 # compilation database set (by default, one is not set).
@@ -59,16 +60,12 @@ flags = [
 '-x',
 'c++',
 '-isystem',
-os.environ['HOME'] + '/ndless/ndless-sdk/include',
+os.environ['NDLESS_GIT'] + '/ndless-sdk/include',
 '-isystem',
 os.environ['HOME'] + '/.ndless/include',
-'-I',
-'include',
-'-I',
-'art',
-'-I',
-'external/tinystl/include',
 ]
+
+flags += subprocess.check_output(["make", "include"]).split(" ")
 
 
 # Set this to the absolute path to the folder (NOT the file!) containing the

@@ -1,7 +1,7 @@
 #ifndef INCLUDE_GRAPHICS_H
 #define INCLUDE_GRAPHICS_H
 
-#include "../utility/Rect.h"
+#include "utility/Rect.h"
 
 namespace WalrusRPG
 {

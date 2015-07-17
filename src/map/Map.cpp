@@ -1,10 +1,10 @@
 #include "Map.h"
-#include "../render/Camera.h"
-#include "../drivers/Graphics.h"
+#include "render/Camera.h"
+#include "drivers/Graphics.h"
 #include <sprites.h>
-#include "../utility/Rect.h"
-#include "../render/TileRenderer.h"
-#include "../utility/misc.h"
+#include "utility/Rect.h"
+#include "render/TileRenderer.h"
+#include "utility/misc.h"
 
 #define MAP WalrusRPG::Map
 using namespace WalrusRPG;

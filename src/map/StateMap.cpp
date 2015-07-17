@@ -1,9 +1,9 @@
 #include "StateMap.h"
-#include "../utility/misc.h"
-#include "../version/version.h"
-#include "../drivers/Graphics.h"
-#include "../render/Pixel.h"
-#include "../render/Text.h"
+#include "utility/misc.h"
+#include "version.h"
+#include "drivers/Graphics.h"
+#include "render/Pixel.h"
+#include "render/Text.h"
 
 #define STATEMAP WalrusRPG::States::StateMap
 
