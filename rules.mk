@@ -4,31 +4,37 @@ all: $(EXE)
 
 include $(wildcard */rules.mk)
 
+$(OUT)/%.o: %.c | $(BUILT_SRCS)
+	@echo "CC: $@"
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 %.o: %.c | $(BUILT_SRCS)
 	@echo "CC: $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OUT)/%.o: %.cpp | $(BUILT_SRCS)
+	@echo "CPP: $@"
+	@mkdir -p $(dir $@)
+	@$(CPP) $(CPPFLAGS) -c $< -o $@
 
 %.o: %.cpp | $(BUILT_SRCS)
 	@echo "CPP: $@"
 	@$(CPP) $(CPPFLAGS) -c $< -o $@
 
 $(ELF): $(OBJS)
-	@mkdir -p $(DISTDIR)
+	@mkdir -p $(dir $@)
 	@echo "CCLD: $@"
 	@+$(CC) $(LDFLAGS) $^ -o $(ELF)
 
 $(EXE): $(ELF)
-	@mkdir -p $(DISTDIR)
+	@mkdir -p $(dir $@)
 	@echo "ZEHN: $@"
 	@$(ZEHN) --input $(ELF) --output $(EXE) $(ZEHNFLAGS)
 
 clean:
-	@echo "Removing dist"
-	@rm -rf $(DISTDIR)
-	@echo "Removing object files"
-	@rm -f $(OBJS)
-	@echo "Removing other build artifacts"
-	@rm -f $(CLEAN_SPEC)
+	@echo "RM: $(OUT)"
+	@rm -rf $(OUT)
 
 format:
 	@echo "Formatting source using clang-format"
@@ -38,7 +44,7 @@ include:
 	@echo -n $(addprefix -I ,$(INCLUDE))
 
 run: all
-	@echo "Sending $(EXE) to calculator"
+	@echo "TILP: $(EXE)"
 	@tilp -ns $(EXE) > /dev/null
 
 .FORCE:

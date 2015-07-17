@@ -1,8 +1,4 @@
-*.o
-*.tns
-bin
-*.elf
-*.gdb
+out/
 
 .ycm_extra_conf.pyc
 

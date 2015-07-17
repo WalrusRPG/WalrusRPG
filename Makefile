@@ -23,13 +23,16 @@ ZEHNFLAGS = --name "$(NAME)" --compress
 
 SRCS_C :=
 SRCS_CPP :=
-OBJS = $(SRCS_C:%.c=%.o) $(SRCS_CPP:%.cpp=%.o)
+OBJS = $(BUILT_SRCS_C:%.c=%.o) $(BUILD_SRCS_CPP:%.cpp=%.o)
+OBJS += $(addprefix $(OUT)/,$(SRCS_C:%.c=%.o) $(SRCS_CPP:%.cpp=%.o))
 INCLUDE :=
 BUILT_SRCS :=
+BUILT_SRCS_C :=
+BUILT_SRCS_CPP :=
 
-DISTDIR = bin
-ELF = $(DISTDIR)/$(NAME).elf
-EXE = $(DISTDIR)/$(NAME).tns
+OUT = out
+ELF = $(OUT)/$(NAME).elf
+EXE = $(OUT)/$(NAME).tns
 
 CLEAN_SPEC :=
 

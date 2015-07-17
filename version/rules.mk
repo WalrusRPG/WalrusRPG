@@ -1,9 +1,9 @@
 version_LOCAL_PATH := $(call whereami)
+version_SRC := $(OUT)/$(version_LOCAL_PATH)/version.c
 
-SRCS_C += $(version_LOCAL_PATH)/version.c
+BUILT_SRCS_C += $(version_SRC)
 INCLUDE += $(version_LOCAL_PATH)
 
-CLEAN_SPEC += $(version_LOCAL_PATH)/version.c
-
-$(version_LOCAL_PATH)/version.c: .FORCE
-	@./$(version_LOCAL_PATH)/version.bash
+$(version_SRC): .FORCE
+	@mkdir -p $(dir $@)
+	@./$(version_LOCAL_PATH)/version.bash $@
