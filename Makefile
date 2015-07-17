@@ -2,7 +2,7 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W -marm $(addprefix -I,$(INCLUDE))
+CFLAGS_COMMON = -Wall -W -marm $(addprefix -I,$(INCLUDE)) -MMD -MP
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto

@@ -4,6 +4,9 @@ all: $(EXE)
 
 include $(wildcard */rules.mk)
 
+# Object dependency files
+-include $(OBJS:%.o=%.d)
+
 $(OUT)/%.o: %.c | $(BUILT_SRCS)
 	@echo "CC: $@"
 	@mkdir -p $(dir $@)
