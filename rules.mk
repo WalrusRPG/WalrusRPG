@@ -35,7 +35,7 @@ format:
 	@clang-format -i -style=file $(SRCS_C) $(SRCS_CPP) $(wildcard $(addsuffix /*.h,$(INCLUDE)))
 
 include:
-	@echo $(addprefix -I ,$(INCLUDE))
+	@echo -n $(addprefix -I ,$(INCLUDE))
 
 run: all
 	@echo "Sending $(EXE) to calculator"
