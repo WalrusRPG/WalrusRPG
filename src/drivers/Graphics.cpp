@@ -36,6 +36,8 @@ void GRAPHICS::buffer_allocate()
         exit(0);
     }
 
+    memset(buffer_screen, 0, BUFFER_SIZE);
+
     buffer_os = (unsigned short *) *lcd_base;
     *lcd_base = (unsigned) buffer_screen;
     buffer_swap_ready = false;
