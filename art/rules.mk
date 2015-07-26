@@ -20,5 +20,4 @@ $(art_SPR_SRC): $(art_SPR_DATA)
 	@cat $^ | sed "s/^static uint16_t/unsigned short/" >> $@
 
 $(art_SPR_HDR): $(art_SPR_SRC)
-	@echo "Making header sprites.h"
-	@cat $< | grep "=" | sed -e "s/ =.*/;/" -e "s/^/extern /" > $@
+	@./$(art_LOCAL_PATH)/header.bash $< $@
