@@ -5,17 +5,16 @@
 #define GRAPHICS WalrusRPG::Graphics
 
 #define LCD_CONTROLLER 0xC0000000
-volatile unsigned *lcd_base = (unsigned *) (LCD_CONTROLLER + 0x10);
-volatile unsigned *lcd_ris = (unsigned *) (LCD_CONTROLLER + 0x20);
-volatile unsigned *lcd_icr = (unsigned *) (LCD_CONTROLLER + 0x28);
-volatile unsigned *lcd_control = (unsigned *) (LCD_CONTROLLER + 0x18);
-unsigned lcd_control_bkp;
-volatile unsigned *lcd_imsc = (unsigned *) (LCD_CONTROLLER + 0x1C);
-unsigned lcd_imsc_bkp;
+volatile uint32_t *lcd_base = (uint32_t *) (LCD_CONTROLLER + 0x10);
+volatile uint32_t *lcd_ris = (uint32_t *) (LCD_CONTROLLER + 0x20);
+volatile uint32_t *lcd_icr = (uint32_t *) (LCD_CONTROLLER + 0x28);
+volatile uint32_t *lcd_control = (uint32_t *) (LCD_CONTROLLER + 0x18);
+uint32_t lcd_control_bkp;
+volatile uint32_t *lcd_imsc = (uint32_t *) (LCD_CONTROLLER + 0x1C);
+uint32_t lcd_imsc_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
-unsigned short *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL,
-               *buffer_os;
+uint16_t *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL, *buffer_os;
 bool buffer_swap_ready;
 
 /*
@@ -24,9 +23,9 @@ bool buffer_swap_ready;
 
 void GRAPHICS::buffer_allocate()
 {
-    buffer_screen = (unsigned short *) malloc(BUFFER_SIZE);
-    buffer_render = (unsigned short *) malloc(BUFFER_SIZE);
-    buffer_ready = (unsigned short *) malloc(BUFFER_SIZE);
+    buffer_screen = (uint16_t *) malloc(BUFFER_SIZE);
+    buffer_render = (uint16_t *) malloc(BUFFER_SIZE);
+    buffer_ready = (uint16_t *) malloc(BUFFER_SIZE);
 
     if (buffer_screen == NULL || buffer_render == NULL || buffer_ready == NULL)
     {
@@ -38,8 +37,8 @@ void GRAPHICS::buffer_allocate()
 
     memset(buffer_screen, 0, BUFFER_SIZE);
 
-    buffer_os = (unsigned short *) *lcd_base;
-    *lcd_base = (unsigned) buffer_screen;
+    buffer_os = (uint16_t *) *lcd_base;
+    *lcd_base = (uint32_t) buffer_screen;
     buffer_swap_ready = false;
 
     // Set up the controller in order to use vsync signals
@@ -56,7 +55,7 @@ void GRAPHICS::buffer_free()
     free(buffer_render);
     free(buffer_ready);
 
-    *lcd_base = (unsigned) buffer_os;
+    *lcd_base = (uint32_t) buffer_os;
 
     *lcd_control = lcd_control_bkp;
     *lcd_imsc = lcd_imsc_bkp;
@@ -66,29 +65,29 @@ void GRAPHICS::buffer_swap_screen()
 {
     if (buffer_swap_ready)
     {
-        unsigned short *buffer_screen_tmp = buffer_screen;
+        uint16_t *buffer_screen_tmp = buffer_screen;
         buffer_screen = buffer_ready;
         buffer_ready = buffer_screen_tmp;
 
-        *lcd_base = (unsigned) buffer_screen;
+        *lcd_base = (uint32_t) buffer_screen;
         buffer_swap_ready = false;
     }
 }
 
 void GRAPHICS::buffer_swap_render()
 {
-    unsigned short *buffer_ready_tmp = buffer_ready;
+    uint16_t *buffer_ready_tmp = buffer_ready;
     buffer_ready = buffer_render;
     buffer_render = buffer_ready_tmp;
     buffer_swap_ready = true;
 }
 
-void GRAPHICS::buffer_fill(unsigned color)
+void GRAPHICS::buffer_fill(uint16_t color)
 {
-    unsigned *buffer_render_32 = (unsigned *) buffer_render;
-    color |= color << 16; // To avoid stupid overflows
-    for (unsigned i = 0; i < (BUFFER_SIZE / 4); i++)
-        buffer_render_32[i] = color;
+    uint32_t *buffer_render_32 = (uint32_t *) buffer_render;
+    uint32_t color_32 = color << 16 | color; // To avoid stupid overflows
+    for (uint32_t i = 0; i < (BUFFER_SIZE / 4); i++)
+        buffer_render_32[i] = color_32;
 }
 
 
@@ -114,15 +113,15 @@ void GRAPHICS::vsync_isr()
  * Drawing
  */
 
-void GRAPHICS::draw_pixel(unsigned x, unsigned y, unsigned short color)
+void GRAPHICS::draw_pixel(int x, int y, uint16_t color)
 {
     buffer_render[x + (y * 320)] = color;
 }
 
-void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y,
+void GRAPHICS::draw_sprite_sheet(const uint16_t *sheet, int x, int y,
                                  const WalrusRPG::Utils::Rect &window)
 {
-    unsigned short color;
+    uint16_t color;
     int w = min(window.width + x, 320);
     int h = min(window.height + y, 240);
 
@@ -142,8 +141,7 @@ void GRAPHICS::draw_sprite_sheet(const unsigned short *sheet, int x, int y,
  * Sprite manipulation
  */
 
-unsigned short GRAPHICS::sprite_pixel_get(const unsigned short *sprite, unsigned x,
-                                          unsigned y)
+uint16_t GRAPHICS::sprite_pixel_get(const uint16_t *sprite, uint32_t x, uint32_t y)
 {
     if (x < sprite[0] && y < sprite[1])
         return sprite[x + (y * sprite[0]) + 3];

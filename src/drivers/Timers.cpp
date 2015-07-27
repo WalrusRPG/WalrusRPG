@@ -2,20 +2,20 @@
 #include "Timers.h"
 
 #define TIMER 0x900D0000
-volatile unsigned *timer_ctl = (unsigned *) (TIMER + 0x08);
-volatile unsigned *timer_load = (unsigned *) (TIMER);
-volatile unsigned *timer_value = (unsigned *) (TIMER + 0x04);
-unsigned timer_ctl_bkp[2], timer_load_bkp[2];
+volatile uint32_t *timer_ctl = (uint32_t *) (TIMER + 0x08);
+volatile uint32_t *timer_load = (uint32_t *) (TIMER);
+volatile uint32_t *timer_value = (uint32_t *) (TIMER + 0x04);
+uint32_t timer_ctl_bkp[2], timer_load_bkp[2];
 
 #define TIMERS WalrusRPG::Timers
 
-void TIMERS::init(unsigned timer)
+void TIMERS::init(uint32_t timer)
 {
     timer_ctl_bkp[timer] = timer_ctl[8 * timer];
     timer_load_bkp[timer] = timer_load[8 * timer];
 }
 
-void TIMERS::restore(unsigned timer)
+void TIMERS::restore(uint32_t timer)
 {
     timer_ctl[8 * timer] &= ~(1 << 7);
     timer_ctl[8 * timer] = timer_ctl_bkp[timer] & ~(1 << 7);
@@ -23,10 +23,10 @@ void TIMERS::restore(unsigned timer)
     timer_ctl[8 * timer] = timer_ctl_bkp[timer];
 }
 
-void TIMERS::mode(unsigned timer, bool free_run, bool oneshot, bool interrupt,
-                  unsigned div, bool full_width_counter)
+void TIMERS::mode(uint32_t timer, bool free_run, bool oneshot, bool interrupt,
+                  uint32_t div, bool full_width_counter)
 {
-    unsigned mode = 0;
+    uint32_t mode = 0;
 
     if (!free_run)
         mode |= (1 << 6);
@@ -56,12 +56,12 @@ void TIMERS::mode(unsigned timer, bool free_run, bool oneshot, bool interrupt,
     timer_ctl[8 * timer] |= (1 << 7);
 }
 
-void TIMERS::load(unsigned timer, unsigned value)
+void TIMERS::load(uint32_t timer, uint32_t value)
 {
     timer_load[8 * timer] = value;
 }
 
-unsigned TIMERS::read(unsigned timer)
+uint32_t TIMERS::read(uint32_t timer)
 {
     return timer_value[8 * timer];
 }

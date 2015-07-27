@@ -4,15 +4,15 @@
 #define INTERRUPTS WalrusRPG::Interrupts
 
 #define INTERRUPT_CONTROLLER 0xDC000000
-volatile unsigned *irq_status = (unsigned *) (INTERRUPT_CONTROLLER + 0x0);
-volatile unsigned *interrupt_select = (unsigned *) (INTERRUPT_CONTROLLER + 0xC);
-unsigned interrupt_select_bkp;
-volatile unsigned *interrupt_enable = (unsigned *) (INTERRUPT_CONTROLLER + 0x10);
-volatile unsigned *interrupt_enable_clear = (unsigned *) (INTERRUPT_CONTROLLER + 0x14);
-unsigned interrupt_enable_bkp;
+volatile uint32_t *irq_status = (uint32_t *) (INTERRUPT_CONTROLLER + 0x0);
+volatile uint32_t *interrupt_select = (uint32_t *) (INTERRUPT_CONTROLLER + 0xC);
+uint32_t interrupt_select_bkp;
+volatile uint32_t *interrupt_enable = (uint32_t *) (INTERRUPT_CONTROLLER + 0x10);
+volatile uint32_t *interrupt_enable_clear = (uint32_t *) (INTERRUPT_CONTROLLER + 0x14);
+uint32_t interrupt_enable_bkp;
 
-volatile unsigned *interrupt_pointer = (unsigned *) 0x38;
-unsigned interrupt_pointer_bkp;
+volatile uint32_t *interrupt_pointer = (uint32_t *) 0x38;
+uint32_t interrupt_pointer_bkp;
 
 // Interrupt source 21 is the LCD
 #define INTERRUPT_MASK (1 << 21)
@@ -27,7 +27,7 @@ void INTERRUPTS::init()
     *interrupt_enable_clear = ~(INTERRUPT_MASK);
 
     interrupt_pointer_bkp = *interrupt_pointer;
-    *interrupt_pointer = (unsigned) &isr;
+    *interrupt_pointer = (uint32_t) &isr;
 
     // Enable IRQ in the CPU
     asm("mrs r1, cpsr \n\t"

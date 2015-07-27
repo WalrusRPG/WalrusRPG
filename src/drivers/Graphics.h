@@ -1,6 +1,7 @@
 #ifndef INCLUDE_GRAPHICS_H
 #define INCLUDE_GRAPHICS_H
 
+#include <cstdint>
 #include "utility/Rect.h"
 
 namespace WalrusRPG
@@ -15,7 +16,7 @@ namespace WalrusRPG
         void buffer_free();
         void buffer_swap_screen();
         void buffer_swap_render();
-        void buffer_fill(unsigned color);
+        void buffer_fill(uint16_t color);
 
 
         /*
@@ -30,8 +31,8 @@ namespace WalrusRPG
          * Drawing
          */
 
-        void draw_pixel(unsigned x, unsigned y, unsigned short color);
-        void draw_sprite_sheet(const unsigned short *sheet, int x, int y,
+        void draw_pixel(int x, int y, uint16_t color);
+        void draw_sprite_sheet(const uint16_t *sheet, int x, int y,
                                const WalrusRPG::Utils::Rect &window);
 
 
@@ -39,8 +40,7 @@ namespace WalrusRPG
          * Sprite manipulation
          */
 
-        unsigned short sprite_pixel_get(const unsigned short *sprite, unsigned x,
-                                        unsigned y);
+        uint16_t sprite_pixel_get(const uint16_t *sprite, uint32_t x, uint32_t y);
     }
 }
 
