@@ -12,12 +12,13 @@ BUILT_SRCS += $(art_SPR_HDR)
 $(OUT)/%.cspr: %.png
 	@echo "SPRITE: $@"
 	@mkdir -p $(dir $@)
-	@ConvertImg --format n2dlib $< > $@
+	@ConvertImg --not-static --format n2dlib $< > $@
 
 $(art_SPR_SRC): $(art_SPR_DATA)
 	@echo "Catting sprites into sprites.c"
 	@rm -f $@
-	@cat $^ | sed "s/^static uint16_t/unsigned short/" >> $@
+	@echo "#include <stdint.h>" > $@
+	@cat $^ >> $@
 
 $(art_SPR_HDR): $(art_SPR_SRC)
 	@./$(art_LOCAL_PATH)/header.bash $< $@
