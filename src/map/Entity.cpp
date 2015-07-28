@@ -1,7 +1,6 @@
 #include "Entity.h"
 #include "utility/misc.h"
 #include "utility/Rect.h"
-#include "render/Text.h"
 
 #define ENTITY WalrusRPG::Entity
 using namespace WalrusRPG::Utils;

@@ -1,9 +1,9 @@
+#include <libndls.h>
 #include "StateMachine.h"
 #include "drivers/Timers.h"
 #include "drivers/Graphics.h"
 #include "render/Text.h"
 #include "version.h"
-#include <os.h>
 
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::States;

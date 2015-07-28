@@ -1,4 +1,5 @@
-#include <os.h>
+#include <cstdlib>
+#include <cstring>
 #include "Graphics.h"
 #include "utility/misc.h"
 

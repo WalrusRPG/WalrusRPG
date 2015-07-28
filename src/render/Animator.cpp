@@ -1,6 +1,4 @@
 #include "Animator.h"
-#include "drivers/Graphics.h"
-#include "utility/Rect.h"
 
 #define ANIMATOR WalrusRPG::Animator
 

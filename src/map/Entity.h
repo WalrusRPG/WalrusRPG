@@ -3,7 +3,6 @@
 
 #include "utility/Rect.h"
 #include "render/Camera.h"
-#include "render/Renderer.h"
 #include "render/TileRenderer.h"
 
 namespace WalrusRPG

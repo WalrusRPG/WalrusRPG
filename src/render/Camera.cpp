@@ -1,6 +1,5 @@
-#include <os.h>
+#include <libndls.h>
 #include "Camera.h"
-#include "map/Entity.h"
 #include "utility/misc.h"
 
 #define CAMERA WalrusRPG::Camera

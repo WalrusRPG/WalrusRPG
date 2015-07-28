@@ -3,7 +3,6 @@
 
 #include <TINYSTL/vector.h>
 #include <TINYSTL/unordered_map.h>
-#include "utility/Rect.h"
 
 namespace WalrusRPG
 {

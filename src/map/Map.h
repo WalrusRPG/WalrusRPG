@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include "render/Camera.h"
-#include "map/Entity.h"
 #include "render/TileRenderer.h"
 #include "render/Animator.h"
 

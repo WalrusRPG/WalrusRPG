@@ -1,9 +1,8 @@
-#include <sprites.h>
-#include "drivers/Graphics.h"
-#include "Text.h"
 #include <cstdio>
 #include <cstdarg>
-#include <string>
+#include "Text.h"
+#include "sprites.h"
+#include "drivers/Graphics.h"
 
 #define TEXT WalrusRPG::Graphics::Text
 using namespace WalrusRPG::Graphics;

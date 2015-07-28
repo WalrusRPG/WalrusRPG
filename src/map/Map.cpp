@@ -1,9 +1,8 @@
 #include "Map.h"
-#include "render/Camera.h"
-#include "drivers/Graphics.h"
-#include <sprites.h>
-#include "utility/Rect.h"
 #include "render/TileRenderer.h"
+#include "drivers/Graphics.h"
+#include "sprites.h"
+#include "utility/Rect.h"
 #include "utility/misc.h"
 
 #define MAP WalrusRPG::Map

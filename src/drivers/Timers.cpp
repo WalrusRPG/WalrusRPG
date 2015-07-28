@@ -1,4 +1,3 @@
-#include <os.h>
 #include "Timers.h"
 
 #define TIMER 0x900D0000
