@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+#define TIMER_FREQ 32768
+
 namespace WalrusRPG
 {
     namespace Timers

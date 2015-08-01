@@ -35,7 +35,7 @@ void STATEMACHINE::run()
 {
     Timers::mode(0, true, false, false, 1, true);
     Timers::load(0, 0);
-    const unsigned loop_time = 546; // 32768Hz/60
+    const unsigned loop_time = TIMER_FREQ / 60;
     unsigned loop_next = -loop_time;
     unsigned last_update = 0, update_stamp, update_time;
     unsigned last_frame = 0, frame_stamp, frame_time;
@@ -55,8 +55,8 @@ void STATEMACHINE::run()
             last_frame = frame_stamp;
 
             Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
-            Text::print_format(0, 240 - 8, "%ufps, %uups", 32768 / frame_time,
-                               32768 / update_time);
+            Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,
+                               TIMER_FREQ / update_time);
             Graphics::buffer_swap_render();
         }
 
