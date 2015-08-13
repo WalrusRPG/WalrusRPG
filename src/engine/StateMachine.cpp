@@ -61,7 +61,11 @@ void STATEMACHINE::run()
         }
 
         if (isKeyPressed(KEY_NSPIRE_ESC))
+        {
+            while (isKeyPressed(KEY_NSPIRE_ESC))
+                ;
             this->pop();
+        }
 
         while (Timers::read(0) < loop_next);
         loop_next += loop_time;
