@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -f config.mk
+
+echo "include platform/nspire/rules.mk" >> config.mk
+

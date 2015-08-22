@@ -1,4 +1,5 @@
 out/
+config.mk
 
 .ycm_extra_conf.pyc
 

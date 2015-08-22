@@ -2,7 +2,7 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W -marm $(addprefix -I,$(INCLUDE)) -MMD -MP
+CFLAGS_COMMON = -Wall -W $(addprefix -I,$(INCLUDE)) -MMD -MP
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto
@@ -10,16 +10,11 @@ else
 	CFLAGS_COMMON += -O0 -g
 endif
 
-CC = nspire-gcc
 CFLAGS = $(CFLAGS_COMMON) -std=gnu11
 
-CPP = nspire-g++
 CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++11
 
 LDFLAGS = $(CFLAGS_COMMON) -Wl,--gc-sections
-
-ZEHN = genzehn
-ZEHNFLAGS = --name "$(NAME)" --compress
 
 SRCS_C :=
 SRCS_CPP :=
@@ -32,7 +27,6 @@ BUILT_SRCS_CPP :=
 
 OUT = out
 ELF = $(OUT)/$(NAME).elf
-EXE = $(OUT)/$(NAME).tns
 
 CLEAN_SPEC :=
 
@@ -48,4 +42,8 @@ $(strip \
  )
 endef
 
+include config.mk
 include rules.mk
+
+config.mk:
+	./mkconfig

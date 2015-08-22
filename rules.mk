@@ -30,11 +30,6 @@ $(ELF): $(OBJS)
 	@echo "CCLD: $@"
 	@+$(CC) $(LDFLAGS) $^ -o $(ELF)
 
-$(EXE): $(ELF)
-	@mkdir -p $(dir $@)
-	@echo "ZEHN: $@"
-	@$(ZEHN) --input $(ELF) --output $(EXE) $(ZEHNFLAGS)
-
 clean:
 	@echo "RM: $(OUT)"
 	@rm -rf $(OUT)
@@ -45,9 +40,5 @@ format:
 
 include:
 	@echo -n $(addprefix -I ,$(INCLUDE))
-
-run: all
-	@echo "TILP: $(EXE)"
-	@tilp -ns $(EXE) > /dev/null
 
 .FORCE:
