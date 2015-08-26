@@ -1,6 +1,6 @@
 #include "Map.h"
 #include "render/TileRenderer.h"
-#include "drivers/Graphics.h"
+#include "Graphics.h"
 #include "sprites.h"
 #include "utility/Rect.h"
 #include "utility/misc.h"

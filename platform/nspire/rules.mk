@@ -1,3 +1,8 @@
+nspire_LOCAL_PATH := $(call whereami)
+
+SRCS_C += $(wildcard $(nspire_LOCAL_PATH)/platform/*.c)
+SRCS_CPP += $(wildcard $(nspire_LOCAL_PATH)/*.cpp)
+
 CFLAGS_COMMON += -marm
 
 CC = nspire-gcc

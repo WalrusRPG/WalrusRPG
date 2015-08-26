@@ -1,6 +1,6 @@
 #include <TINYSTL/unordered_map.h>
 #include "SpriteRenderer.h"
-#include "drivers/Graphics.h"
+#include "Graphics.h"
 
 #define SPRITERENDERER WalrusRPG::SpriteRenderer
 using namespace WalrusRPG;

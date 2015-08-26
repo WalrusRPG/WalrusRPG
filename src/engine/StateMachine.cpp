@@ -1,7 +1,7 @@
 #include <libndls.h>
 #include "StateMachine.h"
-#include "drivers/Timers.h"
-#include "drivers/Graphics.h"
+#include "Timers.h"
+#include "Graphics.h"
 #include "render/Text.h"
 #include "version.h"
 

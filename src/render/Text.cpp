@@ -2,7 +2,7 @@
 #include <cstdarg>
 #include "Text.h"
 #include "sprites.h"
-#include "drivers/Graphics.h"
+#include "Graphics.h"
 
 #define TEXT WalrusRPG::Graphics::Text
 using namespace WalrusRPG::Graphics;

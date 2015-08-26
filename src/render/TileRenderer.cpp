@@ -1,5 +1,5 @@
 #include "TileRenderer.h"
-#include "drivers/Graphics.h"
+#include "Graphics.h"
 
 #define TILERENDERER WalrusRPG::TileRenderer
 using namespace WalrusRPG;
