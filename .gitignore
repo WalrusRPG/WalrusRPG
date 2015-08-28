@@ -1,6 +1,8 @@
 out/
 config.mk
 
+*.swp
+
 .ycm_extra_conf.pyc
 
 # Atom editor files
