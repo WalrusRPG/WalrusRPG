@@ -22,8 +22,6 @@ namespace WalrusRPG
         /*
          * Misc LCD functions
          */
-
-        void lcd_vsync();
         void vsync_isr();
 
 

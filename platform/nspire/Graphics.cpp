@@ -96,13 +96,6 @@ void GRAPHICS::buffer_fill(uint16_t color)
  * Misc LCD functions
  */
 
-void GRAPHICS::lcd_vsync()
-{
-    *lcd_icr = 1 << 3;
-    while (!(*lcd_ris & (1 << 3)))
-        ;
-}
-
 void GRAPHICS::vsync_isr()
 {
     buffer_swap_screen();
