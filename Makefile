@@ -2,7 +2,7 @@ NAME = WalrusRPG
 
 DEBUG = FALSE
 
-CFLAGS_COMMON = -Wall -W $(addprefix -I,$(INCLUDE)) -MMD -MP
+CFLAGS_COMMON = -Wall -W $(addprefix -I,$(INCLUDE) $(INCLUDE_EXT)) -MMD -MP
 
 ifeq ($(DEBUG),FALSE)
 	CFLAGS_COMMON += -Ofast -flto
@@ -21,6 +21,7 @@ SRCS_CPP :=
 OBJS = $(BUILT_SRCS_C:%.c=%.o) $(BUILD_SRCS_CPP:%.cpp=%.o)
 OBJS += $(addprefix $(OUT)/,$(SRCS_C:%.c=%.o) $(SRCS_CPP:%.cpp=%.o))
 INCLUDE :=
+INCLUDE_EXT :=
 BUILT_SRCS :=
 BUILT_SRCS_C :=
 BUILT_SRCS_CPP :=

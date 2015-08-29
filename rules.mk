@@ -36,9 +36,9 @@ clean:
 
 format:
 	@echo "Formatting source using clang-format"
-	@clang-format -i -style=file $(SRCS_C) $(SRCS_CPP) $(wildcard $(addsuffix /*.h,$(INCLUDE)))
+	@clang-format -i -style=file $(SRCS_C) $(SRCS_CPP) $(shell find $(INCLUDE) -name *.h)
 
 include:
-	@echo -n $(addprefix -I ,$(INCLUDE))
+	@echo -n $(addprefix -I ,$(INCLUDE) $(INCLUDE_EXT))
 
 .FORCE:
