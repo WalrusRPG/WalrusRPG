@@ -67,7 +67,8 @@ void STATEMACHINE::run()
             this->pop();
         }
 
-        while (Timers::read(0) < loop_next);
+        while (Timers::read(0) < loop_next)
+            ;
         loop_next += loop_time;
     }
 }

@@ -6,23 +6,25 @@ using namespace WalrusRPG;
 
 namespace
 {
-	unsigned get_animation_duration(const WalrusRPG::Animation &anim) {
-		unsigned duration = 0;
-		for (unsigned index = 0; index < anim.stripe.size(); index++) {
-			duration += anim.stripe[index].duration;
-		}
-		return duration;
-	}
-	
-    unsigned find_frame(const WalrusRPG::Animation &anim, signed frame_time)
+    unsigned get_animation_duration(const WalrusRPG::Animation &anim)
     {
-		unsigned duration = get_animation_duration(anim);
-		if (frame_time >= duration && !anim.looping) {
-			// simple looping checking
-			// Also, a flag to detect if the animation ended could be an option
-			return anim.stripe[anim.stripe.size() - 1].frame;
-		}
-		frame_time %= duration;
+        unsigned duration = 0;
+        for (unsigned index = 0; index < anim.stripe.size(); index++)
+        {
+            duration += anim.stripe[index].duration;
+        }
+        return duration;
+    }
+
+    unsigned find_frame(const WalrusRPG::Animation &anim, int frame_time)
+    {
+        if (frame_time >= anim.duration && !anim.looping)
+        {
+            // simple looping checking
+            // Also, a flag to detect if the animation ended could be an option
+            return anim.stripe[anim.stripe.size() - 1].frame;
+        }
+        frame_time %= anim.duration;
 
         unsigned index = 0;
         do
@@ -49,6 +51,7 @@ ANIMATOR::Animator()
 void ANIMATOR::add_animation(int index, Animation anim)
 {
     animations[index] = anim;
+    animations[index].duration = get_animation_duration(anim);
 }
 
 unsigned ANIMATOR::get_animation_frame(unsigned id)

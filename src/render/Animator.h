@@ -15,6 +15,7 @@ namespace WalrusRPG
     {
         tinystl::vector<WalrusRPG::Frame> stripe;
         bool looping;
+        int duration;
     };
 
     class Animator
