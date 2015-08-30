@@ -16,8 +16,8 @@ namespace WalrusRPG
       protected:
         // <Tiles> data;
         // <Tileset> tileset;
-        unsigned int width;
-        unsigned int height;
+        int width;
+        int height;
         uint16_t *layer0;
         uint16_t *layer1;
         TileRenderer *renderer;
@@ -27,10 +27,10 @@ namespace WalrusRPG
         ~Map();
         void render(Camera &camera, unsigned dt);
         void update(unsigned dt);
-        bool is_tile_solid(unsigned x, unsigned y) const;
-        bool is_pixel_solid(unsigned x, unsigned y) const;
-        unsigned get_width() const;
-        unsigned get_height() const;
+        bool is_tile_solid(int x, int y) const;
+        bool is_pixel_solid(int x, int y) const;
+        int get_width() const;
+        int get_height() const;
     };
 }
 

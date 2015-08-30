@@ -1,6 +1,5 @@
 #include "StateMap.h"
 #include "Graphics.h"
-#include "render/Pixel.h"
 #include "render/Text.h"
 
 #define STATEMAP WalrusRPG::States::StateMap
@@ -32,7 +31,6 @@ void STATEMAP::update(unsigned dt)
 
 void STATEMAP::render(unsigned dt)
 {
-    Pixel pix(Graphics::Green);
     map.render(camera, dt);
 
     print_debug_camera_data(camera);

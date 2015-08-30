@@ -1,3 +1,5 @@
+#include <cstdio>
+#include "Interrupts.h"
 #include "Map.h"
 #include "render/TileRenderer.h"
 #include "Graphics.h"
@@ -37,58 +39,41 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
     // By Eiyeron : I assumed that the camera's position is the top left pixel.
     // Margins moves the rendered map if we go outside of the bounds (specially on the
     // left or on the top).
-    signed offset_x = camera.get_x() % t_width * -1;
-    signed offset_y = camera.get_y() % t_height * -1;
-    signed start_x = camera.get_x() / t_width;
-    signed start_y = camera.get_y() / t_height;
-    signed end_x = start_x + 320 / t_width + 2; // Why 2? I don't freaking know.
-    signed end_y = start_y + 240 / t_height + 1;
-
-    // Bound-checking code. To avoid reading outside of the map.
-    // The offset edition allows the map to be correctly moved to the right to make up for
-    // the lack of renderable tiles.
-    if (start_x < 0)
-    {
-        offset_x -= start_x * t_width;
-        start_x = 0;
-    }
-
-    if (start_y < 0)
-    {
-        offset_y -= start_y * t_height;
-        start_y = 0;
-    }
-    // warning fix. Even if end_x/y is negative, it should be higher than width/height.
-    if ((unsigned) end_x > this->width)
-        end_x = this->width;
-    if ((unsigned) end_y > this->height)
-        end_y = this->height;
+    signed offset_x = camera.get_x() % t_width * -1 - (camera.get_x() < 0) * t_width;
+    signed offset_y = camera.get_y() % t_height * -1 - (camera.get_y() < 0) * t_height;
+    signed start_x = camera.get_x() / t_width - (camera.get_x() < 0);
+    signed start_y = camera.get_y() / t_height - (camera.get_y() < 0);
+    Interrupts::off();
+    printf("%i %i\n", start_x, start_y);
+    Interrupts::init();
 
     // pre-calculating variables to speed up loop condition check
-    signed delta_x = end_x - start_x;
-    signed delta_y = end_y - start_y;
-
-    // Creating a region clip. Why does it smell like SDL?
-    /*WalrusRPG::Graphics::Rect_t sprite;
-    sprite.y = 0;
-    sprite.w = 24;
-    sprite.h = 24;*/
+    signed delta_x = 320 / t_width + 1;
+    signed delta_y = 240 / t_height + 1;
 
     // rendering part.
     for (signed j = 0; j < delta_y; j++)
     {
         for (signed i = 0; i < delta_x; i++)
         {
-            unsigned index = (start_x + i) + (start_y + j) * this->width;
-            unsigned tile_over = anim.get_animation_frame(this->layer0[index]);
-            if (tile_over != 0)
-                renderer->render(tile_over,
-                                 Rect(offset_x + i * t_width, offset_y + j * t_height));
+            int index, tile_over;
+            index = (start_x + i) + (start_y + j) * this->width;
+            if (in_range(start_x + i, 0, (signed) width) &&
+                in_range(start_y + j, 0, (signed) height))
+                tile_over = anim.get_animation_frame(this->layer0[index]);
+            else
+                tile_over = 0;
+            renderer->render(tile_over,
+                             Rect(offset_x + i * t_width, offset_y + j * t_height));
 
             // layer1 : Over-layer
             if (this->layer1 == nullptr)
                 continue;
-            tile_over = anim.get_animation_frame(this->layer1[index]);
+            if (in_range(start_x + i, 0, (signed) width) &&
+                in_range(start_y + j, 0, (signed) height))
+                tile_over = anim.get_animation_frame(this->layer1[index]);
+            else
+                tile_over = 0;
             if (tile_over != 0)
                 renderer->render(anim.get_animation_frame(tile_over),
                                  Rect(offset_x + i * t_width, offset_y + j * t_height));
@@ -96,24 +81,24 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
     }
 }
 
-bool MAP::is_tile_solid(unsigned x, unsigned y) const
+bool MAP::is_tile_solid(int x, int y) const
 {
     if (x >= width || y >= height)
         return true;
     return this->layer0[y * width + x] != 0;
 }
 
-bool MAP::is_pixel_solid(unsigned x, unsigned y) const
+bool MAP::is_pixel_solid(int x, int y) const
 {
     return is_tile_solid(x / renderer->get_tile_width(), y / renderer->get_tile_height());
 }
 
-unsigned MAP::get_width() const
+int MAP::get_width() const
 {
     return this->width;
 }
 
-unsigned MAP::get_height() const
+int MAP::get_height() const
 {
     return this->width;
 }
