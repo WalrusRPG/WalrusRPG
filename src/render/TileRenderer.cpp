@@ -16,9 +16,8 @@ void TILERENDERER::render(const unsigned id, const Rect &rect)
     unsigned num_tiles_x = tilesheet[0] / tile_width;
     // unsigned num_tiles_y = sheet_height / tile_height;
     Graphics::put_sprite(tilesheet, rect.x, rect.y,
-                                Rect(tile_width * (id % num_tiles_x),
-                                     tile_height * (id / num_tiles_x), tile_width,
-                                     tile_height));
+                         Rect(tile_width * (id % num_tiles_x),
+                              tile_height * (id / num_tiles_x), tile_width, tile_height));
 }
 
 int TILERENDERER::get_tile_width() const
