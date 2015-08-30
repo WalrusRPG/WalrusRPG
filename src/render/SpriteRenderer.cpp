@@ -17,5 +17,5 @@ void SPRITERENDERER::add_sprite(unsigned id, WalrusRPG::Utils::Rect rect)
 
 void SPRITERENDERER::render(const unsigned id, const Rect &rect)
 {
-    Graphics::draw_sprite_sheet(tilesheet, rect.x, rect.y, sprites[id]);
+    Graphics::put_sprite(tilesheet, rect.x, rect.y, sprites[id]);
 }

@@ -1,44 +1,48 @@
 #ifndef INCLUDE_GRAPHICS_H
 #define INCLUDE_GRAPHICS_H
 
+/*
+ * Graphics.h
+ * Graphics backend abstraction
+ */
+
 #include <cstdint>
+#include "render/Pixel.h"
 #include "utility/Rect.h"
 
 namespace WalrusRPG
 {
     namespace Graphics
     {
-        /*
-         * Buffer management
-         */
-
-        void buffer_allocate();
-        void buffer_free();
-        void buffer_swap_screen();
-        void buffer_swap_render();
-        void buffer_fill(uint16_t color);
-
+        void init();
+        void deinit();
 
         /*
-         * Misc LCD functions
+         * Allows doing stuff before drawing, the GC requires this,
+         * and it's a nice to have
          */
-        void vsync_isr();
-
+        void frame_begin();
 
         /*
-         * Drawing
+         * Signal the graphics system that we're done drawing so that
+         * the frame can be pushed to the screen
          */
-
-        void draw_pixel(int x, int y, uint16_t color);
-        void draw_sprite_sheet(const uint16_t *sheet, int x, int y,
-                               const WalrusRPG::Utils::Rect &window);
-
+        void frame_end();
 
         /*
-         * Sprite manipulation
+         * Current prototype is the same as the nspire fb implementation
+         * for now, need to add a texture type and get rid of the Rect
+         * (not sure the GC supports drawing parts of a texture, but it
+         * may be worth trying
          */
+        void put_sprite(const uint16_t *sheet, int x, int y,
+                        const WalrusRPG::Utils::Rect &window);
 
-        uint16_t sprite_pixel_get(const uint16_t *sprite, uint32_t x, uint32_t y);
+        /*
+         * Set a background color or texture to be used by frame_begin()
+         * To be defined further
+         */
+        void set_bg(const WalrusRPG::Graphics::Pixel &new_bg);
     }
 }
 

@@ -4,6 +4,7 @@
 #include "Interrupts.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
+#include "render/Pixel.h"
 #include "utility/misc.h"
 
 using namespace WalrusRPG;
@@ -13,7 +14,10 @@ int main(int argc, char *argv[])
     UNUSED(argc);
     UNUSED(argv);
 
-    Graphics::buffer_allocate();
+    Graphics::init();
+    Graphics::Pixel bg(0xFF, 0x40, 0xD0);
+    Graphics::set_bg(bg);
+
     Timers::init(0);
     Interrupts::init();
 
@@ -81,6 +85,6 @@ int main(int argc, char *argv[])
 
     Interrupts::off();
     Timers::restore(0);
-    Graphics::buffer_free();
+    Graphics::deinit();
     return 0;
 }

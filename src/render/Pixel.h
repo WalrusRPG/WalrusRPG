@@ -12,6 +12,7 @@ namespace WalrusRPG
          */
         class Pixel
         {
+          public:
             union
             {
                 std::uint16_t value;
@@ -19,13 +20,12 @@ namespace WalrusRPG
               public: // hack to be able to do pixel.r. Clever!
                 struct
                 {
-                    unsigned r : 5;
-                    unsigned g : 6;
                     unsigned b : 5;
+                    unsigned g : 6;
+                    unsigned r : 5;
                 };
             };
 
-          public:
             Pixel(std::uint16_t color);
 
             Pixel(Pixel &pix);

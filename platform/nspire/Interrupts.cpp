@@ -1,5 +1,5 @@
 #include "Interrupts.h"
-#include "Graphics.h"
+#include "CXfb.h"
 
 #define INTERRUPTS WalrusRPG::Interrupts
 
@@ -59,5 +59,5 @@ void INTERRUPTS::off()
 void __attribute__((interrupt("IRQ"))) INTERRUPTS::isr()
 {
     if (*irq_status & (1 << 21))
-        WalrusRPG::Graphics::vsync_isr();
+        Nspire::CXfb::vsync_isr();
 }

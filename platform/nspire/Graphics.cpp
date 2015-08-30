@@ -1,144 +1,40 @@
-#include <cstdlib>
-#include <cstring>
 #include "Graphics.h"
-#include "utility/misc.h"
+#include "CXfb.h"
+#include "stdio.h"
 
 #define GRAPHICS WalrusRPG::Graphics
 
-#define LCD_CONTROLLER 0xC0000000
-volatile uint32_t *lcd_base = (uint32_t *) (LCD_CONTROLLER + 0x10);
-volatile uint32_t *lcd_ris = (uint32_t *) (LCD_CONTROLLER + 0x20);
-volatile uint32_t *lcd_icr = (uint32_t *) (LCD_CONTROLLER + 0x28);
-volatile uint32_t *lcd_control = (uint32_t *) (LCD_CONTROLLER + 0x18);
-uint32_t lcd_control_bkp;
-volatile uint32_t *lcd_imsc = (uint32_t *) (LCD_CONTROLLER + 0x1C);
-uint32_t lcd_imsc_bkp;
+using namespace Nspire;
 
-#define BUFFER_SIZE 320 * 240 * 2
-uint16_t *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL, *buffer_os;
-bool buffer_swap_ready;
+GRAPHICS::Pixel bg(0);
 
-/*
- * Buffer management
- */
-
-void GRAPHICS::buffer_allocate()
+void GRAPHICS::init()
 {
-    buffer_screen = (uint16_t *) malloc(BUFFER_SIZE);
-    buffer_render = (uint16_t *) malloc(BUFFER_SIZE);
-    buffer_ready = (uint16_t *) malloc(BUFFER_SIZE);
-
-    if (buffer_screen == NULL || buffer_render == NULL || buffer_ready == NULL)
-    {
-        free(buffer_screen);
-        free(buffer_render);
-        free(buffer_ready);
-        exit(0);
-    }
-
-    memset(buffer_screen, 0, BUFFER_SIZE);
-
-    buffer_os = (uint16_t *) *lcd_base;
-    *lcd_base = (uint32_t) buffer_screen;
-    buffer_swap_ready = false;
-
-    // Set up the controller in order to use vsync signals
-    lcd_control_bkp = *lcd_control;
-    *lcd_control &= ~(0b11 << 12);
-    *lcd_control |= 0b11 << 12;
-    lcd_imsc_bkp = *lcd_imsc;
-    *lcd_imsc = 1 << 3;
+    CXfb::buffer_allocate();
 }
 
-void GRAPHICS::buffer_free()
+void GRAPHICS::deinit()
 {
-    free(buffer_screen);
-    free(buffer_render);
-    free(buffer_ready);
-
-    *lcd_base = (uint32_t) buffer_os;
-
-    *lcd_control = lcd_control_bkp;
-    *lcd_imsc = lcd_imsc_bkp;
+    CXfb::buffer_free();
 }
 
-void GRAPHICS::buffer_swap_screen()
+void GRAPHICS::frame_begin()
 {
-    if (buffer_swap_ready)
-    {
-        uint16_t *buffer_screen_tmp = buffer_screen;
-        buffer_screen = buffer_ready;
-        buffer_ready = buffer_screen_tmp;
-
-        *lcd_base = (uint32_t) buffer_screen;
-        buffer_swap_ready = false;
-    }
+    CXfb::buffer_fill(bg);
 }
 
-void GRAPHICS::buffer_swap_render()
+void GRAPHICS::frame_end()
 {
-    uint16_t *buffer_ready_tmp = buffer_ready;
-    buffer_ready = buffer_render;
-    buffer_render = buffer_ready_tmp;
-    buffer_swap_ready = true;
+    CXfb::buffer_swap_render();
 }
 
-void GRAPHICS::buffer_fill(uint16_t color)
+void GRAPHICS::put_sprite(const uint16_t *sheet, int x, int y,
+                          const WalrusRPG::Utils::Rect &window)
 {
-    uint32_t *buffer_render_32 = (uint32_t *) buffer_render;
-    uint32_t color_32 = color << 16 | color; // To avoid stupid overflows
-    for (uint32_t i = 0; i < (BUFFER_SIZE / 4); i++)
-        buffer_render_32[i] = color_32;
+    CXfb::draw_sprite_sheet(sheet, x, y, window);
 }
 
-
-/*
- * Misc LCD functions
- */
-
-void GRAPHICS::vsync_isr()
+void GRAPHICS::set_bg(const WalrusRPG::Graphics::Pixel &new_bg)
 {
-    buffer_swap_screen();
-    *lcd_icr = 1 << 3;
-}
-
-
-/*
- * Drawing
- */
-
-void GRAPHICS::draw_pixel(int x, int y, uint16_t color)
-{
-    buffer_render[x + (y * 320)] = color;
-}
-
-void GRAPHICS::draw_sprite_sheet(const uint16_t *sheet, int x, int y,
-                                 const WalrusRPG::Utils::Rect &window)
-{
-    uint16_t color;
-    int w = min(window.width + x, 320);
-    int h = min(window.height + y, 240);
-
-    for (int j = max(y, 0), l = window.y - min(y, 0); j < h; j++, l++)
-    {
-        for (int i = max(x, 0), k = window.x - min(x, 0); i < w; i++, k++)
-        {
-            color = sprite_pixel_get(sheet, k, l);
-            if (color != sheet[2])
-                draw_pixel(i, j, color);
-        }
-    }
-}
-
-
-/*
- * Sprite manipulation
- */
-
-uint16_t GRAPHICS::sprite_pixel_get(const uint16_t *sprite, uint32_t x, uint32_t y)
-{
-    if (x < sprite[0] && y < sprite[1])
-        return sprite[x + (y * sprite[0]) + 3];
-    else
-        return sprite[2];
+    bg = new_bg;
 }

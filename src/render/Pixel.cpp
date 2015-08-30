@@ -11,7 +11,7 @@ PIXEL::Pixel(Pixel &pix) : value((std::uint8_t) pix)
 }
 
 PIXEL::Pixel(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
-    : r(red >> 3), g(green >> 2), b(blue >> 3)
+    : b(blue >> 3), g(green >> 2), r(red >> 3)
 {
 }
 

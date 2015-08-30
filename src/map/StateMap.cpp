@@ -33,7 +33,6 @@ void STATEMAP::update(unsigned dt)
 void STATEMAP::render(unsigned dt)
 {
     Pixel pix(Graphics::Green);
-    Graphics::buffer_fill(pix);
     map.render(camera, dt);
 
     print_debug_camera_data(camera);

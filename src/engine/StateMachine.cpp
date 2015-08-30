@@ -51,13 +51,14 @@ void STATEMACHINE::run()
         {
             frame_stamp = Timers::read(0);
             frame_time = frame_stamp - last_frame;
+            Graphics::frame_begin();
             stack.back()->render(frame_time);
             last_frame = frame_stamp;
 
             Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
             Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,
                                TIMER_FREQ / update_time);
-            Graphics::buffer_swap_render();
+            Graphics::frame_end();
         }
 
         if (isKeyPressed(KEY_NSPIRE_ESC))
