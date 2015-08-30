@@ -36,7 +36,7 @@ clean:
 
 format:
 	@echo "Formatting source using clang-format"
-	@clang-format -i -style=file $(SRCS_C) $(SRCS_CPP) $(shell find $(INCLUDE) -name *.h)
+	@clang-format -i -style=file $(shell git ls-files -c -o --exclude-standard *.c *.cpp *.h)
 
 include:
 	@echo -n $(addprefix -I ,$(INCLUDE) $(INCLUDE_EXT))
