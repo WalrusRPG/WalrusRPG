@@ -36,9 +36,8 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
     anim.update(dt);
     signed t_width = renderer->get_tile_width();
     signed t_height = renderer->get_tile_height();
-    // By Eiyeron : I assumed that the camera's position is the top left pixel.
-    // Margins moves the rendered map if we go outside of the bounds (specially on the
-    // left or on the top).
+
+    // Substractions here because we want to always round down when dividing
     signed offset_x = camera.get_x() % t_width * -1 - (camera.get_x() < 0) * t_width;
     signed offset_y = camera.get_y() % t_height * -1 - (camera.get_y() < 0) * t_height;
     signed start_x = camera.get_x() / t_width - (camera.get_x() < 0);
