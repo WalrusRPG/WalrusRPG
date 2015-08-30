@@ -39,10 +39,9 @@ namespace WalrusRPG
                         const WalrusRPG::Utils::Rect &window);
 
         /*
-         * Set a background color or texture to be used by frame_begin()
-         * To be defined further
+         * Fill the screen with a color
          */
-        void set_bg(const WalrusRPG::Graphics::Pixel &new_bg);
+        void fill(const WalrusRPG::Graphics::Pixel &color);
     }
 }
 

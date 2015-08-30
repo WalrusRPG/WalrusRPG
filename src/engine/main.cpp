@@ -15,9 +15,6 @@ int main(int argc, char *argv[])
     UNUSED(argv);
 
     Graphics::init();
-    Graphics::Pixel bg(0xFF, 0x40, 0xD0);
-    Graphics::set_bg(bg);
-
     Timers::init(0);
     Interrupts::init();
 
