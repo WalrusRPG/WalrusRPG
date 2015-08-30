@@ -1,14 +1,18 @@
 # Walrus RPG PIAF (PIAF is an Archive Format)
 ## Control Header
 ```markdown
-WRPG_PIAF_MAGIC_HEADER : "WRPGPIAF"          <=> 8 bytes (not \0 terminated)
-WRPG_PIAF_CHECKSUM     :  unsigned long long <=> 8 bytes
-WRPG_PIAF_VERSION      :  unsigned int       <=> 4 bytes
-WRPG_PIAF_NB_FILES     :  unsigned int       <=> 4 bytes
-WRPG_PIAF_DATA_SIZE    :  unsigned int       <=> 4 bytes
-<padding>              :  <filler>           <=> 4 bytes
+WRPG_PIAF_MAGIC_HEADER       : "WRPGPIAF"          <=> 8 bytes (not \0 terminated)
+WRPG_PIAF_HEADER_CHECKSUM    :  unsigned int       <=> 4 bytes (This checksum covers the version, number of files and the data size).
+WRPG_PIAF_FILETABLE_CHECKSUM :  unsigned int       <=> 4 bytes (This checksum covers the whole filetable data part).
+WRPG_PIAF_VERSION            :  unsigned int       <=> 4 bytes (Stored in this form : 0xAABBCCDDD, where A = major version, B = minor version, C = hotfix)
+WRPG_PIAF_NB_FILES           :  unsigned int       <=> 4 bytes
+WRPG_PIAF_DATA_SIZE          :  unsigned int       <=> 4 bytes
+<padding>                    :  <filler>           <=> 4 bytes
 ```
 Effective size : 32 bytes.
+
+## Checksum
+Checksumps should be done with zlib's crc32. Header checksum covering the last part of the header, the filetable checksum covering the whole filetable data part.
 
 ## File table
 ```markdown
@@ -26,7 +30,7 @@ Effective size = 24 bytes per file.
 1 = MAP
 2 = EVENT_LIST
 3 = TEXT
-4 = SPRITESHEET
+4 = TEXTURE (PNG?)
 ```
 
 ## Compression types
@@ -50,9 +54,8 @@ struct WRPG_PIAF_FILE_ENTRY {
 
 struct WRPG_PIAF_FILE {
   char magic_header[9];
-  unsigned long long checksum;
-   // 0xAABBCCCC form
-   // AA = major version, BB = minor version, CC = hotfix
+  unsigned int header_checksum;
+  unsigned int file_checksum;
   unsigned int version;
   unsigned int nb_files;
   unsigned int data_size;
@@ -121,7 +124,9 @@ struct WRPG_PIAF_FILE *load_structure_from_data(void *data, ssize_t size) {
     return nullptr;
   }
 
-  unsigned long long checksum = read_unsigned_long_long(&data_char[8]);
+  unsigned int header_checksum = read_unsigned(&data_char[8]);
+  unsigned int filetable_checksum = read_unsigned(&data_char[12]);
+
   bool check_ok = true;
   // checksum routine goes here
   if (!check_ok) {
