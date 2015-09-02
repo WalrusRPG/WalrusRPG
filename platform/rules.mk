@@ -1,3 +1,3 @@
 platform_LOCAL_PATH := $(call whereami)
 
-INCLUDE += $(platform_LOCAL_PATH)
+INCLUDE += $(platform_LOCAL_PATH)/include
