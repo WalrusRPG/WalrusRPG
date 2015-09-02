@@ -1,13 +1,14 @@
 #include <libndls.h>
 #include "StateMachine.h"
-#include "Timers.h"
+#include "Timing.h"
+#include "platform.h"
 #include "Graphics.h"
 #include "render/Text.h"
 #include "version.h"
 
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::States;
-using namespace WalrusRPG::Timers;
+using namespace WalrusRPG::Timing;
 
 #define STATEMACHINE WalrusRPG::StateMachine
 
@@ -33,8 +34,6 @@ void STATEMACHINE::pop()
 
 void STATEMACHINE::run()
 {
-    Timers::mode(0, true, false, false, 1, true);
-    Timers::load(0, 0);
     const unsigned loop_time = TIMER_FREQ / 60;
     unsigned loop_next = loop_time;
     unsigned last_update = 0, update_stamp, update_time;
@@ -42,14 +41,14 @@ void STATEMACHINE::run()
 
     while (!stack.empty())
     {
-        update_stamp = Timers::read(0);
+        update_stamp = Timing::gettime();
         update_time = update_stamp - last_update;
         stack.back()->update(update_time);
         last_update = update_stamp;
 
-        if (Timers::read(0) < loop_next)
+        if (Timing::gettime() < loop_next)
         {
-            frame_stamp = Timers::read(0);
+            frame_stamp = Timing::gettime();
             frame_time = frame_stamp - last_frame;
             Graphics::frame_begin();
             stack.back()->render(frame_time);
@@ -68,7 +67,7 @@ void STATEMACHINE::run()
             this->pop();
         }
 
-        while (Timers::read(0) < loop_next)
+        while (Timing::gettime() < loop_next)
             ;
         loop_next += loop_time;
     }

@@ -1,5 +1,5 @@
 #include "StateMachine.h"
-#include "Timers.h"
+#include "Timing.h"
 #include "Graphics.h"
 #include "Interrupts.h"
 #include "map/Map.h"
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     UNUSED(argv);
 
     Graphics::init();
-    Timers::init(0);
+    Timing::init();
     Interrupts::init();
 
     uint16_t dungeonTest[] = {
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     machine.run();
 
     Interrupts::off();
-    Timers::restore(0);
+    Timing::deinit();
     Graphics::deinit();
     return 0;
 }

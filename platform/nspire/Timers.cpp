@@ -6,7 +6,7 @@ volatile uint32_t *timer_load = (uint32_t *) (TIMER);
 volatile uint32_t *timer_value = (uint32_t *) (TIMER + 0x04);
 uint32_t timer_ctl_bkp[2], timer_load_bkp[2];
 
-#define TIMERS WalrusRPG::Timers
+#define TIMERS Nspire::Timers
 
 void TIMERS::init(uint32_t timer)
 {
