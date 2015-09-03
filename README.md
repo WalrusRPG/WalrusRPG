@@ -1,30 +1,25 @@
 # WalrusRPG
 
-A J-RPG engine for the TI-Nspire. There's still a lot of work before anything works.
+A J-RPG engine for the TI-Nspire. There's still a lot to do before anything works.
 
 ## Getting the code wih Git
 
-To have the whole WRPG source code and its source code dependancies (like tinySTL),
-and be able to compile and rock on, you have two options : using `--recursive` to
-download the whole repo and sub-modules or downloading the moduels after
-cloning the repo : 
+To get the dependencies together with the source, you need to do a recursive clone
+of the repo:
 
 ```bash
-# Download the whole repo and its submodules in one step
-git clone --recursive <WalrusRPG repo location>
+git clone --recursive https://github.com/WalrusRPG/WalrusRPG.git
 ```
 
-Second option
+If you forgot to include `--recursive` while cloning, it's not too late:
 
 ```bash
-git clone <WalrusRPG repo location
-cd <WalrusRPG folder>
-git submodule init
-git submodule update
+cd WalrusRPG
+git submodule update --init --recursive
 ```
 
-YOu'll have to download ConvertIMG separately for the moment as only the binary
-helps converting the art data in the compilation process.
+You'll have to compile ConvertIMG yourself for now, it might be added to the
+build system later.
 
 ## Compiling
 
