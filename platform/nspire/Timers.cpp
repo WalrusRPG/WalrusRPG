@@ -57,10 +57,10 @@ void TIMERS::mode(uint32_t timer, bool free_run, bool oneshot, bool interrupt,
 
 void TIMERS::load(uint32_t timer, uint32_t value)
 {
-    timer_load[8 * timer] = 0xFFFFFFFF - value;
+    timer_load[8 * timer] = value;
 }
 
 uint32_t TIMERS::read(uint32_t timer)
 {
-    return 0xFFFFFFFF - timer_value[8 * timer];
+    return timer_value[8 * timer];
 }
