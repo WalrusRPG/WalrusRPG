@@ -1,10 +1,10 @@
-#include <libndls.h>
 #include "StateMachine.h"
 #include "Timing.h"
 #include "platform.h"
 #include "Graphics.h"
 #include "render/Text.h"
 #include "version.h"
+#include "Input.h"
 
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::States;
@@ -60,9 +60,9 @@ void STATEMACHINE::run()
             Graphics::frame_end();
         }
 
-        if (isKeyPressed(KEY_NSPIRE_ESC))
+        if (Input::key_b())
         {
-            while (isKeyPressed(KEY_NSPIRE_ESC))
+            while (Input::key_b())
                 ;
             this->pop();
         }

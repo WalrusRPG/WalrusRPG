@@ -1,8 +1,10 @@
-#include <libndls.h>
 #include "Camera.h"
 #include "utility/misc.h"
+#include "Input.h"
 
 #define CAMERA WalrusRPG::Camera
+
+using namespace WalrusRPG;
 
 CAMERA::Camera(signed x, signed y)
 {
@@ -28,13 +30,13 @@ void CAMERA::update(unsigned dt)
                 velocity += acceleration * dt;
          */
 
-    if (isKeyPressed(KEY_NSPIRE_5))
+    if (Input::key_down())
         y++;
-    if (isKeyPressed(KEY_NSPIRE_8))
+    if (Input::key_up())
         y--;
-    if (isKeyPressed(KEY_NSPIRE_6))
+    if (Input::key_right())
         x++;
-    if (isKeyPressed(KEY_NSPIRE_4))
+    if (Input::key_left())
         x--;
 }
 
