@@ -1,7 +1,7 @@
 #ifndef INCLUDE_INTERRUPTS_H
 #define INCLUDE_INTERRUPTS_H
 
-namespace WalrusRPG
+namespace Nspire
 {
     namespace Interrupts
     {

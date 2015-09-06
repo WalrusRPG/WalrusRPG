@@ -1,5 +1,3 @@
-#include <cstdio>
-#include "Interrupts.h"
 #include "Map.h"
 #include "render/TileRenderer.h"
 #include "Graphics.h"
@@ -42,9 +40,6 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
     signed offset_y = camera.get_y() % t_height * -1 - (camera.get_y() < 0) * t_height;
     signed start_x = camera.get_x() / t_width - (camera.get_x() < 0);
     signed start_y = camera.get_y() / t_height - (camera.get_y() < 0);
-    Interrupts::off();
-    printf("%i %i\n", start_x, start_y);
-    Interrupts::init();
 
     // pre-calculating variables to speed up loop condition check
     signed delta_x = 320 / t_width + 1;

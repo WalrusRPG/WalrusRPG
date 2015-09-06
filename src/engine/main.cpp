@@ -1,7 +1,7 @@
 #include "StateMachine.h"
 #include "Timing.h"
 #include "Graphics.h"
-#include "Interrupts.h"
+#include "Quirks.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
 #include "render/Pixel.h"
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     Graphics::init();
     Timing::init();
-    Interrupts::init();
+    Quirks::init();
 
     uint16_t dungeonTest[] = {
         21, 21,  1,   1,   1,   1,   21,  22,  21,  22, 21,  22,  21,  21,  1,   22,  21,
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
     StateMachine machine(new States::StateMap(0, 0, map));
     machine.run();
 
-    Interrupts::off();
+    Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
     return 0;

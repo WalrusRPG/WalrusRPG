@@ -1,7 +1,7 @@
 #include "Interrupts.h"
 #include "CXfb.h"
 
-#define INTERRUPTS WalrusRPG::Interrupts
+#define INTERRUPTS Nspire::Interrupts
 
 #define INTERRUPT_CONTROLLER 0xDC000000
 volatile uint32_t *irq_status = (uint32_t *) (INTERRUPT_CONTROLLER + 0x0);
