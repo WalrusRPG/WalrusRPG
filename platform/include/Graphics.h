@@ -9,6 +9,7 @@
 #include <cstdint>
 #include "render/Pixel.h"
 #include "utility/Rect.h"
+#include "Texture.h"
 
 namespace WalrusRPG
 {
@@ -35,7 +36,7 @@ namespace WalrusRPG
          * (not sure the GC supports drawing parts of a texture, but it
          * may be worth trying
          */
-        void put_sprite(const uint16_t *sheet, int x, int y,
+        void put_sprite(const Texture &sheet, int x, int y,
                         const WalrusRPG::Utils::Rect &window);
 
         /*

@@ -25,10 +25,10 @@ void GRAPHICS::frame_end()
     CXfb::buffer_swap_render();
 }
 
-void GRAPHICS::put_sprite(const uint16_t *sheet, int x, int y,
+void GRAPHICS::put_sprite(const Texture &sheet, int x, int y,
                           const WalrusRPG::Utils::Rect &window)
 {
-    CXfb::draw_sprite_sheet(sheet, x, y, window);
+    CXfb::draw_sprite_sheet(sheet.data, x, y, window);
 }
 
 void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)

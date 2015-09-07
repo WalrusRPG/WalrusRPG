@@ -3,18 +3,19 @@
 
 #include "utility/Rect.h"
 #include "Renderer.h"
+#include "Texture.h"
 
 namespace WalrusRPG
 {
     class TileRenderer : public Renderer
     {
       protected:
-        unsigned short *tilesheet;
+        WalrusRPG::Graphics::Texture tilesheet;
         unsigned tile_width;
         unsigned tile_height;
 
       public:
-        TileRenderer(unsigned short *tilesheet, unsigned tile_width,
+        TileRenderer(WalrusRPG::Graphics::Texture tilesheet, unsigned tile_width,
                      unsigned tile_height);
         void render(const unsigned id, const WalrusRPG::Utils::Rect &rect);
 

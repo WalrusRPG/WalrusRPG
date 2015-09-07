@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include "utility/Rect.h"
 #include "render/Pixel.h"
-#include <cstdint>
+#include "utility/misc.h"
 
 using WalrusRPG::Graphics::Black;
 using WalrusRPG::Graphics::Pixel;
@@ -13,17 +13,19 @@ namespace
     texture_data_t loadPNG(char *data)
     {
         // TODO : stuff
+        UNUSED(data);
         return nullptr;
     }
 }
 
-Texture::Texture(char *data) : data(loadPNG(data))
+Texture::Texture(char *data) : data((texture_data_t) data)
 {
 }
 
 Texture::~Texture()
 {
-    delete (data);
+    // Don't deallocate for now since we still hardcode the data
+    // delete (data);
 }
 
 Rect Texture::get_dimensions()

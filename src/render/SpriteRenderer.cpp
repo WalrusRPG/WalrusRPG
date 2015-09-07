@@ -6,7 +6,8 @@
 using namespace WalrusRPG;
 using namespace WalrusRPG::Utils;
 
-SPRITERENDERER::SpriteRenderer(unsigned short *_tilesheet) : tilesheet(_tilesheet)
+SPRITERENDERER::SpriteRenderer(WalrusRPG::Graphics::Texture _tilesheet)
+    : tilesheet(_tilesheet)
 {
 }
 

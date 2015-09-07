@@ -8,9 +8,11 @@
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Utils;
 
+Texture tex_font((char *) font);
+
 void TEXT::print_char(char c, unsigned x, unsigned y)
 {
-    put_sprite(font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
+    put_sprite(tex_font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
 }
 
 void TEXT::print_string(const char *str, unsigned x, unsigned y)
@@ -23,7 +25,7 @@ void TEXT::print_string(const char *str, unsigned x, unsigned y)
         char c = str[index];
         rect.x = (c % 16) * 8;
         rect.y = (c / 16) * 8;
-        put_sprite(font, x, y, rect);
+        put_sprite(tex_font, x, y, rect);
         x += 8;
     }
 }
