@@ -2,8 +2,8 @@
 #include <cstring>
 
 using WalrusRPG::PIAF::Archive;
-using WalrusRPG::PIAF::File_Entry;
-using WalrusRPG::PIAF::File_Type;
+using WalrusRPG::PIAF::FileEntry;
+using WalrusRPG::PIAF::FileType;
 
 Archive::Archive(char *filepath)
 {
@@ -18,7 +18,7 @@ Archive::~Archive()
     // delete[] entries;
 }
 
-File_Entry Archive::get_file_entry(char *filename)
+FileEntry Archive::get_file_entry(char *filename)
 {
     for (uint32_t index = 0; index < nb_files; index++)
     {
@@ -30,7 +30,7 @@ File_Entry Archive::get_file_entry(char *filename)
     // throw exception
 }
 
-/*PFile*/ void /*File_Entry*/ get(char *filename)
+/*PFile*/ void /*FileEntry*/ get(char *filename)
 {
     // return PFile(get_file_entry(filename));
 }
