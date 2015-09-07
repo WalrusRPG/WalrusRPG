@@ -28,7 +28,7 @@ namespace WalrusRPG
         {
             char filename[9]; // 8 + a \0 in case of printing
             File_Type file_type;
-            Compression_Type Compression_Type;
+            Compression_Type compression_type;
             uint32_t file_size;
             uint32_t data_offset;
         };
@@ -48,8 +48,8 @@ namespace WalrusRPG
             Archive(char *filepath);
             ~Archive();
 
-            File_Entry *get_file_entry(char *filename);
-            // WFile get(char *filename);
+            File_Entry get_file_entry(char *filename);
+            /*PFile*/ void get(char *filename);
         };
     }
 }
