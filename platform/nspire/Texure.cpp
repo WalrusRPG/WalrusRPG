@@ -12,28 +12,26 @@ namespace
 {
     texture_data_t loadPNG(char *data)
     {
-        // stuff
+        // TODO : stuff
         return nullptr;
     }
 }
 
-Texture::Texture(char *data) : texture(loadPNG(data))
+Texture::Texture(char *data) : data(loadPNG(data))
 {
-    width = texture[0];
-    height = texture[1];
 }
 
 Texture::~Texture()
 {
-    delete (texture);
+    delete (data);
 }
 
 Rect Texture::get_dimensions()
 {
-    return Rect(0, 0, width, height);
+    return Rect(0, 0, data[0], data[1]);
 }
 
 const Pixel Texture::get_pixel(unsigned x, unsigned y)
 {
-    return Pixel(texture[2 + width*y + x]);
+    return Pixel(data[2 + data[0] * y + x]);
 }

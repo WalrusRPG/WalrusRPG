@@ -19,13 +19,9 @@ namespace WalrusRPG
         class Texture
         {
           private:
-            texture_data_t texture;
-            unsigned width;
-            unsigned height;
-
           public:
-            // The get function is implemented by the child
-            // TextureHolder &get_texture();
+            texture_data_t data;
+
             Texture(char *data);
             ~Texture();
             // Getters
