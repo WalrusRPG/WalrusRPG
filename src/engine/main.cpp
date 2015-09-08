@@ -4,7 +4,6 @@
 #include "Quirks.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
-#include "render/Pixel.h"
 #include "utility/misc.h"
 
 using namespace WalrusRPG;
