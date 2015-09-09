@@ -1,33 +1,34 @@
 #include "Input.h"
+#include <SFML/Window/Keyboard.hpp>
 
 #define INPUT WalrusRPG::Input
 
 bool INPUT::key_a()
 {
-    return false;
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::Return);
 }
 
 bool INPUT::key_b()
 {
-    return false;
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace);
 }
 
 bool INPUT::key_up()
 {
-    return false;
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 }
 
 bool INPUT::key_down()
 {
-    return false;
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::S);
 }
 
 bool INPUT::key_left()
 {
-    return false;
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::A);
 }
 
 bool INPUT::key_right()
 {
-    return false;
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::D);
 }
