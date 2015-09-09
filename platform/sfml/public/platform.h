@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
-#define TIMER_FREQ 1000
+#define TIMER_FREQ 1000000
 
 typedef sf::Texture texture_data_t;
 
