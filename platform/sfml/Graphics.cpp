@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "sfwindow.h"
 #include "engine/main.h"
 #include <SFML/Graphics.hpp>
 #include "utility/misc.h"
