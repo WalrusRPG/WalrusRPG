@@ -5,12 +5,14 @@
 #define GRAPHICS WalrusRPG::Graphics
 
 sf::RenderWindow window;
+sf::View view;
+sf::RenderTexture buffer;
 
 void GRAPHICS::init()
 {
-    window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - 160,
-                                    sf::VideoMode::getDesktopMode().height / 2 - 120));
     window.create(sf::VideoMode(320, 240), "WalrusRPG");
+    view = sf::View(window.getDefaultView());
+    buffer.create(320, 240);
 }
 
 void GRAPHICS::deinit()
@@ -25,6 +27,22 @@ void GRAPHICS::frame_begin()
 
 void GRAPHICS::frame_end()
 {
+    sf::Sprite sprite(buffer.getTexture());
+    sf::Vector2u winsize = window.getSize();
+    sf::Event event;
+    float scale = min(winsize.x / 320.f, winsize.y / 240.f);
+
+    while(window.pollEvent(event))
+    {
+    }
+
+    window.setView(view = sf::View(sf::FloatRect(0, 0, winsize.x, winsize.y)));
+
+    buffer.display();
+    window.clear();
+    sprite.setScale(scale, scale);
+    sprite.setPosition((winsize.x - 320.f * scale) / 2, (winsize.y - 240.f * scale) / 2);
+    window.draw(sprite);
     window.display();
 }
 
@@ -35,7 +53,7 @@ void GRAPHICS::put_sprite(const Texture &sheet, int x, int y,
     sprite.setTexture(sheet.data);
     sprite.setTextureRect(sf::IntRect(window.x, window.y, window.width, window.height));
     sprite.setPosition(x, y);
-    ::window.draw(sprite);
+    buffer.draw(sprite);
 }
 
 void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)
