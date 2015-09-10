@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "engine/main.h"
 #include <SFML/Graphics.hpp>
 #include "utility/misc.h"
 
@@ -34,6 +35,10 @@ void GRAPHICS::frame_end()
 
     while(window.pollEvent(event))
     {
+        if (event.type == sf::Event::Closed)
+        {
+            WalrusRPG::quit();
+        }
     }
 
     window.setView(view = sf::View(sf::FloatRect(0, 0, winsize.x, winsize.y)));

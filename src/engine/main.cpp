@@ -1,3 +1,4 @@
+#include "main.h"
 #include "StateMachine.h"
 #include "Timing.h"
 #include "Graphics.h"
@@ -79,8 +80,13 @@ int main(int argc, char *argv[])
     StateMachine machine(new States::StateMap(0, 0, map));
     machine.run();
 
+    quit();
+}
+
+void WalrusRPG::quit()
+{
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
-    return 0;
+    exit(0);
 }
