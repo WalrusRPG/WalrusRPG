@@ -1,6 +1,7 @@
 #include "Archive.h"
 #include <cstring>
 #include <cstdio>
+#include <zlib.h>
 
 using WalrusRPG::PIAF::Archive;
 using WalrusRPG::PIAF::FileEntry;
@@ -12,7 +13,7 @@ namespace
     {
         T result = 0;
         uint8_t *data = (uint8_t *) ptr;
-        for (int i = 0; i < sizeof(T); i++)
+        for (unsigned i = 0; i < sizeof(T); i++)
             result |= data[i] << (8 * (sizeof(T) - 1 - i));
         return result;
     }
@@ -39,12 +40,21 @@ Archive::Archive(char *filepath)
         // TODO : throw file too small
     }
 
-    char header_container[8] = {0};
-    fread(header_container, sizeof(char), 8, file);
+    char header_container[32] = {0};
+    fread(header_container, sizeof(char), 32, file);
     if (strncmp(header_container, "WRPGPIAF", 8) != 0)
     {
         // TODO throw bad header
     }
+    uint32_t expected_checksum = read_big_endian_value<uint32_t>(&header_container[8]);
+    if (expected_checksum != crc32(0L, (unsigned char*)header_container, 32))
+    {
+        // TODO throw bad checksum
+    }
+
+    // TODO : version checking
+    version = read_big_endian_value<uint32_t>(&header_container[12]);
+
 
 
     // ...
