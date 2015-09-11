@@ -26,7 +26,7 @@ BUILT_SRCS :=
 BUILT_SRCS_C :=
 BUILT_SRCS_CPP :=
 
-OUT = out
+OUT = out/$(PLATFORM)
 ELF = $(OUT)/$(NAME).elf
 
 CLEAN_SPEC :=

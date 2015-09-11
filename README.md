@@ -1,6 +1,19 @@
 # WalrusRPG
 
-A J-RPG engine for the TI-Nspire. There's still a lot to do before anything works.
+A cross-platform J-RPG engine. Still very much a work in progress, but it
+might get somewhere someday.
+
+## Features
+
+- Cross-platform
+- Walruses
+- Highly experimental stuff inside (yes it's radioactive)
+
+## Does not feature
+
+- Walrii
+- The game
+- Actual content
 
 ## Getting the code wih Git
 
@@ -24,7 +37,8 @@ build system later.
 ## Compiling
 
 The build system currently depends on Vogtinator's [ConvertImg](https://github.com/Vogtinator/ConvertImg),
-as well as GNU Make and the Ndless toolchain.
+as well as GNU Make and the Ndless toolchain when compiling for the Nspire,
+or SFML for systems that it supports.
 
 We use the [tinystl](https://github.com/mendsley/tinystl) library to keep binaries small, so be
 sure to clone the submodules as well !
@@ -33,7 +47,7 @@ To compile the project, simply run make (-j friendly).
 
 ## Plans
 
-### What need to be done
+### What needs to be done
 
 - Entities (planning in progress)
 - Events
@@ -47,3 +61,4 @@ To compile the project, simply run make (-j friendly).
 ### What's already done
 - Map system.
 - Basic text routines.
+- Support for multiple platforms, including the TI-Nspire CX and SFML

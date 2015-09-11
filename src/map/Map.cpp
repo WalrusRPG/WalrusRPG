@@ -22,7 +22,7 @@ MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1) : anim()
 
 MAP::~Map()
 {
-    // TODO if you allocate dynamically members
+    delete this->renderer;
 }
 
 void MAP::update(unsigned dt)
