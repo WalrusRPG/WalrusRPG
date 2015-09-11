@@ -11,7 +11,8 @@ sf::RenderTexture buffer;
 
 void GRAPHICS::init()
 {
-    window.create(sf::VideoMode(640, 480), "WalrusRPG");
+    window.create(sf::VideoMode(640, 480), "WalrusRPG",
+                  sf::Style::Titlebar | sf::Style::Resize);
     view = sf::View(window.getDefaultView());
     buffer.create(320, 240);
 }
