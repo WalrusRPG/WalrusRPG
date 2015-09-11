@@ -19,6 +19,8 @@ STATEMACHINE::StateMachine(State *state)
 
 STATEMACHINE::~StateMachine()
 {
+    while (!stack.empty())
+        pop();
 }
 
 void STATEMACHINE::push(State *state)
