@@ -29,9 +29,24 @@ Archive::Archive(char *filepath)
     {
         // TODO : throw Couldn't open
     }
-
-
     // loading stuff happens NOW
+    // checking if the file is long enough to have a header
+    fseek(file, 0L, SEEK_END);
+    uint64_t filesize = ftell(file);
+    fseek(file, 0L, SEEK_SET);
+    if (filesize < 32)
+    {
+        // TODO : throw file too small
+    }
+
+    char header_container[8] = {0};
+    fread(header_container, sizeof(char), 8, file);
+    if (strncmp(header_container, "WRPGPIAF", 8) != 0)
+    {
+        // TODO throw bad header
+    }
+
+
     // ...
     // entries = new File_Entry[];
     // ...
