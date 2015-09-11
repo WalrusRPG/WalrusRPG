@@ -1,6 +1,5 @@
 #include "Graphics.h"
 #include "sfwindow.h"
-#include "engine/main.h"
 #include <SFML/Graphics.hpp>
 #include "utility/misc.h"
 
@@ -34,12 +33,8 @@ void GRAPHICS::frame_end()
     sf::Event event;
     float scale = min(winsize.x / 320.f, winsize.y / 240.f);
 
-    while(window.pollEvent(event))
+    while (window.pollEvent(event))
     {
-        if (event.type == sf::Event::Closed)
-        {
-            WalrusRPG::quit();
-        }
     }
 
     window.setView(view = sf::View(sf::FloatRect(0, 0, winsize.x, winsize.y)));
