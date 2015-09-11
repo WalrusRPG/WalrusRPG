@@ -8,7 +8,7 @@ namespace WalrusRPG
 {
     namespace PIAF
     {
-        enum FileType
+        enum FileType : uint32_t
         {
             UNKNOWN,
             MAP,
@@ -16,7 +16,7 @@ namespace WalrusRPG
             TEXT,
             TEXTURE
         };
-        enum CompressionType
+        enum CompressionType : uint32_t
         {
             UNKNWOWN,
             RAW,
