@@ -36,7 +36,7 @@ namespace WalrusRPG
         class Archive
         {
           private:
-            std::fstream file;
+            FILE* file;
             uint32_t version;
             uint32_t nb_files;
             uint32_t data_size;

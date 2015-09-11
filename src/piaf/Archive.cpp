@@ -45,7 +45,7 @@ Archive::Archive(char *filepath)
     {
     }
     // TODO : throw NPE
-    FILE *file = fopen(filepath, "rb");
+    file = fopen(filepath, "rb");
     if (file == nullptr)
     {
         // TODO : throw Couldn't open
@@ -107,6 +107,7 @@ Archive::Archive(char *filepath)
 
 Archive::~Archive()
 {
+    fclose(file);
     delete[] entries;
 }
 
