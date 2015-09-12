@@ -36,19 +36,20 @@ namespace WalrusRPG
 
         class File
         {
-            private:
-                uint8_t *data;
-                std::size_t size;
-            public:
-                File(uint8_t *data, std::size_t size);
-                ~File();
-                uint8_t& operator[](std::size_t idx);
+          private:
+            uint8_t *data;
+            std::size_t size;
+
+          public:
+            File(uint8_t *data, std::size_t size);
+            ~File();
+            uint8_t &operator[](std::size_t idx);
         };
 
         class Archive
         {
           private:
-            FILE* file;
+            FILE *file;
             uint32_t version;
             uint32_t nb_files;
             uint32_t data_size;

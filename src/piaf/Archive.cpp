@@ -50,13 +50,13 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
     if (filepath == nullptr)
     {
         // TODO : throw NPE
-        //fprintf(stderr, "Null filepath\n");
+        // fprintf(stderr, "Null filepath\n");
     }
     file = fopen(filepath, "rb");
     if (file == nullptr)
     {
         // TODO : throw Couldn't open
-        //fprintf(stderr, "Unable to open %s\n", filepath);
+        // fprintf(stderr, "Unable to open %s\n", filepath);
     }
     // loading stuff happens NOW
     // checking if the file is long enough to have a header
@@ -66,7 +66,7 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
     if (filesize < 32)
     {
         // TODO : throw file too small
-        //fprintf(stderr, "File too small\n");
+        // fprintf(stderr, "File too small\n");
     }
 
     char header_container[32] = {0};
@@ -74,14 +74,15 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
     if (strncmp(header_container, "WRPGPIAF", 8) != 0)
     {
         // TODO throw bad header
-        //fprintf(stderr, "Bad header magic word\n");
+        // fprintf(stderr, "Bad header magic word\n");
     }
     uint32_t expected_checksum = read_big_endian_value<uint32_t>(&header_container[8]);
     uint32_t calculated_checksum = crc32(0L, (unsigned char *) &header_container[16], 16);
     if (expected_checksum != calculated_checksum)
     {
         // TODO throw bad checksum
-        //fprintf(stderr, "Bad header checksum : %x != %x\n", expected_checksum, calculated_checksum);
+        // fprintf(stderr, "Bad header checksum : %x != %x\n", expected_checksum,
+        // calculated_checksum);
     }
 
     // TODO : version checking
@@ -100,7 +101,8 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
     if (data_size != calculated_data_size)
     {
         // T0D0 : throw wrong size exception
-        // fprintf(stderr, "Bad data size : expected %u, got %lld\n", data_size, calculated_data_size);
+        // fprintf(stderr, "Bad data size : expected %u, got %lld\n", data_size,
+        // calculated_data_size);
     }
     if (nb_files != 0)
     {
@@ -123,9 +125,9 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
 
 Archive::~Archive()
 {
-    if(file != nullptr)
+    if (file != nullptr)
         fclose(file);
-    if( entries != nullptr)
+    if (entries != nullptr)
         delete[] entries;
 }
 
@@ -149,12 +151,12 @@ File Archive::get(char *filename)
         {
             uint8_t *data = new uint8_t[entries[index].file_size];
             fseek(file, entries[index].data_offset + 32 + 24 * nb_files, SEEK_SET);
-            if (fread(data, sizeof(uint8_t), entries[index].file_size, file) != entries[index].file_size)
+            if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
+                entries[index].file_size)
             {
                 // throw loading error
             }
             return File(data, entries[index].file_size);
-
         }
     }
     // throw not found exception
@@ -170,7 +172,7 @@ File::~File()
     delete[] data;
 }
 
-uint8_t& File::operator[]( std::size_t idx)
+uint8_t &File::operator[](std::size_t idx)
 {
     if (idx >= size)
     {
