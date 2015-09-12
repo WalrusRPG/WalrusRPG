@@ -5,8 +5,10 @@
 #include "map/Map.h"
 #include "map/StateMap.h"
 #include "utility/misc.h"
+#include "piaf/Archive.h"
 
 using namespace WalrusRPG;
+using WalrusRPG::PIAF::Archive;
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +18,8 @@ int main(int argc, char *argv[])
     Graphics::init();
     Timing::init();
     Quirks::init();
+
+    // Archive arc("samples/one_file.wrf");
 
     uint16_t dungeonTest[] = {
         21, 21,  1,   1,   1,   1,   21,  22,  21,  22, 21,  22,  21,  21,  1,   22,  21,

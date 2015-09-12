@@ -1,8 +1,9 @@
 #ifndef INCLUDE_ARCHIVE_H
 #define INCLUDE_ARCHIVE_H
 
-#include <fstream>
 #include <cstdint>
+#include <cstdio>
+#include <string>
 
 namespace WalrusRPG
 {
@@ -45,7 +46,8 @@ namespace WalrusRPG
 
           public:
             // RAII stuff
-            Archive(char *filepath);
+            Archive(const char *filepath);
+            Archive(std::string &filepath);
             ~Archive();
 
             FileEntry get_file_entry(char *filename);
