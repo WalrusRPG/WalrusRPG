@@ -34,6 +34,17 @@ namespace WalrusRPG
             uint32_t data_offset;
         };
 
+        class File
+        {
+            private:
+                uint8_t *data;
+                std::size_t size;
+            public:
+                File(uint8_t *data, std::size_t size);
+                ~File();
+                uint8_t& operator[](std::size_t idx);
+        };
+
         class Archive
         {
           private:
@@ -51,7 +62,7 @@ namespace WalrusRPG
             ~Archive();
 
             FileEntry get_file_entry(char *filename);
-            /*PFile*/ void get(char *filename);
+            File get(char *filename);
         };
     }
 }

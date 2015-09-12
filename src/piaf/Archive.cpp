@@ -4,6 +4,7 @@
 #include <zlib.h>
 
 using WalrusRPG::PIAF::Archive;
+using WalrusRPG::PIAF::File;
 using WalrusRPG::PIAF::FileEntry;
 using WalrusRPG::PIAF::FileType;
 using WalrusRPG::PIAF::CompressionType;
@@ -140,7 +141,40 @@ FileEntry Archive::get_file_entry(char *filename)
     // throw exception
 }
 
-/*PFile*/ void /*FileEntry*/ get(char *filename)
+File Archive::get(char *filename)
 {
-    // return PFile(get_file_entry(filename));
+    for (unsigned index = 0; index < nb_files; index++)
+    {
+        if (strncmp(filename, entries[index].filename, 8) == 0)
+        {
+            uint8_t *data = new uint8_t[entries[index].file_size];
+            fseek(file, entries[index].data_offset + 32 + 24 * nb_files, SEEK_SET);
+            if (fread(data, sizeof(uint8_t), entries[index].file_size, file) != entries[index].file_size)
+            {
+                // throw loading error
+            }
+            return File(data, entries[index].file_size);
+
+        }
+    }
+    // throw not found exception
+}
+
+
+File::File(uint8_t *data, std::size_t size) : data(data), size(size)
+{
+}
+
+File::~File()
+{
+    delete[] data;
+}
+
+uint8_t& File::operator[]( std::size_t idx)
+{
+    if (idx >= size)
+    {
+        // throw up
+    }
+    return data[idx];
 }
