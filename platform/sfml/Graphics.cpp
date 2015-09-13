@@ -13,6 +13,7 @@ void GRAPHICS::init()
 {
     window.create(sf::VideoMode::getDesktopMode(), "WalrusRPG", sf::Style::Fullscreen);
     window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(60);
     view = sf::View(window.getDefaultView());
     buffer.create(320, 240);
 }
