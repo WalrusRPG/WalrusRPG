@@ -1,10 +1,11 @@
 #!/bin/bash
 
 old_PS3=PS3
-PS3='Choose your target platform : '
+PS3='#? '
+echo "Platform:"
 select TARGET in nspire sfml; do
 	rm config.mk -f
 	echo "include platform/$TARGET/rules.mk" >> config.mk
-	break
+	[[ $TARGET == "" ]] || break
 done
 PS3=old_PS3
