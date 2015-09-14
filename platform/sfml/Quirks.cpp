@@ -13,5 +13,5 @@ void Quirks::deinit()
 
 string Quirks::solve_absolute_path(const char* path)
 {
-    return path;
+    return string(path);
 }
