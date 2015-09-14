@@ -4,8 +4,8 @@
 #include "Quirks.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
-#include "utility/misc.h"
 #include "piaf/Archive.h"
+#include "utility/misc.h"
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;
