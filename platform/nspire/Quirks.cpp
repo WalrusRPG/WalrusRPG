@@ -1,5 +1,6 @@
 #include <cstddef>
 #include <cstring>
+#include <memory>
 #include <TINYSTL/string.h>
 #include "Quirks.h"
 #include "Interrupts.h"
@@ -40,9 +41,10 @@ void Quirks::deinit()
     delete[] base_path;
 }
 
-string Quirks::solve_absolute_path(const char *path)
+std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)
 {
-    string str;
-    str.append(base_path, path);
-    return str;
+    std::unique_ptr<char> result(new char[strlen(base_path) + strlen(path)]);
+    strcpy(result.get(), base_path);
+    strcpy(&result.get()[strlen(base_path)], path);
+    return result;
 }
