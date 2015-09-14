@@ -1,15 +1,15 @@
 #include "Quirks.h"
 #include "Interrupts.h"
 
-#define QUIRKS WalrusRPG::Quirks
+using namespace WalrusRPG;
 using namespace Nspire;
 
-void QUIRKS::init()
+void Quirks::init()
 {
     Interrupts::init();
 }
 
-void QUIRKS::deinit()
+void Quirks::deinit()
 {
     Interrupts::off();
 }

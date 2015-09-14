@@ -1,11 +1,11 @@
 #include "Quirks.h"
 
-#define QUIRKS WalrusRPG::Quirks
+using namespace WalrusRPG;
 
-void QUIRKS::init()
+void Quirks::init()
 {
 }
 
-void QUIRKS::deinit()
+void Quirks::deinit()
 {
 }
