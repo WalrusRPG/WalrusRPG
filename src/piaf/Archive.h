@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <cstdio>
-#include <string>
+#include <TINYSTL/string.h>
 
 namespace WalrusRPG
 {
@@ -59,7 +59,7 @@ namespace WalrusRPG
           public:
             // RAII stuff
             Archive(const char *filepath);
-            Archive(std::string &filepath);
+            Archive(tinystl::string &filepath);
             ~Archive();
 
             FileEntry get_file_entry(char *filename);

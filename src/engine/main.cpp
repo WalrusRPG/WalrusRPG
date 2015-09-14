@@ -13,13 +13,12 @@ using WalrusRPG::PIAF::Archive;
 int main(int argc, char *argv[])
 {
     UNUSED(argc);
-    UNUSED(argv);
 
     Graphics::init();
     Timing::init();
-    Quirks::init();
+    Quirks::init(argv[0]);
 
-    // Archive arc("samples/one_file.wrf");
+    // Archive arc(Quirks::solve_absolute_path("samples/one_file.wrf"));
 
     uint16_t dungeonTest[] = {
         21, 21,  1,   1,   1,   1,   21,  22,  21,  22, 21,  22,  21,  21,  1,   22,  21,

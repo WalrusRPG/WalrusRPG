@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <zlib.h>
 
+using tinystl::string;
 using WalrusRPG::PIAF::Archive;
 using WalrusRPG::PIAF::File;
 using WalrusRPG::PIAF::FileEntry;
@@ -41,7 +42,7 @@ namespace
     }
 }
 
-Archive::Archive(std::string &filepath) : Archive(filepath.c_str())
+Archive::Archive(string &filepath) : Archive(filepath.c_str())
 {
 }
 
