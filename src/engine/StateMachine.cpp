@@ -65,9 +65,9 @@ void STATEMACHINE::run()
             Graphics::frame_end();
         }
 
-        if (Input::key_b())
+        if (Input::key_select())
         {
-            while (Input::key_b())
+            while (Input::key_select())
                 ;
             this->pop();
         }
