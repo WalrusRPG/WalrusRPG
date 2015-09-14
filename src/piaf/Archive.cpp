@@ -1,7 +1,9 @@
-#include "Archive.h"
 #include <cstring>
 #include <cstdio>
+#include <memory>
 #include <zlib.h>
+#include "Archive.h"
+#include "Quirks.h"
 
 using tinystl::string;
 using WalrusRPG::PIAF::Archive;
@@ -53,7 +55,9 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
         // TODO : throw NPE
         // fprintf(stderr, "Null filepath\n");
     }
-    file = fopen(filepath, "rb");
+    std::unique_ptr<char> real_filename(Quirks::solve_absolute_path(filepath));
+
+    file = fopen(real_filename.get(), "rb");
     if (file == nullptr)
     {
         // TODO : throw Couldn't open
