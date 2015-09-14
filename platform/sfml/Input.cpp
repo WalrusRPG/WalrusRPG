@@ -3,33 +3,34 @@
 #include <SFML/Window/Keyboard.hpp>
 
 #define INPUT WalrusRPG::Input
+using sf::Keyboard;
 
 bool INPUT::key_a()
 {
-    return window.hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::Return);
+    return window.hasFocus() && Keyboard::isKeyPressed(Keyboard::Return);
 }
 
 bool INPUT::key_b()
 {
-    return window.hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace);
+    return window.hasFocus() && Keyboard::isKeyPressed(Keyboard::BackSpace);
 }
 
 bool INPUT::key_up()
 {
-    return window.hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Up));
 }
 
 bool INPUT::key_down()
 {
-    return window.hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::S);
+    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::Down));
 }
 
 bool INPUT::key_left()
 {
-    return window.hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left));
 }
 
 bool INPUT::key_right()
 {
-    return window.hasFocus() && sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right));
 }
