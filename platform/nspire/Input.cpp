@@ -5,12 +5,22 @@
 
 bool INPUT::key_a()
 {
-    return isKeyPressed(KEY_NSPIRE_ENTER);
+    return isKeyPressed(KEY_NSPIRE_CTRL);
 }
 
 bool INPUT::key_b()
 {
-    return isKeyPressed(KEY_NSPIRE_ESC);
+    return isKeyPressed(KEY_NSPIRE_SHIFT);
+}
+
+bool INPUT::key_l()
+{
+    return isKeyPressed(KEY_NSPIRE_TAB);
+}
+
+bool INPUT::key_r()
+{
+    return isKeyPressed(KEY_NSPIRE_MENU);
 }
 
 bool INPUT::key_up()
@@ -31,4 +41,14 @@ bool INPUT::key_left()
 bool INPUT::key_right()
 {
     return isKeyPressed(KEY_NSPIRE_6);
+}
+
+bool INPUT::key_start()
+{
+    return isKeyPressed(KEY_NSPIRE_HOME);
+}
+
+bool INPUT::key_select()
+{
+    return isKeyPressed(KEY_NSPIRE_ESC);
 }
