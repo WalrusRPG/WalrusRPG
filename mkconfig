@@ -1,6 +1,10 @@
 #!/bin/bash
 
-rm -f config.mk
-
-echo "include platform/nspire/rules.mk" >> config.mk
-
+old_PS3=PS3
+PS3='Choose your target platform : '
+select TARGET in nspire sfml; do
+	rm config.mk -f
+	echo "include platform/$TARGET/rules.mk" >> config.mk
+	break
+done
+PS3=old_PS3
