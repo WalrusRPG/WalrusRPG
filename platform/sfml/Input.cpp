@@ -7,7 +7,8 @@ using sf::Keyboard;
 
 bool INPUT::key_a()
 {
-    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Z));
+    return window.hasFocus() &&
+           (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Z));
 }
 
 bool INPUT::key_b()
@@ -17,7 +18,8 @@ bool INPUT::key_b()
 
 bool INPUT::key_l()
 {
-    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::Q) || Keyboard::isKeyPressed(Keyboard::A));
+    return window.hasFocus() &&
+           (Keyboard::isKeyPressed(Keyboard::Q) || Keyboard::isKeyPressed(Keyboard::A));
 }
 
 bool INPUT::key_r()
