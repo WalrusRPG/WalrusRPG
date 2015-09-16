@@ -62,3 +62,12 @@ void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)
 {
     UNUSED(color);
 }
+
+void GRAPHICS::put_pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color)
+{
+    sf::RectangleShape pixel;
+    pixel.setSize(sf::Vector2f(1, 1));
+    pixel.setFillColor(sf::Color(color.r << 3, color.g << 2, color.b << 3));
+    pixel.setPosition(x, y);
+    buffer.draw(pixel);
+}
