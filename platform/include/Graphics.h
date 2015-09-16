@@ -47,7 +47,7 @@ namespace WalrusRPG
         /*
          * Draws a pixel on the screen.
          */
-        void pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color);
+        void put_pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color);
     }
 }
 
