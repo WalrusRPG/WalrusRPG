@@ -35,3 +35,9 @@ void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)
 {
     CXfb::buffer_fill(color);
 }
+
+void GRAPHICS::pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color)
+
+{
+    CXfb::draw_pixel(x, y, color.value);
+}

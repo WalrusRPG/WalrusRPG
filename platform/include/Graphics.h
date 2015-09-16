@@ -43,6 +43,11 @@ namespace WalrusRPG
          * Fill the screen with a color
          */
         void fill(const WalrusRPG::Graphics::Pixel &color);
+
+        /*
+         * Draws a pixel on the screen.
+         */
+        void pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color);
     }
 }
 
