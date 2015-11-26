@@ -72,8 +72,10 @@ void STATEMACHINE::run()
             this->pop();
         }
 
+#ifdef ACTIVE_WAIT
         while (Timing::gettime() < loop_next)
             ;
+#endif
         loop_next += loop_time;
     }
 }
