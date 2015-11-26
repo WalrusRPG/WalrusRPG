@@ -5,8 +5,6 @@
 #include "render/Text.h"
 #include "version.h"
 #include "Input.h"
-#include <iostream>
-using namespace std;
 
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::States;
