@@ -43,33 +43,17 @@ void INPUT::key_poll()
         KeyState resulting_key_state = KS_RELEASED;
         if(current_key_state)
         {
-            switch(current_key_state)
-            {
-                case KS_RELEASED:
-                case KS_JUST_RELEASED:
+            if(previous_key_state == KS_RELEASED || previous_key_state == KS_JUST_RELEASED)
                     resulting_key_state = KS_JUST_PRESSED;
-                    break;
-
-                case KS_JUST_PRESSED:
-                case KS_PRESSED:
+            else if(previous_key_state == KS_JUST_PRESSED || previous_key_state == KS_PRESSED)
                     resulting_key_state = KS_PRESSED;
-                    break;
-            }
         }
         else
         {
-            switch(current_key_state)
-            {
-                case KS_RELEASED:
-                case KS_JUST_RELEASED:
-                    resulting_key_state = KS_RELEASED;
-                    break;
-
-                case KS_JUST_PRESSED:
-                case KS_PRESSED:
+            if(previous_key_state == KS_PRESSED || previous_key_state == KS_JUST_PRESSED)
                     resulting_key_state = KS_JUST_RELEASED;
-                    break;
-            }
+            else if(previous_key_state == KS_JUST_RELEASED || previous_key_state == KS_RELEASED)
+                    resulting_key_state = KS_RELEASED;
         }
         key_states[i] = resulting_key_state;
     }
