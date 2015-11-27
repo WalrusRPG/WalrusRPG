@@ -60,7 +60,7 @@ void GRAPHICS::put_sprite(const Texture &sheet, int x, int y,
 
 void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)
 {
-    UNUSED(color);
+    buffer.clear(sf::Color(color.r<<3, color.g<<2, color.b<<2, 255));
 }
 
 void GRAPHICS::put_pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color)
