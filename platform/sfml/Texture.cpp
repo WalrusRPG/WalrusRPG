@@ -26,7 +26,7 @@ TEXTURE::Texture(char *data) : data()
 	    	Pixel pix(data_16[3 + y*data_16[0] + x]);
 	    	unsigned pixel_offset = data_16[0]*y + x;
 	    	pixels[4*pixel_offset] = pix.r<<3;
-	    	pixels[4*pixel_offset+1] = pix.g<<3;
+	    	pixels[4*pixel_offset+1] = pix.g<<2;
 	    	pixels[4*pixel_offset+2] = pix.b<<3;
 	    	pixels[4*pixel_offset+3] = pix.value == data_16[2] ? 0 : 255;
 	    }
