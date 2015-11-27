@@ -9,6 +9,7 @@
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::States;
 using namespace WalrusRPG::Timing;
+using WalrusRPG::Input::Key;
 
 #define STATEMACHINE WalrusRPG::StateMachine
 
@@ -45,6 +46,7 @@ void STATEMACHINE::run()
     {
         update_stamp = Timing::gettime();
         update_time = update_stamp - last_update;
+        Input::key_poll();
         stack.back()->update(100*update_time/TIMER_FREQ);
         last_update = update_stamp;
 
@@ -65,10 +67,10 @@ void STATEMACHINE::run()
             Graphics::frame_end();
         }
 
-        if (Input::key_select())
+        if (Input::key_pressed(Key::K_SELECT))
         {
-            while (Input::key_select())
-                ;
+            while (Input::key_down(Key::K_SELECT))
+                Input::key_poll();
             this->pop();
         }
 

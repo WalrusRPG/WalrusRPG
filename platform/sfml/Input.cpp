@@ -1,58 +1,93 @@
 #include "Input.h"
+#include "Graphics.h" // window
 #include "sfwindow.h"
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window.hpp>
 
 #define INPUT WalrusRPG::Input
+using WalrusRPG::Input::Key;
+using WalrusRPG::Input::KeyState;
 using sf::Keyboard;
 
-bool INPUT::key_a()
+struct InputMap
 {
-    return window.hasFocus() &&
-           (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Z));
+    Key key;
+    sf::Keyboard::Key key_code;
+};
+
+KeyState key_states[Key::K_SIZE] = {KeyState::KS_RELEASED};
+InputMap key_map[] = {
+    {Key::K_A, Keyboard::X},
+    {Key::K_B, Keyboard::C},
+    {Key::K_L, Keyboard::D},
+    {Key::K_R, Keyboard::F},
+
+    {Key::K_UP, Keyboard::Z},
+    {Key::K_DOWN, Keyboard::S},
+    {Key::K_LEFT, Keyboard::Q},
+    {Key::K_RIGHT, Keyboard::D},
+
+    {Key::K_START, Keyboard::Return},
+    {Key::K_SELECT, Keyboard::BackSpace},
+};
+
+void INPUT::key_poll()
+{
+    bool hasFocus = window.hasFocus();
+    for(unsigned i = 0; i < K_SIZE; i++)
+    {
+        bool current_key_state = hasFocus && Keyboard::isKeyPressed(key_map[i].key_code);
+        KeyState previous_key_state = key_states[i];
+
+        KeyState resulting_key_state = KS_RELEASED;
+        if(current_key_state)
+        {
+            switch(current_key_state)
+            {
+                case KS_RELEASED:
+                case KS_JUST_RELEASED:
+                    resulting_key_state = KS_JUST_PRESSED;
+                    break;
+
+                case KS_JUST_PRESSED:
+                case KS_PRESSED:
+                    resulting_key_state = KS_PRESSED;
+                    break;
+            }
+        }
+        else
+        {
+            switch(current_key_state)
+            {
+                case KS_RELEASED:
+                case KS_JUST_RELEASED:
+                    resulting_key_state = KS_RELEASED;
+                    break;
+
+                case KS_JUST_PRESSED:
+                case KS_PRESSED:
+                    resulting_key_state = KS_JUST_RELEASED;
+                    break;
+            }
+        }
+        key_states[i] = resulting_key_state;
+    }
 }
 
-bool INPUT::key_b()
+bool INPUT::key_pressed(Key key)
 {
-    return window.hasFocus() && Keyboard::isKeyPressed(Keyboard::X);
+    return key_states[key] == KS_JUST_PRESSED;
 }
-
-bool INPUT::key_l()
+bool INPUT::key_released(Key key)
 {
-    return window.hasFocus() &&
-           (Keyboard::isKeyPressed(Keyboard::Q) || Keyboard::isKeyPressed(Keyboard::A));
+    return key_states[key] == KS_JUST_RELEASED;
+
 }
-
-bool INPUT::key_r()
+bool INPUT::key_down(Key key)
 {
-    return window.hasFocus() && Keyboard::isKeyPressed(Keyboard::S);
+    return key_states[key] == KS_JUST_PRESSED || key_states[key] == KS_PRESSED;
 }
-
-bool INPUT::key_up()
+bool INPUT::key_up(Key key)
 {
-    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::Up));
-}
-
-bool INPUT::key_down()
-{
-    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::Down));
-}
-
-bool INPUT::key_left()
-{
-    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::Left));
-}
-
-bool INPUT::key_right()
-{
-    return window.hasFocus() && (Keyboard::isKeyPressed(Keyboard::Right));
-}
-
-bool INPUT::key_start()
-{
-    return window.hasFocus() && Keyboard::isKeyPressed(Keyboard::Return);
-}
-
-bool INPUT::key_select()
-{
-    return window.hasFocus() && Keyboard::isKeyPressed(Keyboard::BackSpace);
+    return key_states[key] == KS_JUST_RELEASED || key_states[key] == KS_RELEASED;
 }
