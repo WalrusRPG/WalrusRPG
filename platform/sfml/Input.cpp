@@ -13,19 +13,20 @@ struct InputMap
 {
     Key key;
     sf::Keyboard::Key key_code;
+    sf::Keyboard::Key key_code_alt;
 };
 
 KeyState key_states[Key::K_SIZE] = {KeyState::KS_RELEASED};
 InputMap key_map[] = {
-    {Key::K_A, Keyboard::X},
-    {Key::K_B, Keyboard::C},
-    {Key::K_L, Keyboard::D},
-    {Key::K_R, Keyboard::F},
+    {Key::K_A, Keyboard::W, Keyboard::Z},
+    {Key::K_B, Keyboard::X},
+    {Key::K_L, Keyboard::Q, Keyboard::A},
+    {Key::K_R, Keyboard::S},
 
-    {Key::K_UP, Keyboard::Z},
-    {Key::K_DOWN, Keyboard::S},
-    {Key::K_LEFT, Keyboard::Q},
-    {Key::K_RIGHT, Keyboard::D},
+    {Key::K_UP, Keyboard::Up},
+    {Key::K_DOWN, Keyboard::Down},
+    {Key::K_LEFT, Keyboard::Left},
+    {Key::K_RIGHT, Keyboard::Right},
 
     {Key::K_START, Keyboard::Return},
     {Key::K_SELECT, Keyboard::BackSpace},
