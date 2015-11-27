@@ -6,7 +6,7 @@ PIXEL::Pixel(std::uint16_t color) : value(color)
 {
 }
 
-PIXEL::Pixel(Pixel &pix) : value((std::uint8_t) pix)
+PIXEL::Pixel(Pixel &pix) : value(pix.value)
 {
 }
 
