@@ -1,11 +1,31 @@
 #!/bin/bash
 
+TARGET_LIST=("nspire" "sfml")
+
+create_configuration() {
+	echo "Creating $1 configuration"
+	rm config.mk -f
+	echo "include platform/$1/rules.mk" >> config.mk
+}
+
+is_valid_target() {
+	for item in "${TARGET_LIST[@]}"; do
+		[[ $1 == "$item" ]] && return 0
+	done
+	return 1
+}
+
 old_PS3=PS3
 PS3='#? '
-echo "Platform:"
-select TARGET in nspire sfml; do
-	rm config.mk -f
-	echo "include platform/$TARGET/rules.mk" >> config.mk
-	[[ $TARGET == "" ]] || break
-done
+# If $1 isn't set
+if [[ -z ${1+z} ]]; then
+	echo "Platform:"
+	select TARGET in "${TARGET_LIST[@]}"; do
+		create_configuration "$TARGET"
+		[[ $TARGET == "" ]] || break
+	done
+# else use it as a platform selection
+else
+	is_valid_target "$1" && create_configuration "$1"
+fi
 PS3=old_PS3
