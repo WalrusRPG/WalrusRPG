@@ -115,7 +115,7 @@ void GRAPHICS::draw_pixel(int x, int y, uint16_t color)
 void GRAPHICS::draw_pixel_tint(int x, int y, uint16_t color, uint16_t tint)
 {
     int r = ((color >> 11) * (tint >> 11)) >> 5;
-    int g = (((color >> 5) & 0b111111) * ((tint >> 11) & 0b111111)) >> 6;
+    int g = (((color >> 5) & 0b111111) * ((tint >> 5) & 0b111111)) >> 6;
     int b = ((color & 0b11111) * (tint & 0b11111)) >> 5;
     buffer_render[x + (y * 320)] = (r << 11) | (g << 5) | b;
 }
