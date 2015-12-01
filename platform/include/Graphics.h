@@ -31,13 +31,18 @@ namespace WalrusRPG
         void frame_end();
 
         /*
-         * Current prototype is the same as the nspire fb implementation
-         * for now, need to add a texture type and get rid of the Rect
-         * (not sure the GC supports drawing parts of a texture, but it
-         * may be worth trying
+         * Draws a sprite with clipping given as window.
          */
         void put_sprite(const Texture &sheet, int x, int y,
                         const WalrusRPG::Utils::Rect &window);
+
+        /*
+         * Draws a sprite with clipping given as window and color
+         * tinting.
+         */
+        void put_sprite_tint(const Texture &sheet, int x, int y,
+                             const WalrusRPG::Utils::Rect &window,
+                             const WalrusRPG::Graphics::Pixel &color);
 
         /*
          * Fill the screen with a color

@@ -58,6 +58,18 @@ void GRAPHICS::put_sprite(const Texture &sheet, int x, int y,
     buffer.draw(sprite);
 }
 
+void GRAPHICS::put_sprite_tint(const Texture &sheet, int x, int y,
+                     const WalrusRPG::Utils::Rect &window,
+                     const WalrusRPG::Graphics::Pixel &color)
+{
+    sf::Sprite sprite;
+    sprite.setTexture(sheet.data);
+    sprite.setTextureRect(sf::IntRect(window.x, window.y, window.width, window.height));
+    sprite.setPosition(x, y);
+    sprite.setColor(sf::Color(color.r<<3, color.g<<2, color.b<<3, 255));
+    buffer.draw(sprite);
+}
+
 void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)
 {
     buffer.clear(sf::Color(color.r<<3, color.g<<2, color.b<<2, 255));
