@@ -19,17 +19,17 @@ struct InputMap
 KeyState key_states[Key::K_SIZE] = {KeyState::KS_RELEASED};
 InputMap key_map[] = {
     {Key::K_A, Keyboard::W, Keyboard::Z},
-    {Key::K_B, Keyboard::X},
+    {Key::K_B, Keyboard::X, Keyboard::Unknown},
     {Key::K_L, Keyboard::Q, Keyboard::A},
-    {Key::K_R, Keyboard::S},
+    {Key::K_R, Keyboard::S, Keyboard::Unknown},
 
-    {Key::K_UP, Keyboard::Up},
-    {Key::K_DOWN, Keyboard::Down},
-    {Key::K_LEFT, Keyboard::Left},
-    {Key::K_RIGHT, Keyboard::Right},
+    {Key::K_UP, Keyboard::Up, Keyboard::Unknown},
+    {Key::K_DOWN, Keyboard::Down, Keyboard::Unknown},
+    {Key::K_LEFT, Keyboard::Left, Keyboard::Unknown},
+    {Key::K_RIGHT, Keyboard::Right, Keyboard::Unknown},
 
-    {Key::K_START, Keyboard::Return},
-    {Key::K_SELECT, Keyboard::BackSpace},
+    {Key::K_START, Keyboard::Return, Keyboard::Unknown},
+    {Key::K_SELECT, Keyboard::BackSpace, Keyboard::Unknown},
 };
 
 void INPUT::key_poll()
