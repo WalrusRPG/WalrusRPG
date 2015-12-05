@@ -38,7 +38,7 @@ import subprocess
 flags = [
 '-Wall',
 '-Wextra',
-'-Werror',
+#'-Werror',
 '-Wno-long-long',
 '-Wno-variadic-macros',
 '-fexceptions',
