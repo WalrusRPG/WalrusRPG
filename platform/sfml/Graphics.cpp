@@ -11,7 +11,8 @@ sf::RenderTexture buffer;
 
 void GRAPHICS::init()
 {
-    window.create(sf::VideoMode::getDesktopMode(), "WalrusRPG", sf::Style::Fullscreen);
+    // window.create(sf::VideoMode::getDesktopMode(), "WalrusRPG", sf::Style::Fullscreen);
+    window.create(sf::VideoMode(640, 480), "WalrusRPG");
     window.setFramerateLimit(60);
     view = sf::View(window.getDefaultView());
     buffer.create(320, 240);
@@ -59,20 +60,20 @@ void GRAPHICS::put_sprite(const Texture &sheet, int x, int y,
 }
 
 void GRAPHICS::put_sprite_tint(const Texture &sheet, int x, int y,
-                     const WalrusRPG::Utils::Rect &window,
-                     const WalrusRPG::Graphics::Pixel &color)
+                               const WalrusRPG::Utils::Rect &window,
+                               const WalrusRPG::Graphics::Pixel &color)
 {
     sf::Sprite sprite;
     sprite.setTexture(sheet.data);
     sprite.setTextureRect(sf::IntRect(window.x, window.y, window.width, window.height));
     sprite.setPosition(x, y);
-    sprite.setColor(sf::Color(color.r<<3, color.g<<2, color.b<<3, 255));
+    sprite.setColor(sf::Color(color.r << 3, color.g << 2, color.b << 3, 255));
     buffer.draw(sprite);
 }
 
 void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)
 {
-    buffer.clear(sf::Color(color.r<<3, color.g<<2, color.b<<2, 255));
+    buffer.clear(sf::Color(color.r << 3, color.g << 2, color.b << 2, 255));
 }
 
 void GRAPHICS::put_pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color)

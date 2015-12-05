@@ -32,10 +32,10 @@ void GRAPHICS::put_sprite(const Texture &sheet, int x, int y,
 }
 
 void GRAPHICS::put_sprite_tint(const Texture &sheet, int x, int y,
-                     const WalrusRPG::Utils::Rect &window,
-                     const WalrusRPG::Graphics::Pixel &color)
+                               const WalrusRPG::Utils::Rect &window,
+                               const WalrusRPG::Graphics::Pixel &color)
 {
-	CXfb::draw_sprite_sheet_tint(sheet.data, x, y, window, color.value);
+    CXfb::draw_sprite_sheet_tint(sheet.data, x, y, window, color.value);
 }
 
 void GRAPHICS::fill(const WalrusRPG::Graphics::Pixel &color)

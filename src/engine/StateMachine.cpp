@@ -47,7 +47,7 @@ void STATEMACHINE::run()
         update_stamp = Timing::gettime();
         update_time = update_stamp - last_update;
         Input::key_poll();
-        stack.back()->update(100*update_time/TIMER_FREQ);
+        stack.back()->update(100 * update_time / TIMER_FREQ);
         last_update = update_stamp;
 
         if (Timing::gettime() < loop_next)
@@ -55,7 +55,7 @@ void STATEMACHINE::run()
             frame_stamp = Timing::gettime();
             frame_time = frame_stamp - last_frame;
             Graphics::frame_begin();
-            stack.back()->render(100*frame_time/TIMER_FREQ);
+            stack.back()->render(100 * frame_time / TIMER_FREQ);
             last_frame = frame_stamp;
 
             Text::print_format(0, 0, "WalrusRPG test build %s", git_version);

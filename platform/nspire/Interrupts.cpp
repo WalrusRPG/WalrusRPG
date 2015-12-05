@@ -30,7 +30,8 @@ void INTERRUPTS::init()
     *interrupt_pointer = (uint32_t) &isr;
 
     // Enable IRQ in the CPU
-    asm("mrs r1, cpsr \n\t"
+    asm(
+        "mrs r1, cpsr \n\t"
         "bic r1, r1, #0x80 \n\t"
         "msr cpsr, r1"
         :
@@ -41,7 +42,8 @@ void INTERRUPTS::init()
 void INTERRUPTS::off()
 {
     // Disable IRQ in the CPU
-    asm("mrs r1, cpsr \n\t"
+    asm(
+        "mrs r1, cpsr \n\t"
         "orr r1, r1, #0x80 \n\t"
         "msr cpsr, r1"
         :

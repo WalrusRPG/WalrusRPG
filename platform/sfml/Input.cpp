@@ -35,25 +35,28 @@ InputMap key_map[] = {
 void INPUT::key_poll()
 {
     bool hasFocus = window.hasFocus();
-    for(unsigned i = 0; i < K_SIZE; i++)
+    for (unsigned i = 0; i < K_SIZE; i++)
     {
         bool current_key_state = hasFocus && Keyboard::isKeyPressed(key_map[i].key_code);
         KeyState previous_key_state = key_states[i];
 
         KeyState resulting_key_state = KS_RELEASED;
-        if(current_key_state)
+        if (current_key_state)
         {
-            if(previous_key_state == KS_RELEASED || previous_key_state == KS_JUST_RELEASED)
-                    resulting_key_state = KS_JUST_PRESSED;
-            else if(previous_key_state == KS_JUST_PRESSED || previous_key_state == KS_PRESSED)
-                    resulting_key_state = KS_PRESSED;
+            if (previous_key_state == KS_RELEASED ||
+                previous_key_state == KS_JUST_RELEASED)
+                resulting_key_state = KS_JUST_PRESSED;
+            else if (previous_key_state == KS_JUST_PRESSED ||
+                     previous_key_state == KS_PRESSED)
+                resulting_key_state = KS_PRESSED;
         }
         else
         {
-            if(previous_key_state == KS_PRESSED || previous_key_state == KS_JUST_PRESSED)
-                    resulting_key_state = KS_JUST_RELEASED;
-            else if(previous_key_state == KS_JUST_RELEASED || previous_key_state == KS_RELEASED)
-                    resulting_key_state = KS_RELEASED;
+            if (previous_key_state == KS_PRESSED || previous_key_state == KS_JUST_PRESSED)
+                resulting_key_state = KS_JUST_RELEASED;
+            else if (previous_key_state == KS_JUST_RELEASED ||
+                     previous_key_state == KS_RELEASED)
+                resulting_key_state = KS_RELEASED;
         }
         key_states[i] = resulting_key_state;
     }
@@ -66,7 +69,6 @@ bool INPUT::key_pressed(Key key)
 bool INPUT::key_released(Key key)
 {
     return key_states[key] == KS_JUST_RELEASED;
-
 }
 bool INPUT::key_down(Key key)
 {

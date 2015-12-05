@@ -13,24 +13,24 @@ using WalrusRPG::Graphics::Pixel;
 TEXTURE::Texture(char *data) : data()
 {
     // UNUSED(data);
-    uint16_t* data_16 = (uint16_t*) data;
+    uint16_t *data_16 = (uint16_t *) data;
     // TOOD : load from PIAF
     // this->data.loadFromFile("art/overworld.png");
-    // this->data.loadFromMemory(data+6, data_16[0]*data_16[1], sf::IntRect(0, 0, data_16[0], data_16[1]));
+    // this->data.loadFromMemory(data+6, data_16[0]*data_16[1], sf::IntRect(0, 0,
+    // data_16[0], data_16[1]));
     this->data.create(data_16[0], data_16[1]);
-    sf::Uint8* pixels = new sf::Uint8[data_16[0]*data_16[1]*4];
-    for(unsigned y = 0; y < data_16[1]; y++)
+    sf::Uint8 *pixels = new sf::Uint8[data_16[0] * data_16[1] * 4];
+    for (unsigned y = 0; y < data_16[1]; y++)
     {
-	    for(unsigned x = 0; x < data_16[0]; x++)
-	    {
-	    	Pixel pix(data_16[3 + y*data_16[0] + x]);
-	    	unsigned pixel_offset = data_16[0]*y + x;
-	    	pixels[4*pixel_offset] = pix.r<<3;
-	    	pixels[4*pixel_offset+1] = pix.g<<2;
-	    	pixels[4*pixel_offset+2] = pix.b<<3;
-	    	pixels[4*pixel_offset+3] = pix.value == data_16[2] ? 0 : 255;
-	    }
-
+        for (unsigned x = 0; x < data_16[0]; x++)
+        {
+            Pixel pix(data_16[3 + y * data_16[0] + x]);
+            unsigned pixel_offset = data_16[0] * y + x;
+            pixels[4 * pixel_offset] = pix.r << 3;
+            pixels[4 * pixel_offset + 1] = pix.g << 2;
+            pixels[4 * pixel_offset + 2] = pix.b << 3;
+            pixels[4 * pixel_offset + 3] = pix.value == data_16[2] ? 0 : 255;
+        }
     }
     this->data.update(pixels);
 
