@@ -63,8 +63,7 @@ void Graphics::put_sprite(const WalrusRPG::Graphics::Texture &sheet, int x, int 
 }
 
 void Graphics::put_sprite_tint(const WalrusRPG::Graphics::Texture &sheet, int x, int y,
-                               const Rect &window,
-                               const Pixel &color)
+                               const Rect &window, const Pixel &color)
 {
     sf::Sprite sprite;
     sprite.setTexture(sheet.data);
@@ -88,7 +87,8 @@ void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
     buffer.draw(pixel);
 }
 
-void Graphics::put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y, const Pixel &color)
+void Graphics::put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y,
+                                   const Pixel &color)
 {
     put_line(x, y, x2, y, color);
 }
@@ -98,25 +98,21 @@ void Graphics::put_vertical_line(uint16_t x, uint16_t y, uint16_t y2, const Pixe
     put_line(x, y, x, y2, color);
 }
 
-void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2, const Pixel& color)
+void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
+                        const Pixel &color)
 {
-
-    sf::Color lineColor(color.r<<3, color.g<<2, color.b<<3);
-    sf::Vertex line[] =
-    {
-        sf::Vertex(sf::Vector2f(x, y), lineColor),
-        sf::Vertex(sf::Vector2f(x2, y2), lineColor)
-    };
+    sf::Color lineColor(color.r << 3, color.g << 2, color.b << 3);
+    sf::Vertex line[] = {sf::Vertex(sf::Vector2f(x, y), lineColor),
+                         sf::Vertex(sf::Vector2f(x2, y2), lineColor)};
 
     buffer.draw(line, 2, sf::Lines);
-
 }
 
-void Graphics::put_rectangle(const Rect &rect, const Pixel& color)
+void Graphics::put_rectangle(const Rect &rect, const Pixel &color)
 {
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(rect.width, rect.height));
-    rectangle.setFillColor(sf::Color(color.r<<3, color.g<<2, color.b<<3));
+    rectangle.setFillColor(sf::Color(color.r << 3, color.g << 2, color.b << 3));
     rectangle.setPosition(rect.x, rect.y);
     buffer.draw(rectangle);
 }
