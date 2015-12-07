@@ -33,7 +33,7 @@ namespace WalrusRPG
         /*
          * Draws a sprite with clipping given as window.
          */
-        void put_sprite(const Texture &sheet, int x, int y,
+        void put_sprite(const WalrusRPG::Graphics::Texture &sheet, int x, int y,
                         const WalrusRPG::Utils::Rect &window);
 
         /*
@@ -53,6 +53,29 @@ namespace WalrusRPG
          * Draws a pixel on the screen.
          */
         void put_pixel(uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &color);
+
+        // Primitives drawing
+        
+        /*
+         * Draws an horizontal line on the screen.
+         */
+        void put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y, const WalrusRPG::Graphics::Pixel &color);
+        
+        /*
+         * Draws an vertical line on the screen.
+         */
+        void put_vertical_line(uint16_t x, uint16_t y, uint16_t y2, const WalrusRPG::Graphics::Pixel &color);
+
+        /*
+         * Draws a line on the screen. As it uses Bresenham's algorithm, it won't be the most optimized way
+         * to draw vertical or horizontal lines.
+         */
+        void put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2, const WalrusRPG::Graphics::Pixel &color);
+
+        /*
+         * Draws a filled rectangle on the screen.
+         */
+        void put_rectangle(const WalrusRPG::Utils::Rect &rect, const WalrusRPG::Graphics::Pixel &color);
     }
 }
 
