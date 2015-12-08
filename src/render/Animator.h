@@ -21,7 +21,7 @@ namespace WalrusRPG
     class Animator
     {
       public:
-        tinystl::vector<Animation> animations;
+        tinystl::unordered_map<unsigned, Animation> animations;
 
 
       protected:
@@ -29,7 +29,7 @@ namespace WalrusRPG
 
       public:
         Animator();
-        unsigned add_animation(Animation anim);
+        void add_animation(int index, Animation anim);
         void update(unsigned dt);
         unsigned get_animation_frame(unsigned id);
     };
