@@ -1,4 +1,5 @@
 #include "Animator.h"
+#include <stdio.h>
 
 #define ANIMATOR WalrusRPG::Animator
 
@@ -48,10 +49,13 @@ ANIMATOR::Animator()
     elapsed_time = 0;
 }
 
-void ANIMATOR::add_animation(int index, Animation anim)
+unsigned ANIMATOR::add_animation(Animation anim)
 {
+    animations.push_back(anim);
+    unsigned index = animations.size()-1;
     animations[index] = anim;
     animations[index].duration = get_animation_duration(anim);
+    return animations.size();
 }
 
 unsigned ANIMATOR::get_animation_frame(unsigned id)
