@@ -23,7 +23,7 @@ namespace WalrusRPG
           public:
             texture_data_t data;
 
-            Texture(WalrusRPG::PIAF::File& entry);
+            Texture(WalrusRPG::PIAF::File entry);
             Texture(char *data);
             ~Texture();
             // Getters

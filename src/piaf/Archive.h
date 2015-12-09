@@ -28,20 +28,20 @@ namespace WalrusRPG
         class File
         {
         protected:
-            uint8_t *data;
-            bool loaded;
+            const uint8_t* data;
           public:
             friend class Archive;
             char filename[9]; // 8 + a \0 in case of printing
             FileType file_type;
             CompressionType compression_type;
             uint32_t file_size;
-            uint32_t data_offset;
             std::size_t size;
 
+            File(uint8_t *data);
             File();
             ~File();
-            uint8_t* get();
+            const uint8_t* get();
+
         };
 
         class Archive
@@ -51,8 +51,11 @@ namespace WalrusRPG
             uint32_t version;
             uint32_t nb_files;
             uint32_t data_size;
-            // wouldn't be a map easier to handle for file opening?
             File *entries;
+            uint8_t **files_data;
+            bool *files_loaded;
+            uint32_t* files_data_offset;
+
 
           public:
             // RAII stuff
@@ -60,7 +63,7 @@ namespace WalrusRPG
             Archive(const char *filepath);
             Archive(tinystl::string &filepath);
             ~Archive();
-            File& get(char *filename);
+            File get(const char *filename);
 
         };
     }

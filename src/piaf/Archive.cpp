@@ -36,7 +36,7 @@ namespace
      * array long enough and a given number of files to load.
      * The pointer must directly access the file entry region of the archive.
      */
-    void load_file_table(File *entries, char *data, uint32_t nb_files)
+    void load_file_table(File *entries, uint32_t *data_offsets, char *data, uint32_t nb_files)
     {
         for (unsigned index = 0; index < nb_files; index++)
         {
@@ -60,7 +60,7 @@ namespace
             entries[index].file_size =
                 read_big_endian_value<uint32_t>(&current_entry_data[16]);
             // Reading the file's data position in the archive data section.
-            entries[index].data_offset =
+            data_offsets[index] =
                 read_big_endian_value<uint32_t>(&current_entry_data[20]);
         }
     }
@@ -70,7 +70,7 @@ Archive::Archive(string &filepath) : Archive(filepath.c_str())
 {
 }
 
-Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
+Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_data(nullptr), files_loaded(nullptr)
 {
     // Null pointer exception trigger
     if (filepath == nullptr)
@@ -175,8 +175,20 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
         // Create the filetable.
         entries = new File[nb_files];
         // Parse and story the filetable.
-        load_file_table(entries, file_entry_data, nb_files);
+
+        files_data = new uint8_t*[nb_files];
+        files_loaded = new bool[nb_files];
+        files_data_offset = new uint32_t[nb_files];
+        for(unsigned i = 0; i < nb_files; i++)
+        {
+            files_data[i] = nullptr;
+            files_loaded[i] = false;
+        }
+
+        load_file_table(entries, files_data_offset, file_entry_data, nb_files);
         delete[] file_entry_data;
+
+
     }
 }
 
@@ -186,22 +198,37 @@ Archive::~Archive()
         fclose(file);
     if (entries != nullptr)
         delete[] entries;
+
+    printf("Delete\n");
+    if(files_data != nullptr)
+    {
+        for(unsigned i = 0; i < nb_files; i++)
+        {
+            if(files_data[i] != nullptr)
+            {
+                delete[] files_data[i];
+            }
+        }
+    }
+    delete[] files_data;
+    delete[] files_loaded;
+
 }
 
 /**
  * Returns the stored file's data from giving a filename.
  */
-File& Archive::get(char *filename)
+File Archive::get(const char *filename)
 {
     for (unsigned index = 0; index < nb_files; index++)
     {
         if (strncmp(filename, entries[index].filename, 8) == 0)
         {
             // On demand load
-            if(!entries[index].loaded)
+            if(!files_loaded[index])
             {
                 uint8_t *data = new uint8_t[entries[index].file_size];
-                fseek(file, entries[index].data_offset + 32 + 24 * nb_files, SEEK_SET);
+                fseek(file, files_data_offset[index] + 32 + 24 * nb_files, SEEK_SET);
                 if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
                     entries[index].file_size)
                 {
@@ -209,18 +236,25 @@ File& Archive::get(char *filename)
                 }
                 else
                 {
+                    files_data[index] = data;
                     entries[index].data = data;
                 }
-                entries[index].loaded = true;
+                files_loaded[index] = true;
 
             }
             return entries[index];
         }
     }
+    return File();
     // throw not found exception
 }
 
-File::File() : data(nullptr), loaded(false)
+File::File(uint8_t *data): data(data)
+{
+
+}
+
+File::File() : data(nullptr)
 {
 
 }
@@ -228,10 +262,9 @@ File::File() : data(nullptr), loaded(false)
 
 File::~File()
 {
-    delete[] data;
 }
 
-uint8_t* File::get()
+const uint8_t* File::get()
 {
     return data;
 }

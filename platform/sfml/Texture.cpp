@@ -34,7 +34,7 @@ TEXTURE::Texture(char *data)
 
 }
 
-TEXTURE::Texture(WalrusRPG::PIAF::File& entry)
+TEXTURE::Texture(WalrusRPG::PIAF::File entry)
 :data()
 {
     // UNUSED(data);
