@@ -48,3 +48,4 @@ void TEXT::print_format(unsigned x, unsigned y, const std::string &format, ...)
 {
     TEXT::print_format(x, y, format.c_str());
 }
+

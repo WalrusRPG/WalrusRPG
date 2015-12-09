@@ -10,14 +10,10 @@
 
 using WalrusRPG::Graphics::Pixel;
 
-TEXTURE::Texture(char *data) : data()
+TEXTURE::Texture(char *data)
+:data()
 {
-    // UNUSED(data);
     uint16_t *data_16 = (uint16_t *) data;
-    // TOOD : load from PIAF
-    // this->data.loadFromFile("art/overworld.png");
-    // this->data.loadFromMemory(data+6, data_16[0]*data_16[1], sf::IntRect(0, 0,
-    // data_16[0], data_16[1]));
     this->data.create(data_16[0], data_16[1]);
     sf::Uint8 *pixels = new sf::Uint8[data_16[0] * data_16[1] * 4];
     for (unsigned y = 0; y < data_16[1]; y++)
@@ -35,6 +31,16 @@ TEXTURE::Texture(char *data) : data()
     this->data.update(pixels);
 
     delete[] pixels;
+
+}
+
+TEXTURE::Texture(WalrusRPG::PIAF::File& entry)
+:data()
+{
+    // UNUSED(data);
+    // TOOD : load from PIAF
+    // this->data.loadFromFile("art/overworld.png");
+    this->data.loadFromMemory(entry.get(), entry.file_size);
 }
 
 TEXTURE::~Texture()

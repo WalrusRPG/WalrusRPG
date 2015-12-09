@@ -8,7 +8,6 @@
 using tinystl::string;
 using WalrusRPG::PIAF::Archive;
 using WalrusRPG::PIAF::File;
-using WalrusRPG::PIAF::FileEntry;
 using WalrusRPG::PIAF::FileType;
 using WalrusRPG::PIAF::CompressionType;
 
@@ -37,7 +36,7 @@ namespace
      * array long enough and a given number of files to load.
      * The pointer must directly access the file entry region of the archive.
      */
-    void load_file_table(FileEntry *entries, char *data, uint32_t nb_files)
+    void load_file_table(File *entries, char *data, uint32_t nb_files)
     {
         for (unsigned index = 0; index < nb_files; index++)
         {
@@ -174,7 +173,7 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr)
             // fprintf(stderr, "Bad filetable checksum\n");
         }
         // Create the filetable.
-        entries = new FileEntry[nb_files];
+        entries = new File[nb_files];
         // Parse and story the filetable.
         load_file_table(entries, file_entry_data, nb_files);
         delete[] file_entry_data;
@@ -190,59 +189,49 @@ Archive::~Archive()
 }
 
 /**
- * Searches a fileentry through the filetable and returns it
- * /?\ How would the function react if it doesn't find the file?
- * Exceptions? Empty entry?
- */
-FileEntry Archive::get_file_entry(char *filename)
-{
-    for (uint32_t index = 0; index < nb_files; index++)
-    {
-        if (strcmp(entries[index].filename, filename) == 0)
-        {
-            return entries[index];
-        }
-    }
-    // throw exception
-}
-
-/**
  * Returns the stored file's data from giving a filename.
  */
-File Archive::get(char *filename)
+File& Archive::get(char *filename)
 {
     for (unsigned index = 0; index < nb_files; index++)
     {
         if (strncmp(filename, entries[index].filename, 8) == 0)
         {
-            uint8_t *data = new uint8_t[entries[index].file_size];
-            fseek(file, entries[index].data_offset + 32 + 24 * nb_files, SEEK_SET);
-            if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
-                entries[index].file_size)
+            // On demand load
+            if(!entries[index].loaded)
             {
-                // throw loading error
+                uint8_t *data = new uint8_t[entries[index].file_size];
+                fseek(file, entries[index].data_offset + 32 + 24 * nb_files, SEEK_SET);
+                if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
+                    entries[index].file_size)
+                {
+                    // throw loading error
+                }
+                else
+                {
+                    entries[index].data = data;
+                }
+                entries[index].loaded = true;
+
             }
-            return File(data, entries[index].file_size);
+            return entries[index];
         }
     }
     // throw not found exception
 }
 
-
-File::File(uint8_t *data, std::size_t size) : data(data), size(size)
+File::File() : data(nullptr), loaded(false)
 {
+
 }
+
 
 File::~File()
 {
     delete[] data;
 }
 
-uint8_t &File::operator[](std::size_t idx)
+uint8_t* File::get()
 {
-    if (idx >= size)
-    {
-        // throw up
-    }
-    return data[idx];
+    return data;
 }

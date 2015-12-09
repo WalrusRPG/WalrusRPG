@@ -9,6 +9,7 @@
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;
+using WalrusRPG::Graphics::Texture;
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,8 @@ int main(int argc, char *argv[])
     Quirks::init(argv[0]);
 
     // Archive arc(Quirks::solve_absolute_path("samples/one_file.wrf"));
+    Archive arc(Quirks::solve_absolute_path("data/out.wrf").get());
+    Texture tex(arc.get("ov.png"));
 
     uint16_t dungeonTest[] = {
         21, 21,  1,   1,   1,   1,   21,  22,  21,  22, 21,  22,  21,  21,  1,   22,  21,
@@ -69,7 +72,7 @@ int main(int argc, char *argv[])
         0, 0, 0, 0, 0,   0,   0,   0,   0,   0,  0,  0,  0,  0,  0,   0,   0,   0,   0, 0,
     };
 
-    Map map(20, 20, dungeonTest, dungeonTest2);
+    Map map(20, 20, dungeonTest, dungeonTest2, tex);
     tinystl::vector<Frame> stripe21;
     tinystl::vector<Frame> stripe22;
     stripe21.push_back({21, 23});
@@ -86,4 +89,5 @@ int main(int argc, char *argv[])
     Timing::deinit();
     Graphics::deinit();
     return 0;
+
 }
