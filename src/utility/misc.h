@@ -3,6 +3,7 @@
 
 #define UNUSED(expr) (void)(expr)
 
+#define abs(x) ((x) < 0 ? -(x) : (x))
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 

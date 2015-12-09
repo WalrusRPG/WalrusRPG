@@ -9,6 +9,7 @@
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::States;
 using namespace WalrusRPG::Timing;
+using WalrusRPG::Input::Key;
 
 #define STATEMACHINE WalrusRPG::StateMachine
 
@@ -45,7 +46,8 @@ void STATEMACHINE::run()
     {
         update_stamp = Timing::gettime();
         update_time = update_stamp - last_update;
-        stack.back()->update(update_time);
+        Input::key_poll();
+        stack.back()->update(100 * update_time / TIMER_FREQ);
         last_update = update_stamp;
 
         if (Timing::gettime() < loop_next)
@@ -53,7 +55,7 @@ void STATEMACHINE::run()
             frame_stamp = Timing::gettime();
             frame_time = frame_stamp - last_frame;
             Graphics::frame_begin();
-            stack.back()->render(frame_time);
+            stack.back()->render(100 * frame_time / TIMER_FREQ);
             last_frame = frame_stamp;
 
             Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
@@ -65,15 +67,17 @@ void STATEMACHINE::run()
             Graphics::frame_end();
         }
 
-        if (Input::key_b())
+        if (Input::key_pressed(Key::K_SELECT))
         {
-            while (Input::key_b())
-                ;
+            while (Input::key_down(Key::K_SELECT))
+                Input::key_poll();
             this->pop();
         }
 
+#ifdef ACTIVE_WAIT
         while (Timing::gettime() < loop_next)
             ;
+#endif
         loop_next += loop_time;
     }
 }

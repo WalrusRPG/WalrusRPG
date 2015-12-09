@@ -18,6 +18,7 @@ namespace WalrusRPG
         SpriteRenderer(WalrusRPG::Graphics::Texture tilesheet);
         void add_sprite(unsigned id, WalrusRPG::Utils::Rect rect);
         virtual void render(const unsigned id, const WalrusRPG::Utils::Rect &rect);
+        void render(const unsigned id, const WalrusRPG::Utils::Rect &rect, const WalrusRPG::Graphics::Pixel& tint);
     };
 }
 

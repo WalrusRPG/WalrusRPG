@@ -5,6 +5,7 @@
 #define CAMERA WalrusRPG::Camera
 
 using namespace WalrusRPG;
+using WalrusRPG::Input::Key;
 
 CAMERA::Camera(signed x, signed y)
 {
@@ -30,13 +31,13 @@ void CAMERA::update(unsigned dt)
                 velocity += acceleration * dt;
          */
 
-    if (Input::key_down())
+    if (Input::key_down(Key::K_DOWN))
         y++;
-    if (Input::key_up())
+    if (Input::key_down(Key::K_UP))
         y--;
-    if (Input::key_right())
+    if (Input::key_down(Key::K_RIGHT))
         x++;
-    if (Input::key_left())
+    if (Input::key_down(Key::K_LEFT))
         x--;
 }
 

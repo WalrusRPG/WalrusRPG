@@ -7,3 +7,7 @@ config.mk
 
 # Atom editor files
 .atom-build.json
+
+# Sublime
+*.sublime-project
+*.sublime-workspace

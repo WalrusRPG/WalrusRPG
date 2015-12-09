@@ -30,8 +30,11 @@ namespace Nspire
          */
 
         void draw_pixel(int x, int y, uint16_t color);
+        void draw_pixel_tint(int x, int y, uint16_t color, uint16_t tint);
         void draw_sprite_sheet(const uint16_t *sheet, int x, int y,
                                const WalrusRPG::Utils::Rect &window);
+        void draw_sprite_sheet_tint(const uint16_t *sheet, int x, int y,
+                                    const WalrusRPG::Utils::Rect &window, uint16_t tint);
 
 
         /*

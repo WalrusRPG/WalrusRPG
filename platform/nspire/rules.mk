@@ -4,7 +4,7 @@ SRCS_C += $(wildcard $(nspire_LOCAL_PATH)/platform/*.c)
 SRCS_CPP += $(wildcard $(nspire_LOCAL_PATH)/*.cpp)
 INCLUDE += $(nspire_LOCAL_PATH)/public
 
-CFLAGS_COMMON += -marm
+CFLAGS_COMMON += -marm -DNSPIRE=1
 
 CC = nspire-gcc
 CPP = nspire-g++

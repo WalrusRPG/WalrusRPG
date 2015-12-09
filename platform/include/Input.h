@@ -5,12 +5,36 @@ namespace WalrusRPG
 {
     namespace Input
     {
-        bool key_a();
-        bool key_b();
-        bool key_up();
-        bool key_down();
-        bool key_left();
-        bool key_right();
+        enum Key
+        {
+            K_A,
+            K_B,
+            K_L,
+            K_R,
+            K_UP,
+            K_DOWN,
+            K_LEFT,
+            K_RIGHT,
+            K_START,
+            K_SELECT,
+            K_SIZE
+        };
+
+        enum KeyState
+        {
+            KS_RELEASED,
+            KS_JUST_RELEASED,
+            KS_JUST_PRESSED,
+            KS_PRESSED
+        };
+
+
+        void key_poll();
+
+        bool key_pressed(Key key);
+        bool key_released(Key key);
+        bool key_down(Key key);
+        bool key_up(Key key);
     }
 }
 

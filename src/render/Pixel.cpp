@@ -6,7 +6,7 @@ PIXEL::Pixel(std::uint16_t color) : value(color)
 {
 }
 
-PIXEL::Pixel(Pixel &pix) : value((std::uint8_t) pix)
+PIXEL::Pixel(Pixel &pix) : value(pix.value)
 {
 }
 
@@ -33,4 +33,9 @@ CONST_COLOR(White, 255, 255, 255);
 CONST_COLOR(Red, 255, 0, 0);
 CONST_COLOR(Green, 0, 255, 0);
 CONST_COLOR(Blue, 0, 0, 255);
+
+CONST_COLOR(Yellow, 255, 255, 0);
+CONST_COLOR(Cyan, 0, 255, 255);
+CONST_COLOR(Magenta, 255, 0, 255);
+
 #undef CONST_COLOR

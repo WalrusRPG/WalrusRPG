@@ -10,12 +10,14 @@ using WalrusRPG::Utils::Rect;
 
 namespace
 {
+    /*
     texture_data_t loadPNG(char *data)
     {
         // TODO : stuff
         UNUSED(data);
         return nullptr;
     }
+    */
 }
 
 Texture::Texture(char *data) : data((texture_data_t) data)

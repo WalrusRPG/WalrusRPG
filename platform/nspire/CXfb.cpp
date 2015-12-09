@@ -112,6 +112,14 @@ void GRAPHICS::draw_pixel(int x, int y, uint16_t color)
     buffer_render[x + (y * 320)] = color;
 }
 
+void GRAPHICS::draw_pixel_tint(int x, int y, uint16_t color, uint16_t tint)
+{
+    int r = ((color >> 11) * (tint >> 11)) >> 5;
+    int g = (((color >> 5) & 0b111111) * ((tint >> 5) & 0b111111)) >> 6;
+    int b = ((color & 0b11111) * (tint & 0b11111)) >> 5;
+    buffer_render[x + (y * 320)] = (r << 11) | (g << 5) | b;
+}
+
 void GRAPHICS::draw_sprite_sheet(const uint16_t *sheet, int x, int y,
                                  const WalrusRPG::Utils::Rect &window)
 {
@@ -126,6 +134,24 @@ void GRAPHICS::draw_sprite_sheet(const uint16_t *sheet, int x, int y,
             color = sprite_pixel_get(sheet, k, l);
             if (color != sheet[2])
                 draw_pixel(i, j, color);
+        }
+    }
+}
+
+void GRAPHICS::draw_sprite_sheet_tint(const uint16_t *sheet, int x, int y,
+                                      const WalrusRPG::Utils::Rect &window, uint16_t tint)
+{
+    uint16_t color;
+    int w = min(window.width + x, 320);
+    int h = min(window.height + y, 240);
+
+    for (int j = max(y, 0), l = window.y - min(y, 0); j < h; j++, l++)
+    {
+        for (int i = max(x, 0), k = window.x - min(x, 0); i < w; i++, k++)
+        {
+            color = sprite_pixel_get(sheet, k, l);
+            if (color != sheet[2])
+                draw_pixel_tint(i, j, color, tint);
         }
     }
 }
