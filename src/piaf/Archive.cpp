@@ -6,6 +6,7 @@
 #include "Quirks.h"
 
 using tinystl::string;
+using WalrusRPG::PIAF::ARCHIVE_VERSION;
 using WalrusRPG::PIAF::Archive;
 using WalrusRPG::PIAF::File;
 using WalrusRPG::PIAF::FileType;
@@ -133,13 +134,13 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
 
     // TODO : version checking
     version = read_big_endian_value<uint32_t>(&header_container[16]);
-    /* if (version != CURRENT_PIAF_VERSION)
-     * {
-     *      exception up;
-     *      throw up; // haha
-     * }
-     */
-
+    if (version != ARCHIVE_VERSION)
+    {
+         // std::exception up;
+         // throw up; // haha
+    }
+    
+    
     // At this point, the archive header looks unaltered and we finally can parse
     // and load the header.
 
@@ -199,7 +200,6 @@ Archive::~Archive()
     if (entries != nullptr)
         delete[] entries;
 
-    printf("Delete\n");
     if(files_data != nullptr)
     {
         for(unsigned i = 0; i < nb_files; i++)

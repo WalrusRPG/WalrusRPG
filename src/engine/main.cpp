@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     // Archive arc(Quirks::solve_absolute_path("samples/one_file.wrf"));
     Archive arc(Quirks::solve_absolute_path("data/out.wrf").get());
     Texture tex(arc.get("ov.png"));
-
+    printf("%s\n", arc.get("test.txt").get());
     uint16_t dungeonTest[] = {
         21, 21,  1,   1,   1,   1,   21,  22,  21,  22, 21,  22,  21,  21,  1,   22,  21,
         1,  22,  22,  22,  1,   21,  2,   3,   3,   3,  3,   3,   4,   21,  1,   22,  21,

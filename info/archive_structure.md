@@ -4,7 +4,7 @@
 WRPG_PIAF_MAGIC_HEADER       : "WRPGPIAF"          <=> 8 bytes (not \0 terminated)
 WRPG_PIAF_HEADER_CHECKSUM    :  unsigned int       <=> 4 bytes (This checksum covers the version, number of files and the data size).
 WRPG_PIAF_FILETABLE_CHECKSUM :  unsigned int       <=> 4 bytes (This checksum covers the whole filetable data part).
-WRPG_PIAF_VERSION            :  unsigned int       <=> 4 bytes (Stored in this form : 0xAABBCCDDD, where A = major version, B = minor version, C = hotfix)
+WRPG_PIAF_VERSION            :  unsigned int       <=> 4 bytes (Stored in this form : 0xAABBCCDD, where A = major version, B = minor version, C = hotfix)
 WRPG_PIAF_NB_FILES           :  unsigned int       <=> 4 bytes
 WRPG_PIAF_DATA_SIZE          :  unsigned int       <=> 4 bytes
 <padding>                    :  <filler>           <=> 4 bytes

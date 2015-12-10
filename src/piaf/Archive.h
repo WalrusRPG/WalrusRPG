@@ -9,6 +9,7 @@ namespace WalrusRPG
 {
     namespace PIAF
     {
+        constexpr uint32_t ARCHIVE_VERSION = 0x01000000;
         enum FileType : uint32_t
         {
             UNKNOWN,
