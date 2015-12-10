@@ -25,6 +25,7 @@ namespace
     {
         T result = 0;
         uint8_t *data = (uint8_t *) ptr;
+        // No, memcpy isn't working here because endianness issues.
         for (unsigned i = 0; i < sizeof(T); i++)
             // Writing each byte of value in order
             result |= data[i] << (8 * (sizeof(T) - 1 - i));
@@ -140,7 +141,7 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
          // throw up; // haha
     }
     
-    
+
     // At this point, the archive header looks unaltered and we finally can parse
     // and load the header.
 
