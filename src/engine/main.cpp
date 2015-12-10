@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
     const uint8_t* l1 = arc.get("l1.bin").get();
     const uint8_t* l2 = arc.get("l2.bin").get();
 
-    uint16_t* dungeonTest = new uint16_t[arc.get("l1.bin").file_size];
-    uint16_t* dungeonTest2 = new uint16_t[arc.get("l1.bin").file_size];
+    uint16_t* dungeonTest = new uint16_t[arc.get("l1.bin").file_size/2+1];
+    uint16_t* dungeonTest2 = new uint16_t[arc.get("l1.bin").file_size/2+1];
 
     for(unsigned i = 0; i < arc.get("l1.bin").file_size; i+=2)
     {
