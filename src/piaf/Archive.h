@@ -64,6 +64,7 @@ namespace WalrusRPG
             Archive(const char *filepath);
             Archive(tinystl::string &filepath);
             ~Archive();
+            bool has(const char *filename);
             File get(const char *filename);
 
         };
