@@ -12,7 +12,6 @@ CPP = nspire-g++
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)" --compress
 
-PLATFORM = nspire
 EXE = $(OUT)/$(NAME).tns
 
 $(EXE): $(ELF)

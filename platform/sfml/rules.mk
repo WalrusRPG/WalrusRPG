@@ -11,7 +11,6 @@ CFLAGS_COMMON += -DSFML=1
 CC = gcc
 CPP = g++
 
-PLATFORM = sfml
 EXE = $(OUT)/$(NAME)
 
 $(EXE): $(ELF)
