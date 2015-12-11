@@ -31,10 +31,10 @@ int main(int argc, char *argv[])
     uint16_t* dungeonTest = new uint16_t[f1.file_size/2+1];
     uint16_t* dungeonTest2 = new uint16_t[f1.file_size/2+1];
 
-    for(unsigned i = 0; i < f1.file_size; i+=2)
+    for(unsigned i = 0; i < f1.file_size; i++)
     {
-        dungeonTest[i/2] = read_big_endian_value<uint16_t>(&l1[i]);
-        dungeonTest2[i/2] = read_big_endian_value<uint16_t>(&l2[i]);
+        dungeonTest[i] = read_big_endian_value<uint16_t>(&l1[i*1]);
+        dungeonTest2[i] = read_big_endian_value<uint16_t>(&l2[i*1]);
     }
 
     Map map(20, 20, dungeonTest, dungeonTest2, tex);

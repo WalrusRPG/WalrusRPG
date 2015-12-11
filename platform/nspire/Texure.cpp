@@ -38,14 +38,14 @@ Texture::Texture(File entry)
     for(unsigned y = 0; y < height; y++)
     {
         for (unsigned x = 0; x < width; x++) {
-            uint16_t color = (pic[(y*width + x)]>>3)<<11;
-            color |= (pic[(y*width + x + 1)]>>2)<<5;
-            color |= (pic[(y*width + x + 2)]>>3);
-            if(pic[(y*width + x +3)] == 0)
+            uint16_t color = (pic[(y*width + x)*4]>>3)<<11;
+            color |= (pic[(y*width + x)*4 + 1]>>2)<<5;
+            color |= (pic[(y*width + x)*4 + 2]>>3);
+            if(pic[(y*width + x)*4+3] == 0)
             {
                 data[2] = color;
             }
-            data[y*width + x] = color;
+            data[y*width + x+3] = color;
         }
     }
     delete[] pic;
