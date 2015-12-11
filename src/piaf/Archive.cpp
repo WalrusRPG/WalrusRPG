@@ -180,6 +180,7 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
         {
             files_data[i] = nullptr;
             files_loaded[i] = false;
+            files_data_offset[i] = 0;
         }
 
         load_file_table(entries, files_data_offset, file_entry_data, nb_files);
@@ -194,9 +195,6 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
 
 Archive::~Archive()
 {
-#if NSPIRE
-    Interrupts::off();
-#endif
     if (file != nullptr)
         fclose(file);
     if (entries != nullptr)
@@ -214,9 +212,7 @@ Archive::~Archive()
     }
     delete[] files_data;
     delete[] files_loaded;
-#if NSPIRE
-    Interrupts::init();
-#endif
+    delete[] files_data_offset;
 }
 
 bool Archive::has(const char *filename)
