@@ -44,6 +44,8 @@ $(strip \
 endef
 
 include config.mk
+-include platform/$(PLATFORM)/rules.mk
+-include external/platform/$(PLATFORM)/rules.mk
 include rules.mk
 
 config.mk:
