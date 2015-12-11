@@ -1,3 +1,6 @@
 [submodule "external/tinystl"]
 	path = external/tinystl
 	url = git://github.com/mendsley/tinystl.git
+[submodule "external/lodepng"]
+	path = external/platform/nspire/lodepng
+	url = https://github.com/lvandeve/lodepng.git

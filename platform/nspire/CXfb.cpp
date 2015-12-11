@@ -2,6 +2,7 @@
 #include <cstring>
 #include "CXfb.h"
 #include "utility/misc.h"
+#include "utility/minmax.h"
 
 #define GRAPHICS Nspire::CXfb
 
@@ -21,6 +22,9 @@ bool buffer_swap_ready;
 /*
  * Buffer management
  */
+
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define max(a, b) (((a) > (b)) ? (a) : (b))
 
 void GRAPHICS::buffer_allocate()
 {
