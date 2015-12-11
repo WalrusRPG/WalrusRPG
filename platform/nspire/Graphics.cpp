@@ -2,6 +2,7 @@
 #include "CXfb.h"
 #include "stdio.h"
 #include "utility/misc.h"
+#include "utility/minmax.h"
 
 using namespace Nspire;
 using namespace WalrusRPG;
