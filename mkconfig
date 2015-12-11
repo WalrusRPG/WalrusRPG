@@ -6,6 +6,7 @@ create_configuration() {
 	echo "Creating $1 configuration"
 	rm config.mk -f
 	echo "include platform/$1/rules.mk" >> config.mk
+	echo "include external/platform/$1/rules.mk" >> config.mk
 }
 
 is_valid_target() {
