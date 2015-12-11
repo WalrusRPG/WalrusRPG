@@ -2,6 +2,9 @@
 #include <cstdio>
 #include <memory>
 #include <zlib.h>
+#if NSPIRE
+#include "../../platform/nspire/Interrupts.h"
+#endif
 #include "Archive.h"
 #include "Quirks.h"
 #include "utility/misc.h"
@@ -13,6 +16,9 @@ using WalrusRPG::PIAF::File;
 using WalrusRPG::PIAF::FileType;
 using WalrusRPG::PIAF::CompressionType;
 
+#if NSPIRE
+using namespace Nspire;
+#endif
 namespace
 {
 
@@ -57,8 +63,12 @@ Archive::Archive(string &filepath) : Archive(filepath.c_str())
 {
 }
 
+
 Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_data(nullptr), files_loaded(nullptr)
 {
+#if NSPIRE
+    Interrupts::off();   
+#endif
     // Null pointer exception trigger
     if (filepath == nullptr)
     {
@@ -73,7 +83,7 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
     // Open the archive
     file = fopen(real_filename.get(), "rb");
     // Again another null pointer trigger
-    if (file == nullptr)
+    if (file == nullptr || file == NULL)
     {
         // TODO : throw Couldn't open
         // fprintf(stderr, "Unable to open %s\n", filepath);
@@ -94,7 +104,7 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
     // Tempoary buffer to contain the header.
     char header_container[32] = {0};
     // Read the headers and trigger exceptions on errors
-    if (fread(header_container, sizeof(char), 32, file))
+    if (fread(header_container, sizeof(char), 32, file) != 32)
     {
         // So we coudln't load the whole header.
         // TODO : check flags and return correct exceptions
@@ -177,10 +187,16 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
 
 
     }
+#if NSPIRE
+    Interrupts::init();
+#endif
 }
 
 Archive::~Archive()
 {
+#if NSPIRE
+    Interrupts::off();
+#endif
     if (file != nullptr)
         fclose(file);
     if (entries != nullptr)
@@ -198,7 +214,9 @@ Archive::~Archive()
     }
     delete[] files_data;
     delete[] files_loaded;
-
+#if NSPIRE
+    Interrupts::init();
+#endif
 }
 
 bool Archive::has(const char *filename)
@@ -221,6 +239,9 @@ File Archive::get(const char *filename)
             // On demand load
             if(!files_loaded[index])
             {
+ #if NSPIRE
+               Interrupts::off();
+#endif
                 uint8_t *data = new uint8_t[entries[index].file_size];
                 fseek(file, files_data_offset[index] + 32 + 24 * nb_files, SEEK_SET);
                 if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
@@ -234,7 +255,9 @@ File Archive::get(const char *filename)
                     entries[index].data = data;
                 }
                 files_loaded[index] = true;
-
+#if NSPIRE
+                Interrupts::init();
+#endif
             }
             return entries[index];
         }

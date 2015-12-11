@@ -1,12 +1,16 @@
 #include "Texture.h"
+#include "piaf/Archive.h"
 #include "utility/Rect.h"
 #include "render/Pixel.h"
 #include "utility/misc.h"
-
+#include "lodepng.h"
+#include "Input.h"
+#include "Graphics.h"
 using WalrusRPG::Graphics::Black;
 using WalrusRPG::Graphics::Pixel;
 using WalrusRPG::Graphics::Texture;
 using WalrusRPG::Utils::Rect;
+using WalrusRPG::PIAF::File;
 
 namespace
 {
@@ -19,6 +23,34 @@ namespace
     }
     */
 }
+
+Texture::Texture(File entry)
+{
+    unsigned char* pic;
+    unsigned width, height;
+
+    signed result = lodepng_decode_memory(&pic, &width, &height, (unsigned char*)entry.get(), entry.file_size, LCT_RGBA, 8);
+    UNUSED(result);
+    
+    data = new uint16_t[width * height + 3];
+    data[0] = width;
+    data[1] = height;
+    for(unsigned y = 0; y < height; y++)
+    {
+        for (unsigned x = 0; x < width; x++) {
+            uint16_t color = (pic[(y*width + x)]>>3)<<11;
+            color |= (pic[(y*width + x + 1)]>>2)<<5;
+            color |= (pic[(y*width + x + 2)]>>3);
+            if(pic[(y*width + x +3)] == 0)
+            {
+                data[2] = color;
+            }
+            data[y*width + x] = color;
+        }
+    }
+    delete[] pic;
+}
+
 
 Texture::Texture(char *data) : data((texture_data_t) data)
 {

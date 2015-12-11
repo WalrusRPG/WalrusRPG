@@ -3,6 +3,7 @@
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <cstdint>
+#include <cstdlib>
 #include "utility/misc.h"
 #include "render/Pixel.h"
 
@@ -30,7 +31,7 @@ TEXTURE::Texture(char *data)
     }
     this->data.update(pixels);
 
-    delete[] pixels;
+    free(pixels);
 
 }
 

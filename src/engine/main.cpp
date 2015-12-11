@@ -6,6 +6,7 @@
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
 #include "utility/misc.h"
+#include "sprites.h"
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;
@@ -19,19 +20,18 @@ int main(int argc, char *argv[])
     Timing::init();
     Quirks::init(argv[0]);
 
-    // Archive arc(Quirks::solve_absolute_path("samples/one_file.wrf"));
-    Archive arc(Quirks::solve_absolute_path("data/out.wrf").get());
+    Archive arc("data/out.wrf.tns");
     Texture tex(arc.get("ov.png"));
-    if(arc.has("ov.png"))
-        printf("%s\n", arc.get("test.txt").get());
+    WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
+    WalrusRPG::PIAF::File f2 = arc.get("l2.bin");
 
-    const uint8_t* l1 = arc.get("l1.bin").get();
-    const uint8_t* l2 = arc.get("l2.bin").get();
+    const uint8_t* l1 = f1.get();
+    const uint8_t* l2 = f2.get();
 
-    uint16_t* dungeonTest = new uint16_t[arc.get("l1.bin").file_size/2+1];
-    uint16_t* dungeonTest2 = new uint16_t[arc.get("l1.bin").file_size/2+1];
+    uint16_t* dungeonTest = new uint16_t[f1.file_size/2+1];
+    uint16_t* dungeonTest2 = new uint16_t[f1.file_size/2+1];
 
-    for(unsigned i = 0; i < arc.get("l1.bin").file_size; i+=2)
+    for(unsigned i = 0; i < f1.file_size; i+=2)
     {
         dungeonTest[i/2] = read_big_endian_value<uint16_t>(&l1[i]);
         dungeonTest2[i/2] = read_big_endian_value<uint16_t>(&l2[i]);
