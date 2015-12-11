@@ -2,6 +2,7 @@
 #include "sfwindow.h"
 #include <SFML/Graphics.hpp>
 #include "utility/misc.h"
+#include "utility/minmax.h"
 
 using namespace WalrusRPG;
 using WalrusRPG::Graphics::Texture;
