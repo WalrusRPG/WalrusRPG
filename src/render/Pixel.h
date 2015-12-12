@@ -39,6 +39,9 @@ namespace WalrusRPG
         };
 
         extern const Pixel Black;
+        extern const Pixel LightGray;
+        extern const Pixel Gray;
+        extern const Pixel DarkGray;
         extern const Pixel White;
         extern const Pixel Red;
         extern const Pixel Green;

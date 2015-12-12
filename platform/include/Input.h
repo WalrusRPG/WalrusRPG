@@ -31,6 +31,7 @@ namespace WalrusRPG
 
         void key_poll();
 
+        KeyState key_get_state(Key key);
         bool key_pressed(Key key);
         bool key_released(Key key);
         bool key_down(Key key);

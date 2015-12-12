@@ -29,7 +29,11 @@ PIXEL &PIXEL::operator=(unsigned value)
 #define CONST_COLOR(color, r, g, b) \
     const WalrusRPG::Graphics::Pixel WalrusRPG::Graphics::color(r, g, b)
 CONST_COLOR(Black, 0, 0, 0);
+CONST_COLOR(DarkGray, 64, 64, 64);
+CONST_COLOR(Gray, 128, 128, 128);
+CONST_COLOR(LightGray, 192, 192, 192);
 CONST_COLOR(White, 255, 255, 255);
+
 CONST_COLOR(Red, 255, 0, 0);
 CONST_COLOR(Green, 0, 255, 0);
 CONST_COLOR(Blue, 0, 0, 255);

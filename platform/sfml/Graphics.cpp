@@ -91,12 +91,12 @@ void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
 void Graphics::put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y,
                                    const Pixel &color)
 {
-    put_line(x, y, x2, y, color);
+    put_rectangle({x,y,x2-x+1, 1}, color);
 }
 
 void Graphics::put_vertical_line(uint16_t x, uint16_t y, uint16_t y2, const Pixel &color)
 {
-    put_line(x, y, x, y2, color);
+    put_rectangle({x,y, 1, y2-y+1}, color);
 }
 
 void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
@@ -104,7 +104,7 @@ void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
 {
     sf::Color lineColor(color.r << 3, color.g << 2, color.b << 3);
     sf::Vertex line[] = {sf::Vertex(sf::Vector2f(x, y), lineColor),
-                         sf::Vertex(sf::Vector2f(x2, y2), lineColor)};
+                         sf::Vertex(sf::Vector2f(x2+1, y2+1), lineColor)};
 
     buffer.draw(line, 2, sf::Lines);
 }
