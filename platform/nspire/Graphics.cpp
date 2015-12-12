@@ -60,7 +60,7 @@ void Graphics::put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y,
         x = x2;
         x2 = temp;
     }
-    for (; x < x2; x++)
+    for (; x <= x2; x++)
     {
         CXfb::draw_pixel(x, y, color);
     }
@@ -74,7 +74,7 @@ void Graphics::put_vertical_line(uint16_t x, uint16_t y, uint16_t y2, const Pixe
         y = y2;
         y2 = temp;
     }
-    for (; y < y2; y++)
+    for (; y <= y2; y++)
     {
         CXfb::draw_pixel(x, y, color);
     }
