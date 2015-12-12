@@ -1,8 +1,10 @@
-.PHONY: format clean all run versionning include
+.PHONY: format clean all run versionning include release bundle
 
 all: $(EXE)
 
 include $(wildcard */rules.mk)
+
+RELEASE_DIRECTORY=release/$(PLATFORM)
 
 # Object dependency files
 -include $(OBJS:%.o=%.d)
@@ -33,6 +35,18 @@ $(ELF): $(OBJS)
 clean:
 	@echo "RM: $(OUT)"
 	@rm -rf $(OUT)
+
+release: $(ELF)
+	@echo "Packing binary and data files into $(RELEASE_DIRECTORY)"
+	@mkdir -p "$(RELEASE_DIRECTORY)"
+	@cp $(ELF) "$(RELEASE_DIRECTORY)"
+	@cp -ru data "$(RELEASE_DIRECTORY)" 2>/dev/null || :
+
+bundle: release
+	@echo "Tar-zipping"
+	@tar cf "$(RELEASE_DIRECTORY).tar" "$(RELEASE_DIRECTORY)"
+	@gzip "$(RELEASE_DIRECTORY).tar" -f
+	@echo "Archive ready at $(RELEASE_DIRECTORY).tar.gzip"
 
 format:
 	@echo "Formatting source using clang-format"
