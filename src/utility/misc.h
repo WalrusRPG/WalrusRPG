@@ -16,7 +16,7 @@
  *
  * Also doesn't check for being in bounds of the array.
  */
-  template <typename T> T read_big_endian_value(const void *ptr)
+template <typename T> T read_big_endian_value(const void *ptr)
 {
     T result = 0;
     uint8_t *data = (uint8_t *) ptr;

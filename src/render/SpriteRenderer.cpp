@@ -23,7 +23,7 @@ void SPRITERENDERER::render(const unsigned id, const Rect &rect)
     Graphics::put_sprite(tilesheet, rect.x, rect.y, sprites[id]);
 }
 
-void SPRITERENDERER::render(const unsigned id, const Rect &rect, const Pixel& tint)
+void SPRITERENDERER::render(const unsigned id, const Rect &rect, const Pixel &tint)
 {
     Graphics::put_sprite_tint(tilesheet, rect.x, rect.y, sprites[id], tint);
 }

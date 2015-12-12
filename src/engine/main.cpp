@@ -25,17 +25,17 @@ int main(int argc, char *argv[])
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
     WalrusRPG::PIAF::File f2 = arc.get("l2.bin");
 
-    const uint8_t* l1 = f1.get();
-    const uint8_t* l2 = f2.get();
+    const uint8_t *l1 = f1.get();
+    const uint8_t *l2 = f2.get();
 
     // TODO better map reading.
-    uint16_t* dungeonTest = new uint16_t[f1.file_size/2+1];
-    uint16_t* dungeonTest2 = new uint16_t[f1.file_size/2+1];
+    uint16_t *dungeonTest = new uint16_t[f1.file_size / 2 + 1];
+    uint16_t *dungeonTest2 = new uint16_t[f1.file_size / 2 + 1];
 
-    for(unsigned i = 0; i < f1.file_size/2; i++)
+    for (unsigned i = 0; i < f1.file_size / 2; i++)
     {
-        dungeonTest[i] = read_big_endian_value<uint16_t>(&l1[i*2]);
-        dungeonTest2[i] = read_big_endian_value<uint16_t>(&l2[i*2]);
+        dungeonTest[i] = read_big_endian_value<uint16_t>(&l1[i * 2]);
+        dungeonTest2[i] = read_big_endian_value<uint16_t>(&l2[i * 2]);
     }
 
     Map map(20, 20, dungeonTest, dungeonTest2, tex);
@@ -58,5 +58,4 @@ int main(int argc, char *argv[])
     delete[] dungeonTest;
     delete[] dungeonTest2;
     return 0;
-
 }

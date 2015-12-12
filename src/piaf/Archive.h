@@ -28,8 +28,9 @@ namespace WalrusRPG
 
         class File
         {
-        protected:
-            const uint8_t* data;
+          protected:
+            const uint8_t *data;
+
           public:
             friend class Archive;
             char filename[9]; // 8 + a \0 in case of printing
@@ -41,8 +42,7 @@ namespace WalrusRPG
             File(uint8_t *data);
             File();
             ~File();
-            const uint8_t* get();
-
+            const uint8_t *get();
         };
 
         class Archive
@@ -55,7 +55,7 @@ namespace WalrusRPG
             File *entries;
             uint8_t **files_data;
             bool *files_loaded;
-            uint32_t* files_data_offset;
+            uint32_t *files_data_offset;
 
 
           public:
@@ -66,7 +66,6 @@ namespace WalrusRPG
             ~Archive();
             bool has(const char *filename);
             File get(const char *filename);
-
         };
     }
 }

@@ -21,15 +21,14 @@ using namespace Nspire;
 #endif
 namespace
 {
-
-
     // Must get a pointer on the file table.
     /**
      * Reads the file table from given data pointer to an empty FileEntry
      * array long enough and a given number of files to load.
      * The pointer must directly access the file entry region of the archive.
      */
-    void load_file_table(File *entries, uint32_t *data_offsets, char *data, uint32_t nb_files)
+    void load_file_table(File *entries, uint32_t *data_offsets, char *data,
+                         uint32_t nb_files)
     {
         for (unsigned index = 0; index < nb_files; index++)
         {
@@ -64,10 +63,11 @@ Archive::Archive(string &filepath) : Archive(filepath.c_str())
 }
 
 
-Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_data(nullptr), files_loaded(nullptr)
+Archive::Archive(const char *filepath)
+    : file(nullptr), entries(nullptr), files_data(nullptr), files_loaded(nullptr)
 {
 #if NSPIRE
-    Interrupts::off();   
+    Interrupts::off();
 #endif
     // Null pointer exception trigger
     if (filepath == nullptr)
@@ -109,7 +109,6 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
         // So we coudln't load the whole header.
         // TODO : check flags and return correct exceptions
         // fprintf(stderr, "Error loading header\n");
-
     }
     // Check if the magic cookie is the same.
     // It's a first way to detect if the file is correctly an archive.
@@ -132,10 +131,10 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
     version = read_big_endian_value<uint32_t>(&header_container[16]);
     if (version != ARCHIVE_VERSION)
     {
-         // std::exception up;
-         // throw up; // haha
+        // std::exception up;
+        // throw up; // haha
     }
-    
+
 
     // At this point, the archive header looks unaltered and we finally can parse
     // and load the header.
@@ -173,10 +172,10 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
         entries = new File[nb_files];
         // Parse and story the filetable.
 
-        files_data = new uint8_t*[nb_files];
+        files_data = new uint8_t *[nb_files];
         files_loaded = new bool[nb_files];
         files_data_offset = new uint32_t[nb_files];
-        for(unsigned i = 0; i < nb_files; i++)
+        for (unsigned i = 0; i < nb_files; i++)
         {
             files_data[i] = nullptr;
             files_loaded[i] = false;
@@ -185,8 +184,6 @@ Archive::Archive(const char *filepath) : file(nullptr), entries(nullptr), files_
 
         load_file_table(entries, files_data_offset, file_entry_data, nb_files);
         delete[] file_entry_data;
-
-
     }
 #if NSPIRE
     Interrupts::init();
@@ -200,11 +197,11 @@ Archive::~Archive()
     if (entries != nullptr)
         delete[] entries;
 
-    if(files_data != nullptr)
+    if (files_data != nullptr)
     {
-        for(unsigned i = 0; i < nb_files; i++)
+        for (unsigned i = 0; i < nb_files; i++)
         {
-            if(files_data[i] != nullptr)
+            if (files_data[i] != nullptr)
             {
                 delete[] files_data[i];
             }
@@ -233,10 +230,10 @@ File Archive::get(const char *filename)
         if (strncmp(filename, entries[index].filename, 8) == 0)
         {
             // On demand load
-            if(!files_loaded[index])
+            if (!files_loaded[index])
             {
- #if NSPIRE
-               Interrupts::off();
+#if NSPIRE
+                Interrupts::off();
 #endif
                 uint8_t *data = new uint8_t[entries[index].file_size];
                 fseek(file, files_data_offset[index] + 32 + 24 * nb_files, SEEK_SET);
@@ -262,14 +259,12 @@ File Archive::get(const char *filename)
     // throw not found exception
 }
 
-File::File(uint8_t *data): data(data)
+File::File(uint8_t *data) : data(data)
 {
-
 }
 
 File::File() : data(nullptr)
 {
-
 }
 
 
@@ -277,7 +272,7 @@ File::~File()
 {
 }
 
-const uint8_t* File::get()
+const uint8_t *File::get()
 {
     return data;
 }

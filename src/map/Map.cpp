@@ -12,7 +12,8 @@ using WalrusRPG::Graphics::Texture;
 
 // Graphics::Texture tex_overworld((char *) overworld);
 
-MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture& tex) : anim(), tex(tex)
+MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
+    : anim(), tex(tex)
 {
     this->renderer = new TileRenderer(tex, 16, 16);
     this->width = width;

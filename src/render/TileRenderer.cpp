@@ -5,7 +5,7 @@
 using namespace WalrusRPG;
 using namespace WalrusRPG::Utils;
 
-TILERENDERER::TileRenderer(WalrusRPG::Graphics::Texture& _tilesheet, unsigned tile_width,
+TILERENDERER::TileRenderer(WalrusRPG::Graphics::Texture &_tilesheet, unsigned tile_width,
                            unsigned tile_height)
     : tilesheet(_tilesheet), tile_width(tile_width), tile_height(tile_height)
 {

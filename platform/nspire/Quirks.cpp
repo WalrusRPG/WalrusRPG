@@ -12,7 +12,7 @@ using tinystl::string;
 
 namespace
 {
-    static char* base_path = nullptr;
+    static char *base_path = nullptr;
 }
 
 void Quirks::init(const char *argv_0)
@@ -26,12 +26,12 @@ void Quirks::init(const char *argv_0)
         if (argv_0[i] == '/')
             last_slash_occurence = i;
     }
-    if( last_slash_occurence > 0)
+    if (last_slash_occurence > 0)
     {
-        base_path = new char[last_slash_occurence+2];
+        base_path = new char[last_slash_occurence + 2];
         strncpy(base_path, argv_0, last_slash_occurence);
         base_path[last_slash_occurence] = '/';
-        base_path[last_slash_occurence+1] = '\0';
+        base_path[last_slash_occurence + 1] = '\0';
     }
 }
 

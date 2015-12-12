@@ -26,34 +26,37 @@ namespace
 
 Texture::Texture(File entry)
 {
-    unsigned char* pic;
+    unsigned char *pic;
     unsigned width, height;
 
-    signed result = lodepng_decode_memory(&pic, &width, &height, (unsigned char*)entry.get(), entry.file_size, LCT_RGBA, 8);
+    signed result =
+        lodepng_decode_memory(&pic, &width, &height, (unsigned char *) entry.get(),
+                              entry.file_size, LCT_RGBA, 8);
     UNUSED(result);
-    
+
     data = new uint16_t[width * height + 3];
     data[0] = width;
     data[1] = height;
     bool transparency_set(false);
-    for(unsigned y = 0; y < height; y++)
+    for (unsigned y = 0; y < height; y++)
     {
-        for (unsigned x = 0; x < width; x++) {
-            bool is_transparent = (pic[(y*width + x)*4+3] == 0);
-            if(is_transparent && transparency_set)
+        for (unsigned x = 0; x < width; x++)
+        {
+            bool is_transparent = (pic[(y * width + x) * 4 + 3] == 0);
+            if (is_transparent && transparency_set)
             {
-                data[y*width + x+3] = data[2];
+                data[y * width + x + 3] = data[2];
                 continue;
             }
-            uint16_t color = (pic[(y*width + x)*4]>>3)<<11;
-            color |= (pic[(y*width + x)*4 + 1]>>2)<<5;
-            color |= (pic[(y*width + x)*4 + 2]>>3);
-            if(is_transparent && !transparency_set)
+            uint16_t color = (pic[(y * width + x) * 4] >> 3) << 11;
+            color |= (pic[(y * width + x) * 4 + 1] >> 2) << 5;
+            color |= (pic[(y * width + x) * 4 + 2] >> 3);
+            if (is_transparent && !transparency_set)
             {
                 data[2] = color;
                 transparency_set = true;
             }
-            data[y*width + x+3] = color;
+            data[y * width + x + 3] = color;
         }
     }
     delete[] pic;

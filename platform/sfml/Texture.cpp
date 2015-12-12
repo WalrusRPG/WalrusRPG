@@ -11,8 +11,7 @@
 
 using WalrusRPG::Graphics::Pixel;
 
-TEXTURE::Texture(char *data)
-:data()
+TEXTURE::Texture(char *data) : data()
 {
     uint16_t *data_16 = (uint16_t *) data;
     this->data.create(data_16[0], data_16[1]);
@@ -32,11 +31,9 @@ TEXTURE::Texture(char *data)
     this->data.update(pixels);
 
     free(pixels);
-
 }
 
-TEXTURE::Texture(WalrusRPG::PIAF::File entry)
-:data()
+TEXTURE::Texture(WalrusRPG::PIAF::File entry) : data()
 {
     // UNUSED(data);
     // TOOD : load from PIAF

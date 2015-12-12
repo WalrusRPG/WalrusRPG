@@ -25,7 +25,8 @@ namespace WalrusRPG
         TileRenderer *renderer;
         // TODO?: add a boolean/getter to know if a second layer exist?
       public:
-        Map(int width, int height, uint16_t *layer0, uint16_t *layer1, WalrusRPG::Graphics::Texture& tex);
+        Map(int width, int height, uint16_t *layer0, uint16_t *layer1,
+            WalrusRPG::Graphics::Texture &tex);
         ~Map();
         void render(Camera &camera, unsigned dt);
         void update(unsigned dt);
