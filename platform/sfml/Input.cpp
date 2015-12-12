@@ -32,6 +32,11 @@ InputMap key_map[] = {
     {Key::K_SELECT, Keyboard::BackSpace, Keyboard::Unknown},
 };
 
+KeyState INPUT::key_get_state(Key key)
+{
+        return key_states[key];
+}
+
 void INPUT::key_poll()
 {
     bool hasFocus = window.hasFocus();

@@ -23,6 +23,11 @@ static InputMap key_map[] = {
     {Key::K_START, KEY_NSPIRE_HOME}, {Key::K_SELECT, KEY_NSPIRE_ESC},
 };
 
+KeyState INPUT::key_get_state(Key key)
+{
+        return key_states[key];
+}
+
 void INPUT::key_poll()
 {
     for (unsigned i = 0; i < K_SIZE; i++)
