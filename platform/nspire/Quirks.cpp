@@ -43,8 +43,10 @@ void Quirks::deinit()
 
 std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)
 {
-    std::unique_ptr<char> result(new char[strlen(base_path) + strlen(path)]);
+    static const char nspire_suffix[] = ".tns";
+    std::unique_ptr<char> result(new char[strlen(base_path) + strlen(path) + strlen(nspire_suffix)]);
     strcpy(result.get(), base_path);
     strcpy(&result.get()[strlen(base_path)], path);
+    strcpy(&result.get()[strlen(base_path)+strlen(nspire_suffix)], nspire_suffix);
     return result;
 }
