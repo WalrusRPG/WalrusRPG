@@ -20,7 +20,7 @@ static InputMap key_map[] = {
     {Key::K_UP, KEY_NSPIRE_8},       {Key::K_DOWN, KEY_NSPIRE_5},
     {Key::K_LEFT, KEY_NSPIRE_4},     {Key::K_RIGHT, KEY_NSPIRE_6},
 
-    {Key::K_START, KEY_NSPIRE_HOME}, {Key::K_SELECT, KEY_NSPIRE_ESC},
+    {Key::K_START, KEY_NSPIRE_DOC}, {Key::K_SELECT, KEY_NSPIRE_ESC},
 };
 
 KeyState INPUT::key_get_state(Key key)
