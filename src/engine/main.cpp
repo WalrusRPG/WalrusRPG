@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     Timing::init();
     Quirks::init(argv[0]);
 
-    Archive arc("data/out.wrf.tns");
+    Archive arc("data/out.wrf");
     Texture tex(arc.get("ov.png"));
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
     WalrusRPG::PIAF::File f2 = arc.get("l2.bin");
