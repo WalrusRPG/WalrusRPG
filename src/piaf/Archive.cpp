@@ -73,9 +73,7 @@ Archive::Archive(const char *filepath)
     // Null pointer exception trigger
     if (filepath == nullptr)
     {
-        // TODO : throw NPE
-        // fprintf(stderr, "Null filepath\n");
-        throw PIAF::PIAFException(__FILE__, __LINE__, "Null path given");
+        throw PIAF::PIAFException("%s: Null path given", __FILE__);
     }
     // Solves the absolute path for given relative path.
     // Must be needed in targets like Ndless as it doesn't support environment
@@ -87,9 +85,7 @@ Archive::Archive(const char *filepath)
     // Again another null pointer trigger
     if (file == nullptr || file == NULL)
     {
-        // TODO : throw Couldn't open
-        // fprintf(stderr, "Unable to open %s\n", filepath);
-        throw PIAF::PIAFException("Missing file", __LINE__, (const char*)filepath);
+        throw PIAF::PIAFException("%s: Missing file : %s", __FILE__, filepath);
     }
 
     // Loading stuff happens NOW
@@ -100,9 +96,7 @@ Archive::Archive(const char *filepath)
     // File to small exception trigger
     if (filesize < 32)
     {
-        throw PIAF::PIAFException("File too small", filesize, filepath);
-        // TODO : throw file too small
-        // fprintf(stderr, "File too small\n");
+        throw PIAF::PIAFException("%s: File too small (%s): %d", __FILE__, filepath, filesize);
     }
 
     // Tempoary buffer to contain the header.
@@ -110,10 +104,7 @@ Archive::Archive(const char *filepath)
     // Read the headers and trigger exceptions on errors
     if (fread(header_container, sizeof(char), 32, file) != 32)
     {
-        // So we coudln't load the whole header.
-        // TODO : check flags and return correct exceptions
-        // fprintf(stderr, "Error loading header\n");
-        throw PIAF::PIAFException("Errorneous header", __LINE__, filepath);
+        throw PIAF::PIAFException("%s: Errorneous header : %s", __FILE__, filepath);
     }
     // Check if the magic cookie is the same.
     // It's a first way to detect if the file is correctly an archive.
@@ -121,7 +112,7 @@ Archive::Archive(const char *filepath)
     {
         // TODO throw bad header
         // fprintf(stderr, "Bad header magic word\n");
-        throw PIAF::PIAFException("Wrong header", __LINE__, filepath);
+        throw PIAF::PIAFException("%s: Magic cookie mismatch : %s", __FILE__, filepath);
     }
     // Checksum time! Let's check if the header hasn"t been altered.
     uint32_t expected_checksum = read_big_endian_value<uint32_t>(&header_container[8]);
@@ -131,7 +122,7 @@ Archive::Archive(const char *filepath)
         // TODO throw bad checksum
         // fprintf(stderr, "Bad header checksum : %x != %x\n", expected_checksum,
         // calculated_checksum);
-        throw PIAF::PIAFException("Bad checksum", __LINE__, filepath);
+        throw PIAF::PIAFException("%s: Bad checksum : %s", __FILE__, filepath);
     }
 
     // TODO : version checking
@@ -140,7 +131,7 @@ Archive::Archive(const char *filepath)
     {
         // std::exception up;
         // throw up; // haha
-        throw PIAF::PIAFException("Wrong archive version", version, filepath);
+        throw PIAF::PIAFException("%s: Wrong(%s) : %08x is not supported by %08x", __FILE__, filepath, version, ARCHIVE_VERSION);
     }
 
 

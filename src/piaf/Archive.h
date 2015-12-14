@@ -4,6 +4,7 @@
 #include <exception>
 #include <cstdint>
 #include <cstdio>
+#include <cstdarg>
 #include <TINYSTL/string.h>
 
 namespace WalrusRPG
@@ -72,10 +73,10 @@ namespace WalrusRPG
         class PIAFException : public std::exception
         {
             private:
-                char *msg;
+                char msg[1024];
 
             public:
-            PIAFException(const char *file, const unsigned line, const char *message);
+            PIAFException(const char *format, ...);
             virtual ~PIAFException();
 
             const char* what() const throw();
