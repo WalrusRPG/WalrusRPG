@@ -1,6 +1,7 @@
 #ifndef INCLUDE_ARCHIVE_H
 #define INCLUDE_ARCHIVE_H
 
+#include <exception>
 #include <cstdint>
 #include <cstdio>
 #include <TINYSTL/string.h>
@@ -67,6 +68,27 @@ namespace WalrusRPG
             bool has(const char *filename);
             File get(const char *filename);
         };
+
+        namespace Exceptions
+        {
+            class PIAFException : public std::exception
+            {
+                private:
+                    char *msg;
+
+                public:
+                PIAFException(const char *file, const unsigned line, const char *message);
+                virtual ~PIAFException();
+
+                const char* what() const throw();
+            };
+
+            class FileNotFound : public PIAFException
+            {
+                public:
+                 FileNotFound(const char *file, const unsigned line, const char *message);
+            };
+        }
     }
 }
 

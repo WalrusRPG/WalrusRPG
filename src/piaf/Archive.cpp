@@ -15,6 +15,7 @@ using WalrusRPG::PIAF::Archive;
 using WalrusRPG::PIAF::File;
 using WalrusRPG::PIAF::FileType;
 using WalrusRPG::PIAF::CompressionType;
+using namespace WalrusRPG::PIAF::Exceptions;
 
 #if NSPIRE
 using namespace Nspire;
@@ -87,6 +88,7 @@ Archive::Archive(const char *filepath)
     {
         // TODO : throw Couldn't open
         // fprintf(stderr, "Unable to open %s\n", filepath);
+        throw PIAF::Exceptions::FileNotFound(__FILE__, __LINE__, (const char*)filepath);
     }
 
     // Loading stuff happens NOW
