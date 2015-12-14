@@ -75,6 +75,7 @@ Archive::Archive(const char *filepath)
     {
         // TODO : throw NPE
         // fprintf(stderr, "Null filepath\n");
+        throw PIAF::PIAFException(__FILE__, __LINE__, "Null path given");
     }
     // Solves the absolute path for given relative path.
     // Must be needed in targets like Ndless as it doesn't support environment
@@ -88,7 +89,7 @@ Archive::Archive(const char *filepath)
     {
         // TODO : throw Couldn't open
         // fprintf(stderr, "Unable to open %s\n", filepath);
-        throw PIAF::PIAFException(__FILE__, __LINE__, (const char*)filepath);
+        throw PIAF::PIAFException("Missing file", __LINE__, (const char*)filepath);
     }
 
     // Loading stuff happens NOW
@@ -99,6 +100,7 @@ Archive::Archive(const char *filepath)
     // File to small exception trigger
     if (filesize < 32)
     {
+        throw PIAF::PIAFException("File too small", filesize, filepath);
         // TODO : throw file too small
         // fprintf(stderr, "File too small\n");
     }
@@ -111,6 +113,7 @@ Archive::Archive(const char *filepath)
         // So we coudln't load the whole header.
         // TODO : check flags and return correct exceptions
         // fprintf(stderr, "Error loading header\n");
+        throw PIAF::PIAFException("Errorneous header", __LINE__, filepath);
     }
     // Check if the magic cookie is the same.
     // It's a first way to detect if the file is correctly an archive.
@@ -118,6 +121,7 @@ Archive::Archive(const char *filepath)
     {
         // TODO throw bad header
         // fprintf(stderr, "Bad header magic word\n");
+        throw PIAF::PIAFException("Wrong header", __LINE__, filepath);
     }
     // Checksum time! Let's check if the header hasn"t been altered.
     uint32_t expected_checksum = read_big_endian_value<uint32_t>(&header_container[8]);
@@ -127,6 +131,7 @@ Archive::Archive(const char *filepath)
         // TODO throw bad checksum
         // fprintf(stderr, "Bad header checksum : %x != %x\n", expected_checksum,
         // calculated_checksum);
+        throw PIAF::PIAFException("Bad checksum", __LINE__, filepath);
     }
 
     // TODO : version checking
@@ -135,6 +140,7 @@ Archive::Archive(const char *filepath)
     {
         // std::exception up;
         // throw up; // haha
+        throw PIAF::PIAFException("Wrong archive version", version, filepath);
     }
 
 
@@ -152,6 +158,7 @@ Archive::Archive(const char *filepath)
         // T0D0 : throw wrong size exception
         // fprintf(stderr, "Bad data size : expected %u, got %lld\n", data_size,
         // calculated_data_size);
+        throw PIAF::PIAFException("Data size mismatch", __LINE__, filepath);
     }
     // Check if there are files to manage.
     if (nb_files != 0)
@@ -169,6 +176,7 @@ Archive::Archive(const char *filepath)
         {
             // TODO : checksum exception
             // fprintf(stderr, "Bad filetable checksum\n");
+            throw PIAF::PIAFException("Bad Filetable checksum", __LINE__, filepath);
         }
         // Create the filetable.
         entries = new File[nb_files];
