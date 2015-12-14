@@ -248,7 +248,7 @@ File Archive::get(const char *filename)
                 if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
                     entries[index].file_size)
                 {
-                    // throw loading error
+                    throw PIAF::PIAFException("%s: couldn't load %s from an archive.", filename);
                 }
                 else
                 {
@@ -264,7 +264,6 @@ File Archive::get(const char *filename)
         }
     }
     return File();
-    // throw not found exception
 }
 
 File::File(uint8_t *data) : data(data)
