@@ -69,26 +69,18 @@ namespace WalrusRPG
             File get(const char *filename);
         };
 
-        namespace Exceptions
+        class PIAFException : public std::exception
         {
-            class PIAFException : public std::exception
-            {
-                private:
-                    char *msg;
+            private:
+                char *msg;
 
-                public:
-                PIAFException(const char *file, const unsigned line, const char *message);
-                virtual ~PIAFException();
+            public:
+            PIAFException(const char *file, const unsigned line, const char *message);
+            virtual ~PIAFException();
 
-                const char* what() const throw();
-            };
+            const char* what() const throw();
+        };
 
-            class FileNotFound : public PIAFException
-            {
-                public:
-                 FileNotFound(const char *file, const unsigned line, const char *message);
-            };
-        }
     }
 }
 

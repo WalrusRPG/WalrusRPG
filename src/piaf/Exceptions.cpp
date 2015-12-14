@@ -2,8 +2,7 @@
 #include <cmath>
 #include <cstring>
 
-using WalrusRPG::PIAF::Exceptions::PIAFException;
-using WalrusRPG::PIAF::Exceptions::FileNotFound;
+using WalrusRPG::PIAF::PIAFException;
 using namespace WalrusRPG::PIAF;
 
 PIAFException::PIAFException(const char *file, const unsigned line, const char *message)
@@ -29,10 +28,4 @@ PIAFException::~PIAFException()
 const char* PIAFException::what() const throw()
 {
 	return msg;
-}
-
-FileNotFound::FileNotFound(const char *file, const unsigned line, const char *message)
-: PIAFException(file, line, message)
-{
-
 }
