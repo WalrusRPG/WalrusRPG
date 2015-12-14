@@ -193,9 +193,6 @@ Archive::Archive(const char *filepath)
     #endif
     } catch(PIAF::PIAFException &e)
     {
-    #if NSPIRE
-        Interrupts::init();
-    #endif
         throw e;        
     }
 
