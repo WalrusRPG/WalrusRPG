@@ -57,5 +57,6 @@ int main(int argc, char *argv[])
 
     delete[] dungeonTest;
     delete[] dungeonTest2;
+
     return 0;
 }
