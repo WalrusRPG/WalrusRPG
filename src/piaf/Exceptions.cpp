@@ -17,8 +17,6 @@ PIAFException::PIAFException(const char *format, ...)
 
 PIAFException::~PIAFException()
 {
-	if(msg != nullptr)
-		delete msg;
 }
 
 const char* PIAFException::what() const throw()
