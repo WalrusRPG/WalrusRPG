@@ -12,7 +12,12 @@ struct InputMap
     keycode_t key_code;
 };
 
-KeyState key_states[Key::K_SIZE] = {KeyState::KS_RELEASED};
+struct KeyBuffer
+{
+    bool current;
+    bool previous;
+};
+struct KeyBuffer key_states[Key::K_SIZE] = {{false, false}};
 
 // TODO: make these software-mappable
 #ifdef SFML
@@ -46,51 +51,42 @@ static InputMap key_map[] = {
 
 KeyState INPUT::key_get_state(Key key)
 {
-        return key_states[key];
+    // "Just" pressed/released before held/inactive to let these events through
+    if (key_pressed(key))
+        return KS_JUST_PRESSED;
+    if (key_down(key))
+        return KS_PRESSED;
+    if (key_released(key))
+        return KS_JUST_RELEASED;
+    if (key_up(key))
+        return KS_RELEASED;
+
+    // Default case to mute compiler warnings, shouldn't even reach here in practice
+    return KS_RELEASED;
 }
 
 void INPUT::key_poll()
 {
     for (unsigned i = 0; i < K_SIZE; i++)
     {
-        bool current_key_state = WalrusRPG::Quirks::get_key(key_map[i].key_code);
-        KeyState previous_key_state = key_states[i];
-
-        KeyState resulting_key_state = KS_RELEASED;
-        if (current_key_state)
-        {
-            if (previous_key_state == KS_RELEASED ||
-                previous_key_state == KS_JUST_RELEASED)
-                resulting_key_state = KS_JUST_PRESSED;
-            else if (previous_key_state == KS_JUST_PRESSED ||
-                     previous_key_state == KS_PRESSED)
-                resulting_key_state = KS_PRESSED;
-        }
-        else
-        {
-            if (previous_key_state == KS_PRESSED || previous_key_state == KS_JUST_PRESSED)
-                resulting_key_state = KS_JUST_RELEASED;
-            else if (previous_key_state == KS_JUST_RELEASED ||
-                     previous_key_state == KS_RELEASED)
-                resulting_key_state = KS_RELEASED;
-        }
-        key_states[i] = resulting_key_state;
+        key_states[i].previous = key_states[i].current;
+        key_states[i].current = WalrusRPG::Quirks::get_key(key_map[i].key_code);
     }
 }
 
 bool INPUT::key_pressed(Key key)
 {
-    return key_states[key] == KS_JUST_PRESSED;
+    return !key_states[key].previous && key_states[key].current;
 }
 bool INPUT::key_released(Key key)
 {
-    return key_states[key] == KS_JUST_RELEASED;
+    return key_states[key].previous && !key_states[key].current;
 }
 bool INPUT::key_down(Key key)
 {
-    return key_states[key] == KS_JUST_PRESSED || key_states[key] == KS_PRESSED;
+    return key_states[key].current;
 }
 bool INPUT::key_up(Key key)
 {
-    return key_states[key] == KS_JUST_RELEASED || key_states[key] == KS_RELEASED;
+    return !key_states[key].current;
 }
