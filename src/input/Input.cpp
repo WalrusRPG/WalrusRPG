@@ -1,36 +1,48 @@
 #include "input/Input.h"
-#include "Graphics.h" // window
-#include "sfwindow.h"
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window.hpp>
+#include "Quirks.h"
+#include "platform.h"
 
 #define INPUT WalrusRPG::Input
 using WalrusRPG::Input::Key;
 using WalrusRPG::Input::KeyState;
-using sf::Keyboard;
 
 struct InputMap
 {
     Key key;
-    sf::Keyboard::Key key_code;
-    sf::Keyboard::Key key_code_alt;
+    keycode_t key_code;
 };
 
 KeyState key_states[Key::K_SIZE] = {KeyState::KS_RELEASED};
+
+// TODO: make these software-mappable
+#ifdef SFML
+using sf::Keyboard;
 InputMap key_map[] = {
-    {Key::K_A, Keyboard::W, Keyboard::Z},
-    {Key::K_B, Keyboard::X, Keyboard::Unknown},
-    {Key::K_L, Keyboard::Q, Keyboard::A},
-    {Key::K_R, Keyboard::S, Keyboard::Unknown},
+    {Key::K_A, Keyboard::W},
+    {Key::K_B, Keyboard::X},
+    {Key::K_L, Keyboard::Q},
+    {Key::K_R, Keyboard::S},
 
-    {Key::K_UP, Keyboard::Up, Keyboard::Unknown},
-    {Key::K_DOWN, Keyboard::Down, Keyboard::Unknown},
-    {Key::K_LEFT, Keyboard::Left, Keyboard::Unknown},
-    {Key::K_RIGHT, Keyboard::Right, Keyboard::Unknown},
+    {Key::K_UP, Keyboard::Up},
+    {Key::K_DOWN, Keyboard::Down},
+    {Key::K_LEFT, Keyboard::Left},
+    {Key::K_RIGHT, Keyboard::Right},
 
-    {Key::K_START, Keyboard::Return, Keyboard::Unknown},
-    {Key::K_SELECT, Keyboard::BackSpace, Keyboard::Unknown},
+    {Key::K_START, Keyboard::Return},
+    {Key::K_SELECT, Keyboard::BackSpace},
 };
+#endif
+#ifdef NSPIRE
+static InputMap key_map[] = {
+    {Key::K_A, KEY_NSPIRE_CTRL},     {Key::K_B, KEY_NSPIRE_SHIFT},
+    {Key::K_L, KEY_NSPIRE_TAB},      {Key::K_R, KEY_NSPIRE_MENU},
+
+    {Key::K_UP, KEY_NSPIRE_8},       {Key::K_DOWN, KEY_NSPIRE_5},
+    {Key::K_LEFT, KEY_NSPIRE_4},     {Key::K_RIGHT, KEY_NSPIRE_6},
+
+    {Key::K_START, KEY_NSPIRE_DOC}, {Key::K_SELECT, KEY_NSPIRE_ESC},
+};
+#endif
 
 KeyState INPUT::key_get_state(Key key)
 {
@@ -39,10 +51,9 @@ KeyState INPUT::key_get_state(Key key)
 
 void INPUT::key_poll()
 {
-    bool hasFocus = window.hasFocus();
     for (unsigned i = 0; i < K_SIZE; i++)
     {
-        bool current_key_state = hasFocus && Keyboard::isKeyPressed(key_map[i].key_code);
+        bool current_key_state = WalrusRPG::Quirks::get_key(key_map[i].key_code);
         KeyState previous_key_state = key_states[i];
 
         KeyState resulting_key_state = KS_RELEASED;
