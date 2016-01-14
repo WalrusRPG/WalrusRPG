@@ -74,6 +74,48 @@ void Graphics::put_sprite_tint(const WalrusRPG::Graphics::Texture &sheet, int x,
     buffer.draw(sprite);
 }
 
+void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y, const Rect &sprite_window, const Rect &clipping_window)
+{
+    const signed &ss_x = sprite_window.x, ss_y = sprite_window.y;
+    const signed &ss_w = sprite_window.width, &ss_h = sprite_window.height;
+    const signed &cx = clipping_window.x, &cy = clipping_window.y; 
+    const signed &cw = clipping_window.width, &ch = clipping_window.height; 
+    const signed lx = x - cx, ly = y - cy;
+   
+    if(lx < -ss_w || lx > cw) return;
+    if(ly < -ss_h || ly > ch) return;
+
+    signed fx = x, fy = y;
+    signed fssx = ss_x, fssy = ss_y, fssw = ss_w, fssh = ss_h;
+   
+    if(lx < 0) {
+        fssw = ss_w+lx;
+        fssx = -lx;
+        fx = cx;
+    }
+
+    if(lx > cw - ss_w) {
+        fssw -= lx-(cw - ss_w);
+    }
+
+    if(ly > ch - ss_h) {
+        fssh -= ly-(ch - ss_h);
+    }
+
+    if(ly < 0) {
+        fssh = ss_h+ly;
+        fssy = -ly;
+        fy = cy;
+    }
+
+    sf::Sprite sprite;
+    sprite.setTexture(sheet.data);
+    sprite.setTextureRect(sf::IntRect(fssx, fssy, fssw, fssh));
+    sprite.setPosition(fx, fy);
+    buffer.draw(sprite);
+}
+
+    
 void Graphics::fill(const Pixel &color)
 {
     buffer.clear(sf::Color(color.r << 3, color.g << 2, color.b << 3, 255));

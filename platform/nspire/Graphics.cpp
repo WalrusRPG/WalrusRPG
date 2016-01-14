@@ -40,6 +40,43 @@ void Graphics::put_sprite_tint(const Texture &sheet, int x, int y, const Rect &w
     CXfb::draw_sprite_sheet_tint(sheet.data, x, y, window, color.value);
 }
 
+void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y, const Rect &sprite_window, const Rect &clipping_window)
+{
+    const signed &ss_x = sprite_window.x, ss_y = sprite_window.y;
+    const signed &ss_w = sprite_window.width, &ss_h = sprite_window.height;
+    const signed &cx = clipping_window.x, &cy = clipping_window.y; 
+    const signed &cw = clipping_window.width, &ch = clipping_window.height; 
+    const signed lx = x - cx, ly = y - cy;
+   
+    if(lx < -ss_w || lx > cw) return;
+    if(ly < -ss_h || ly > ch) return;
+
+    signed fx = x, fy = y;
+    signed fssx = ss_x, fssy = ss_y, fssw = ss_w, fssh = ss_h;
+   
+    if(lx < 0) {
+        fssw = ss_w+lx;
+        fssx = -lx;
+        fx = cx;
+    }
+
+    if(lx > cw - ss_w) {
+        fssw -= lx-(cw - ss_w);
+    }
+
+    if(ly > ch - ss_h) {
+        fssh -= ly-(ch - ss_h);
+    }
+
+    if(ly < 0) {
+        fssh = ss_h+ly;
+        fssy = -ly;
+        fy = cy;
+    }
+    
+    CXfb::draw_sprite_sheet(sheet.data, fx, fy, {fssx, fssy, fssw, fssh});
+}
+
 void Graphics::fill(const Pixel &color)
 {
     CXfb::buffer_fill(color);
