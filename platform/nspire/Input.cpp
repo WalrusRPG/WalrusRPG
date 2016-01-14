@@ -1,4 +1,4 @@
-#include "Input.h"
+#include "input/Input.h"
 #include <libndls.h>
 
 #define INPUT WalrusRPG::Input

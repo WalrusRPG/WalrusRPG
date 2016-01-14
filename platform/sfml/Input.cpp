@@ -1,4 +1,4 @@
-#include "Input.h"
+#include "input/Input.h"
 #include "Graphics.h" // window
 #include "sfwindow.h"
 #include <SFML/Window/Keyboard.hpp>

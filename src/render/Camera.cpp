@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "utility/misc.h"
-#include "Input.h"
+#include "input/Input.h"
 
 #define CAMERA WalrusRPG::Camera
 
