@@ -4,7 +4,6 @@
 #include "render/Pixel.h"
 #include "utility/misc.h"
 #include "lodepng.h"
-#include "Input.h"
 #include "Graphics.h"
 using WalrusRPG::Graphics::Black;
 using WalrusRPG::Graphics::Pixel;
