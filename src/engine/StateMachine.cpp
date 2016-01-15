@@ -4,7 +4,7 @@
 #include "Graphics.h"
 // #include "render/Text.h"
 #include "version.h"
-#include "Input.h"
+#include "input/Input.h"
 
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::States;

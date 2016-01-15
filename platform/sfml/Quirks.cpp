@@ -1,6 +1,7 @@
 #include <cstring>
 #include "Quirks.h"
 #include "utility/misc.h"
+#include "sfwindow.h"
 
 using namespace WalrusRPG;
 using tinystl::string;
@@ -19,4 +20,9 @@ std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)
     std::unique_ptr<char> result(new char[strlen(path)]);
     strcpy(result.get(), path);
     return result;
+}
+
+bool Quirks::get_key(keycode_t key)
+{
+    return sf::Keyboard::isKeyPressed(key) && window.hasFocus();
 }

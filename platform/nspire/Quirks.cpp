@@ -4,6 +4,7 @@
 #include <TINYSTL/string.h>
 #include "Quirks.h"
 #include "Interrupts.h"
+#include "platform.h"
 
 
 using namespace WalrusRPG;
@@ -50,4 +51,9 @@ std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)
     strcpy(&result.get()[strlen(base_path)+strlen(path)], nspire_suffix);
     result.get()[strlen(base_path) + strlen(path) + strlen(nspire_suffix)] = '\0';
     return result;
+}
+
+bool Quirks::get_key(keycode_t key)
+{
+    return isKeyPressed(key);
 }
