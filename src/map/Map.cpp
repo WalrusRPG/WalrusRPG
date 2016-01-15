@@ -8,12 +8,14 @@
 #define MAP WalrusRPG::Map
 using namespace WalrusRPG;
 using namespace WalrusRPG::Utils;
+using WalrusRPG::Graphics::Texture;
 
-Graphics::Texture tex_overworld((char *) overworld);
+// Graphics::Texture tex_overworld((char *) overworld);
 
-MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1) : anim()
+MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
+    : anim(), tex(tex)
 {
-    this->renderer = new TileRenderer(tex_overworld, 16, 16);
+    this->renderer = new TileRenderer(tex, 16, 16);
     this->width = width;
     this->height = height;
     this->layer0 = layer0;

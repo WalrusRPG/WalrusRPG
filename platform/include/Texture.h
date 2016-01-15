@@ -9,6 +9,7 @@
 #include "utility/Rect.h"
 #include "platform.h"
 #include "render/Pixel.h"
+#include "piaf/Archive.h"
 //#include "PLATFORM/texture_type.h"
 
 namespace WalrusRPG
@@ -22,6 +23,7 @@ namespace WalrusRPG
           public:
             texture_data_t data;
 
+            Texture(WalrusRPG::PIAF::File entry);
             Texture(char *data);
             ~Texture();
             // Getters

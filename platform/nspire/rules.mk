@@ -14,6 +14,7 @@ ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)" --compress
 
 EXE = $(OUT)/$(NAME).tns
+DATA_FILE_SUFFIX=.tns
 
 $(EXE): $(ELF)
 	@mkdir -p $(dir $@)

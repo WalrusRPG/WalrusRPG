@@ -5,6 +5,7 @@ all: $(EXE)
 include $(wildcard */rules.mk)
 
 RELEASE_DIRECTORY=release/$(PLATFORM)
+RELEASE_FILES=$(addprefix $(RELEASE_DIRECTORY)/, $(addsuffix $(DATA_FILE_SUFFIX), $(wildcard data/*)))
 
 # Object dependency files
 -include $(OBJS:%.o=%.d)
@@ -35,12 +36,20 @@ $(ELF): $(OBJS)
 clean:
 	@echo "RM: $(OUT)"
 	@rm -rf $(OUT)
+	@echo "RM : $(RELEASE_DIRECTORY)"
+	@rm -rf $(RELEASE_DIRECTORY)
 
-release: $(ELF)
-	@echo "Packing binary and data files into $(RELEASE_DIRECTORY)"
-	@mkdir -p "$(RELEASE_DIRECTORY)"
+make_release_dirs:
+	@mkdir -p "$(RELEASE_DIRECTORY)/data"
+
+release/$(PLATFORM)/%$(DATA_FILE_SUFFIX) : % | make_release_dirs
+	@echo "$^=> $@"
+	@cp -u "$^" "$@"
+
+
+release: $(ELF) $(RELEASE_FILES)
 	@cp $(ELF) "$(RELEASE_DIRECTORY)"
-	@cp -ru data "$(RELEASE_DIRECTORY)" 2>/dev/null || :
+
 
 bundle: release
 	@echo "Tar-zipping"

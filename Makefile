@@ -14,7 +14,7 @@ CFLAGS = $(CFLAGS_COMMON) -std=gnu11
 
 CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++11
 
-LDFLAGS = $(CFLAGS_COMMON) -Wl,--gc-sections
+LDFLAGS = $(CFLAGS_COMMON) -Wl,--gc-sections -lz
 
 SRCS_C :=
 SRCS_CPP :=
