@@ -1,4 +1,4 @@
-.PHONY: format clean all run versionning include release bundle
+.PHONY: format clean all run versionning cflags release bundle
 
 all: $(EXE)
 
@@ -61,7 +61,7 @@ format:
 	@echo "Formatting source using clang-format"
 	@clang-format -i -style=file $(shell git ls-files -c -o --exclude-standard *.c *.cpp *.h)
 
-include:
-	@echo -n $(addprefix -I ,$(INCLUDE) $(INCLUDE_EXT))
+cflags:
+	@echo -n $(CPPFLAGS) $(YCM_EXTRA_CFLAGS)
 
 .FORCE:
