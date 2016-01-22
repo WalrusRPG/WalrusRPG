@@ -4,8 +4,10 @@ all: $(EXE)
 
 include $(wildcard */rules.mk)
 
+MISC_FILES=$(wildcard bundle_files/*)
 RELEASE_DIRECTORY=release/$(PLATFORM)
 RELEASE_FILES=$(addprefix $(RELEASE_DIRECTORY)/, $(addsuffix $(DATA_FILE_SUFFIX), $(wildcard data/*)))
+RELEASE_MISC_FILES=$(addprefix $(RELEASE_DIRECTORY)/, $(notdir $(MISC_FILES)))
 
 # Object dependency files
 -include $(OBJS:%.o=%.d)
@@ -42,20 +44,29 @@ clean:
 make_release_dirs:
 	@mkdir -p "$(RELEASE_DIRECTORY)/data"
 
-release/$(PLATFORM)/%$(DATA_FILE_SUFFIX) : % | make_release_dirs
-	@echo "$^=> $@"
+
+# Data files
+$(RELEASE_DIRECTORY)/%$(DATA_FILE_SUFFIX) : % | make_release_dirs
+	@echo "$^ => $@"
 	@cp -u "$^" "$@"
 
+# Misc bundle files
+$(RELEASE_DIRECTORY)/% : bundle_files/% | make_release_dirs
+	@echo "$^ => $@"
+	@cp -u "$^" "$@"
 
-release: $(ELF) $(RELEASE_FILES)
-	@cp $(ELF) "$(RELEASE_DIRECTORY)"
+# Executable
+$(RELEASE_DIRECTORY)/$(notdir $(EXE)): $(EXE)
+	@echo "$^ => $@"
+	@cp -u "$^" "$@"
 
+release: $(EXE) $(RELEASE_FILES) $(RELEASE_MISC_FILES) $(RELEASE_DIRECTORY)/$(notdir $(EXE))
 
 bundle: release
 	@echo "Tar-zipping"
 	@tar cf "$(RELEASE_DIRECTORY).tar" "$(RELEASE_DIRECTORY)"
 	@gzip "$(RELEASE_DIRECTORY).tar" -f
-	@echo "Archive ready at $(RELEASE_DIRECTORY).tar.gzip"
+	@echo "Archive ready at $(RELEASE_DIRECTORY).tar.gz"
 
 format:
 	@echo "Formatting source using clang-format"
