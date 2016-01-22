@@ -61,10 +61,8 @@ $(RELEASE_DIRECTORY)/$(notdir $(EXE)): $(EXE)
 	@cp -u "$^" "$@"
 
 release: $(EXE) $(RELEASE_FILES) $(RELEASE_MISC_FILES) $(RELEASE_DIRECTORY)/$(notdir $(EXE))
-	@echo "[Release]"
 
 bundle: release
-	@echo "[Bundling]"
 	@echo "Tar-zipping"
 	@OLDPWD=$(PWD)
 	@cd release; tar cfz "$(PLATFORM).tar.gz" $(PLATFORM);
