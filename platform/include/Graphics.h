@@ -36,7 +36,9 @@ namespace WalrusRPG
         void put_sprite(const WalrusRPG::Graphics::Texture &sheet, int x, int y,
                         const WalrusRPG::Utils::Rect &window);
 
-        void put_sprite_clipping(const Texture &sheet, int x, int y, const WalrusRPG::Utils::Rect &sprite_window, const WalrusRPG::Utils::Rect &clipping_window);
+        void put_sprite_clipping(const Texture &sheet, int x, int y,
+                                 const WalrusRPG::Utils::Rect &sprite_window,
+                                 const WalrusRPG::Utils::Rect &clipping_window);
         /*
          * Draws a sprite with clipping given as window and color
          * tinting.

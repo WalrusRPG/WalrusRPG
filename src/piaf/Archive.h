@@ -72,16 +72,15 @@ namespace WalrusRPG
 
         class PIAFException : public std::exception
         {
-            private:
-                char msg[1024];
+          private:
+            char msg[1024];
 
-            public:
+          public:
             PIAFException(const char *format, ...);
             virtual ~PIAFException();
 
-            const char* what() const throw();
+            const char *what() const throw();
         };
-
     }
 }
 

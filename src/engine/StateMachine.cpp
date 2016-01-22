@@ -14,26 +14,27 @@ using WalrusRPG::Input::KeyState;
 
 #define STATEMACHINE WalrusRPG::StateMachine
 
-namespace  {
+namespace
+{
     void draw_button(unsigned x, unsigned y, KeyState state)
     {
-        put_horizontal_line(x+1, x+5, y, Gray);
-        put_horizontal_line(x+1, x+5, y+6, Gray);
-        put_vertical_line(x, y+1, y+5, Gray);
-        put_vertical_line(x+6, y+1, y+5, Gray);
-        switch(state)
+        put_horizontal_line(x + 1, x + 5, y, Gray);
+        put_horizontal_line(x + 1, x + 5, y + 6, Gray);
+        put_vertical_line(x, y + 1, y + 5, Gray);
+        put_vertical_line(x + 6, y + 1, y + 5, Gray);
+        switch (state)
         {
             case KeyState::KS_RELEASED:
-                put_rectangle({x+1, y+1, 5, 5}, White);
+                put_rectangle({x + 1, y + 1, 5, 5}, White);
                 break;
             case KeyState::KS_JUST_RELEASED:
-                put_rectangle({x+1, y+1, 5, 5}, Magenta);
+                put_rectangle({x + 1, y + 1, 5, 5}, Magenta);
                 break;
             case KeyState::KS_JUST_PRESSED:
-                put_rectangle({x+1, y+1, 5, 5}, Cyan);
+                put_rectangle({x + 1, y + 1, 5, 5}, Cyan);
                 break;
             case KeyState::KS_PRESSED:
-                put_rectangle({x+1, y+1, 5, 5}, Black);
+                put_rectangle({x + 1, y + 1, 5, 5}, Black);
                 break;
         }
     }
@@ -52,7 +53,6 @@ namespace  {
 
         draw_button(48, 44, key_get_state(Key::K_B));
         draw_button(56, 36, key_get_state(Key::K_A));
-
     }
 } /* namespace  */
 
@@ -101,7 +101,7 @@ void STATEMACHINE::run()
             stack.back()->render(100 * frame_time / TIMER_FREQ);
             last_frame = frame_stamp;
 
-            Text::print_format(0, 0,"WalrusRPG test build %s", git_version);
+            Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
             if (frame_time != 0 && update_time != 0)
             {
                 Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,

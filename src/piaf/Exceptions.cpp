@@ -6,20 +6,19 @@
 using WalrusRPG::PIAF::PIAFException;
 using namespace WalrusRPG::PIAF;
 
-PIAFException::PIAFException(const char *format, ...)
-	: msg("")
+PIAFException::PIAFException(const char *format, ...) : msg("")
 {
-	va_list list;
-	va_start(list, format);
-	vsnprintf(msg, 1024, format, list);
-	va_end(list);
+    va_list list;
+    va_start(list, format);
+    vsnprintf(msg, 1024, format, list);
+    va_end(list);
 }
 
 PIAFException::~PIAFException()
 {
 }
 
-const char* PIAFException::what() const throw()
+const char *PIAFException::what() const throw()
 {
-	return msg;
+    return msg;
 }

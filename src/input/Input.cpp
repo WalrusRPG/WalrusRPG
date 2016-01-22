@@ -23,27 +23,22 @@ struct KeyBuffer key_states[Key::K_SIZE] = {{false, false}};
 #ifdef SFML
 using sf::Keyboard;
 InputMap key_map[] = {
-    {Key::K_A, Keyboard::W},
-    {Key::K_B, Keyboard::X},
-    {Key::K_L, Keyboard::Q},
-    {Key::K_R, Keyboard::S},
+    {Key::K_A, Keyboard::W},          {Key::K_B, Keyboard::X},
+    {Key::K_L, Keyboard::Q},          {Key::K_R, Keyboard::S},
 
-    {Key::K_UP, Keyboard::Up},
-    {Key::K_DOWN, Keyboard::Down},
-    {Key::K_LEFT, Keyboard::Left},
-    {Key::K_RIGHT, Keyboard::Right},
+    {Key::K_UP, Keyboard::Up},        {Key::K_DOWN, Keyboard::Down},
+    {Key::K_LEFT, Keyboard::Left},    {Key::K_RIGHT, Keyboard::Right},
 
-    {Key::K_START, Keyboard::Return},
-    {Key::K_SELECT, Keyboard::BackSpace},
+    {Key::K_START, Keyboard::Return}, {Key::K_SELECT, Keyboard::BackSpace},
 };
 #endif
 #ifdef NSPIRE
 static InputMap key_map[] = {
-    {Key::K_A, KEY_NSPIRE_CTRL},     {Key::K_B, KEY_NSPIRE_SHIFT},
-    {Key::K_L, KEY_NSPIRE_TAB},      {Key::K_R, KEY_NSPIRE_MENU},
+    {Key::K_A, KEY_NSPIRE_CTRL},    {Key::K_B, KEY_NSPIRE_SHIFT},
+    {Key::K_L, KEY_NSPIRE_TAB},     {Key::K_R, KEY_NSPIRE_MENU},
 
-    {Key::K_UP, KEY_NSPIRE_8},       {Key::K_DOWN, KEY_NSPIRE_5},
-    {Key::K_LEFT, KEY_NSPIRE_4},     {Key::K_RIGHT, KEY_NSPIRE_6},
+    {Key::K_UP, KEY_NSPIRE_8},      {Key::K_DOWN, KEY_NSPIRE_5},
+    {Key::K_LEFT, KEY_NSPIRE_4},    {Key::K_RIGHT, KEY_NSPIRE_6},
 
     {Key::K_START, KEY_NSPIRE_DOC}, {Key::K_SELECT, KEY_NSPIRE_ESC},
 };

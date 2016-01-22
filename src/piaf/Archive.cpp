@@ -96,7 +96,8 @@ Archive::Archive(const char *filepath)
     // File to small exception trigger
     if (filesize < 32)
     {
-        throw PIAF::PIAFException("%s: File too small (%s): %d", __FILE__, filepath, filesize);
+        throw PIAF::PIAFException("%s: File too small (%s): %d", __FILE__, filepath,
+                                  filesize);
     }
 
     // Tempoary buffer to contain the header.
@@ -131,7 +132,8 @@ Archive::Archive(const char *filepath)
     {
         // std::exception up;
         // throw up; // haha
-        throw PIAF::PIAFException("%s: Wrong(%s) : %08x is not supported by %08x", __FILE__, filepath, version, ARCHIVE_VERSION);
+        throw PIAF::PIAFException("%s: Wrong(%s) : %08x is not supported by %08x",
+                                  __FILE__, filepath, version, ARCHIVE_VERSION);
     }
 
 
@@ -189,7 +191,6 @@ Archive::Archive(const char *filepath)
 #if NSPIRE
     Interrupts::init();
 #endif
-
 }
 
 Archive::~Archive()
@@ -242,7 +243,8 @@ File Archive::get(const char *filename)
                 if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
                     entries[index].file_size)
                 {
-                    throw PIAF::PIAFException("%s: couldn't load %s from an archive.", filename);
+                    throw PIAF::PIAFException("%s: couldn't load %s from an archive.",
+                                              filename);
                 }
                 else
                 {

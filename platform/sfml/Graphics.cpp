@@ -74,36 +74,43 @@ void Graphics::put_sprite_tint(const WalrusRPG::Graphics::Texture &sheet, int x,
     buffer.draw(sprite);
 }
 
-void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y, const Rect &sprite_window, const Rect &clipping_window)
+void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y,
+                                   const Rect &sprite_window, const Rect &clipping_window)
 {
     const signed &ss_x = sprite_window.x, ss_y = sprite_window.y;
     const signed &ss_w = sprite_window.width, &ss_h = sprite_window.height;
-    const signed &cx = clipping_window.x, &cy = clipping_window.y; 
-    const signed &cw = clipping_window.width, &ch = clipping_window.height; 
+    const signed &cx = clipping_window.x, &cy = clipping_window.y;
+    const signed &cw = clipping_window.width, &ch = clipping_window.height;
     const signed lx = x - cx, ly = y - cy;
-   
-    if(lx < -ss_w || lx > cw) return;
-    if(ly < -ss_h || ly > ch) return;
+
+    if (lx < -ss_w || lx > cw)
+        return;
+    if (ly < -ss_h || ly > ch)
+        return;
 
     signed fx = x, fy = y;
     signed fssx = ss_x, fssy = ss_y, fssw = ss_w, fssh = ss_h;
-   
-    if(lx < 0) {
-        fssw = ss_w+lx;
+
+    if (lx < 0)
+    {
+        fssw = ss_w + lx;
         fssx = -lx;
         fx = cx;
     }
 
-    if(lx > cw - ss_w) {
-        fssw -= lx-(cw - ss_w);
+    if (lx > cw - ss_w)
+    {
+        fssw -= lx - (cw - ss_w);
     }
 
-    if(ly > ch - ss_h) {
-        fssh -= ly-(ch - ss_h);
+    if (ly > ch - ss_h)
+    {
+        fssh -= ly - (ch - ss_h);
     }
 
-    if(ly < 0) {
-        fssh = ss_h+ly;
+    if (ly < 0)
+    {
+        fssh = ss_h + ly;
         fssy = -ly;
         fy = cy;
     }
@@ -115,7 +122,7 @@ void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y, const Rec
     buffer.draw(sprite);
 }
 
-    
+
 void Graphics::fill(const Pixel &color)
 {
     buffer.clear(sf::Color(color.r << 3, color.g << 2, color.b << 3, 255));
@@ -133,12 +140,12 @@ void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
 void Graphics::put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y,
                                    const Pixel &color)
 {
-    put_rectangle({x,y,x2-x+1, 1}, color);
+    put_rectangle({x, y, x2 - x + 1, 1}, color);
 }
 
 void Graphics::put_vertical_line(uint16_t x, uint16_t y, uint16_t y2, const Pixel &color)
 {
-    put_rectangle({x,y, 1, y2-y+1}, color);
+    put_rectangle({x, y, 1, y2 - y + 1}, color);
 }
 
 void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
@@ -146,7 +153,7 @@ void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
 {
     sf::Color lineColor(color.r << 3, color.g << 2, color.b << 3, 255);
     sf::Vertex line[] = {sf::Vertex(sf::Vector2f(x, y), lineColor),
-                         sf::Vertex(sf::Vector2f(x2+1, y2+1), lineColor)};
+                         sf::Vertex(sf::Vector2f(x2 + 1, y2 + 1), lineColor)};
 
     buffer.draw(line, 2, sf::Lines);
 }
