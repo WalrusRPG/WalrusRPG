@@ -66,7 +66,8 @@ release: $(EXE) $(RELEASE_FILES) $(RELEASE_MISC_FILES) $(RELEASE_DIRECTORY)/$(no
 bundle: release
 	@echo "[Bundling]"
 	@echo "Tar-zipping"
-	@tar cfz "$(RELEASE_DIRECTORY).tar.gz" $(wildcard $(RELEASE_DIRECTORY)/*)
+	@OLDPWD=$(PWD)
+	@cd release; tar cfz "$(PLATFORM).tar.gz" $(PLATFORM);
 	@echo "Archive ready at $(RELEASE_DIRECTORY).tar.gz"
 
 format:
