@@ -61,12 +61,13 @@ $(RELEASE_DIRECTORY)/$(notdir $(EXE)): $(EXE)
 	@cp -u "$^" "$@"
 
 release: $(EXE) $(RELEASE_FILES) $(RELEASE_MISC_FILES) $(RELEASE_DIRECTORY)/$(notdir $(EXE))
-	@echo "[Release]"
 
-bundle: release
-	@echo "[Bundling]"
+#Archive
+release/$(PLATFORM).tar.gz:
 	@echo "Tar-zipping"
-	@tar cfz "$(RELEASE_DIRECTORY).tar.gz" $(wildcard $(RELEASE_DIRECTORY)/*)
+	@cd release; tar cfz "$(PLATFORM).tar.gz" $(PLATFORM);
+
+bundle: release/$(PLATFORM).tar.gz release
 	@echo "Archive ready at $(RELEASE_DIRECTORY).tar.gz"
 
 format:
