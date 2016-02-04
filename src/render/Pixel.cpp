@@ -26,6 +26,11 @@ PIXEL &PIXEL::operator=(unsigned value)
     return *this;
 }
 
+bool PIXEL::operator==(const PIXEL& col)
+{
+	return value == col.value;
+}
+
 #define CONST_COLOR(color, r, g, b) \
     const WalrusRPG::Graphics::Pixel WalrusRPG::Graphics::color(r, g, b)
 CONST_COLOR(Black, 0, 0, 0);
