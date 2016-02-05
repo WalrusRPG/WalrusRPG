@@ -17,8 +17,12 @@ uint32_t interrupt_pointer_bkp;
 // Interrupt source 21 is the LCD
 #define INTERRUPT_MASK (1 << 21)
 
+static bool is_on = false;
+
 void INTERRUPTS::init()
 {
+    is_on = true;
+
     interrupt_select_bkp = *interrupt_select;
     *interrupt_select = 0; // All IRQ for now
 
@@ -41,6 +45,8 @@ void INTERRUPTS::init()
 
 void INTERRUPTS::off()
 {
+    if(!is_on) return;
+    is_on = false;
     // Disable IRQ in the CPU
     asm(
         "mrs r1, cpsr \n\t"

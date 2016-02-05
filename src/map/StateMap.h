@@ -2,6 +2,7 @@
 #define INCLUDE_STATEMAP_H
 
 #include "engine/State.h"
+#include "piaf/Archive.h"
 #include "Map.h"
 
 namespace WalrusRPG
@@ -11,6 +12,8 @@ namespace WalrusRPG
         class StateMap : public State
         {
           protected:
+            WalrusRPG::PIAF::Archive arc_haeccity;
+            WalrusRPG::Graphics::Texture tex_haeccity;
             Camera camera;
             Map &map;
 
@@ -18,6 +21,9 @@ namespace WalrusRPG
             StateMap(int x, int y, Map &map);
             void render(unsigned dt);
             void update(unsigned dt);
+            void putchar_haeccity(unsigned char c, unsigned x, unsigned y);
+            void putchar_haeccity_tint(unsigned char c, unsigned x, unsigned y, const WalrusRPG::Graphics::Pixel& col);
+            void print_haeccity(const char *str, unsigned x, unsigned y, const WalrusRPG::Graphics::Pixel& col);
         };
     }
 }

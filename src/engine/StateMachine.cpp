@@ -102,11 +102,11 @@ void STATEMACHINE::run()
             last_frame = frame_stamp;
 
             // Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
-            // if (frame_time != 0 && update_time != 0)
-            // {
-            //     Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,
-            //                        TIMER_FREQ / update_time);
-            // }
+            if (frame_time != 0 && update_time != 0)
+            {
+                Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,
+                                   TIMER_FREQ / update_time);
+            }
             // draw_buttons();
             Graphics::frame_end();
         }
