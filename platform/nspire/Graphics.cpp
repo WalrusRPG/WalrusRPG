@@ -1,13 +1,11 @@
+#include <stdio.h>
 #include "Graphics.h"
 #include "CXfb.h"
-#include "stdio.h"
 #include "utility/misc.h"
 #include "utility/minmax.h"
 
+using namespace WalrusRPG; /*::Graphics*/
 using namespace Nspire;
-using namespace WalrusRPG;
-using WalrusRPG::Graphics::Texture;
-using WalrusRPG::Graphics::Pixel;
 using WalrusRPG::Utils::Rect;
 
 void Graphics::init()

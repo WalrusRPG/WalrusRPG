@@ -4,18 +4,18 @@
 #include "sprites.h"
 #include "Graphics.h"
 
-#define TEXT WalrusRPG::Graphics::Text
+using namespace WalrusRPG::Graphics; /*Text*/
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Utils;
 
 Texture tex_font((char *) font);
 
-void TEXT::print_char(char c, unsigned x, unsigned y)
+void Text::print_char(char c, unsigned x, unsigned y)
 {
     put_sprite(tex_font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
 }
 
-void TEXT::print_string(const char *str, unsigned x, unsigned y)
+void Text::print_string(const char *str, unsigned x, unsigned y)
 {
     Rect rect;
     rect.width = 8;
@@ -30,12 +30,12 @@ void TEXT::print_string(const char *str, unsigned x, unsigned y)
     }
 }
 
-void TEXT::print_string(const std::string &str, unsigned x, unsigned y)
+void Text::print_string(const std::string &str, unsigned x, unsigned y)
 {
-    TEXT::print_string(str.c_str(), x, y);
+    Text::print_string(str.c_str(), x, y);
 }
 
-void TEXT::print_format(unsigned x, unsigned y, const char *format, ...)
+void Text::print_format(unsigned x, unsigned y, const char *format, ...)
 {
     char buffer[256] = "";
     va_list args;
@@ -44,7 +44,7 @@ void TEXT::print_format(unsigned x, unsigned y, const char *format, ...)
     print_string(buffer, x, y);
 }
 
-void TEXT::print_format(unsigned x, unsigned y, const std::string &format, ...)
+void Text::print_format(unsigned x, unsigned y, const std::string &format, ...)
 {
-    TEXT::print_format(x, y, format.c_str());
+    Text::print_format(x, y, format.c_str());
 }

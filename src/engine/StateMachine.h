@@ -6,14 +6,10 @@
 
 namespace WalrusRPG
 {
-    class StateMachine
+    namespace StateMachine
     {
-      protected:
-        tinystl::vector<WalrusRPG::States::State *> stack;
-
-      public:
-        StateMachine(WalrusRPG::States::State *state);
-        ~StateMachine();
+        void init();
+        void deinit();
         void push(WalrusRPG::States::State *state);
         void pop();
         void run();

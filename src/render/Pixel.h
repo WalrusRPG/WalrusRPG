@@ -36,8 +36,8 @@ namespace WalrusRPG
             operator std::uint16_t() const;
 
             Pixel &operator=(unsigned value);
-           
-            bool operator==(const Pixel&col);
+
+            bool operator==(const Pixel &col);
         };
 
         extern const Pixel Black;

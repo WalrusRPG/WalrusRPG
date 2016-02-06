@@ -2,12 +2,11 @@
 #include "utility/misc.h"
 #include "input/Input.h"
 
-#define CAMERA WalrusRPG::Camera
-
+using WalrusRPG::Camera;
 using namespace WalrusRPG;
 using WalrusRPG::Input::Key;
 
-CAMERA::Camera(signed x, signed y)
+Camera::Camera(signed x, signed y)
 {
     this->x = x;
     this->y = y;
@@ -15,12 +14,12 @@ CAMERA::Camera(signed x, signed y)
     render_area_height = 240;
 }
 
-CAMERA::~Camera()
+Camera::~Camera()
 {
     // TODO if you allocate dynamically members
 }
 
-void CAMERA::update(unsigned dt)
+void Camera::update(unsigned dt)
 {
     UNUSED(dt);
     // TODO update map's data according to elasped time
@@ -41,27 +40,27 @@ void CAMERA::update(unsigned dt)
         x--;
 }
 
-void CAMERA::set_x(signed x)
+void Camera::set_x(signed x)
 {
     this->x = x;
 }
 
-signed CAMERA::get_x() const
+signed Camera::get_x() const
 {
     return this->x;
 }
 
-void CAMERA::set_y(signed y)
+void Camera::set_y(signed y)
 {
     this->y = y;
 }
 
-signed CAMERA::get_y() const
+signed Camera::get_y() const
 {
     return this->y;
 }
 
-bool CAMERA::is_visible(const WalrusRPG::Utils::Rect &object) const
+bool Camera::is_visible(const WalrusRPG::Utils::Rect &object) const
 {
     if ((in_range(object.x, x, x + (signed) render_area_width) ||
          in_range(object.x + (signed) object.width - 1, x,

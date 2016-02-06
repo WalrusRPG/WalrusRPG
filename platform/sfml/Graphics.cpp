@@ -4,18 +4,18 @@
 #include "utility/misc.h"
 #include "utility/minmax.h"
 
-using namespace WalrusRPG;
-using WalrusRPG::Graphics::Texture;
-using WalrusRPG::Graphics::Pixel;
+using namespace WalrusRPG; /*::Graphics*/
 using WalrusRPG::Utils::Rect;
 
 sf::RenderWindow window;
 sf::View view;
 sf::RenderTexture buffer;
 
+
 void Graphics::init()
 {
-    // window.create(sf::VideoMode::getDesktopMode(), "WalrusRPG", sf::Style::Fullscreen);
+    // window.create(sf::VideoMode::getDesktopMode(), "WalrusRPG",
+    // sf::Style::Fullscreen);
     window.create(sf::VideoMode(640, 480), "WalrusRPG");
     window.setFramerateLimit(60);
     view = sf::View(window.getDefaultView());
@@ -53,8 +53,7 @@ void Graphics::frame_end()
     window.display();
 }
 
-void Graphics::put_sprite(const WalrusRPG::Graphics::Texture &sheet, int x, int y,
-                          const Rect &window)
+void Graphics::put_sprite(const Texture &sheet, int x, int y, const Rect &window)
 {
     sf::Sprite sprite;
     sprite.setTexture(sheet.data);
@@ -63,8 +62,8 @@ void Graphics::put_sprite(const WalrusRPG::Graphics::Texture &sheet, int x, int 
     buffer.draw(sprite);
 }
 
-void Graphics::put_sprite_tint(const WalrusRPG::Graphics::Texture &sheet, int x, int y,
-                               const Rect &window, const Pixel &color)
+void Graphics::put_sprite_tint(const Texture &sheet, int x, int y, const Rect &window,
+                               const Pixel &color)
 {
     sf::Sprite sprite;
     sprite.setTexture(sheet.data);

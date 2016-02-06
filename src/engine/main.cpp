@@ -48,13 +48,14 @@ int main(int argc, char *argv[])
     map.anim.add_animation(21, {stripe21, true, 0});
     map.anim.add_animation(22, {stripe22, true, 0});
 
-    StateMachine machine(new States::StateMap(0, 0, map));
-    machine.run();
+    StateMachine::init();
+    StateMachine::push(new States::StateMap(0, 0, map));
+    StateMachine::run();
+    StateMachine::deinit();
 
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
-
     delete[] dungeonTest;
     delete[] dungeonTest2;
 

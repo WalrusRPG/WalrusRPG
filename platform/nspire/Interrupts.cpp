@@ -45,7 +45,8 @@ void INTERRUPTS::init()
 
 void INTERRUPTS::off()
 {
-    if(!is_on) return;
+    if (!is_on)
+        return;
     is_on = false;
     // Disable IRQ in the CPU
     asm(

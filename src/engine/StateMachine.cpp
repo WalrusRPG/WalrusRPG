@@ -6,13 +6,12 @@
 #include "version.h"
 #include "input/Input.h"
 
+using namespace WalrusRPG; /*::StateMachine*/
 using namespace WalrusRPG::Graphics;
-using namespace WalrusRPG::States;
 using namespace WalrusRPG::Timing;
 using WalrusRPG::Input::Key;
 using WalrusRPG::Input::KeyState;
-
-#define STATEMACHINE WalrusRPG::StateMachine
+using WalrusRPG::States::State;
 
 namespace
 {
@@ -54,31 +53,32 @@ namespace
         draw_button(48, 44, key_get_state(Key::K_B));
         draw_button(56, 36, key_get_state(Key::K_A));
     }
-} /* namespace  */
 
-STATEMACHINE::StateMachine(State *state)
+    static tinystl::vector<WalrusRPG::States::State *> stack;
+
+} /* namespace */
+
+void StateMachine::init()
 {
-    push(state);
 }
 
-STATEMACHINE::~StateMachine()
+void StateMachine::deinit()
 {
-    while (!stack.empty())
-        pop();
+    stack.clear();
 }
 
-void STATEMACHINE::push(State *state)
+void StateMachine::push(State *state)
 {
     stack.push_back(state);
 }
 
-void STATEMACHINE::pop()
+void StateMachine::pop()
 {
     delete stack.back();
     stack.pop_back();
 }
 
-void STATEMACHINE::run()
+void StateMachine::run()
 {
     const unsigned loop_time = TIMER_FREQ / 60;
     unsigned loop_next = loop_time;
@@ -115,7 +115,7 @@ void STATEMACHINE::run()
         {
             while (Input::key_down(Key::K_SELECT))
                 Input::key_poll();
-            this->pop();
+            StateMachine::pop();
         }
 
 #ifdef ACTIVE_WAIT

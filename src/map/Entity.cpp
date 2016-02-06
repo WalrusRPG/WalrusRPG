@@ -2,21 +2,21 @@
 #include "utility/misc.h"
 #include "utility/Rect.h"
 
-#define ENTITY WalrusRPG::Entity
+using WalrusRPG::Entity;
 using namespace WalrusRPG::Utils;
 
-ENTITY::Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
+Entity::Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
                unsigned sprite_id)
     : coords(x, y, w, h), tset(tset), sprite_id(sprite_id)
 {
 }
 
-ENTITY::~Entity()
+Entity::~Entity()
 {
     // TODO if you allocate dynamically members
 }
 
-void ENTITY::render(Camera &camera, unsigned dt) const
+void Entity::render(Camera &camera, unsigned dt) const
 {
     UNUSED(dt);
 
@@ -29,7 +29,7 @@ void ENTITY::render(Camera &camera, unsigned dt) const
     }
 }
 
-void ENTITY::update(unsigned dt)
+void Entity::update(unsigned dt)
 {
     UNUSED(dt);
     // TODO update map's data according to elasped time
