@@ -2,8 +2,7 @@
 #include "Graphics.h"
 #include "render/Text.h"
 
-#define STATEMAP WalrusRPG::States::StateMap
-
+using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
 
@@ -20,16 +19,16 @@ namespace
     }
 }
 
-STATEMAP::StateMap(int x, int y, Map &map) : camera(x, y), map(map)
+StateMap::StateMap(int x, int y, Map &map) : camera(x, y), map(map)
 {
 }
 
-void STATEMAP::update(unsigned dt)
+void StateMap::update(unsigned dt)
 {
     camera.update(dt);
 }
 
-void STATEMAP::render(unsigned dt)
+void StateMap::render(unsigned dt)
 {
     map.render(camera, dt);
 

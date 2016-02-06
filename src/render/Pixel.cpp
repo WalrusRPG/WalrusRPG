@@ -1,34 +1,34 @@
 #include "Pixel.h"
 
-#define PIXEL WalrusRPG::Graphics::Pixel
+using WalrusRPG::Graphics::Pixel;
 
-PIXEL::Pixel(std::uint16_t color) : value(color)
+Pixel::Pixel(std::uint16_t color) : value(color)
 {
 }
 
-PIXEL::Pixel(Pixel &pix) : value(pix.value)
+Pixel::Pixel(Pixel &pix) : value(pix.value)
 {
 }
 
-PIXEL::Pixel(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
+Pixel::Pixel(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
     : b(blue >> 3), g(green >> 2), r(red >> 3)
 {
 }
 
-PIXEL::operator std::uint16_t() const
+Pixel::operator std::uint16_t() const
 {
     return value;
 }
 
-PIXEL &PIXEL::operator=(unsigned value)
+Pixel &Pixel::operator=(unsigned value)
 {
     this->value = value;
     return *this;
 }
 
-bool PIXEL::operator==(const PIXEL& col)
+bool Pixel::operator==(const Pixel &col)
 {
-	return value == col.value;
+    return value == col.value;
 }
 
 #define CONST_COLOR(color, r, g, b) \

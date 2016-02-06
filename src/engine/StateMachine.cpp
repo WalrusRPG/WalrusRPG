@@ -6,6 +6,7 @@
 #include "version.h"
 #include "input/Input.h"
 
+using namespace WalrusRPG; /*::StateMachine*/
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Timing;
 using WalrusRPG::Input::Key;
@@ -52,82 +53,75 @@ namespace
         draw_button(48, 44, key_get_state(Key::K_B));
         draw_button(56, 36, key_get_state(Key::K_A));
     }
-    
-} /* namespace */
-
-namespace WalrusRPG{namespace StateMachine
-{
 
     static tinystl::vector<WalrusRPG::States::State *> stack;
 
-    void init()
+} /* namespace */
+
+void StateMachine::init()
+{
+}
+
+void StateMachine::deinit()
+{
+    stack.clear();
+}
+
+void StateMachine::push(State *state)
+{
+    stack.push_back(state);
+}
+
+void StateMachine::pop()
+{
+    delete stack.back();
+    stack.pop_back();
+}
+
+void StateMachine::run()
+{
+    const unsigned loop_time = TIMER_FREQ / 60;
+    unsigned loop_next = loop_time;
+    unsigned last_update = 0, update_stamp, update_time;
+    unsigned last_frame = 0, frame_stamp, frame_time;
+
+    while (!stack.empty())
     {
+        update_stamp = Timing::gettime();
+        update_time = update_stamp - last_update;
+        Input::key_poll();
+        stack.back()->update(100 * update_time / TIMER_FREQ);
+        last_update = update_stamp;
 
-    }
-
-    void deinit()
-    {
-        stack.clear();
-    }
-
-    void push(State *state)
-    {
-        stack.push_back(state);
-    }
-
-    void pop()
-    {
-        delete stack.back();
-        stack.pop_back();
-    }
-
-    void run()
-    {
-        const unsigned loop_time = TIMER_FREQ / 60;
-        unsigned loop_next = loop_time;
-        unsigned last_update = 0, update_stamp, update_time;
-        unsigned last_frame = 0, frame_stamp, frame_time;
-
-        while (!stack.empty())
+        if (Timing::gettime() < loop_next)
         {
-            update_stamp = Timing::gettime();
-            update_time = update_stamp - last_update;
-            Input::key_poll();
-            stack.back()->update(100 * update_time / TIMER_FREQ);
-            last_update = update_stamp;
+            frame_stamp = Timing::gettime();
+            frame_time = frame_stamp - last_frame;
+            Graphics::frame_begin();
+            stack.back()->render(100 * frame_time / TIMER_FREQ);
+            last_frame = frame_stamp;
 
-            if (Timing::gettime() < loop_next)
+            // Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
+            if (frame_time != 0 && update_time != 0)
             {
-                frame_stamp = Timing::gettime();
-                frame_time = frame_stamp - last_frame;
-                Graphics::frame_begin();
-                stack.back()->render(100 * frame_time / TIMER_FREQ);
-                last_frame = frame_stamp;
-
-                // Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
-                if (frame_time != 0 && update_time != 0)
-                {
-                    Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,
-                                       TIMER_FREQ / update_time);
-                }
-                // draw_buttons();
-                Graphics::frame_end();
+                Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,
+                                   TIMER_FREQ / update_time);
             }
-
-            if (Input::key_pressed(Key::K_SELECT))
-            {
-                while (Input::key_down(Key::K_SELECT))
-                    Input::key_poll();
-                StateMachine::pop();
-            }
-
-    #ifdef ACTIVE_WAIT
-            while (Timing::gettime() < loop_next)
-                ;
-    #endif
-            loop_next += loop_time;
+            // draw_buttons();
+            Graphics::frame_end();
         }
+
+        if (Input::key_pressed(Key::K_SELECT))
+        {
+            while (Input::key_down(Key::K_SELECT))
+                Input::key_poll();
+            StateMachine::pop();
+        }
+
+#ifdef ACTIVE_WAIT
+        while (Timing::gettime() < loop_next)
+            ;
+#endif
+        loop_next += loop_time;
     }
-}} /* namespace StateMachine */
-
-
+}

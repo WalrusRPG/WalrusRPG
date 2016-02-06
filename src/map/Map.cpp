@@ -5,14 +5,14 @@
 #include "utility/Rect.h"
 #include "utility/misc.h"
 
-#define MAP WalrusRPG::Map
+using WalrusRPG::Map;
 using namespace WalrusRPG;
 using namespace WalrusRPG::Utils;
 using WalrusRPG::Graphics::Texture;
 
 // Graphics::Texture tex_overworld((char *) overworld);
 
-MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
+Map::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
     : anim(), tex(tex)
 {
     this->renderer = new TileRenderer(tex, 16, 16);
@@ -22,18 +22,18 @@ MAP::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex
     this->layer1 = layer1;
 }
 
-MAP::~Map()
+Map::~Map()
 {
     delete this->renderer;
 }
 
-void MAP::update(unsigned dt)
+void Map::update(unsigned dt)
 {
     // TODO update map's data according to elasped time
     UNUSED(dt);
 }
 
-void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
+void Map::render(WalrusRPG::Camera &camera, unsigned dt)
 {
     anim.update(dt);
     signed t_width = renderer->get_tile_width();
@@ -79,24 +79,24 @@ void MAP::render(WalrusRPG::Camera &camera, unsigned dt)
     }
 }
 
-bool MAP::is_tile_solid(int x, int y) const
+bool Map::is_tile_solid(int x, int y) const
 {
     if (x >= width || y >= height)
         return true;
     return this->layer0[y * width + x] != 0;
 }
 
-bool MAP::is_pixel_solid(int x, int y) const
+bool Map::is_pixel_solid(int x, int y) const
 {
     return is_tile_solid(x / renderer->get_tile_width(), y / renderer->get_tile_height());
 }
 
-int MAP::get_width() const
+int Map::get_width() const
 {
     return this->width;
 }
 
-int MAP::get_height() const
+int Map::get_height() const
 {
     return this->width;
 }

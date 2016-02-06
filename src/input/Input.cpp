@@ -2,7 +2,7 @@
 #include "Quirks.h"
 #include "platform.h"
 
-#define INPUT WalrusRPG::Input
+using namespace WalrusRPG; /*::Input*/
 using WalrusRPG::Input::Key;
 using WalrusRPG::Input::KeyState;
 
@@ -44,7 +44,7 @@ static InputMap key_map[] = {
 };
 #endif
 
-KeyState INPUT::key_get_state(Key key)
+KeyState Input::key_get_state(Key key)
 {
     // "Just" pressed/released before held/inactive to let these events through
     if (key_pressed(key))
@@ -60,7 +60,7 @@ KeyState INPUT::key_get_state(Key key)
     return KS_RELEASED;
 }
 
-void INPUT::key_poll()
+void Input::key_poll()
 {
     for (unsigned i = 0; i < K_SIZE; i++)
     {
@@ -69,19 +69,19 @@ void INPUT::key_poll()
     }
 }
 
-bool INPUT::key_pressed(Key key)
+bool Input::key_pressed(Key key)
 {
     return !key_states[key].previous && key_states[key].current;
 }
-bool INPUT::key_released(Key key)
+bool Input::key_released(Key key)
 {
     return key_states[key].previous && !key_states[key].current;
 }
-bool INPUT::key_down(Key key)
+bool Input::key_down(Key key)
 {
     return key_states[key].current;
 }
-bool INPUT::key_up(Key key)
+bool Input::key_up(Key key)
 {
     return !key_states[key].current;
 }
