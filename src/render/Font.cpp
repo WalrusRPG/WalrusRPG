@@ -18,20 +18,25 @@ Font::Font(Texture& font_tex, WalrusRPG::PIAF::File font_config)
 		// TODO : wrong header
 	}
 	uint32_t expected_checksum = read_big_endian_value<uint32_t>(&ptr[4]);
-	if(crc32(0L, (unsigned char *) (&ptr[8]), 1 + (6*4 + 2)*255))
+	uint32_t calculated_checksum = crc32(0L, (const unsigned char *) (&ptr[8]),
+		font_config.file_size - 8
+		);
+	if(expected_checksum != calculated_checksum)
 	{
-		// TODO : bad checksum
+		// printf("Bad checksum : %x != %x\n", expected_checksum, calculated_checksum);
 	}
+
 	baseline = read_big_endian_value<uint8_t>(&ptr[8]);
 	for (int i = 0; i < 256; ++i)
 	{
-		const uint8_t* current_char = ptr + 9 + (6*4+2)*i;
+		const uint8_t* current_char = ptr + 16 + (6*sizeof(uint16_t))*i;
 		chars[i].dimensions.x = read_big_endian_value<int16_t>(current_char);
-		chars[i].dimensions.y = read_big_endian_value<int16_t>(current_char+4);
-		chars[i].dimensions.width = read_big_endian_value<uint16_t>(current_char+8);
-		chars[i].dimensions.height = read_big_endian_value<uint16_t>(current_char+12);
-		chars[i].x_offset = read_big_endian_value<uint16_t>(current_char+16);
-		chars[i].y_offset = read_big_endian_value<uint16_t>(current_char+18);
+		chars[i].dimensions.y = read_big_endian_value<int16_t>(current_char+2);
+		chars[i].dimensions.width = read_big_endian_value<uint16_t>(current_char+4);
+		chars[i].dimensions.height = read_big_endian_value<uint16_t>(current_char+6);
+		chars[i].x_offset = read_big_endian_value<int16_t>(current_char+8);
+		chars[i].y_offset = read_big_endian_value<int16_t>(current_char+10);
+		printf("%i => %d\n", i, chars[i].dimensions.x);
 	}
 }
 

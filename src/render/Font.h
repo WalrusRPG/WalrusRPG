@@ -15,7 +15,7 @@ namespace WalrusRPG
 			// Sprite clip
 			WalrusRPG::Utils::Rect dimensions;
 			// Character rendering offset
-			int8_t x_offset, y_offset;
+			int16_t x_offset, y_offset;
 		};
 
 		class Font
