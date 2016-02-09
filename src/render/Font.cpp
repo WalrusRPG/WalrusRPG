@@ -36,7 +36,6 @@ Font::Font(Texture& font_tex, WalrusRPG::PIAF::File font_config)
 		chars[i].dimensions.height = read_big_endian_value<uint16_t>(current_char+6);
 		chars[i].x_offset = read_big_endian_value<int16_t>(current_char+8);
 		chars[i].y_offset = read_big_endian_value<int16_t>(current_char+10);
-		printf("%i => %d\n", i, chars[i].dimensions.x);
 	}
 }
 
