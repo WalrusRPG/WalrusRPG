@@ -4,6 +4,7 @@
 #include "engine/State.h"
 #include "piaf/Archive.h"
 #include "Map.h"
+#include "render/Font.h"
 
 namespace WalrusRPG
 {
@@ -12,10 +13,11 @@ namespace WalrusRPG
         class StateMap : public State
         {
           protected:
-            WalrusRPG::PIAF::Archive arc_haeccity;
-            WalrusRPG::Graphics::Texture tex_haeccity;
             Camera camera;
             Map &map;
+            WalrusRPG::PIAF::Archive data;
+            WalrusRPG::Graphics::Texture tex_haeccity;
+            WalrusRPG::Font::Font txt;
 
           public:
             StateMap(int x, int y, Map &map);
