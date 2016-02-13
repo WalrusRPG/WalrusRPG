@@ -2,6 +2,7 @@
 #include "Timing.h"
 #include "Graphics.h"
 #include "Quirks.h"
+#include "ResourceManager.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
@@ -19,8 +20,9 @@ int main(int argc, char *argv[])
     Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);
+    ResourceManager::init();
 
-    Archive arc("data/out.wrf");
+    Archive& arc = ResourceManager::require("data/out.wrf");
     Texture tex(arc.get("ov.png"));
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
     WalrusRPG::PIAF::File f2 = arc.get("l2.bin");
@@ -53,6 +55,7 @@ int main(int argc, char *argv[])
     StateMachine::run();
     StateMachine::deinit();
 
+    ResourceManager::deinit();
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
