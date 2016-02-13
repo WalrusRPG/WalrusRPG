@@ -47,6 +47,7 @@ void StateMap::print_haeccity(const char *str, unsigned x, unsigned y,
     for (unsigned i = 0; str[i] && x < 320; i++)
     {
         unsigned char c = str[i];
+        if(c == 32) {x += txt.space_width; continue;}
         // printf("%c = %d\n", c, c);
         if (must_tint)
             putchar_haeccity_tint(c, x, y, col);
@@ -59,7 +60,7 @@ void StateMap::print_haeccity(const char *str, unsigned x, unsigned y,
 // TODO : We definitely need a Resource Manager
 StateMap::StateMap(int x, int y, Map &map)
     : camera(x, y), map(map), data("data/out.wrf"),
-      tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci"))
+      tex_haeccity(data.get("t_haeccity")), txt(tex_haeccity, data.get("f_haeccity"))
 {
 }
 

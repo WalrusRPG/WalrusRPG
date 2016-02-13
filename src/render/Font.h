@@ -23,6 +23,7 @@ namespace WalrusRPG
 
 		public:
 		 uint8_t baseline;
+		 uint8_t space_width;
 		 CharacterParameters chars[256];
 		 WalrusRPG::Graphics::Texture& font_tex;
 

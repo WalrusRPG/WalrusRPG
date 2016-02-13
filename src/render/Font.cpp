@@ -8,7 +8,7 @@ using WalrusRPG::Font::CharacterParameters;
 using WalrusRPG::Graphics::Texture;
 
 Font::Font(Texture& font_tex, WalrusRPG::PIAF::File font_config)
-	: font_tex(font_tex)
+	: baseline(0), space_width(1), font_tex(font_tex)
 {
 	const uint8_t* ptr = font_config.get();
 	// TODO : parse file
@@ -26,10 +26,11 @@ Font::Font(Texture& font_tex, WalrusRPG::PIAF::File font_config)
 		// printf("Bad checksum : %x != %x\n", expected_checksum, calculated_checksum);
 	}
 
-	baseline = read_big_endian_value<uint8_t>(&ptr[8]);
+	baseline = read_big_endian_value<uint8_t>(&ptr[12]);
+	space_width = read_big_endian_value<uint32_t>(&ptr[20]);
 	for (int i = 0; i < 256; ++i)
 	{
-		const uint8_t* current_char = ptr + 16 + (6*sizeof(uint16_t))*i;
+		const uint8_t* current_char = ptr + 24 + (6*sizeof(uint16_t))*i;
 		chars[i].dimensions.x = read_big_endian_value<int16_t>(current_char);
 		chars[i].dimensions.y = read_big_endian_value<int16_t>(current_char+2);
 		chars[i].dimensions.width = read_big_endian_value<uint16_t>(current_char+4);
