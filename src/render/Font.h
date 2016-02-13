@@ -8,35 +8,36 @@
 
 namespace WalrusRPG
 {
-	namespace Font
-	{
-		struct CharacterParameters
-		{
-			// Sprite clip
-			WalrusRPG::Utils::Rect dimensions;
-			// Character rendering offset
-			int16_t x_offset, y_offset;
-		};
+    namespace Font
+    {
+        struct CharacterParameters
+        {
+            // Sprite clip
+            WalrusRPG::Utils::Rect dimensions;
+            // Character rendering offset
+            int16_t x_offset, y_offset;
+        };
 
-		class Font
-		{
+        class Font
+        {
+          public:
+            uint8_t baseline;
+            uint8_t space_width;
+            CharacterParameters chars[256];
+            WalrusRPG::Graphics::Texture &font_tex;
 
-		public:
-		 uint8_t baseline;
-		 uint8_t space_width;
-		 CharacterParameters chars[256];
-		 WalrusRPG::Graphics::Texture& font_tex;
+            Font(WalrusRPG::Graphics::Texture &font_tex,
+                 WalrusRPG::PIAF::File font_config);
+            ~Font();
 
-			Font(WalrusRPG::Graphics::Texture& font_tex, WalrusRPG::PIAF::File font_config);
-			~Font();
-
-			void draw(const char c, uint16_t x, uint16_t y);
-			void draw(const char c, uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &col);
-			void draw(const char *str, uint16_t x, uint16_t y);
-			void draw(const char *str, uint16_t x, uint16_t y, const WalrusRPG::Graphics::Pixel &col);
-
-		};
-	}
+            void draw(const char c, uint16_t x, uint16_t y);
+            void draw(const char c, uint16_t x, uint16_t y,
+                      const WalrusRPG::Graphics::Pixel &col);
+            void draw(const char *str, uint16_t x, uint16_t y);
+            void draw(const char *str, uint16_t x, uint16_t y,
+                      const WalrusRPG::Graphics::Pixel &col);
+        };
+    }
 }
 
 #endif
