@@ -28,15 +28,18 @@ Font::Font(Texture &font_tex, WalrusRPG::PIAF::File font_config)
 
     baseline = read_big_endian_value<uint8_t>(&ptr[12]);
     space_width = read_big_endian_value<uint32_t>(&ptr[20]);
+
+    // Stupid thing to accelerate a biiiit the font loading, I think.
+    uint8_t *current_char = (uint8_t*) ptr + 24;
     for (int i = 0; i < 256; ++i)
     {
-        const uint8_t *current_char = ptr + 24 + (6 * sizeof(uint16_t)) * i;
         chars[i].dimensions.x = read_big_endian_value<int16_t>(current_char);
         chars[i].dimensions.y = read_big_endian_value<int16_t>(current_char + 2);
         chars[i].dimensions.width = read_big_endian_value<uint16_t>(current_char + 4);
         chars[i].dimensions.height = read_big_endian_value<uint16_t>(current_char + 6);
         chars[i].x_offset = read_big_endian_value<int16_t>(current_char + 8);
         chars[i].y_offset = read_big_endian_value<int16_t>(current_char + 10);
+        current_char += (6 * sizeof(uint16_t));
     }
 }
 
