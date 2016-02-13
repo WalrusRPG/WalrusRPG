@@ -195,8 +195,9 @@ Archive::Archive(const char *filepath)
 
 Archive::~Archive()
 {
-    if (file != nullptr)
+    if (file != nullptr){
         fclose(file);
+    }
     if (entries != nullptr)
         delete[] entries;
 
