@@ -17,7 +17,7 @@ void Quirks::deinit()
 
 std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)
 {
-    std::unique_ptr<char> result(new char[strlen(path)]);
+    std::unique_ptr<char> result(new char[strlen(path)+1]);
     strcpy(result.get(), path);
     return result;
 }
