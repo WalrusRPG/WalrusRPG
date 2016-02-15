@@ -11,8 +11,8 @@ using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Utils;
 using namespace WalrusRPG::PIAF;
 
-Font* fnt;
-Texture* tex;
+Font *fnt;
+Texture *tex;
 
 void Text::init()
 {
@@ -31,12 +31,14 @@ void Text::print_char(char c, unsigned x, unsigned y)
 {
     put_rectangle({static_cast<int>(x), static_cast<int>(y), 8, 8}, Black);
     fnt->draw(x, y, c);
-    //put_sprite(tex_font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
+    // put_sprite(tex_font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
 }
 
 void Text::print_string(const char *str, unsigned x, unsigned y)
 {
-    put_rectangle({static_cast<int>(x), static_cast<int>(y), static_cast<unsigned>(8*strlen(str)), 8}, Black);
+    put_rectangle({static_cast<int>(x), static_cast<int>(y),
+                   static_cast<unsigned>(8 * strlen(str)), 8},
+                  Black);
     fnt->draw(x, y, str);
     // Rect rect;
     // rect.width = 8;
