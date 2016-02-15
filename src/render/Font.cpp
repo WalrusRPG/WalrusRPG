@@ -99,7 +99,7 @@ void Font::draw_format(uint16_t x, uint16_t y, const char *format, ...) const
 
     va_list args;
     va_start(args, format);
-    int size = std::vsnprintf(buffer, 512, format, args);
+    int size = vsnprintf(buffer, 512, format, args);
     va_end(args);
     if (size < 0)
         return;
@@ -113,7 +113,7 @@ void Font::draw_format(uint16_t x, uint16_t y, const Pixel &col, const char *for
 
     va_list args;
     va_start(args, format);
-    int size = std::vsnprintf(buffer, 512, format, args);
+    int size = vsnprintf(buffer, 512, format, args);
     va_end(args);
     if (size < 0)
         return;
