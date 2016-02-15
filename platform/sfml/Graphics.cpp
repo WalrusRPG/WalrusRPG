@@ -139,12 +139,12 @@ void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
 void Graphics::put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y,
                                    const Pixel &color)
 {
-    put_rectangle({x, y, x2 - x + 1, 1}, color);
+    put_rectangle({x, y, x2 - x + 1u, 1}, color);
 }
 
 void Graphics::put_vertical_line(uint16_t x, uint16_t y, uint16_t y2, const Pixel &color)
 {
-    put_rectangle({x, y, 1, y2 - y + 1}, color);
+    put_rectangle({x, y, 1, y2 - y + 1u}, color);
 }
 
 void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,

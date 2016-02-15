@@ -15,7 +15,7 @@ using WalrusRPG::States::State;
 
 namespace
 {
-    void draw_button(unsigned x, unsigned y, KeyState state)
+    void draw_button(signed x, signed y, KeyState state)
     {
         put_horizontal_line(x + 1, x + 5, y, Gray);
         put_horizontal_line(x + 1, x + 5, y + 6, Gray);
