@@ -1,33 +1,54 @@
 #include <cstdio>
 #include <cstdarg>
+#include <cstring>
 #include "Text.h"
-#include "sprites.h"
 #include "Graphics.h"
+#include "render/Font.h"
+#include "piaf/Archive.h"
 
 using namespace WalrusRPG::Graphics; /*Text*/
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Utils;
+using namespace WalrusRPG::PIAF;
 
-Texture tex_font((char *) font);
+Font* fnt;
+Texture* tex;
+
+void Text::init()
+{
+    Archive arc("data/out.wrf");
+    tex = new Texture(arc.get("t_dbgfnt"));
+    fnt = new Font(*tex, arc.get("f_dbgfnt"));
+}
+
+void Text::deinit()
+{
+    delete fnt;
+    delete tex;
+}
 
 void Text::print_char(char c, unsigned x, unsigned y)
 {
-    put_sprite(tex_font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
+    put_rectangle({static_cast<int>(x), static_cast<int>(y), 8, 8}, Black);
+    fnt->draw(x, y, c);
+    //put_sprite(tex_font, x, y, Rect((c % 16) * 8, (c / 16) * 8, 8, 8));
 }
 
 void Text::print_string(const char *str, unsigned x, unsigned y)
 {
-    Rect rect;
-    rect.width = 8;
-    rect.height = 8;
-    for (unsigned index = 0; str[index]; index++)
-    {
-        char c = str[index];
-        rect.x = (c % 16) * 8;
-        rect.y = (c / 16) * 8;
-        put_sprite(tex_font, x, y, rect);
-        x += 8;
-    }
+    put_rectangle({static_cast<int>(x), static_cast<int>(y), static_cast<unsigned>(8*strlen(str)), 8}, Black);
+    fnt->draw(x, y, str);
+    // Rect rect;
+    // rect.width = 8;
+    // rect.height = 8;
+    // for (unsigned index = 0; str[index]; index++)
+    // {
+    //     char c = str[index];
+    //     rect.x = (c % 16) * 8;
+    //     rect.y = (c / 16) * 8;
+    //     put_sprite(tex_font, x, y, rect);
+    //     x += 8;
+    // }
 }
 
 void Text::print_string(const std::string &str, unsigned x, unsigned y)
