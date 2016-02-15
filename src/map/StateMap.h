@@ -17,7 +17,7 @@ namespace WalrusRPG
             Map &map;
             WalrusRPG::PIAF::Archive data;
             WalrusRPG::Graphics::Texture tex_haeccity;
-            WalrusRPG::Font::Font txt;
+            WalrusRPG::Graphics::Font txt;
 
           public:
             StateMap(int x, int y, Map &map);

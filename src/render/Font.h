@@ -8,7 +8,7 @@
 
 namespace WalrusRPG
 {
-    namespace Font
+    namespace Graphics
     {
         struct CharacterParameters
         {
@@ -30,12 +30,16 @@ namespace WalrusRPG
                  WalrusRPG::PIAF::File font_config);
             ~Font();
 
-            void draw(const char c, uint16_t x, uint16_t y);
-            void draw(const char c, uint16_t x, uint16_t y,
-                      const WalrusRPG::Graphics::Pixel &col);
-            void draw(const char *str, uint16_t x, uint16_t y);
-            void draw(const char *str, uint16_t x, uint16_t y,
-                      const WalrusRPG::Graphics::Pixel &col);
+            void draw(uint16_t x, uint16_t y, const char c) const;
+            void draw(uint16_t x, uint16_t y, const char c,
+                      const WalrusRPG::Graphics::Pixel &col) const;
+            void draw(uint16_t x, uint16_t y, const char *str) const;
+            void draw(uint16_t x, uint16_t y, const char *str,
+                      const WalrusRPG::Graphics::Pixel &col) const;
+            void draw_format(uint16_t x, uint16_t y, const char *format, ...) const;
+            void draw_format(uint16_t x, uint16_t y,
+                             const WalrusRPG::Graphics::Pixel &col, const char *format,
+                             ...) const;
         };
     }
 }

@@ -1,10 +1,12 @@
 #include <string.h>
 #include <zlib.h>
+#include <cstdio>
+#include <cstdarg>
 #include "Font.h"
 #include "utility/misc.h"
 
-using WalrusRPG::Font::Font;
-using WalrusRPG::Font::CharacterParameters;
+using WalrusRPG::Graphics::Font;
+using WalrusRPG::Graphics::CharacterParameters;
 using WalrusRPG::Graphics::Texture;
 using WalrusRPG::Graphics::Pixel;
 
@@ -30,7 +32,7 @@ Font::Font(Texture &font_tex, WalrusRPG::PIAF::File font_config)
     space_width = read_big_endian_value<uint32_t>(&ptr[20]);
 
     // Stupid thing to accelerate a biiiit the font loading, I think.
-    uint8_t *current_char = (uint8_t*) ptr + 24;
+    uint8_t *current_char = (uint8_t *) ptr + 24;
     for (int i = 0; i < 256; ++i)
     {
         chars[i].dimensions.x = read_big_endian_value<int16_t>(current_char);
@@ -47,21 +49,21 @@ Font::~Font()
 {
 }
 
-void Font::draw(const char c, uint16_t x, uint16_t y)
+void Font::draw(uint16_t x, uint16_t y, const char c) const
 {
     uint8_t c2 = (uint8_t) c;
     put_sprite(font_tex, x + chars[c2].x_offset, y + chars[c2].y_offset,
                chars[c2].dimensions);
 }
 
-void Font::draw(const char c, uint16_t x, uint16_t y, const Pixel &col)
+void Font::draw(uint16_t x, uint16_t y, const char c, const Pixel &col) const
 {
     uint8_t c2 = (uint8_t) c;
     put_sprite_tint(font_tex, x + chars[c2].x_offset, y + chars[c2].y_offset,
                     chars[c2].dimensions, col);
 }
 
-void Font::draw(const char *str, uint16_t x, uint16_t y)
+void Font::draw(uint16_t x, uint16_t y, const char *str) const
 {
     for (unsigned i = 0; str[i] && x < 320; i++)
     {
@@ -71,12 +73,12 @@ void Font::draw(const char *str, uint16_t x, uint16_t y)
             x += space_width;
             continue;
         }
-        draw(c, x, y);
+        draw(x, y, c);
         x += chars[c].dimensions.width + 1;
     }
 }
 
-void Font::draw(const char *str, uint16_t x, uint16_t y, const Pixel &col)
+void Font::draw(uint16_t x, uint16_t y, const char *str, const Pixel &col) const
 {
     for (unsigned i = 0; str[i] && x < 320; i++)
     {
@@ -86,7 +88,34 @@ void Font::draw(const char *str, uint16_t x, uint16_t y, const Pixel &col)
             x += space_width;
             continue;
         }
-        draw(c, x, y, col);
+        draw(x, y, c, col);
         x += chars[c].dimensions.width + 1;
     }
+}
+
+void Font::draw_format(uint16_t x, uint16_t y, const char *format, ...) const
+{
+    char buffer[513] = {0};
+
+    va_list args;
+    va_start(args, format);
+    int size = std::vsnprintf(buffer, 512, format, args);
+    va_end(args);
+    if (size < 0)
+        return;
+    draw(x, y, buffer);
+}
+
+void Font::draw_format(uint16_t x, uint16_t y, const Pixel &col, const char *format,
+                       ...) const
+{
+    char buffer[513] = {0};
+
+    va_list args;
+    va_start(args, format);
+    int size = std::vsnprintf(buffer, 512, format, args);
+    va_end(args);
+    if (size < 0)
+        return;
+    draw(x, y, buffer, col);
 }
