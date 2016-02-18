@@ -19,7 +19,7 @@ namespace
     }
 }
 
-StateMap::StateMap(int x, int y, Map &map) : camera(x, y, CameraCenterType::CENTER), map(map)
+StateMap::StateMap(int x, int y, Map &map) : camera(x, y), map(map)
 {
     camera.set_x(0);
 }
