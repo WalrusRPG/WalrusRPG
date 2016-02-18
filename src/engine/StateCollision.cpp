@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "input/Input.h"
 #include "render/Text.h"
+#include <cmath>
 
 using WalrusRPG::Box;
 using WalrusRPG::States::StateCollision;
