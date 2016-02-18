@@ -69,7 +69,7 @@ signed Camera::get_center_x() const
 
 void Camera::set_center_y(signed y)
 {
-    this->y = y - render_area_width/2;
+    this->y = y - render_area_height/2;
 }
 
 signed Camera::get_center_y() const
