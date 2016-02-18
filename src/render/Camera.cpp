@@ -3,15 +3,15 @@
 #include "input/Input.h"
 
 using WalrusRPG::Camera;
+using WalrusRPG::CameraCenterType;
 using namespace WalrusRPG;
 using WalrusRPG::Input::Key;
 
-Camera::Camera(signed x, signed y)
+Camera::Camera(signed x, signed y, CameraCenterType center_type)
+: x(x), y(y), render_area_width(320), render_area_height(240), center_type(center_type)
 {
-    this->x = x;
-    this->y = y;
-    render_area_width = 320;
-    render_area_height = 240;
+    set_x(x);
+    set_y(y);
 }
 
 Camera::~Camera()
@@ -43,21 +43,25 @@ void Camera::update(unsigned dt)
 void Camera::set_x(signed x)
 {
     this->x = x;
+    if(center_type == CENTER)
+        this->x -= render_area_width/2;
 }
 
 signed Camera::get_x() const
 {
-    return this->x;
+    return center_type == CENTER? this->x + render_area_width/2 : this->x;
 }
 
 void Camera::set_y(signed y)
 {
     this->y = y;
+    if(this->center_type == CENTER)
+        this->y -= render_area_height/2;
 }
 
 signed Camera::get_y() const
 {
-    return this->y;
+    return center_type == CENTER? this->y + render_area_height/2 : this->y;
 }
 
 bool Camera::is_visible(const WalrusRPG::Utils::Rect &object) const
@@ -75,4 +79,14 @@ bool Camera::is_visible(const WalrusRPG::Utils::Rect &object) const
     {
         return false;
     }
+}
+
+void Camera::set_center_type(CameraCenterType center_type)
+{
+    this->center_type = center_type;
+}
+
+CameraCenterType Camera::get_center_type()
+{
+    return this->center_type;
 }
