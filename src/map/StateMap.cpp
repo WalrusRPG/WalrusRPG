@@ -1,8 +1,8 @@
 #include "StateMap.h"
 #include "Graphics.h"
+#include "input/Input.h"
 #include "render/Text.h"
 #include "piaf/Archive.h"
-
 
 using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;
@@ -11,7 +11,10 @@ using WalrusRPG::Utils::Rect;
 using WalrusRPG::PIAF::Archive;
 using WalrusRPG::PIAF::File;
 using WalrusRPG::Graphics::Texture;
+using namespace WalrusRPG::Input;
+using WalrusRPG::Input::Key;
 using WalrusRPG::Graphics::Font;
+using WalrusRPG::Textbox;
 
 namespace
 {
@@ -33,20 +36,36 @@ namespace
 // TODO : We definitely need a Resource Manager
 StateMap::StateMap(int x, int y, Map &map)
     : camera(x, y), map(map), data("data/out.wrf"), tex_haeccity(data.get("t_haeccity")),
-      txt(tex_haeccity, data.get("f_haeccity"))
+      txt(tex_haeccity, data.get("f_haeccity")), box(txt)
 {
 }
 
 void StateMap::update(unsigned dt)
 {
     camera.update(dt);
+    box.update(dt);
+    if(Input::key_pressed(K_A))
+    {
+        box.set_text((char* )"Hello world!, I am "
+                        "\xFF\x01\xf0\x00\x00"
+                        "Howard"
+                        "\xFF\x01\xff\xff\x00"
+                        ". "
+                        "\xFF\x81\x3c\x00\x00"
+                        "\xFF\x81\x0a\x00\x00"
+                        "\xFF\x01\xf0\x00\x00"
+                        "Howard"
+                        "\xFF\x01\xff\xff\x00"
+                        " the Psyduck!");
+
+    }
 }
 
 void StateMap::render(unsigned dt)
 {
     // fill(Black);
     map.render(camera, dt);
-
+    box.render(dt);
     print_debug_camera_data(camera, txt);
     print_debug_map_data(map, txt);
 }
