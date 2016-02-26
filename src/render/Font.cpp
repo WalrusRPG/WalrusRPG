@@ -28,7 +28,7 @@ Font::Font(Texture &font_tex, WalrusRPG::PIAF::File font_config)
         // printf("Bad checksum : %x != %x\n", expected_checksum, calculated_checksum);
     }
 
-    baseline = read_big_endian_value<uint8_t>(&ptr[12]);
+    baseline = read_big_endian_value<uint32_t>(&ptr[12]);
     space_width = read_big_endian_value<uint32_t>(&ptr[20]);
 
     // Stupid thing to accelerate a biiiit the font loading, I think.
