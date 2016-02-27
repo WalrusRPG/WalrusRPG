@@ -65,8 +65,7 @@ void StateMap::update(unsigned dt)
 
 void StateMap::render(unsigned dt)
 {
-    // map.render(camera, dt);
-    fill(Black);
+    map.render(camera, dt);
     if(!started) return;
     box.render(dt);
     if(box.state == WalrusRPG::TextboxState::Updating)
