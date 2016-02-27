@@ -24,6 +24,7 @@ namespace WalrusRPG
             WalrusRPG::Graphics::Font txt;
             WalrusRPG::Animator anim;
             WalrusRPG::Textbox box;
+
           public:
             StateMap(int x, int y, Map &map);
             void render(unsigned dt);
