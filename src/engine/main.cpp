@@ -1,17 +1,18 @@
 #include "StateMachine.h"
 #include "Timing.h"
+#include "render/Text.h"
 #include "Graphics.h"
 #include "Quirks.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
 #include "utility/misc.h"
-#include "sprites.h"
 #include "StateCollision.h"
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;
 using WalrusRPG::Graphics::Texture;
+using namespace WalrusRPG::Graphics;
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);
+    Text::init();
 
     Archive arc("data/out.wrf");
     Texture tex(arc.get("ov.png"));
