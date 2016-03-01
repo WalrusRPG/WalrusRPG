@@ -22,7 +22,7 @@ namespace
         for (; str[len]; ++len)
         {
             if (str[len] == MAGIC_TOKEN)
-                len += 4;
+                len += COMMAND_LEGNTH;
         }
         return len;
     }
@@ -76,7 +76,6 @@ void Textbox::set_text(char *new_text)
         buffer.push_back(t);
     }
     state = Updating;
-    add_letter(1);
 }
 
 void Textbox::add_letter(unsigned nb_letters)
