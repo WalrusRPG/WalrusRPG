@@ -2,7 +2,9 @@
 #include "sfwindow.h"
 #include <SFML/Graphics.hpp>
 #include "utility/misc.h"
-#include "utility/minmax.h"
+#include "imgui.h"
+#include "imgui-events-SFML.h"
+#include "imgui-rendering-SFML.h"
 
 using namespace WalrusRPG; /*::Graphics*/
 using WalrusRPG::Utils::Rect;
@@ -20,16 +22,30 @@ void Graphics::init()
     window.setFramerateLimit(60);
     view = sf::View(window.getDefaultView());
     buffer.create(320, 240);
+    ImGui::SFML::SetRenderTarget(window);
+    ImGui::SFML::InitImGuiRendering();
+    ImGui::SFML::SetWindow(window);
+    ImGui::SFML::InitImGuiEvents();
 }
 
 void Graphics::deinit()
 {
+    ImGui::SFML::Shutdown();
     window.close();
 }
 
 void Graphics::frame_begin()
 {
     window.clear(sf::Color::Black);
+    ImGui::SFML::UpdateImGui();
+    ImGui::SFML::UpdateImGuiRendering();
+    sf::Event e;
+    while(window.pollEvent(e)) {
+        ImGui::SFML::ProcessEvent(e);
+        if(e.type == sf::Event::Closed) {
+            window.close();
+        }
+    }
 }
 
 void Graphics::frame_end()
@@ -37,7 +53,9 @@ void Graphics::frame_end()
     sf::Sprite sprite(buffer.getTexture());
     sf::Vector2u winsize = window.getSize();
     sf::Event event;
-    float scale = min(winsize.x / 320.f, winsize.y / 240.f);
+    float winscale_x = winsize.x / 320.f;
+    float winscale_y = winsize.y / 240.f;
+    float scale = winscale_x < winscale_y ? winscale_x : winscale_y;
 
     while (window.pollEvent(event))
     {
@@ -50,6 +68,7 @@ void Graphics::frame_end()
     sprite.setScale(scale, scale);
     sprite.setPosition((winsize.x - 320.f * scale) / 2, (winsize.y - 240.f * scale) / 2);
     window.draw(sprite);
+    ImGui::Render();
     window.display();
 }
 

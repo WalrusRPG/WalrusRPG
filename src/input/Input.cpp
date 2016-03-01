@@ -20,7 +20,7 @@ struct KeyBuffer
 struct KeyBuffer key_states[Key::K_SIZE] = {{false, false}};
 
 // TODO: make these software-mappable
-#ifdef SFML
+#ifdef TARGET_SFML
 using sf::Keyboard;
 InputMap key_map[] = {
     {Key::K_A, Keyboard::W},          {Key::K_B, Keyboard::X},

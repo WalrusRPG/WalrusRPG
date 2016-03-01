@@ -2,6 +2,10 @@
 #include "Graphics.h"
 #include "render/Text.h"
 
+#include "imgui.h"
+#include "imgui-events-SFML.h"
+#include "imgui-rendering-SFML.h"
+
 using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
@@ -31,6 +35,11 @@ void StateMap::update(unsigned dt)
 
 void StateMap::render(unsigned dt)
 {
+    bool tmp = true;
+    ImGuiIO &io = ImGui::GetIO();
+    ImGui::Begin("Imgui PoC window", &tmp);
+    ImGui::Text("Hello, world!");
+    ImGui::End();
     map.render(camera, dt);
 
     print_debug_camera_data(camera);

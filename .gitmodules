@@ -4,3 +4,9 @@
 [submodule "external/lodepng"]
 	path = external/platform/nspire/lodepng
 	url = https://github.com/lvandeve/lodepng.git
+[submodule "external/platform/sfml/imgui"]
+	path = external/platform/sfml/imgui
+	url = git@github.com:ocornut/imgui.git
+[submodule "external/platform/sfml/imgui-backends"]
+	path = external/platform/sfml/imgui-backends
+	url = git@github.com:Mischa-Alff/imgui-backends.git
