@@ -13,14 +13,14 @@ namespace WalrusRPG
     {
       public:
         Animator anim;
+        uint16_t *layer0;
+        uint16_t *layer1;
 
       protected:
         // <Tiles> data;
         // <Tileset> tileset;
         int width;
         int height;
-        uint16_t *layer0;
-        uint16_t *layer1;
         WalrusRPG::Graphics::Texture tex;
         TileRenderer *renderer;
         // TODO?: add a boolean/getter to know if a second layer exist?

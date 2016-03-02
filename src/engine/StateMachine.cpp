@@ -6,6 +6,10 @@
 #include "version.h"
 #include "input/Input.h"
 
+#if TARGET_SFML
+#include <SFML/System.hpp>
+#endif
+
 using namespace WalrusRPG; /*::StateMachine*/
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Timing;
@@ -15,6 +19,11 @@ using WalrusRPG::States::State;
 
 namespace
 {
+#if TARGET_SFML
+    float update_times[200] = {0};
+    float render_times[200] = {0};
+#endif
+
     void draw_button(signed x, signed y, KeyState state)
     {
         put_horizontal_line(x + 1, x + 5, y, Gray);
@@ -92,7 +101,6 @@ void StateMachine::run()
         Input::key_poll();
         stack.back()->update(100 * update_time / TIMER_FREQ);
         last_update = update_stamp;
-
         if (Timing::gettime() < loop_next)
         {
             frame_stamp = Timing::gettime();
@@ -108,6 +116,27 @@ void StateMachine::run()
                                    TIMER_FREQ / update_time);
             }
             // draw_buttons();
+#if TARGET_SFML
+            stack.back()->debug(100 * frame_time / TIMER_FREQ);
+            ImGui::Text("FPS: %.2f", TIMER_FREQ / (float)frame_time);
+            float update_time = (frame_stamp - update_stamp)/1000.;
+            float render_time = (Timing::gettime() - frame_stamp)/1000.;
+            for (int i = 0; i < 200; ++i)
+            {
+                update_times[i] = update_times[i+1];
+                render_times[i] = render_times[i+1];
+            }
+            update_times[199] = update_time;
+            render_times[199] = render_time;
+            ImGui::PlotLines("", update_times, 200, 0, "Update");
+            ImGui::SameLine();
+            ImGui::Text("%.2fms", update_time);
+            ImGui::PlotLines("", render_times, 200, 0, "Render");
+            ImGui::SameLine();
+            ImGui::Text("%.2fms", render_time);
+
+#endif
+
             Graphics::frame_end();
         }
 
