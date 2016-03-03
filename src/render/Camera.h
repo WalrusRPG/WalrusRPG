@@ -5,7 +5,6 @@
 
 namespace WalrusRPG
 {
-
     class Camera
     {
       protected:
@@ -44,7 +43,6 @@ namespace WalrusRPG
 
         // Can you see me, senpai ? >.<
         bool is_visible(const WalrusRPG::Utils::Rect &object) const;
-
     };
 }
 

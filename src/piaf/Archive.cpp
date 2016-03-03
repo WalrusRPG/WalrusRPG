@@ -161,7 +161,7 @@ Archive::Archive(const char *filepath)
             read_big_endian_value<uint32_t>(&header_container[12]);
         char *file_entry_data = new char[24 * nb_files];
         fseek(file, 32, SEEK_SET);
-        if( fread(file_entry_data, sizeof(char), 24 * nb_files, file) < 24 * nb_files)
+        if (fread(file_entry_data, sizeof(char), 24 * nb_files, file) < 24 * nb_files)
         {
             throw PIAF::PIAFException("Can't read file entry data", __LINE__, filepath);
         }

@@ -7,7 +7,7 @@ using namespace WalrusRPG;
 using WalrusRPG::Input::Key;
 
 Camera::Camera(signed x, signed y)
-: x(x), y(y), render_area_width(320), render_area_height(240)
+    : x(x), y(y), render_area_width(320), render_area_height(240)
 {
 }
 
@@ -59,22 +59,22 @@ signed Camera::get_y() const
 
 void Camera::set_center_x(signed x)
 {
-    this->x = x - render_area_width/2;
+    this->x = x - render_area_width / 2;
 }
 
 signed Camera::get_center_x() const
 {
-    return this->x - render_area_height/2;
+    return this->x - render_area_height / 2;
 }
 
 void Camera::set_center_y(signed y)
 {
-    this->y = y - render_area_height/2;
+    this->y = y - render_area_height / 2;
 }
 
 signed Camera::get_center_y() const
 {
-    return this->y - render_area_height/2;
+    return this->y - render_area_height / 2;
 }
 
 

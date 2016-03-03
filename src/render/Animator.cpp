@@ -8,7 +8,7 @@ namespace
     unsigned get_animation_duration(const WalrusRPG::Animation &anim)
     {
         unsigned duration = 0;
-        for (unsigned index = 0; index < anim.stripe.size(); index++)
+        for (unsigned index = 0, end = anim.stripe.size(); index < end; index++)
         {
             duration += anim.stripe[index].duration;
         }
