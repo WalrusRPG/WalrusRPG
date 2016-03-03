@@ -5,6 +5,7 @@
 
 namespace WalrusRPG
 {
+
     class Camera
     {
       protected:
@@ -24,6 +25,7 @@ namespace WalrusRPG
 
       public:
         Camera(signed x, signed y);
+
         ~Camera();
         // This doesn't need any render as it's the utility which helps rendering. Unless
         // you want to show debnug things.
@@ -35,8 +37,14 @@ namespace WalrusRPG
         void set_y(signed y);
         signed get_y() const;
 
+        void set_center_x(signed x);
+        signed get_center_x() const;
+        void set_center_y(signed y);
+        signed get_center_y() const;
+
         // Can you see me, senpai ? >.<
         bool is_visible(const WalrusRPG::Utils::Rect &object) const;
+
     };
 }
 

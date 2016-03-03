@@ -39,7 +39,6 @@ namespace WalrusRPG
             FileType file_type;
             CompressionType compression_type;
             uint32_t file_size;
-            std::size_t size;
 
             File(uint8_t *data);
             File();
