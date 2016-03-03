@@ -148,7 +148,6 @@ Archive::Archive(const char *filepath)
     uint64_t calculated_data_size = filesize - 32 - 24 * nb_files;
     if (data_size != calculated_data_size)
     {
-        // T0D0 : throw wrong size exception
         // fprintf(stderr, "Bad data size : expected %u, got %lld\n", data_size,
         // calculated_data_size);
         throw PIAF::PIAFException("Data size mismatch", __LINE__, filepath);
@@ -162,12 +161,14 @@ Archive::Archive(const char *filepath)
             read_big_endian_value<uint32_t>(&header_container[12]);
         char *file_entry_data = new char[24 * nb_files];
         fseek(file, 32, SEEK_SET);
-        fread(file_entry_data, sizeof(char), 24 * nb_files, file);
+        if( fread(file_entry_data, sizeof(char), 24 * nb_files, file) < 24 * nb_files)
+        {
+            throw PIAF::PIAFException("Can't read file entry data", __LINE__, filepath);
+        }
         // Compare and trigger an exception if the checksum doesn't match.
         if (expected_filetable_checksum !=
             crc32(0L, (unsigned char *) file_entry_data, 24 * nb_files))
         {
-            // TODO : checksum exception
             // fprintf(stderr, "Bad filetable checksum\n");
             throw PIAF::PIAFException("Bad Filetable checksum", __LINE__, filepath);
         }
