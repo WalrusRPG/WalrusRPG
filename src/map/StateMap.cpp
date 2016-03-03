@@ -41,6 +41,7 @@ void StateMap::render(unsigned dt)
 }
 
 #if TARGET_SFML
+
 void StateMap::debug(unsigned dt)
 {
     ImGui::Begin("Map State");
@@ -68,44 +69,70 @@ void StateMap::debug(unsigned dt)
 
     ImVec2 s = ImGui::GetCursorScreenPos();
     ImDrawList *list = ImGui::GetWindowDrawList();
-    for(signed i = 0; i < map.get_height(); i++)
+
+    if(map.layer0 != nullptr)
     {
-        for(signed j = 0; j < map.get_width(); j++)
+        for(signed i = 0; i < map.get_height(); i++)
         {
-            float x = s.x + 3*j;
-            float y = s.y + 3*i;
-            uint16_t tile = map.layer0[i*map.get_height() + j];
-            if(active_map_mode == 0)
+            for(signed j = 0; j < map.get_width(); j++)
             {
-                if(tile != 0)
+                float x = s.x + 3*j;
+                float y = s.y + 3*i;
+                uint16_t tile = map.layer0[i*map.get_height() + j];
+                if(active_map_mode == 0)
                 {
-                    ImU32 c{0x88888888};
-                    list->AddRectFilled({x, y},{x+3, y+3}, c);
+                    if(tile != 0)
+                    {
+                        ImU32 c{0x88888888};
+                        list->AddRectFilled({x, y},{x+3, y+3}, c);
+                    }
                 }
-                if(map.layer1 != nullptr)
+                else if(active_map_mode == 1)
                 {
-                    uint16_t tile2 = map.layer1[i*map.get_height() + j];
+                    auto ptr = map.anim.animations.find(tile);
+                    if(ptr->second.stripe.size() > 1)
+                        list->AddRectFilled({x, y},{x+3, y+3}, 0xFFFF0000+ map.anim.get_animation_frame(tile));                
+                }
+            }
+        }
+    }
+    if(map.layer1 != nullptr)
+    {
+        for(signed i = 0; i < map.get_height(); i++)
+        {
+            for(signed j = 0; j < map.get_width(); j++)
+            {
+                float x = s.x + 3*j;
+                float y = s.y + 3*i;
+                uint16_t tile2 = map.layer1[i*map.get_height() + j];
+                if(active_map_mode == 0)
+                {
                     if(tile2 != 0)
                     {
                         ImU32 c{0xFF0000FF};
                         list->AddRectFilled({x, y},{x+3, y+3}, c);
                     }
                 }
-            }
-            else if(active_map_mode == 1)
-            {
-                auto ptr = map.anim.animations.find(tile);
-                if(ptr->second.stripe.size() > 1)
-                    list->AddRectFilled({x, y},{x+3, y+3}, 0xFFFF0000+ map.anim.get_animation_frame(tile));                
+                else if(active_map_mode == 1)
+                {
+
+                    if(tile2 != 0)
+                    {
+                        ImU32 c{0xFF00FF00};
+                        auto ptr = map.anim.animations.find(tile2);
+                        if(ptr->second.stripe.size() > 1)
+                            list->AddRectFilled({x, y},{x+3, y+3}, c);
+                    }
+                }
             }
         }
-        float x = camera.get_x()/(float)16;
-        float x2 = (camera.get_x() + 320)/(float)16;
-        float y = camera.get_y()/(float)16;
-        float y2 = (camera.get_y()+240)/(float)16;
-        list->AddRect({x*3+s.x, y*3+s.y}, {x2*3+s.x, y2*3+s.y}, 0xFFFFFF00);
-
     }
+
+    float x = camera.get_x()/(float)16;
+    float x2 = (camera.get_x() + 320)/(float)16;
+    float y = camera.get_y()/(float)16;
+    float y2 = (camera.get_y()+240)/(float)16;
+    list->AddRect({floorf(x*3+s.x), floorf(y*3+s.y)}, {floorf(x2*3+s.x), floorf(y2*3+s.y)}, 0xFFFFFF00);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + map.get_height()*3 + ImGui::GetStyle().ItemSpacing.y);
     ImGui::EndGroup();
     ImGui::End();
