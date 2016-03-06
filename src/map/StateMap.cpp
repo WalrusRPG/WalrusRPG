@@ -3,7 +3,6 @@
 #include "render/Text.h"
 #include "piaf/Archive.h"
 
-
 using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
