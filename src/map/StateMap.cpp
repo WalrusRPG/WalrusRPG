@@ -4,7 +4,6 @@
 #include "piaf/Archive.h"
 #include "engine/ResourceManager.h"
 
-
 using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;

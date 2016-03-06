@@ -20,7 +20,7 @@ struct KeyBuffer
 struct KeyBuffer key_states[Key::K_SIZE] = {{false, false}};
 
 // TODO: make these software-mappable
-#ifdef SFML
+#ifdef TARGET_SFML
 using sf::Keyboard;
 InputMap key_map[] = {
     {Key::K_A, Keyboard::W},          {Key::K_B, Keyboard::X},
@@ -32,7 +32,7 @@ InputMap key_map[] = {
     {Key::K_START, Keyboard::Return}, {Key::K_SELECT, Keyboard::BackSpace},
 };
 #endif
-#ifdef NSPIRE
+#ifdef TARGET_NSPIRE
 static InputMap key_map[] = {
     {Key::K_A, KEY_NSPIRE_CTRL},    {Key::K_B, KEY_NSPIRE_SHIFT},
     {Key::K_L, KEY_NSPIRE_TAB},     {Key::K_R, KEY_NSPIRE_MENU},
