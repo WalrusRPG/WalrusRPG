@@ -17,7 +17,7 @@ using WalrusRPG::PIAF::FileType;
 using WalrusRPG::PIAF::CompressionType;
 using namespace WalrusRPG::PIAF;
 
-#if NSPIRE
+#if TARGET_NSPIRE
 using namespace Nspire;
 #endif
 namespace
@@ -67,7 +67,7 @@ Archive::Archive(string &filepath) : Archive(filepath.c_str())
 Archive::Archive(const char *filepath)
     : file(nullptr), entries(nullptr), files_data(nullptr), files_loaded(nullptr)
 {
-#if NSPIRE
+#if TARGET_NSPIRE
     Interrupts::off();
 #endif
     // Null pointer exception trigger
@@ -189,7 +189,7 @@ Archive::Archive(const char *filepath)
         load_file_table(entries, files_data_offset, file_entry_data, nb_files);
         delete[] file_entry_data;
     }
-#if NSPIRE
+#if TARGET_NSPIRE
     Interrupts::init();
 #endif
 }
@@ -236,7 +236,7 @@ File Archive::get(const char *filename)
             // On demand load
             if (!files_loaded[index])
             {
-#if NSPIRE
+#if TARGET_NSPIRE
                 Interrupts::off();
 #endif
                 uint8_t *data = new uint8_t[entries[index].file_size];
@@ -253,7 +253,7 @@ File Archive::get(const char *filename)
                     entries[index].data = data;
                 }
                 files_loaded[index] = true;
-#if NSPIRE
+#if TARGET_NSPIRE
                 Interrupts::init();
 #endif
             }

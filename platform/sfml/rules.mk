@@ -6,7 +6,7 @@ INCLUDE += $(sfml_LOCAL_PATH)/public
 
 LDFLAGS += -lstdc++ -lsfml-window -lsfml-graphics -lsfml-system
 
-CFLAGS_COMMON += -DSFML=1
+CFLAGS_COMMON += -DTARGET_SFML=TRUE
 
 CC = clang
 CPP = clang++

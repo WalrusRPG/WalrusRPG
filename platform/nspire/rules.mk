@@ -4,7 +4,7 @@ SRCS_C += $(wildcard $(nspire_LOCAL_PATH)/platform/*.c)
 SRCS_CPP += $(wildcard $(nspire_LOCAL_PATH)/*.cpp)
 INCLUDE += $(nspire_LOCAL_PATH)/public
 
-CFLAGS_COMMON += -marm -DNSPIRE=1
+CFLAGS_COMMON += -marm -DTARGET_NSPIRE=TRUE
 YCM_EXTRA_CFLAGS := -m32 -I$(NDLESS_GIT)/ndless-sdk/include -I$(HOME)/.ndless/include
 
 CC = nspire-gcc
