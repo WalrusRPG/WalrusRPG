@@ -109,7 +109,7 @@ void StateMachine::run()
             stack.back()->render(100 * frame_time / TIMER_FREQ);
             last_frame = frame_stamp;
 
-            // Text::print_format(0, 0, "WalrusRPG test build %s", git_version);
+            Text::print_format(0, 0, "WRPG build %s", git_version);
             if (frame_time != 0 && update_time != 0)
             {
                 Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,

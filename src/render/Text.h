@@ -9,6 +9,9 @@ namespace WalrusRPG
     {
         namespace Text
         {
+            void init();
+            void deinit();
+
             void print_char(char c, unsigned x, unsigned y);
 
             void print_char(char c, unsigned x, unsigned y);
