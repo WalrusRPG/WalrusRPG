@@ -183,7 +183,7 @@ void Textbox::render(unsigned dt)
     if (buffer_index < 0)
         return;
     current_color = 0xFFFF;
-    put_rectangle(dimensions, Graphics::DarkGray);
+    put_rectangle(dimensions, Graphics::Black);
     // signed cur_x_max = cur_x + dimensions.width;
     unsigned global_index = global_string_offset;
     for (unsigned l = 0; l < nb_lines; l++)
