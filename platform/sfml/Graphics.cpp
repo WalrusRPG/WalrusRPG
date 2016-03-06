@@ -40,9 +40,11 @@ void Graphics::frame_begin()
     ImGui::SFML::UpdateImGui();
     ImGui::SFML::UpdateImGuiRendering();
     sf::Event e;
-    while(window.pollEvent(e)) {
+    while (window.pollEvent(e))
+    {
         ImGui::SFML::ProcessEvent(e);
-        if(e.type == sf::Event::Closed) {
+        if (e.type == sf::Event::Closed)
+        {
             window.close();
         }
     }

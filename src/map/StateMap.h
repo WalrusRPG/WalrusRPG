@@ -27,8 +27,10 @@ namespace WalrusRPG
             void render(unsigned dt);
             void update(unsigned dt);
 #if TARGET_SFML
-            void draw_background_tile(unsigned mode, float x, float y, float x2, float y2, unsigned tile);
-            void draw_front_tile(unsigned mode, float x, float y, float x2, float y2, unsigned tile);
+            void draw_background_tile(unsigned mode, float x, float y, float x2, float y2,
+                                      unsigned tile);
+            void draw_front_tile(unsigned mode, float x, float y, float x2, float y2,
+                                 unsigned tile);
 
             void debug(unsigned dt);
 #endif
