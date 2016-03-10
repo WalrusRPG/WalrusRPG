@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <memory>
 #include <zlib.h>
-#if NSPIRE
+#if TARGET_NSPIRE
 #include "../../platform/nspire/Interrupts.h"
 #endif
 #include "Archive.h"
@@ -17,7 +17,7 @@ using WalrusRPG::PIAF::FileType;
 using WalrusRPG::PIAF::CompressionType;
 using namespace WalrusRPG::PIAF;
 
-#if TARGET_NSPIRE
+#ifdef TARGET_NSPIRE
 using namespace Nspire;
 #endif
 namespace
