@@ -35,7 +35,6 @@ StateMap::StateMap(int x, int y, Map &map)
     : camera(x, y), map(map), data(ResourceManager::require("data/out.wrf")), tex_haeccity(data.get("t_haeccity")),
       txt(tex_haeccity, data.get("f_haeccity"))
 {
-    camera.set_x(0);
 }
 
 void StateMap::update(unsigned dt)
