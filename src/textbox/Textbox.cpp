@@ -16,9 +16,9 @@ using WalrusRPG::Input::Key;
 
 namespace
 {
-    size_t strlen_tokens(const char *str)
+    signed strlen_tokens(const char *str)
     {
-        size_t len = 0;
+        signed len = 0;
         for (; str[len]; ++len)
         {
             if (str[len] == MAGIC_TOKEN)
@@ -29,9 +29,10 @@ namespace
 }
 
 Textbox::Textbox(Font fnt)
-    : fnt(fnt), buffer(0), buffer_index(-1), current_color(0, 0, 0), letter_wait(0),
-      letter_wait_cooldown(10), dimensions(40, 4, 200, 32), state(Waiting),
-      global_string_offset(0)
+    : fnt(fnt), buffer(0), buffer_index(-1), global_string_offset(0),
+      current_color(0, 0, 0), letter_wait(0), letter_wait_cooldown(10),
+      dimensions(40, 4, 200, 32), state(Waiting)
+
 {
 }
 
@@ -46,14 +47,14 @@ void Textbox::set_text(char *new_text)
     buffer_index = -1;
     global_string_offset = 0;
     nb_line_to_update = 0;
-    for (int i = 0; i < nb_lines; ++i)
+    for (unsigned i = 0; i < nb_lines; ++i)
     {
         line_nb_characters[i] = 0;
         line_widths[i] = 0;
     }
 
     buffer.clear();
-    for (size_t i = 0; i < strlen_tokens(new_text); ++i)
+    for (signed i = 0; i < strlen_tokens(new_text); ++i)
     {
         TextboxChar t;
         if (new_text[i] == MAGIC_TOKEN)
@@ -85,7 +86,9 @@ void Textbox::add_letter(unsigned nb_letters)
     if (buffer.size() <= 0)
         return;
     for (unsigned i = 0;
-         (i < nb_letters) && (buffer_index < 0 || buffer_index < buffer.size() - 1); ++i)
+         (i < nb_letters) &&
+         (buffer_index < 0 || buffer_index < static_cast<signed>(buffer.size()) - 1);
+         ++i)
     {
         ++buffer_index;
         if (buffer[buffer_index].c == MAGIC_TOKEN)
@@ -101,7 +104,8 @@ void Textbox::add_letter(unsigned nb_letters)
         }
         else
         {
-            CharacterParameters &p = fnt.chars[buffer[buffer_index].c];
+            CharacterParameters &p =
+                fnt.chars[static_cast<signed>(buffer[buffer_index].c)];
             TextboxChar &t = buffer[buffer_index];
 
             if (t.c == '\n')
@@ -134,7 +138,7 @@ void Textbox::add_letter(unsigned nb_letters)
             line_nb_characters[nb_line_to_update]++;
         }
     }
-    if (buffer_index >= buffer.size() - 1)
+    if (buffer_index >= static_cast<signed>(buffer.size() - 1))
     {
         state = Done;
     }
@@ -149,7 +153,8 @@ void Textbox::update(unsigned dt)
             return;
             break;
         case Updating:
-            if ((buffer_index >= 0) && (buffer_index >= buffer.size()))
+            if ((buffer_index >= 0) &&
+                (buffer_index >= static_cast<signed>(buffer.size())))
                 return;
             letter_wait -= dt;
             if (letter_wait <= 0)
@@ -161,13 +166,13 @@ void Textbox::update(unsigned dt)
         case Full:
             if (key_pressed(Key::K_A))
             {
-                for (int i = 0; i < nb_lines - 1; ++i)
+                for (unsigned i = 0; i < nb_lines - 1; ++i)
                     global_string_offset += line_nb_characters[i];
 
                 line_widths[0] = line_widths[nb_lines - 1];
                 line_nb_characters[0] = line_nb_characters[nb_lines - 1];
 
-                for (int i = 1; i < nb_lines; ++i)
+                for (unsigned i = 1; i < nb_lines; ++i)
                 {
                     line_widths[i] = 0;
                     line_nb_characters[i] = 0;
@@ -175,11 +180,14 @@ void Textbox::update(unsigned dt)
                 nb_line_to_update = 1;
                 state = Updating;
             }
+        default:
+            break;
     }
 }
 
 void Textbox::render(unsigned dt)
 {
+    UNUSED(dt);
     if (buffer_index < 0)
         return;
     current_color = 0xFFFF;
@@ -190,7 +198,7 @@ void Textbox::render(unsigned dt)
     {
         unsigned cur_x = dimensions.x;
         unsigned cur_y = dimensions.y + l * fnt.baseline;
-        for (int line_index = 0; line_index < line_nb_characters[l]; ++line_index)
+        for (unsigned line_index = 0; line_index < line_nb_characters[l]; ++line_index)
         {
             TextboxChar b = buffer[global_index + line_index];
             char c = b.c;
@@ -212,7 +220,7 @@ void Textbox::render(unsigned dt)
             else if (c == ' ')
                 cur_x += fnt.space_width;
             else
-                cur_x += fnt.chars[c].dimensions.width + 1;
+                cur_x += fnt.chars[static_cast<signed>(c)].dimensions.width + 1;
         }
         global_index += line_nb_characters[l];
     }
