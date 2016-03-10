@@ -17,6 +17,7 @@ namespace WalrusRPG
             Map &map;
 #if TARGET_SFML
             unsigned active_map_mode;
+            ImVec2 scrolling = ImVec2(0.0f, 0.0f);
 #endif
             WalrusRPG::PIAF::Archive data;
             WalrusRPG::Graphics::Texture tex_haeccity;
