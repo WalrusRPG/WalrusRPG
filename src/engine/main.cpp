@@ -1,5 +1,6 @@
 #include "StateMachine.h"
 #include "Timing.h"
+#include "Logger.h"
 #include "render/Text.h"
 #include "Graphics.h"
 #include "Quirks.h"
@@ -16,7 +17,7 @@ using namespace WalrusRPG::Graphics;
 int main(int argc, char *argv[])
 {
     UNUSED(argc);
-
+    Logger::log("WalrusRPG Init");
     Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);
