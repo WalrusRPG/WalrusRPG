@@ -10,6 +10,7 @@ void Logger::log(const char *fmt, ...)
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
+    va_end (args);
 }
 
 void Logger::debug(const char *fmt, ...)
@@ -18,6 +19,7 @@ void Logger::debug(const char *fmt, ...)
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
+    va_end (args);
 }
 
 void Logger::warn(const char *fmt, ...)
@@ -26,6 +28,7 @@ void Logger::warn(const char *fmt, ...)
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
+    va_end (args);
 }
 
 void Logger::error(const char *fmt, ...)
@@ -34,4 +37,5 @@ void Logger::error(const char *fmt, ...)
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
+    va_end (args);
 }
