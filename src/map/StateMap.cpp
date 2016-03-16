@@ -75,7 +75,7 @@ void StateMap::debug(unsigned dt)
     ImGui::Unindent();
     ImGui::SameLine();
     ImGui::Value("H", map.get_height());
-    int value;
+
     if (ImGui::RadioButton("Layers", active_map_mode == 0))
         active_map_mode = 0;
     ImGui::SameLine();

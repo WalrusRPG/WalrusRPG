@@ -1,4 +1,5 @@
 #include "StateMachine.h"
+#include "Logger.h"
 #include "Timing.h"
 #include "platform.h"
 #include "Graphics.h"
@@ -119,6 +120,7 @@ void StateMachine::run()
 
 #if TARGET_SFML
             stack.back()->debug(100 * frame_time / TIMER_FREQ);
+            Logger::debug_render();
             ImGui::Text("FPS: %.2f", TIMER_FREQ / (float) frame_time);
             float update_time = (frame_stamp - update_stamp) / 1000.;
             float render_time = (Timing::gettime() - frame_stamp) / 1000.;
