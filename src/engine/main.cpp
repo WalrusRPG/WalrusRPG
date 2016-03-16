@@ -54,13 +54,15 @@ int main(int argc, char *argv[])
     StateMachine::init();
     StateMachine::push(new States::StateMap(0, 0, map));
     StateMachine::run();
-    StateMachine::deinit();
 
+    Logger::log("WalrusRPG Deinit");
+    StateMachine::deinit();
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
     delete[] dungeonTest;
     delete[] dungeonTest2;
+    Logger::log("WalrusRPG Exit");
 
     return 0;
 }

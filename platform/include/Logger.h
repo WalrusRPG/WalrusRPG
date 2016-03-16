@@ -10,4 +10,5 @@ namespace WalrusRPG
         void error(const char *fmt, ...);
     }
 }
+
 #endif
