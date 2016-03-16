@@ -15,7 +15,7 @@ namespace WalrusRPG
           protected:
             Camera camera;
             Map &map;
-            WalrusRPG::PIAF::Archive& data;
+            WalrusRPG::PIAF::Archive* data;
             WalrusRPG::Graphics::Texture tex_haeccity;
             WalrusRPG::Graphics::Font txt;
 

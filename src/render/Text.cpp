@@ -17,9 +17,11 @@ Texture *tex;
 
 void Text::init()
 {
-    Archive& arc = ResourceManager::require("data/out.wrf");
-    tex = new Texture(arc.get("t_dbgfnt"));
-    fnt = new Font(*tex, arc.get("f_dbgfnt"));
+    printf("Initiating Text\n");
+    WalrusRPG::ManagedArchive m ("data/out.wrf");
+    Archive *arc(m);
+    tex = new Texture(arc->get("t_dbgfnt"));
+    fnt = new Font(*tex, arc->get("f_dbgfnt"));
 }
 
 void Text::deinit()

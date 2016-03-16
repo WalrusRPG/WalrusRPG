@@ -5,13 +5,23 @@
 
 namespace WalrusRPG
 {
+	class ManagedArchive {
+		protected:
+			const char *path;
+			PIAF::Archive* arc;
+		public:
+		ManagedArchive(const char *path);
+		~ManagedArchive();
+		operator PIAF::Archive*() const;
+	};
+
 	namespace ResourceManager
 	{
 		void init();
 		void deinit();
-		WalrusRPG::PIAF::Archive& require(const char *path);
-		void free(const char *path);
-		void free(WalrusRPG::PIAF::Archive& arcs);
+		PIAF::Archive* require(const char *path);
+		void release(WalrusRPG::PIAF::Archive* arcs);
+		void release(const char *path);
 	}
 }
 
