@@ -1,5 +1,6 @@
 #include "StateMachine.h"
 #include "Timing.h"
+#include "Logger.h"
 #include "render/Text.h"
 #include "Graphics.h"
 #include "Quirks.h"
@@ -17,7 +18,7 @@ using namespace WalrusRPG::Graphics;
 int main(int argc, char *argv[])
 {
     UNUSED(argc);
-
+    Logger::log("WalrusRPG Init");
     Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
     printf("Initializing Game\n");
     {
         ManagedArchive m("data/out.wrf");
-        Archive* arc = m;
+        Archive *arc = m;
         Texture tex(arc->get("ov.png"));
         WalrusRPG::PIAF::File f1 = arc->get("l1.bin");
         WalrusRPG::PIAF::File f2 = arc->get("l2.bin");
@@ -53,20 +54,21 @@ int main(int argc, char *argv[])
         stripe22.push_back({22, 37});
         stripe22.push_back({21, 41});
         map.anim.add_animation(21, {stripe21, true, 0});
-        map.anim.add_animation(22, {stripe22, true, 0});        
+        map.anim.add_animation(22, {stripe22, true, 0});
         StateMachine::init();
         StateMachine::push(new States::StateMap(0, 0, map));
         StateMachine::run();
         delete[] dungeonTest;
         delete[] dungeonTest2;
     }
-    printf("Quitting Game.\n");
 
+    Logger::log("WalrusRPG Deinit");
     StateMachine::deinit();
     ResourceManager::deinit();
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
+    Logger::log("WalrusRPG Exit");
 
     return 0;
 }

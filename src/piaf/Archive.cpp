@@ -2,11 +2,12 @@
 #include <cstdio>
 #include <memory>
 #include <zlib.h>
-#if NSPIRE
+#if TARGET_NSPIRE
 #include "../../platform/nspire/Interrupts.h"
 #endif
 #include "Archive.h"
 #include "Quirks.h"
+#include "Logger.h"
 #include "utility/misc.h"
 
 using tinystl::string;
@@ -16,8 +17,9 @@ using WalrusRPG::PIAF::File;
 using WalrusRPG::PIAF::FileType;
 using WalrusRPG::PIAF::CompressionType;
 using namespace WalrusRPG::PIAF;
+using namespace WalrusRPG::Logger;
 
-#if TARGET_NSPIRE
+#ifdef TARGET_NSPIRE
 using namespace Nspire;
 #endif
 namespace
@@ -67,6 +69,7 @@ Archive::Archive(string &filepath) : Archive(filepath.c_str())
 Archive::Archive(const char *filepath)
     : file(nullptr), entries(nullptr), files_data(nullptr), files_loaded(nullptr)
 {
+    log("PIAF : Loading %s", filepath);
 #if TARGET_NSPIRE
     Interrupts::off();
 #endif
@@ -196,9 +199,10 @@ Archive::Archive(const char *filepath)
 
 Archive::~Archive()
 {
-    if (file != nullptr){
+    log("PIAF : Freeing file");
+    if (file != nullptr)
         fclose(file);
-    }
+
     if (entries != nullptr)
         delete[] entries;
 
