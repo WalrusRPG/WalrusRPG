@@ -18,12 +18,9 @@ int main(int argc, char *argv[])
 {
     UNUSED(argc);
     Logger::log("WalrusRPG Init");
-    for (int i = 0; i < 10; ++i)
-    {
-        Logger::debug("This is a debug line");
-        Logger::warn("Warning color!");
-        Logger::error("/!\\This shouldn't have happened!");
-    }
+    Logger::debug("This is a debug line");
+    Logger::warn("Warning color!");
+    Logger::error("/!\\This shouldn't have happened!");
     Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);

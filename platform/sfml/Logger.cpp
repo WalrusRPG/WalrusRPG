@@ -106,7 +106,7 @@ void Logger::debug_render()
     ImGui::Begin("Logger");
 
     ImGui::BeginChild("ScrollingRegion",
-                      ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false,
+                      ImVec2(0, 0), false,
                       ImGuiWindowFlags_HorizontalScrollbar);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
     for (unsigned i = 0; i < log_list.size(); i++)
@@ -127,9 +127,7 @@ void Logger::debug_render()
         ImGui::TextUnformatted(item);
         ImGui::PopStyleColor();
     }
-
     ImGui::PopStyleVar();
     ImGui::EndChild();
-    ImGui::Separator();
     ImGui::End();
 }

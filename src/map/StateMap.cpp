@@ -50,7 +50,9 @@ void StateMap::render(unsigned dt)
     map.render(camera, dt);
 
     // print_debug_camera_data(camera);
+#if !TARGET_SFML
     print_debug_map_data(map, txt);
+#endif
 }
 
 #if TARGET_SFML
