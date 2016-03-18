@@ -23,6 +23,8 @@ namespace
 #if TARGET_SFML
     float update_times[200] = {0};
     float render_times[200] = {0};
+    bool show_logger = false;
+    bool show_state_debug = false;
 #endif
 
     void draw_button(signed x, signed y, KeyState state)
@@ -119,9 +121,7 @@ void StateMachine::run()
 // draw_buttons();
 
 #if TARGET_SFML
-            stack.back()->debug(100 * frame_time / TIMER_FREQ);
-            Logger::debug_render();
-            ImGui::Text("FPS: %.2f", TIMER_FREQ / (float) frame_time);
+            // Updating time graph
             float update_time = (frame_stamp - update_stamp) / 1000.;
             float render_time = (Timing::gettime() - frame_stamp) / 1000.;
             for (int i = 0; i < 200; ++i)
@@ -131,13 +131,29 @@ void StateMachine::run()
             }
             update_times[199] = update_time;
             render_times[199] = render_time;
+            // Drawing FPS and render graphs
+            ImGui::BeginGroup();
+            ImGui::Text("FPS: %.2f", TIMER_FREQ / (float) frame_time);
             ImGui::PlotLines("", update_times, 200, 0, "Update");
             ImGui::SameLine();
             ImGui::Text("%.2fms", update_time);
             ImGui::PlotLines("", render_times, 200, 0, "Render");
             ImGui::SameLine();
             ImGui::Text("%.2fms", render_time);
-
+            ImGui::EndGroup();
+            ImGui::Separator();
+            // Drawing Window Toggles
+            ImGui::Text("Toggles");
+            ImGui::Indent();
+            ImGui::BeginGroup();
+            ImGui::Checkbox("Logger", &show_logger);
+            ImGui::Checkbox("State", &show_state_debug);
+            ImGui::Unindent();
+            ImGui::EndGroup();
+            if (show_logger)
+                Logger::debug_render();
+            if (show_state_debug)
+                stack.back()->debug(100 * frame_time / TIMER_FREQ);
 #endif
 
             Graphics::frame_end();

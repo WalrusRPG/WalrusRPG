@@ -49,7 +49,7 @@ void StateMap::render(unsigned dt)
     // fill(Black);
     map.render(camera, dt);
 
-    // print_debug_camera_data(camera);
+// print_debug_camera_data(camera);
 #if !TARGET_SFML
     print_debug_map_data(map, txt);
 #endif
@@ -80,7 +80,6 @@ void StateMap::debug(unsigned dt)
 
     if (ImGui::RadioButton("Layers", active_map_mode == 0))
         active_map_mode = 0;
-    ImGui::SameLine();
     if (ImGui::RadioButton("Animated", active_map_mode == 1))
         active_map_mode = 1;
 

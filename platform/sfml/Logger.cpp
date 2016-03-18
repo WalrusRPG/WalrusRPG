@@ -105,8 +105,7 @@ void Logger::debug_render()
     const char *buffer;
     ImGui::Begin("Logger");
 
-    ImGui::BeginChild("ScrollingRegion",
-                      ImVec2(0, 0), false,
+    ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false,
                       ImGuiWindowFlags_HorizontalScrollbar);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
     for (unsigned i = 0; i < log_list.size(); i++)
