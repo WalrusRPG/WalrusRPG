@@ -31,7 +31,7 @@ namespace WalrusRPG
         Animator();
         void add_animation(int index, Animation anim);
         void update(unsigned dt);
-        unsigned get_animation_frame(unsigned id);
+        unsigned get_animation_frame(unsigned id) const;
     };
 }
 

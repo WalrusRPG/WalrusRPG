@@ -3,6 +3,7 @@
 
 #include "Texture.h"
 #include "utility/Rect.h"
+#include "render/Animator.h"
 
 namespace WalrusRPG
 {
@@ -29,6 +30,7 @@ namespace WalrusRPG
     {
       public:
         constexpr static int TILE_DIMENSION = 16;
+        Animator anim;
 
       protected:
         WalrusRPG::Graphics::Texture tex;
@@ -40,12 +42,14 @@ namespace WalrusRPG
 
 
       public:
-        // Tempoary generation for 
-        Tilemap(WalrusRPG::Graphics::Texture &tex, uint8_t*collision_masks, uint16_t nb_tiles);
+        // Tempoary generation for
+        Tilemap(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
+                uint16_t nb_tiles);
         ~Tilemap();
-        const WalrusRPG::Graphics::Texture& get_texture() const;
+        const WalrusRPG::Graphics::Texture &get_texture() const;
         WalrusRPG::Utils::Rect get_tile(uint16_t id) const;
         uint8_t get_collision(uint16_t id) const;
+        void render_tile(uint16_t id, int x, int y) const;
     };
 }
 #endif
