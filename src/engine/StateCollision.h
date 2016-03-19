@@ -7,59 +7,58 @@
 
 namespace WalrusRPG
 {
-	struct Box
-	{
-	    Box(float _x, float _y, float _w, float _h, float _vx, float _vy)
-	    {
-	        x = _x;
-	        y = _y;
-	        w = _w;
-	        h = _h;
-	        vx = _vx;
-	        vy = _vy;
-	    }
+    struct Box
+    {
+        Box(float _x, float _y, float _w, float _h, float _vx, float _vy)
+        {
+            x = _x;
+            y = _y;
+            w = _w;
+            h = _h;
+            vx = _vx;
+            vy = _vy;
+        }
 
-	    Box(float _x, float _y, float _w, float _h)
-	    {
-	        x = _x;
-	        y = _y;
-	        w = _w;
-	        h = _h;
-	        vx = 0.0f;
-	        vy = 0.0f;
-	    }
+        Box(float _x, float _y, float _w, float _h)
+        {
+            x = _x;
+            y = _y;
+            w = _w;
+            h = _h;
+            vx = 0.0f;
+            vy = 0.0f;
+        }
 
-		// position of top-left corner
-	    float x, y;
+        // position of top-left corner
+        float x, y;
 
-		// dimensions
-		float w, h;
+        // dimensions
+        float w, h;
 
-		// velocity
-		float vx, vy;
+        // velocity
+        float vx, vy;
+    };
 
-	};
+    namespace States
+    {
+        class StateCollision : public State
+        {
+          private:
+            bool collided_top;
+            bool collided_bottom;
+            bool collided_left;
+            bool collided_right;
+            WalrusRPG::Box p;
+            WalrusRPG::Box target;
+            char map[20][20];
+            WalrusRPG::Camera cam;
 
-	namespace States
-	{
-		class StateCollision : public State
-		{
-		private:
-			bool collided_top;
-			bool collided_bottom;
-			bool collided_left;
-			bool collided_right;
-			WalrusRPG::Box p;
-			WalrusRPG::Box target;
-			char map[20][20];
-			WalrusRPG::Camera cam;
-			
-		public:
-			StateCollision();
-			~StateCollision();
-			void update(unsigned dt) override;
-			void render(unsigned dt) override;
-		};
-	}
+          public:
+            StateCollision();
+            ~StateCollision();
+            void update(unsigned dt) override;
+            void render(unsigned dt) override;
+        };
+    }
 }
 #endif
