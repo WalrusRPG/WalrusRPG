@@ -11,7 +11,7 @@ namespace
         char date_buffer[256];
         time_t now = time(0);
         strftime(date_buffer, 256, "%Y-%m-%d %H:%M:%S", localtime(&now));
-            printf("%s %5s : ", date_buffer, type);
+        printf("%s %5s : ", date_buffer, type);
     }
 }
 
