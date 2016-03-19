@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Graphics.h"
+#include "Logger.h"
 #include "CXfb.h"
 #include "utility/misc.h"
 #include "utility/minmax.h"
@@ -10,11 +11,13 @@ using WalrusRPG::Utils::Rect;
 
 void Graphics::init()
 {
+    Logger::log("Graphics init");
     CXfb::buffer_allocate();
 }
 
 void Graphics::deinit()
 {
+    Logger::log("Graphics deinit");
     CXfb::buffer_free();
 }
 

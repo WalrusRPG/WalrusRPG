@@ -3,6 +3,7 @@
 #include <memory>
 #include <TINYSTL/string.h>
 #include "Quirks.h"
+#include "Logger.h"
 #include "Interrupts.h"
 #include "platform.h"
 
@@ -18,6 +19,7 @@ namespace
 
 void Quirks::init(const char *argv_0)
 {
+    WalrusRPG::Logger::log("Quirks init");
     Interrupts::init();
     // Find last '/' occurence and remove the trailing characters
     // so we get rid of the executable name.
@@ -38,6 +40,7 @@ void Quirks::init(const char *argv_0)
 
 void Quirks::deinit()
 {
+    WalrusRPG::Logger::log("Quirks deinit");
     Interrupts::off();
     delete[] base_path;
 }
