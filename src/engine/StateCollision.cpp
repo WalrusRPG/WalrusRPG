@@ -130,10 +130,6 @@ void StateCollision::render(unsigned dt)
     fill(Black);
     Pixel a(Red);
 
-    put_rectangle({static_cast<signed>(p.x) - cam.get_x(),
-                   static_cast<signed>(p.y) - cam.get_y(), static_cast<unsigned>(p.w),
-                   static_cast<unsigned>(p.h)},
-                  a);
     for (int y = 0; y < 20; ++y)
     {
         for (int x = 0; x < 20; ++x)
@@ -141,6 +137,9 @@ void StateCollision::render(unsigned dt)
             if (map[y][x])
             {
                 char m = map[y][x];
+                if(!m) continue;
+                put_rectangle({x * 16 - cam.get_x(), y * 16 - cam.get_y(), 16, 16},
+                              {0, static_cast<uint8_t>(m*16),0});
                 if (m & 0b1)
                     put_rectangle({x * 16 - cam.get_x(), y * 16 - cam.get_y(), 8, 8},
                                   LightGray);
@@ -157,6 +156,12 @@ void StateCollision::render(unsigned dt)
             }
         }
     }
+
+    put_rectangle({static_cast<signed>(p.x) - cam.get_x(),
+                   static_cast<signed>(p.y) - cam.get_y(), static_cast<unsigned>(p.w),
+                   static_cast<unsigned>(p.h)},
+                  a);
+
 
     Text::print_format(0, 8, "x = %f", p.x);
     Text::print_format(0, 16, "y = %f", p.y);
