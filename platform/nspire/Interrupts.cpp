@@ -1,4 +1,5 @@
 #include "Interrupts.h"
+#include "Logger.h"
 #include "CXfb.h"
 
 #define INTERRUPTS Nspire::Interrupts
@@ -21,6 +22,9 @@ static bool is_on = false;
 
 void INTERRUPTS::init()
 {
+    if (is_on)
+        return;
+    WalrusRPG::Logger::log("Interrupts init");
     is_on = true;
 
     interrupt_select_bkp = *interrupt_select;
@@ -47,6 +51,7 @@ void INTERRUPTS::off()
 {
     if (!is_on)
         return;
+    WalrusRPG::Logger::log("Interupts deinit");
     is_on = false;
     // Disable IRQ in the CPU
     asm(
