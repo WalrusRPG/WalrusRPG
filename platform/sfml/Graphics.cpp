@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "Logger.h"
 #include "sfwindow.h"
 #include <SFML/Graphics.hpp>
 #include "utility/misc.h"
@@ -14,6 +15,7 @@ sf::RenderTexture buffer;
 
 void Graphics::init()
 {
+    Logger::log("Graphics init");
     // window.create(sf::VideoMode::getDesktopMode(), "WalrusRPG",
     // sf::Style::Fullscreen);
     window.create(sf::VideoMode(640, 480), "WalrusRPG");
@@ -24,6 +26,7 @@ void Graphics::init()
 
 void Graphics::deinit()
 {
+    Logger::log("Graphics deinit");
     window.close();
 }
 
