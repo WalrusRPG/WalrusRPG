@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "Texture.h"
+#include "Tilemap.h"
 #include "render/Camera.h"
 #include "render/TileRenderer.h"
 #include "render/Animator.h"
@@ -21,7 +22,8 @@ namespace WalrusRPG
         int height;
         uint16_t *layer0;
         uint16_t *layer1;
-        WalrusRPG::Graphics::Texture tex;
+        Tilemap tmap;
+        // WalrusRPG::Graphics::Texture tex;
         TileRenderer *renderer;
         // TODO?: add a boolean/getter to know if a second layer exist?
       public:

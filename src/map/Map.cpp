@@ -12,9 +12,9 @@ using WalrusRPG::Graphics::Texture;
 // Graphics::Texture tex_overworld((char *) overworld);
 
 Map::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
-    : anim(), tex(tex)
+    : anim(), tmap(tex, nullptr, 0)
 {
-    this->renderer = new TileRenderer(tex, 16, 16);
+    this->renderer = new TileRenderer(tex, tmap.TILE_DIMENSION, tmap.TILE_DIMENSION);
     this->width = width;
     this->height = height;
     this->layer0 = layer0;
@@ -82,7 +82,7 @@ bool Map::is_tile_solid(int x, int y) const
 {
     if (x >= width || y >= height)
         return true;
-    return this->layer0[y * width + x] != 0;
+    return tmap.get_collision(this->layer0[y * width + x]) != 0;
 }
 
 bool Map::is_pixel_solid(int x, int y) const
