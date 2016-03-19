@@ -1,20 +1,23 @@
 #include "Timing.h"
+#include "Logger.h"
 #include <SFML/System/Clock.hpp>
 #include <cstdio>
 
-#define TIMING WalrusRPG::Timing
+using namespace WalrusRPG; /*Timing*/
 
 sf::Clock clock;
 
-void TIMING::init()
+void Timing::init()
 {
+    Logger::log("Timing init");
 }
 
-void TIMING::deinit()
+void Timing::deinit()
 {
+    Logger::log("Timing deinit");
 }
 
-unsigned TIMING::gettime()
+unsigned Timing::gettime()
 {
     return clock.getElapsedTime().asMicroseconds();
 }

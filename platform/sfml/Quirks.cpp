@@ -1,5 +1,6 @@
 #include <cstring>
 #include "Quirks.h"
+#include "Logger.h"
 #include "utility/misc.h"
 #include "sfwindow.h"
 
@@ -8,11 +9,13 @@ using tinystl::string;
 
 void Quirks::init(const char *argv_0)
 {
+    Logger::log("Quirks init");
     UNUSED(argv_0);
 }
 
 void Quirks::deinit()
 {
+    Logger::log("Graphics deinit");
 }
 
 std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)

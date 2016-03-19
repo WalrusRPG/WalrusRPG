@@ -17,7 +17,7 @@ namespace
 
 void Logger::log(const char *fmt, ...)
 {
-    print_premessage("[LOG]");
+    print_premessage("  [LOG]");
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
@@ -37,7 +37,7 @@ void Logger::debug(const char *fmt, ...)
 
 void Logger::warn(const char *fmt, ...)
 {
-    print_premessage("[WARN]");
+    print_premessage(" [WARN]");
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
