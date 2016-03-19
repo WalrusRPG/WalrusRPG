@@ -11,13 +11,13 @@ namespace
         char date_buffer[256];
         time_t now = time(0);
         strftime(date_buffer, 256, "%Y-%m-%d %H:%M:%S", localtime(&now));
-        printf("%s %5s : ", date_buffer, type);
+            printf("%s %5s : ", date_buffer, type);
     }
 }
 
 void Logger::log(const char *fmt, ...)
 {
-    print_premessage("[LOG]");
+    print_premessage("  [LOG]");
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
@@ -37,7 +37,7 @@ void Logger::debug(const char *fmt, ...)
 
 void Logger::warn(const char *fmt, ...)
 {
-    print_premessage("[WARN]");
+    print_premessage(" [WARN]");
     va_list args;
     va_start(args, fmt);
     vprintf(fmt, args);
