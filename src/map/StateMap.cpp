@@ -52,6 +52,7 @@ StateMap::StateMap(int x, int y, Map &map)
                 "How goes? I'm fine, headache-y but fine.\n"
                 "I wonder... Heh, Let's see if it works correctly, shall we?");
     WalrusRPG::Animation p;
+    p.looping = true;
     p.stripe.push_back({0, 10});
     p.stripe.push_back({1, 10});
     anim.add_animation(0, p);
