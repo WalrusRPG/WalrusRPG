@@ -50,6 +50,7 @@ namespace WalrusRPG
         WalrusRPG::Utils::Rect get_tile(uint16_t id) const;
         uint8_t get_collision(uint16_t id) const;
         void render_tile(uint16_t id, int x, int y) const;
+        void render_collision_mask(uint16_t id, int x, int y) const;
     };
 }
 #endif

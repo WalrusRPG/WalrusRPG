@@ -39,6 +39,7 @@ StateMap::StateMap(int x, int y, Map &map)
 void StateMap::update(unsigned dt)
 {
     camera.update(dt);
+    map.update(dt);
 }
 
 void StateMap::render(unsigned dt)

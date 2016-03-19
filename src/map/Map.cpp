@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "render/TileRenderer.h"
 #include "Graphics.h"
+#include "Logger.h"
 #include "utility/Rect.h"
 #include "utility/misc.h"
 
@@ -12,12 +13,9 @@ using WalrusRPG::Graphics::Texture;
 // Graphics::Texture tex_overworld((char *) overworld);
 
 Map::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
-    : tmap(tex, nullptr, 0)
+    : width(width), height(height), layer0(layer0), layer1(layer1), tmap(tex, nullptr, 0)
 {
-    this->width = width;
-    this->height = height;
-    this->layer0 = layer0;
-    this->layer1 = layer1;
+    Logger::warn("No correct support of tilemap collision now");
 }
 
 Map::~Map()
@@ -27,12 +25,12 @@ Map::~Map()
 void Map::update(unsigned dt)
 {
     // TODO update map's data according to elasped time
-    UNUSED(dt);
+    tmap.anim.update(dt);
 }
 
 void Map::render(WalrusRPG::Camera &camera, unsigned dt)
 {
-    tmap.anim.update(dt);
+    UNUSED(dt);
     signed t_width = tmap.TILE_DIMENSION;
     signed t_height = tmap.TILE_DIMENSION;
 
