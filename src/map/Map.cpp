@@ -77,7 +77,7 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
 
 bool Map::is_tile_solid(int x, int y) const
 {
-    if (x >= width || y >= height)
+    if (x >= width || y >= height || x < 0 || y < 0)
         return true;
     return tmap.get_collision(this->layer0[y * width + x]) != 0;
 }
