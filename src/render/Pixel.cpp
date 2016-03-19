@@ -31,8 +31,8 @@ bool Pixel::operator==(const Pixel &col)
     return value == col.value;
 }
 
-#define CONST_COLOR(color, r, g, b) \
-    const WalrusRPG::Graphics::Pixel WalrusRPG::Graphics::color(r, g, b)
+#define CONST_COLOR(COLOR, r, g, b) const Pixel WalrusRPG::Graphics::COLOR(r, g, b)
+
 CONST_COLOR(Black, 0, 0, 0);
 CONST_COLOR(DarkGray, 64, 64, 64);
 CONST_COLOR(Gray, 128, 128, 128);

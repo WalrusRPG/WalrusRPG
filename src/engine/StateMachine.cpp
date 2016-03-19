@@ -1,4 +1,5 @@
 #include "StateMachine.h"
+#include "Logger.h"
 #include "Timing.h"
 #include "platform.h"
 #include "Graphics.h"
@@ -9,6 +10,7 @@
 using namespace WalrusRPG; /*::StateMachine*/
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Timing;
+using namespace WalrusRPG::Logger;
 using WalrusRPG::Input::Key;
 using WalrusRPG::Input::KeyState;
 using WalrusRPG::States::State;
@@ -60,10 +62,12 @@ namespace
 
 void StateMachine::init()
 {
+    log("State Machine init");
 }
 
 void StateMachine::deinit()
 {
+    log("State Machine deinit");
     stack.clear();
 }
 
