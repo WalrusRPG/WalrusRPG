@@ -43,10 +43,6 @@ void Graphics::frame_begin()
     while (window.pollEvent(e))
     {
         ImGui::SFML::ProcessEvent(e);
-        if (e.type == sf::Event::Closed)
-        {
-            window.close();
-        }
     }
 }
 
