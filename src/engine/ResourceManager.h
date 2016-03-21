@@ -19,10 +19,17 @@ namespace WalrusRPG
 
     namespace ResourceManager
     {
+        // Call this to init the RM.
         void init();
+        // Call this before program exit to clean leftovers.
         void deinit();
+        // Ask for a file.
         PIAF::Archive *require(const char *path);
+        // Call this to release the required resource. Actually, use ManagedArchive
+        // instead as it wraps the ResourceManager
         void release(WalrusRPG::PIAF::Archive *arcs);
+        // Call this to release the required resource. Actually, use ManagedArchive
+        // instead as it wraps the ResourceManager
         void release(const char *path);
     }
 }

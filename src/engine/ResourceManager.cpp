@@ -53,18 +53,19 @@ void ResourceManager::deinit()
 Archive *ResourceManager::require(const char *path)
 {
     auto entry = files.find(path);
+    // Not found? Open it.
     if (entry == files.end())
     {
         log("Resource Manager : New : %s", path);
         return files.insert({path, {new Archive(path), 1}}).first->second.arc;
-        // return nullptr;
     }
+    // Previously closed? Re-open it.
     if (entry->second.refcount == 0)
     {
         log("Resource Manager : Reload : %s", path);
         entry->second.arc = new Archive(path);
     }
-    entry->second.refcount++;
+    ++entry->second.refcount;
     return entry->second.arc;
 }
 
@@ -74,7 +75,8 @@ void ResourceManager::release(WalrusRPG::PIAF::Archive *arcs)
     {
         if (ptr->second.arc == arcs)
         {
-            ptr->second.refcount--;
+            // Decreasing the refcount. Basic but effective.
+            --ptr->second.refcount;
             if (ptr->second.refcount == 0)
             {
                 log("Resource Manager : Free : %s", ptr->first);
@@ -91,6 +93,8 @@ void ResourceManager::release(const char *path)
     auto ptr = files.find(path);
     if (ptr == files.end())
         return;
+    // I actually enjoy the way this unordered_map is programmed.
+    // I would just have loved is there would be an operator[] const.
     ptr->second.refcount--;
     if (ptr->second.refcount == 0)
     {
