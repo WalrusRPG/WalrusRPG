@@ -49,7 +49,8 @@ StateMap::StateMap(int x, int y, Map &map)
                 "Howard"
                 "\xFF\x01\xff\xff\x00"
                 " the Psyduck!\n"
-                "How goes? I'm fine, headache-y but fine.\n"
+                "How goes? I'm fine, headache-y but fine. Heh, it's normal, don't worry "
+                "for me.\n"
                 "I wonder... Heh, Let's see if it works correctly, shall we?");
     WalrusRPG::Animation p;
     p.looping = true;

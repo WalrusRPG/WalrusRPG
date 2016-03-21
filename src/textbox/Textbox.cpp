@@ -16,6 +16,11 @@ using WalrusRPG::Input::Key;
 
 namespace
 {
+    /**
+     * This is a replacment of strlen to allow skipping tokens as they might
+     * contain null-terminating characters, making strlen stop earlier than
+     * planned.
+     */
     signed strlen_tokens(const char *str)
     {
         signed len = 0;
@@ -42,6 +47,7 @@ Textbox::~Textbox()
 
 void Textbox::set_text(char *new_text)
 {
+    // Clearing the state variables.
     letter_wait = 0;
     letter_wait_cooldown = 10;
     buffer_index = -1;
@@ -54,6 +60,8 @@ void Textbox::set_text(char *new_text)
     }
 
     buffer.clear();
+    // Parsing the passed string into a token list.
+    // TODO?: Convert the vector into a dynamically allocated array?
     for (signed i = 0; i < strlen_tokens(new_text); ++i)
     {
         TextboxChar t;
@@ -79,18 +87,25 @@ void Textbox::set_text(char *new_text)
     state = Updating;
 }
 
+/**
+ * Makes the text box advance of one or more characters/tokens.
+ */
 void Textbox::add_letter(unsigned nb_letters)
 {
-    if (state != Updating)
+    if (state != Updating || buffer.size() <= 0)
         return;
-    if (buffer.size() <= 0)
-        return;
+
+    // Mmh, you who enters here, try to forget how the core logic is programmed.
+    // Myself don't have a frigging clue on how to clean it but it *works*.
+    // If you ever clean it, I'll be eternally thankful :-°
     for (unsigned i = 0;
          (i < nb_letters) &&
          (buffer_index < 0 || buffer_index < static_cast<signed>(buffer.size()) - 1);
          ++i)
     {
+        // As the index starts with -1, increment it before doing anything.
         ++buffer_index;
+        // Parsing commands.
         if (buffer[buffer_index].c == MAGIC_TOKEN)
         {
             switch (buffer[buffer_index].routine)
@@ -104,55 +119,64 @@ void Textbox::add_letter(unsigned nb_letters)
         }
         else
         {
+            // The frigging static cast...
             CharacterParameters &p =
                 fnt.chars[static_cast<signed>(buffer[buffer_index].c)];
             TextboxChar &t = buffer[buffer_index];
-
+            // Manual line-return.
             if (t.c == '\n')
             {
                 if (nb_line_to_update + 1 >= nb_lines)
                 {
+                    // No need to go back in the array. Just have to go forward.
                     line_nb_characters[nb_line_to_update]++;
-                    // --buffer_index;
                     state = Full;
                     return;
                 }
                 nb_line_to_update++;
             }
+            // If adding the character would make the line too big for the text_box
             if (line_widths[nb_line_to_update] + p.dimensions.width + 1 >
                 dimensions.width)
             {
                 if (nb_line_to_update + 1 >= nb_lines)
                 {
+                    // Here to avoid getting to lose that character (or the last ones)
+                    // We have to put the reading head one character backwards.
                     --buffer_index;
                     state = Full;
                     return;
                 }
                 nb_line_to_update++;
             }
+            // Just adding the correct space width
             if (t.c == ' ')
                 line_widths[nb_line_to_update] += fnt.space_width;
             else
                 line_widths[nb_line_to_update] += p.dimensions.width + 1;
-
+            // Putting the parsed character in the current text line.
             line_nb_characters[nb_line_to_update]++;
         }
     }
+    // Check if the text box finished its work
     if (buffer_index >= static_cast<signed>(buffer.size() - 1))
     {
         state = Done;
     }
+    // You prefer having to wait for characters, no?
     letter_wait = letter_wait_cooldown;
 }
 
 void Textbox::update(unsigned dt)
 {
+    // Small state machine.
     switch (state)
     {
         case Waiting:
             return;
             break;
         case Updating:
+            // Time-based update.
             if ((buffer_index >= 0) &&
                 (buffer_index >= static_cast<signed>(buffer.size())))
                 return;
@@ -164,6 +188,7 @@ void Textbox::update(unsigned dt)
             }
             break;
         case Full:
+            // TODO?: Change the trigger (button) into something else (like a function)?
             if (key_pressed(Key::K_A))
             {
                 for (unsigned i = 0; i < nb_lines - 1; ++i)
@@ -190,9 +215,10 @@ void Textbox::render(unsigned dt)
     UNUSED(dt);
     if (buffer_index < 0)
         return;
+    // TODO : store the last character's color to correctly reapply it if a line return
+    // happens?
     current_color = 0xFFFF;
     put_rectangle(dimensions, Graphics::Black);
-    // signed cur_x_max = cur_x + dimensions.width;
     unsigned global_index = global_string_offset;
     for (unsigned l = 0; l < nb_lines; l++)
     {
@@ -214,7 +240,7 @@ void Textbox::render(unsigned dt)
                 continue;
             }
             fnt.draw(cur_x, cur_y, c, current_color);
-
+            // *shrugs*
             if (c == '\n')
                 continue;
             else if (c == ' ')
@@ -224,16 +250,15 @@ void Textbox::render(unsigned dt)
         }
         global_index += line_nb_characters[l];
     }
+    // State indicator.
+    Pixel indicator_color = Graphics::Black;
     if (state == Full)
-    {
-        put_rectangle({dimensions.x + static_cast<signed>(dimensions.width),
-                       dimensions.y + static_cast<signed>(dimensions.height), 3, 3},
-                      Graphics::Red);
-    }
-    if (state == Done)
-    {
-        put_rectangle({dimensions.x + static_cast<signed>(dimensions.width),
-                       dimensions.y + static_cast<signed>(dimensions.height), 3, 3},
-                      Graphics::Blue);
-    }
+        indicator_color = Graphics::Red;
+    else if (state == Done)
+        indicator_color = Graphics::Blue;
+
+    if (indicator_color != Graphics::Black)
+        put_rectangle({dimensions.x + static_cast<signed>(dimensions.width) - 3,
+                       dimensions.y + static_cast<signed>(dimensions.height) - 3, 3, 3},
+                      indicator_color);
 }

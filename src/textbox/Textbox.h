@@ -28,15 +28,24 @@ namespace WalrusRPG
         Done
     };
 
+    /**
+     * Textbox is a class doing what a classic text box should do in a game,
+     * which means showing text, character(s) after character(s), applying
+     * effects to the text and so on.
+     */
     class Textbox
     {
+        // TODO?: Rename it into A CONSTANT_NAME
         static constexpr unsigned nb_lines = 3;
 
       private:
         Graphics::Font fnt;
         tinystl::vector<TextboxChar> buffer;
+        // Global text index position.
         signed buffer_index;
+        // This allows not losing our progress in the text to render the right section.
         unsigned global_string_offset;
+        // Current text container to write characters in.
         unsigned nb_line_to_update;
         unsigned line_nb_characters[nb_lines];
         unsigned line_widths[nb_lines];
