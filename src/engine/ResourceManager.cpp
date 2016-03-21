@@ -95,7 +95,7 @@ void ResourceManager::release(const char *path)
         return;
     // I actually enjoy the way this unordered_map is programmed.
     // I would just have loved is there would be an operator[] const.
-    ptr->second.refcount--;
+    --ptr->second.refcount;
     if (ptr->second.refcount == 0)
     {
         log("Resource Manager : Free : %s", ptr->first);
