@@ -21,9 +21,14 @@ namespace WalrusRPG
         class Font
         {
           public:
+            // Font height.
             uint8_t baseline;
+            // Variable to override space's rendering width.
             uint8_t space_width;
+            // Character dimensions/offset container.
             CharacterParameters chars[256];
+            // Font texture
+            // TODO?: Determine if using a reference or a variable.
             WalrusRPG::Graphics::Texture &font_tex;
 
             Font(WalrusRPG::Graphics::Texture &font_tex,
