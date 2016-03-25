@@ -63,6 +63,9 @@ void Font::draw(uint16_t x, uint16_t y, const char c, const Pixel &col) const
                     chars[c2].dimensions, col);
 }
 
+// Note : I wonder if clang/g++ compiles correctly inlines with dynamic functions or
+// stuff... Because damn the duplicated code.
+
 void Font::draw(uint16_t x, uint16_t y, const char *str) const
 {
     for (unsigned i = 0; str[i] && x < 320; i++)

@@ -9,6 +9,8 @@
 
 using namespace WalrusRPG::Graphics; /*Texture*/
 using WalrusRPG::Graphics::Pixel;
+using WalrusRPG::PIAF::File;
+using WalrusRPG::Utils::Rect;
 
 Texture::Texture(char *data) : data()
 {
@@ -44,16 +46,16 @@ Texture::~Texture()
 {
 }
 
-WalrusRPG::Utils::Rect Texture::get_dimensions()
+const Rect Texture::get_dimensions()
 {
     sf::Vector2u size = data.getSize();
-    return WalrusRPG::Utils::Rect(0, 0, size.x, size.y);
+    return {0, 0, size.x, size.y};
 }
 
-const WalrusRPG::Graphics::Pixel Texture::get_pixel(unsigned x, unsigned y)
+const Pixel Texture::get_pixel(unsigned x, unsigned y)
 {
     UNUSED(x);
     UNUSED(y);
     // TODO : return the actual value
-    return WalrusRPG::Graphics::Pixel(0);
+    return {0};
 }
