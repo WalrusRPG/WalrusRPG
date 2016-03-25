@@ -28,6 +28,9 @@ namespace
     bool show_state_debug = false;
 #endif
 
+    /**
+     * Debug function showing a button state.
+     */
     void draw_button(signed x, signed y, KeyState state)
     {
         put_horizontal_line(x + 1, x + 5, y, Gray);
@@ -50,6 +53,9 @@ namespace
                 break;
         }
     }
+    /**
+     * Draws WRPG's buttons states.
+     */
     void draw_buttons()
     {
         draw_button(0, 24, key_get_state(Key::K_L));
@@ -67,6 +73,7 @@ namespace
         draw_button(56, 36, key_get_state(Key::K_A));
     }
 
+    // State stack. Pointer because polymorphism.
     static tinystl::vector<WalrusRPG::States::State *> stack;
 
 } /* namespace */
@@ -89,6 +96,7 @@ void StateMachine::push(State *state)
 
 void StateMachine::pop()
 {
+    // Mmmh, should StateMachine manage the state's destruction?...
     delete stack.back();
     stack.pop_back();
 }
@@ -100,6 +108,8 @@ void StateMachine::run()
     unsigned last_update = 0, update_stamp, update_time;
     unsigned last_frame = 0, frame_stamp, frame_time;
 
+    // TODO : Better way to handle FPS while not breaking anything. There are some issues
+    // if the update loop takes too much time.
     while (!stack.empty())
     {
         update_stamp = Timing::gettime();
@@ -112,6 +122,7 @@ void StateMachine::run()
             frame_stamp = Timing::gettime();
             frame_time = frame_stamp - last_frame;
             Graphics::frame_begin();
+            // Update the current state
             stack.back()->render(100 * frame_time / TIMER_FREQ);
             last_frame = frame_stamp;
 
@@ -162,6 +173,7 @@ void StateMachine::run()
             Graphics::frame_end();
         }
 
+        // TODO : better exit handling.
         if (Input::key_pressed(Key::K_SELECT))
         {
             while (Input::key_down(Key::K_SELECT))

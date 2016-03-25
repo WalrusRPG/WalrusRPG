@@ -2,6 +2,7 @@
 #include <cstdarg>
 #include <cstring>
 #include "Text.h"
+#include "Logger.h"
 #include "Graphics.h"
 #include "render/Font.h"
 #include "piaf/Archive.h"
@@ -9,6 +10,7 @@
 using namespace WalrusRPG::Graphics; /*Text*/
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Utils;
+using namespace WalrusRPG::Logger;
 using namespace WalrusRPG::PIAF;
 
 Font *fnt;
@@ -16,13 +18,15 @@ Texture *tex;
 
 void Text::init()
 {
-    Archive arc("data/out.wrf");
+    log("Text init.");
+    Archive arc("data/wrpg_core.wrf");
     tex = new Texture(arc.get("t_dbgfnt"));
     fnt = new Font(*tex, arc.get("f_dbgfnt"));
 }
 
 void Text::deinit()
 {
+    log("Text deinit.");
     delete fnt;
     delete tex;
 }

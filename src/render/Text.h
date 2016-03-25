@@ -7,6 +7,8 @@ namespace WalrusRPG
 {
     namespace Graphics
     {
+        // TODO?: Rename it for something more related? It was first to draw debug
+        // content, it's not even really that useful as there is the Font system now.
         namespace Text
         {
             void init();

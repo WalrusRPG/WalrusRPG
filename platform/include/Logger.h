@@ -2,6 +2,8 @@
 #define INCLUDE_LOGGER_H
 namespace WalrusRPG
 {
+    // Logging function to show content on screen (with IMGUI branch), console or
+    // eventually in a file (for nspire?)
     namespace Logger
     {
         void log(const char *fmt, ...);
