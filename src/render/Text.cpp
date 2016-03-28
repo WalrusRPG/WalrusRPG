@@ -19,7 +19,7 @@ Texture *tex;
 
 void Text::init()
 {
-    printf("Initiating Text\n");
+    log("Text init.");
     WalrusRPG::ManagedArchive m("data/wrpg_core.wrf");
     Archive *arc(m);
     tex = new Texture(arc->get("t_dbgfnt"));

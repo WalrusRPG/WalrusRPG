@@ -24,8 +24,7 @@ int main(int argc, char *argv[])
     Quirks::init(argv[0]);
     ResourceManager::init();
     Text::init();
-
-    printf("Initializing Game\n");
+    Logger::log("WalrusRPG ready. Rock'n'roll, baby!");
     {
         ManagedArchive m("data/out.wrf");
         Archive *arc = m;
