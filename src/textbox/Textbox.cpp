@@ -102,6 +102,8 @@ void Textbox::add_letter(unsigned nb_letters)
     // Mmh, you who enters here, try to forget how the core logic is programmed.
     // Myself don't have a frigging clue on how to clean it but it *works*.
     // If you ever clean it, I'll be eternally thankful :-°
+    // Actually, it works as it does right now, but the signedness is messy as hell
+    // and changing it would most likely break it everywhere.
     for (unsigned i = 0;
          (i < nb_letters) &&
          (buffer_index < 0 || buffer_index < static_cast<signed>(buffer.size()) - 1);
