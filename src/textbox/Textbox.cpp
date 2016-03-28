@@ -13,6 +13,7 @@ using WalrusRPG::Graphics::Font;
 using WalrusRPG::Graphics::CharacterParameters;
 using WalrusRPG::Graphics::Pixel;
 using WalrusRPG::Input::Key;
+using WalrusRPG::Utils::Rect;
 
 namespace
 {
@@ -33,11 +34,15 @@ namespace
     }
 }
 
-Textbox::Textbox(Font fnt)
+Textbox::Textbox(Rect dimensions, Font fnt)
     : fnt(fnt), buffer(0), buffer_index(-1), global_string_offset(0),
       current_color(0, 0, 0), letter_wait(0), letter_wait_cooldown(10),
-      dimensions(40, 4, 200, 32), state(Waiting)
+      dimensions(dimensions), state(Waiting)
+{
+}
 
+Textbox::Textbox(Font fnt)
+    : Textbox({4, 4, 220, 32}, fnt)
 {
 }
 

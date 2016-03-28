@@ -59,6 +59,7 @@ namespace WalrusRPG
       public:
         TextboxState state;
         Textbox(Graphics::Font fnt);
+        Textbox(Utils::Rect dimensions, Graphics::Font fnt);
         ~Textbox();
 
         void set_text(char *new_msg);

@@ -37,7 +37,7 @@ namespace
 StateMap::StateMap(int x, int y, Map &map)
     : started(false), camera(x, y), map(map), data("data/out.wrf"),
       tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci")),
-      tex_psyduck(data.get("psyduck")), box(txt)
+      box(txt)
 {
     box.set_text((
         char *) "Hello world! I am "
@@ -52,11 +52,6 @@ StateMap::StateMap(int x, int y, Map &map)
                 "How goes? I'm fine, headache-y but fine. Heh, it's normal, don't worry "
                 "for me.\n"
                 "I wonder... Heh, Let's see if it works correctly, shall we?");
-    WalrusRPG::Animation p;
-    p.looping = true;
-    p.stripe.push_back({0, 10});
-    p.stripe.push_back({1, 10});
-    anim.add_animation(0, p);
 }
 
 void StateMap::update(unsigned dt)
@@ -70,7 +65,6 @@ void StateMap::update(unsigned dt)
     else
         box.update(t);
     camera.update(t);
-    anim.update(t);
 }
 
 void StateMap::render(unsigned dt)
@@ -81,10 +75,4 @@ void StateMap::render(unsigned dt)
     if (!started)
         return;
     box.render(dt);
-    if (box.state == WalrusRPG::TextboxState::Updating)
-        Graphics::put_sprite(
-            tex_psyduck, 4, 4,
-            {32 * static_cast<signed>(anim.get_animation_frame(0)), 0, 32, 32});
-    else
-        Graphics::put_sprite(tex_psyduck, 4, 4, {0, 0, 32, 32});
 }
