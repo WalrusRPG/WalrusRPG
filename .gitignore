@@ -13,5 +13,5 @@ config.mk
 *.sublime-project
 *.sublime-workspace
 
-#IMGUI
+# Imgui
 imgui.ini

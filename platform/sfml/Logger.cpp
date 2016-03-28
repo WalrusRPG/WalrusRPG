@@ -105,7 +105,6 @@ void Logger::error(const char *fmt, ...)
 
 void Logger::debug_render()
 {
-    const char *buffer;
     ImGui::Begin("Logger");
 
     ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false,
