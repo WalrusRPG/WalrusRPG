@@ -5,6 +5,7 @@
 #include "piaf/Archive.h"
 #include "Map.h"
 #include "render/Font.h"
+#include "textbox/Textbox.h"
 
 namespace WalrusRPG
 {
@@ -13,11 +14,13 @@ namespace WalrusRPG
         class StateMap : public State
         {
           protected:
+            bool started;
             Camera camera;
             Map &map;
             WalrusRPG::PIAF::Archive *data;
             WalrusRPG::Graphics::Texture tex_haeccity;
             WalrusRPG::Graphics::Font txt;
+            WalrusRPG::Textbox box;
 
           public:
             StateMap(int x, int y, Map &map);
