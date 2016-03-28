@@ -41,8 +41,7 @@ Textbox::Textbox(Rect dimensions, Font fnt)
 {
 }
 
-Textbox::Textbox(Font fnt)
-    : Textbox({4, 4, 220, 32}, fnt)
+Textbox::Textbox(Font fnt) : Textbox({4, 4, 220, 32}, fnt)
 {
 }
 
