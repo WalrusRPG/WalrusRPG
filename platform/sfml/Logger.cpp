@@ -6,14 +6,21 @@ using namespace WalrusRPG;
 
 namespace
 {
+    // TODO : Find a better name
+    /**
+     * Prints the timestamp and the message category/type.
+     */
     void print_premessage(const char *type)
     {
         char date_buffer[256];
         time_t now = time(0);
         strftime(date_buffer, 256, "%Y-%m-%d %H:%M:%S", localtime(&now));
-            printf("%s %5s : ", date_buffer, type);
+        printf("%s %5s : ", date_buffer, type);
     }
 }
+
+// NOTE : I really wish there would be a better way to handle these stupid va_lists. So
+// much redundant code...
 
 void Logger::log(const char *fmt, ...)
 {

@@ -8,8 +8,8 @@
 using WalrusRPG::Graphics::Black;
 using WalrusRPG::Graphics::Pixel;
 using WalrusRPG::Graphics::Texture;
-using WalrusRPG::Utils::Rect;
 using WalrusRPG::PIAF::File;
+using WalrusRPG::Utils::Rect;
 
 namespace
 {
@@ -72,12 +72,12 @@ Texture::~Texture()
     // delete (data);
 }
 
-Rect Texture::get_dimensions()
+const Rect Texture::get_dimensions()
 {
-    return Rect(0, 0, data[0], data[1]);
+    return {0, 0, data[0], data[1]};
 }
 
 const Pixel Texture::get_pixel(unsigned x, unsigned y)
 {
-    return Pixel(data[2 + data[0] * y + x]);
+    return {data[2 + data[0] * y + x]};
 }

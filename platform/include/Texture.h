@@ -21,13 +21,14 @@ namespace WalrusRPG
         {
           private:
           public:
+            // Mmmh, the smell of that awesome platform-based hack.
             texture_data_t data;
 
             Texture(WalrusRPG::PIAF::File entry);
             Texture(char *data);
             ~Texture();
             // Getters
-            WalrusRPG::Utils::Rect get_dimensions();
+            const WalrusRPG::Utils::Rect get_dimensions();
             const WalrusRPG::Graphics::Pixel get_pixel(unsigned x, unsigned y);
         };
     }
