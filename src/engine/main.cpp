@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     Text::init();
     Logger::log("WalrusRPG ready. Rock'n'roll, baby!");
     {
-        ManagedArchive m("data/out.wrf");
+        ManagedArchive m("data/wip_data.wrf");
         Archive *arc = m;
         Texture tex(arc->get("ov.png"));
         WalrusRPG::PIAF::File f1 = arc->get("l1.bin");
