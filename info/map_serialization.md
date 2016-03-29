@@ -1,19 +1,29 @@
 ```markdown
-MAP_MAGIC_HEADER : 'WRPG_MAP'    <=> 8 bytes
-MAP_WIDTH        : unsigned int  <=> 4 bytes
-MAP_HEIGHT       : unsigned int  <=> 4 bytes
-MAP_N_LAYERS     : unsigned char <=> 4 byte
-MAP_COMPRESSION  : enumeration   <=> 4 bytes (IIRC, unless we force using some sort of enum class and use a smaller size)
+MAP_MAGIC_HEADER    : 'WMAP'          <=> 4 bytes
+MAP_HEADER_CHECKSUM : unsigned int    <=> 4 bytes
+MAP_WIDTH           : unsigned short  <=> 2 bytes
+MAP_HEIGHT          : unsigned short  <=> 2 bytes
+MAP_N_LAYERS        : unsigned short  <=> 2 bytes
+MAP_N_EVENTS        : unsigned short  <=> 2 bytes
+MAP_DATA_COMPRESSION     : enumeration     <=> 4 bytes (IIRC, unless we force using some sort of enum class and use a smaller size)
   - 0 : RAW
   - 1 : RLE_PER_LAYER (stop when a layer ends)
   - 2 : RLE_ALL_LAYERS (stop at the end of the last layer)
   - 3 : ZLIB (?)
   - 4 : ...
-MAP_DATA         : variable size <=> n*4 bytes
+MAP_DATA_SIZE       : unsigned int    <=> 4 bytes
+MAP_DATA            : variable size   <=> n*4 bytes
+MAP_EVENT_DATA      : MAP_N_EVENTS * sizeof(Event) <=> ?
 // MAP_CHECKSUM?
 Size for a map of n*m * l layers = 24 bytes + up to n*m*l*4 bytes
 ```
 
+#TODO
+- Add tilemap link (via filename in same archive?)
+- Determine what's an event.
+
+# Outdated source draft
+**Must update this before copy-pasting it. CHanges has been done to include checksum and events.
 Loader draft:
 ```c++
 struct Map_Data {
