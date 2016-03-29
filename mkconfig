@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_LIST=("nspire" "sfml")
+TARGET_LIST=("nspire" "sfml" "windows")
 
 create_configuration() {
 	echo "Creating $1 configuration"

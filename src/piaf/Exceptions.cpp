@@ -8,7 +8,7 @@ using WalrusRPG::PIAF::PIAFException;
 using namespace WalrusRPG::PIAF;
 using namespace WalrusRPG::Logger;
 
-PIAFException::PIAFException(const char *format, ...) : msg("")
+PIAFException::PIAFException(const char *format, ...) : msg{0}
 {
     va_list list;
     va_start(list, format);

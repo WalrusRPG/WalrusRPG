@@ -33,7 +33,7 @@ $(OUT)/%.o: %.cpp | $(BUILT_SRCS)
 $(ELF): $(OBJS)
 	@mkdir -p $(dir $@)
 	@echo "CCLD: $@"
-	@+$(CC) $(LDFLAGS) $^ -o $(ELF)
+	@+$(CC) $^ -o $(ELF) $(LDFLAGS)
 
 clean:
 	@echo "RM: $(OUT)"
