@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     Quirks::init(argv[0]);
     Text::init();
 
-    Archive arc("data/out.wrf");
+    Archive arc("data/wip_data.wrf");
     Texture tex(arc.get("ov.png"));
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
     WalrusRPG::PIAF::File f2 = arc.get("l2.bin");
