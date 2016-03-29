@@ -1,15 +1,15 @@
 #!/bin/bash
 
-COMMIT_NUMBER=$(git describe --always)
-BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+COMMIT_NUMBER=$(git describe --always 2> /dev/null) 
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
 VERSION="$BRANCH_NAME-$COMMIT_NUMBER"
 
 source=$(cat <<EOF
 const char git_version[] = "$VERSION";
 EOF
-)
+) || "WalrusRPG-undefined"
 
-diff $1 <(echo "$source") > /dev/null 2>&1
+echo $source | diff $1 - > /dev/null 2>&1
 if [[ $? -ne 0 ]]
   then
   echo "Updating version source"
