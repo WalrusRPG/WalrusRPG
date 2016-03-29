@@ -35,7 +35,7 @@ namespace
 
 // TODO : We definitely need a Resource Manager
 StateMap::StateMap(int x, int y, Map &map)
-    : started(false), camera(x, y), map(map), data("data/out.wrf"),
+    : started(false), camera(x, y), map(map), data("data/wip_data.wrf"),
       tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci")),
       box(txt)
 {
