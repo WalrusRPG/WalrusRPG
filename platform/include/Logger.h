@@ -6,6 +6,7 @@ namespace WalrusRPG
     // eventually in a file (for nspire?)
     namespace Logger
     {
+        void init();
         void log(const char *fmt, ...);
         void debug(const char *fmt, ...);
         void warn(const char *fmt, ...);
