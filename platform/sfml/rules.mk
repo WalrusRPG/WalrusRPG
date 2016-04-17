@@ -8,8 +8,8 @@ LIBS += -lstdc++ -lsfml-window -lsfml-graphics -lsfml-system
 
 CFLAGS_COMMON += -DTARGET_SFML=1
 
-CC = clang
-CPP = clang++
+CC = gcc
+CPP = g++
 
 EXE = $(OUT)/$(NAME)
 

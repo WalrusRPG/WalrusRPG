@@ -20,8 +20,11 @@ void Text::init()
 {
     log("Text init.");
     Archive arc("data/wrpg_core.wrf");
+    debug("Loading Texure.");
     tex = new Texture(arc.get("t_dbgfnt"));
+    debug("Tex ready.");
     fnt = new Font(*tex, arc.get("f_dbgfnt"));
+    debug("Fnt ready.");
 }
 
 void Text::deinit()
