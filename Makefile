@@ -15,7 +15,7 @@ CFLAGS = $(CFLAGS_COMMON) -std=gnu11
 CPPFLAGS = $(CFLAGS_COMMON) -std=gnu++11
 
 LIBS = -lz
-LDFLAGS = 
+LDFLAGS =
 
 SRCS_C :=
 SRCS_CPP :=

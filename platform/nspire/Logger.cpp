@@ -2,6 +2,10 @@
 
 using namespace WalrusRPG;
 
+void Logger::init()
+{
+}
+
 void Logger::log(const char *fmt, ...)
 {
 }
