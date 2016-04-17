@@ -30,11 +30,8 @@ Texture::Texture(WalrusRPG::PIAF::File entry)
 
     signed result = lodepng_decode32(&pic, &width, &height, (unsigned char *) entry.get(),
                                      entry.file_size);
-
     data =
         sf2d_create_texture_mem_RGBA8(pic, width, height, TEXFMT_RGBA8, SF2D_PLACE_RAM);
-
-    Logger::debug("Ready : %p", data);
     free(pic);
 }
 

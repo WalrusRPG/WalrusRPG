@@ -40,7 +40,6 @@ StateMap::StateMap(int x, int y, Map &map)
       tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci")),
       box(txt)
 {
-    Logger::debug("Start");
     box.set_text((
         char *) "Hello world! I am "
                 "\xFF\x01\xf0\x00\x00Howard\xFF\x01\xff\xff\x00"

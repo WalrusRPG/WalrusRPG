@@ -21,20 +21,16 @@ int main(int argc, char *argv[])
     UNUSED(argc);
     Graphics::init();
     Logger::init();
-    Status::init();
     Logger::log("WalrusRPG Init");
+    Status::init();
     Timing::init();
     Quirks::init(argv[0]);
 
-    Logger::debug("Before Text");
     Text::init();
-    Logger::debug("Text done");
-    Logger::debug("Before Archive");
     Archive arc("data/wip_data.wrf");
     Texture tex(arc.get("ov.png"));
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
     WalrusRPG::PIAF::File f2 = arc.get("l2.bin");
-    Logger::debug("Files ready");
 
     const uint8_t *l1 = f1.get();
     const uint8_t *l2 = f2.get();

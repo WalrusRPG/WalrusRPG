@@ -205,7 +205,6 @@ Archive::Archive(const char *filepath)
 #if TARGET_NSPIRE
     Interrupts::init();
 #endif
-    Logger::debug("File done");
 }
 
 Archive::~Archive()
