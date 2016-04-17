@@ -39,12 +39,7 @@ void Graphics::frame_end()
 {
     sf::Sprite sprite(buffer.getTexture());
     sf::Vector2u winsize = window.getSize();
-    sf::Event event;
     float scale = min(winsize.x / 320.f, winsize.y / 240.f);
-
-    while (window.pollEvent(event))
-    {
-    }
 
     window.setView(view = sf::View(sf::FloatRect(0, 0, winsize.x, winsize.y)));
 
