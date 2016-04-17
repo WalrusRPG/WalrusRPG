@@ -1,12 +1,19 @@
 #include "Timing.h"
 #include "Logger.h"
+#include "platform.h"
 #include <cstdio>
+#include <3ds/svc.h>
+
+constexpr u64 TIMER_PRECISION = 268123480;
+constexpr u64 TIMER_SCALEDOWN = TIMER_PRECISION / TIMER_FREQ;
 
 using namespace WalrusRPG; /*Timing*/
+u64 startingTime;
 
 void Timing::init()
 {
     Logger::log("Timing init");
+    startingTime = svcGetSystemTick();
 }
 
 void Timing::deinit()
@@ -16,5 +23,6 @@ void Timing::deinit()
 
 unsigned Timing::gettime()
 {
-    return 1;
+    u64 t = svcGetSystemTick() - startingTime;
+    return t / TIMER_SCALEDOWN;
 }

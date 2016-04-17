@@ -19,5 +19,6 @@ void Timing::deinit()
 
 unsigned Timing::gettime()
 {
+    Logger::log("%llu", clock.getElapsedTime().asMicroseconds());
     return clock.getElapsedTime().asMicroseconds();
 }
