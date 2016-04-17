@@ -76,8 +76,8 @@ Archive::Archive(const char *filepath)
     // Null pointer exception trigger
     if (filepath == nullptr)
     {
-      Logger::error("%s: Null path given", __FILE__);
-      //throw PIAF::PIAFException("%s: Null path given", __FILE__);
+        Logger::error("%s: Null path given", __FILE__);
+        // throw PIAF::PIAFException("%s: Null path given", __FILE__);
     }
     // Solves the absolute path for given relative path.
     // Must be needed in targets like Ndless as it doesn't support environment
@@ -89,8 +89,8 @@ Archive::Archive(const char *filepath)
     // Again another null pointer trigger
     if (file == nullptr || file == NULL)
     {
-      Logger::error("%s: Missing file : %s", __FILE__, filepath);
-        //throw PIAF::PIAFException("%s: Missing file : %s", __FILE__, filepath);
+        Logger::error("%s: Missing file : %s", __FILE__, filepath);
+        // throw PIAF::PIAFException("%s: Missing file : %s", __FILE__, filepath);
     }
 
     // Loading stuff happens NOW
@@ -101,9 +101,8 @@ Archive::Archive(const char *filepath)
     // File to small exception trigger
     if (filesize < 32)
     {
-        Logger::error("%s: File too small (%s): %d", __FILE__, filepath,
-                                  filesize);
-        //throw PIAF::PIAFException("%s: File too small (%s): %d", __FILE__, filepath,
+        Logger::error("%s: File too small (%s): %d", __FILE__, filepath, filesize);
+        // throw PIAF::PIAFException("%s: File too small (%s): %d", __FILE__, filepath,
         //                          filesize);
     }
 
@@ -113,7 +112,7 @@ Archive::Archive(const char *filepath)
     if (fread(header_container, sizeof(char), 32, file) != 32)
     {
         Logger::error("%s: Errorneous header : %s", __FILE__, filepath);
-        //throw PIAF::PIAFException("%s: Errorneous header : %s", __FILE__, filepath);
+        // throw PIAF::PIAFException("%s: Errorneous header : %s", __FILE__, filepath);
     }
     // Check if the magic cookie is the same.
     // It's a first way to detect if the file is correctly an archive.
@@ -121,7 +120,8 @@ Archive::Archive(const char *filepath)
     {
         // TODO throw bad header
         Logger::error("%s: Magic cookie mismatch : %s", __FILE__, filepath);
-        //throw PIAF::PIAFException("%s: Magic cookie mismatch : %s", __FILE__, filepath);
+        // throw PIAF::PIAFException("%s: Magic cookie mismatch : %s", __FILE__,
+        // filepath);
     }
     // Checksum time! Let's check if the header hasn"t been altered.
     uint32_t expected_checksum = read_big_endian_value<uint32_t>(&header_container[8]);
@@ -130,7 +130,7 @@ Archive::Archive(const char *filepath)
     {
         // TODO throw bad checksum
         Logger::error("%s: Bad checksum : %s", __FILE__, filepath);
-        //throw PIAF::PIAFException("%s: Bad checksum : %s", __FILE__, filepath);
+        // throw PIAF::PIAFException("%s: Bad checksum : %s", __FILE__, filepath);
     }
 
     // TODO : version checking
@@ -139,9 +139,9 @@ Archive::Archive(const char *filepath)
     {
         // std::exception up;
         // throw up; // haha
-        Logger::error("%s: Wrong(%s) : %08x is not supported by %08x",
-                                 __FILE__, filepath, version, ARCHIVE_VERSION);
-        //throw PIAF::PIAFException("%s: Wrong(%s) : %08x is not supported by %08x",
+        Logger::error("%s: Wrong(%s) : %08x is not supported by %08x", __FILE__, filepath,
+                      version, ARCHIVE_VERSION);
+        // throw PIAF::PIAFException("%s: Wrong(%s) : %08x is not supported by %08x",
         //                          __FILE__, filepath, version, ARCHIVE_VERSION);
     }
 
@@ -160,7 +160,7 @@ Archive::Archive(const char *filepath)
         // fprintf(stderr, "Bad data size : expected %u, got %lld\n", data_size,
         // calculated_data_size);
         Logger::error("Data size mismatch", __LINE__, filepath);
-        //throw PIAF::PIAFException("Data size mismatch", __LINE__, filepath);
+        // throw PIAF::PIAFException("Data size mismatch", __LINE__, filepath);
     }
     // Check if there are files to manage.
     if (nb_files != 0)
@@ -173,16 +173,17 @@ Archive::Archive(const char *filepath)
         fseek(file, 32, SEEK_SET);
         if (fread(file_entry_data, sizeof(char), 24 * nb_files, file) < 24 * nb_files)
         {
-           Logger::error("Can't read file entry data", __LINE__, filepath);
-          //  throw PIAF::PIAFException("Can't read file entry data", __LINE__, filepath);
+            Logger::error("Can't read file entry data", __LINE__, filepath);
+            //  throw PIAF::PIAFException("Can't read file entry data", __LINE__,
+            //  filepath);
         }
         // Compare and trigger an exception if the checksum doesn't match.
         if (expected_filetable_checksum !=
             crc32(0L, (unsigned char *) file_entry_data, 24 * nb_files))
         {
             // fprintf(stderr, "Bad filetable checksum\n");
-           Logger::error("Bad Filetable checksum", __LINE__, filepath);
-          //  throw PIAF::PIAFException("Bad Filetable checksum", __LINE__, filepath);
+            Logger::error("Bad Filetable checksum", __LINE__, filepath);
+            //  throw PIAF::PIAFException("Bad Filetable checksum", __LINE__, filepath);
         }
         // Create the filetable.
         entries = new File[nb_files];
@@ -204,7 +205,7 @@ Archive::Archive(const char *filepath)
 #if TARGET_NSPIRE
     Interrupts::init();
 #endif
-  Logger::debug("File done");
+    Logger::debug("File done");
 }
 
 Archive::~Archive()
@@ -258,8 +259,8 @@ File Archive::get(const char *filename)
                 if (fread(data, sizeof(uint8_t), entries[index].file_size, file) !=
                     entries[index].file_size)
                 {
-                  //  throw PIAF::PIAFException("%s: couldn't load %s from an archive.",
-                  //                            filename);
+                    //  throw PIAF::PIAFException("%s: couldn't load %s from an archive.",
+                    //                            filename);
                 }
                 else
                 {

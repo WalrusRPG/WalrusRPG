@@ -24,10 +24,10 @@ void Status::deinit()
 
 void Status::update()
 {
-  if(!aptMainLoop())
-    askedToQuit = true;
-  if(Quirks::get_key(KEY_ZL))
-    askedToQuit = true;
+    if (!aptMainLoop())
+        askedToQuit = true;
+    if (Quirks::get_key(KEY_ZL))
+        askedToQuit = true;
 }
 
 bool Status::mustQuit()

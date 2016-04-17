@@ -16,5 +16,5 @@ void Timing::deinit()
 
 unsigned Timing::gettime()
 {
-  return 1;
+    return 1;
 }

@@ -8,7 +8,7 @@ using namespace WalrusRPG;
 
 namespace
 {
-    PrintConsole* console;
+    PrintConsole *console;
     // TODO : Find a better name
     /**
      * Prints the timestamp and the message category/type.
@@ -27,12 +27,11 @@ namespace
 
 void Logger::init()
 {
-  console = consoleInit(GFX_BOTTOM, NULL);
+    console = consoleInit(GFX_BOTTOM, NULL);
 }
 
 void Logger::log(const char *fmt, ...)
 {
-
     print_premessage("  [LOG]");
     va_list args;
     va_start(args, fmt);

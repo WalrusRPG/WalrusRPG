@@ -45,11 +45,11 @@ static InputMap key_map[] = {
 #endif
 #ifdef TARGET_3DS
 static InputMap key_map[] = {
-    {Key::K_A, KEY_A},    {Key::K_B, KEY_B},
-    {Key::K_L, KEY_L},     {Key::K_R, KEY_R},
+    {Key::K_A, KEY_A},         {Key::K_B, KEY_B},
+    {Key::K_L, KEY_L},         {Key::K_R, KEY_R},
 
-    {Key::K_UP, KEY_UP},      {Key::K_DOWN, KEY_DOWN},
-    {Key::K_LEFT, KEY_LEFT},    {Key::K_RIGHT, KEY_RIGHT},
+    {Key::K_UP, KEY_UP},       {Key::K_DOWN, KEY_DOWN},
+    {Key::K_LEFT, KEY_LEFT},   {Key::K_RIGHT, KEY_RIGHT},
 
     {Key::K_START, KEY_START}, {Key::K_SELECT, KEY_SELECT},
 };
@@ -76,50 +76,50 @@ KeyState Input::key_get_state(Key key)
 
 void Input::key_poll()
 {
-  #ifdef TARGET_3DS
+#ifdef TARGET_3DS
     hidScanInput();
     kDown = hidKeysDown();
     kHeld = hidKeysHeld();
     kUp = hidKeysUp();
-  #else
-  for (unsigned i = 0; i < K_SIZE; i++)
-  {
-      key_states[i].previous = key_states[i].current;
-      key_states[i].current = WalrusRPG::Quirks::get_key(key_map[i].key_code);
-  }
-  #endif
+#else
+    for (unsigned i = 0; i < K_SIZE; i++)
+    {
+        key_states[i].previous = key_states[i].current;
+        key_states[i].current = WalrusRPG::Quirks::get_key(key_map[i].key_code);
+    }
+#endif
 }
 
 bool Input::key_pressed(Key key)
 {
-  #ifdef TARGET_3DS
+#ifdef TARGET_3DS
     return kDown & key_map[key].key_code;
-  #else
+#else
     return !key_states[key].previous && key_states[key].current;
-  #endif
+#endif
 }
 
 bool Input::key_released(Key key)
 {
-  #ifdef TARGET_3DS
+#ifdef TARGET_3DS
     return kUp & key_map[key].key_code;
-  #else
+#else
     return key_states[key].previous && !key_states[key].current;
-  #endif
+#endif
 }
 bool Input::key_down(Key key)
 {
-  #ifdef TARGET_3DS
+#ifdef TARGET_3DS
     return kHeld & key_map[key].key_code;
-  #else
+#else
     return key_states[key].current;
-  #endif
+#endif
 }
 bool Input::key_up(Key key)
 {
-  #ifdef TARGET_3DS
+#ifdef TARGET_3DS
     return !(~kDown & key_map[key].key_code);
-  #else
+#else
     return !key_states[key].current;
-  #endif
+#endif
 }
