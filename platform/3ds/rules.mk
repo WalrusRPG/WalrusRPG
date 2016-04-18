@@ -15,9 +15,9 @@ LDFLAGS += -specs=3dsx.specs -g -march=armv6k -mtune=mpcore -mfloat-abi=hard $(A
 
 CFLAGS_COMMON += -DTARGET_3DS=1 -DARM11 -D_3DS -fno-rtti -fno-exceptions
 
-APP_TITLE		:= SF2DLIB sample
-APP_DESCRIPTION	:= SF2DLIB sample
-APP_AUTHOR		:= xerpi
+APP_TITLE		:= WalrusRPG
+APP_DESCRIPTION	:= Here we go, fellows.
+APP_AUTHOR		:= Eiyeron
 
 CC = arm-none-eabi-gcc
 CPP = arm-none-eabi-g++
@@ -25,3 +25,4 @@ CPP = arm-none-eabi-g++
 EXE = $(OUT)/$(NAME).3dsx
 
 run: all
+	3dslink $(EXE)
