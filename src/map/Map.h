@@ -4,18 +4,28 @@
 #include <stdint.h>
 #include "Texture.h"
 #include "Tilemap.h"
+#include "piaf/Archive.h"
 #include "render/Camera.h"
 #include "render/TileRenderer.h"
 
 namespace WalrusRPG
 {
+
+    enum MapCompression {
+      UNKWOWN,
+      RAW,
+      RLE_PER_LAYER,
+      RLE_ALL_LAYERS,
+      ZLIB,
+    };
+
     class Map
     {
       protected:
         // <Tiles> data;
         // <Tileset> tileset;
-        int width;
-        int height;
+        uint16_t width;
+        uint16_t height;
         uint16_t *layer0;
         uint16_t *layer1;
         // TODO?: add a boolean/getter to know if a second layer exist?
@@ -23,6 +33,8 @@ namespace WalrusRPG
         Tilemap tmap;
 
         Map(int width, int height, uint16_t *layer0, uint16_t *layer1,
+            WalrusRPG::Graphics::Texture &tex);
+        Map(WalrusRPG::PIAF::File &map_data,
             WalrusRPG::Graphics::Texture &tex);
         ~Map();
         void render(Camera &camera, unsigned dt);

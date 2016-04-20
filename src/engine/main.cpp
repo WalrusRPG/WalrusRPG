@@ -11,6 +11,7 @@
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;
+using WalrusRPG::PIAF::File;
 using WalrusRPG::Graphics::Texture;
 using namespace WalrusRPG::Graphics;
 
@@ -24,7 +25,8 @@ int main(int argc, char *argv[])
     Text::init();
 
     Archive arc("data/wip_data.wrf");
-    Texture tex(arc.get("ov.png"));
+    Texture tex(arc.get("castle.png"));
+    /*
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
     WalrusRPG::PIAF::File f2 = arc.get("l2.bin");
 
@@ -40,8 +42,9 @@ int main(int argc, char *argv[])
         dungeonTest[i] = read_big_endian_value<uint16_t>(&l1[i * 2]);
         dungeonTest2[i] = read_big_endian_value<uint16_t>(&l2[i * 2]);
     }
-
-    Map map(20, 20, dungeonTest, dungeonTest2, tex);
+    */
+  File f = arc.get("map.wrm");
+    Map map(f, tex);
     tinystl::vector<Frame> stripe21;
     tinystl::vector<Frame> stripe22;
     stripe21.push_back({21, 23});
@@ -60,8 +63,8 @@ int main(int argc, char *argv[])
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
-    delete[] dungeonTest;
-    delete[] dungeonTest2;
+    // delete[] dungeonTest;
+    // delete[] dungeonTest2;
     Logger::log("WalrusRPG Exit");
 
     return 0;

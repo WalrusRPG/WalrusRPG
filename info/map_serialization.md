@@ -8,10 +8,11 @@ MAP_HEIGHT           : unsigned short  <=> 2 bytes
 MAP_N_LAYERS         : unsigned short  <=> 2 bytes
 MAP_N_EVENTS         : unsigned short  <=> 2 bytes
 MAP_DATA_COMPRESSION : enumeration     <=> 4 bytes (IIRC, unless we force using some sort of enum class and use a smaller size)
-  - 0 : RAW
-  - 1 : RLE_PER_LAYER (stop when a layer ends)
-  - 2 : RLE_ALL_LAYERS (stop at the end of the last layer)
-  - 3 : ZLIB (?)
+  - 0 : UNKWOWN
+  - 1 : RAW
+  - 2 : RLE_PER_LAYER (stop when a layer ends)
+  - 3 : RLE_ALL_LAYERS (stop at the end of the last layer)
+  - 4 : ZLIB (?)
   - 4 : ...
 MAP_DATA            : variable size   <=> n*4 bytes
 MAP_EVENT_DATA      : MAP_N_EVENTS * sizeof(Event) <=> ?
