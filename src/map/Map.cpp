@@ -37,7 +37,7 @@ namespace {
       //throw MLE("File too small for header.");
     }
 
-    if(strncmp(cdata, "WMAP", 4))
+    if(strncmp(cdata, "WMap", 4))
     {
       Logger::error("Bad map header");
       //throw MLE("Bad map header.");
