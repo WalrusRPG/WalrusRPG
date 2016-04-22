@@ -44,16 +44,16 @@ void Tilemap::render_tile(uint16_t id, int x, int y) const
 
 void Tilemap::render_collision_mask(uint16_t id, int x, int y) const
 {
-    if(id >= nb_tiles) return;
-    const int half_dim = TILE_DIMENSION/2;
+    if (id >= nb_tiles)
+        return;
+    const int half_dim = TILE_DIMENSION / 2;
     uint8_t mask = collision_masks[id];
-    if(mask & TOP_LEFT_CORNER)
-        Graphics::put_rectangle({x,y,half_dim, half_dim}, White);
-    if(mask & TOP_RIGHT_CORNER)
-        Graphics::put_rectangle({x+half_dim,y,half_dim, half_dim}, White);
-    if(mask & BOTTOM_LEFT_CORNER)
-        Graphics::put_rectangle({x,y+half_dim,half_dim, half_dim}, White);
-    if(mask & BOTTOM_RIGHT_CORNER)
-        Graphics::put_rectangle({x+half_dim,y+half_dim,half_dim, half_dim}, White);
+    if (mask & TOP_LEFT_CORNER)
+        Graphics::put_rectangle({x, y, half_dim, half_dim}, White);
+    if (mask & TOP_RIGHT_CORNER)
+        Graphics::put_rectangle({x + half_dim, y, half_dim, half_dim}, White);
+    if (mask & BOTTOM_LEFT_CORNER)
+        Graphics::put_rectangle({x, y + half_dim, half_dim, half_dim}, White);
+    if (mask & BOTTOM_RIGHT_CORNER)
+        Graphics::put_rectangle({x + half_dim, y + half_dim, half_dim, half_dim}, White);
 }
-

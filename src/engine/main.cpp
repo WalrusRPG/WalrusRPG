@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         dungeonTest2[i] = read_big_endian_value<uint16_t>(&l2[i * 2]);
     }
     */
-  File f = arc.get("map.wrm");
+    File f = arc.get("map.wrm");
     Map map(f, tex);
     tinystl::vector<Frame> stripe21;
     tinystl::vector<Frame> stripe22;

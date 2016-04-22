@@ -10,13 +10,13 @@
 
 namespace WalrusRPG
 {
-
-    enum MapCompression {
-      UNKWOWN,
-      RAW,
-      RLE_PER_LAYER,
-      RLE_ALL_LAYERS,
-      ZLIB,
+    enum MapCompression
+    {
+        UNKWOWN,
+        RAW,
+        RLE_PER_LAYER,
+        RLE_ALL_LAYERS,
+        ZLIB,
     };
 
     class Map
@@ -34,8 +34,7 @@ namespace WalrusRPG
 
         Map(int width, int height, uint16_t *layer0, uint16_t *layer1,
             WalrusRPG::Graphics::Texture &tex);
-        Map(WalrusRPG::PIAF::File &map_data,
-            WalrusRPG::Graphics::Texture &tex);
+        Map(WalrusRPG::PIAF::File &map_data, WalrusRPG::Graphics::Texture &tex);
         ~Map();
         void render(Camera &camera, unsigned dt);
         void update(unsigned dt);
@@ -43,6 +42,19 @@ namespace WalrusRPG
         bool is_pixel_solid(int x, int y) const;
         int get_width() const;
         int get_height() const;
+    };
+
+
+    class MapException : public std::exception
+    {
+      private:
+        char msg[1024];
+
+      public:
+        MapException(const char *format, ...);
+        virtual ~MapException();
+
+        const char *what() const throw();
     };
 }
 

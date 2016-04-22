@@ -1,6 +1,5 @@
 #include "Logger.h"
 #include "Archive.h"
-#include <cmath>
 #include <cstring>
 #include <cstdarg>
 
