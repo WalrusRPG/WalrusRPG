@@ -12,7 +12,7 @@ PIAFException::PIAFException(const char *format, ...) : msg("")
     va_list list;
     va_start(list, format);
     vsnprintf(msg, 1024, format, list);
-    log(msg);
+    error(msg);
     va_end(list);
 }
 
