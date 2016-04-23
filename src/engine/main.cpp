@@ -4,6 +4,7 @@
 #include "render/Text.h"
 #include "Graphics.h"
 #include "Quirks.h"
+#include "Status.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
     Logger::debug("This is a debug line");
     Logger::warn("Warning color!");
     Logger::error("/!\\This shouldn't have happened!");
+    Status::init();
     Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);
@@ -63,6 +65,7 @@ int main(int argc, char *argv[])
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
+    Status::deinit();
     delete[] dungeonTest;
     delete[] dungeonTest2;
     Logger::log("WalrusRPG Exit");

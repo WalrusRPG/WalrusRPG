@@ -22,14 +22,8 @@ struct Map_Data {
     unsigned height : 4;
     unsigned n_layers : 4;
     enum Map_Compression compression;
-}
-/*
-#include <cstring>
-  Map load_map(void* data) throw MapLoadException {
-    struct Map_Data mdata = (struct Map_Data *) data[0]; // HAHA, wait, there is a problem : padding the address to the size of the header.
-    return Map();
-  }
-*/
+};
+
 #include <cstring>
   Map load_map(void* data) throw MapLoadException {
     unsigned map_width = 0, map_height = 0, map_n_layers = 0;
@@ -67,3 +61,4 @@ struct Map_Data {
 
     return Map(map_width, map_height, layer0, layer1);
   }
+```
