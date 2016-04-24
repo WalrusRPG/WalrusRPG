@@ -91,7 +91,7 @@ void Graphics::fill(const Pixel &color)
 void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
 {
     // Why both of them at +1? If only I knew...
-    sf2d_draw_line(x, y, x+1, y+1, 1, pixel2u32(color));
+    sf2d_draw_line(x, y, x + 1, y + 1, 1, pixel2u32(color));
 }
 
 void Graphics::put_horizontal_line(uint16_t x, uint16_t x2, uint16_t y,
@@ -143,7 +143,7 @@ void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
     int dy = abs(y - y2), sy = y < y2 ? 1 : -1;
     int err = (dx > dy ? dx : -dy) / 2, e2;
 
-    while(true)
+    while (true)
     {
         put_pixel(x + OFFSET_X, y + OFFSET_Y, color);
         if (x == x2 && y == y2)

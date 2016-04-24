@@ -11,18 +11,6 @@ using WalrusRPG::Graphics::Texture;
 using WalrusRPG::PIAF::File;
 using WalrusRPG::Utils::Rect;
 
-namespace
-{
-    /*
-    texture_data_t loadPNG(char *data)
-    {
-        // TODO : stuff
-        UNUSED(data);
-        return nullptr;
-    }
-    */
-}
-
 Texture::Texture(File entry)
 {
     unsigned char *pic;

@@ -121,7 +121,7 @@ Archive::Archive(const char *filepath)
 #ifdef WRPG_EXCEPTIONS
         throw PIAF::PIAFException("%s: Errorneous header : %s", __FILE__, filepath);
 #endif
-  }
+    }
     // Check if the magic cookie is the same.
     // It's a first way to detect if the file is correctly an archive.
     if (strncmp(header_container, "WRPGPIAF", 8) != 0)
@@ -143,7 +143,6 @@ Archive::Archive(const char *filepath)
 #endif
     }
 
-    // TODO : version checking
     version = read_big_endian_value<uint32_t>(&header_container[16]);
     if (version != ARCHIVE_VERSION)
     {

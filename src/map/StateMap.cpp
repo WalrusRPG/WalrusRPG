@@ -60,14 +60,14 @@ void StateMap::update(unsigned dt)
     unsigned t = dt * (key_down(K_B) ? 16 : 1);
     if (key_pressed(K_A))
     {
-        if(!started && box.state != Done)
-           started = true;
-        else if(box.state == Done)
+        if (!started && box.state != Done)
+            started = true;
+        else if (box.state == Done)
         {
             started = false;
         }
     }
-    if(started)
+    if (started)
         box.update(t);
     camera.update(t);
 }
