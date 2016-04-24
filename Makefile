@@ -26,6 +26,7 @@ INCLUDE_EXT :=
 BUILT_SRCS :=
 BUILT_SRCS_C :=
 BUILT_SRCS_CPP :=
+DEPS := tinystl
 
 OUT = out/$(PLATFORM)
 ELF = $(OUT)/$(NAME).elf
@@ -46,7 +47,6 @@ endef
 
 include config.mk
 -include platform/$(PLATFORM)/rules.mk
--include external/platform/$(PLATFORM)/rules.mk
 include rules.mk
 
 config.mk:

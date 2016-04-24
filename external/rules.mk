@@ -1,10 +1,11 @@
 external_LOCAL_PATH := $(call whereami)
 
-include $(wildcard $(external_LOCAL_PATH)/*/rules.mk)
+ifneq (, $(findstring tinystl, $(DEPS)))
+    INCLUDE_EXT += $(external_LOCAL_PATH)/tinystl/include
+endif
 
-CPPFLAGS += -DLODEPNG_NO_COMPILE_CPP
-INCLUDE_EXT += $(external_LOCAL_PATH)/lodepng
-SRCS_CPP += $(external_LOCAL_PATH)/lodepng/lodepng.cpp
-
-INCLUDE_EXT += $(external_LOCAL_PATH)/tinystl/include
-
+ifneq (, $(findstring lodepng, $(DEPS)))
+    CPPFLAGS += -DLODEPNG_NO_COMPILE_CPP
+    INCLUDE_EXT += $(external_LOCAL_PATH)/lodepng
+    SRCS_CPP += $(external_LOCAL_PATH)/lodepng/lodepng.cpp
+endif

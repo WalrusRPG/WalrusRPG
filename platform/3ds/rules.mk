@@ -4,6 +4,7 @@ include $(DEVKITARM)/3ds_rules
 SRCS_C += $(wildcard $(tds_LOCAL_PATH)/platform/*.c)
 SRCS_CPP += $(wildcard $(tds_LOCAL_PATH)/*.cpp)
 INCLUDE += $(tds_LOCAL_PATH)/public
+DEPS += lodepng
 
 LIBDIRS	:= $(CTRULIB) $(CURDIR)/../libsf2d $(PORTLIBS)
 INCLUDE_EXT += $(sfml_LOCAL_PATH)/public $(foreach dir,$(LIBDIRS),$(dir)/include)
