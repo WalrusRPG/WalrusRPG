@@ -16,16 +16,18 @@ using WalrusRPG::PIAF::File;
 using WalrusRPG::Graphics::Texture;
 using namespace WalrusRPG::Graphics;
 
+
 int main(int argc, char *argv[])
 {
     UNUSED(argc);
+    Graphics::init();
+    Logger::init();
     Logger::log("WalrusRPG Init");
     Status::init();
-    Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);
-    Text::init();
 
+    Text::init();
     Archive arc("data/wip_data.wrf");
     Texture tex(arc.get("castle.png"));
     /*
@@ -62,11 +64,14 @@ int main(int argc, char *argv[])
 
     Logger::log("WalrusRPG Deinit");
     StateMachine::deinit();
+    Text::deinit();
+
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
     Status::deinit();
     Logger::log("WalrusRPG Exit");
+    Graphics::deinit();
 
     return 0;
 }
