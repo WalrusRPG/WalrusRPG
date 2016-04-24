@@ -2,10 +2,13 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
+#include <3ds/console.h>
+
 using namespace WalrusRPG;
 
 namespace
 {
+    PrintConsole *console;
     // TODO : Find a better name
     /**
      * Prints the timestamp and the message category/type.
@@ -14,7 +17,7 @@ namespace
     {
         char date_buffer[256];
         time_t now = time(0);
-        strftime(date_buffer, 256, "%Y-%m-%d %H:%M:%S", localtime(&now));
+        strftime(date_buffer, 256, "%H:%M:%S", localtime(&now));
         printf("%s %5s : ", date_buffer, type);
     }
 }
@@ -24,6 +27,7 @@ namespace
 
 void Logger::init()
 {
+    console = consoleInit(GFX_BOTTOM, NULL);
 }
 
 void Logger::log(const char *fmt, ...)
