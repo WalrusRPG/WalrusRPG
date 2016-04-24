@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     {
         // Keep the ManagedArchive in its own variable, to avoid unloading it.
         ManagedArchive m("data/wip_data.wrf");
-        Archive *arc = ManagedArchive("");
+        Archive *arc = m;
         Texture tex(arc->get("ov.png"));
         WalrusRPG::PIAF::File f1 = arc->get("l1.bin");
         WalrusRPG::PIAF::File f2 = arc->get("l2.bin");
