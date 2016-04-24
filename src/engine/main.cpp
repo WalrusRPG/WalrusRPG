@@ -28,8 +28,9 @@ int main(int argc, char *argv[])
     Text::init();
     Logger::log("WalrusRPG ready. Rock'n'roll, baby!");
     {
+        // Keep the ManagedArchive in its own variable, to avoid unloading it.
         ManagedArchive m("data/wip_data.wrf");
-        Archive *arc = m;
+        Archive *arc = ManagedArchive("");
         Texture tex(arc->get("ov.png"));
         WalrusRPG::PIAF::File f1 = arc->get("l1.bin");
         WalrusRPG::PIAF::File f2 = arc->get("l2.bin");
