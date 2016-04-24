@@ -7,7 +7,7 @@ INCLUDE += $(tds_LOCAL_PATH)/public
 DEPS += lodepng
 
 LIBDIRS	:= $(CTRULIB) $(CURDIR)/../libsf2d $(PORTLIBS)
-INCLUDE_EXT += $(sfml_LOCAL_PATH)/public $(foreach dir,$(LIBDIRS),$(dir)/include)
+INCLUDE_EXT += $(3ds_LOCAL_PATH)/public $(foreach dir,$(LIBDIRS),$(dir)/include)
 
 ARCH = -march=armv6k -mtune=mpcore -mfloat-abi=hard
 
