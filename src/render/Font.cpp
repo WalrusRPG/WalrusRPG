@@ -14,7 +14,6 @@ Font::Font(Texture &font_tex, WalrusRPG::PIAF::File font_config)
     : baseline(0), space_width(1), font_tex(font_tex)
 {
     const uint8_t *ptr = font_config.get();
-    // TODO : parse file
     // TODO : forgot to put the version and the font type
     if (strncmp((const char *) ptr, "WFONT", 4) != 0)
     {

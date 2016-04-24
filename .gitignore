@@ -12,3 +12,9 @@ config.mk
 # Sublime
 *.sublime-project
 *.sublime-workspace
+
+# Imgui
+imgui.ini
+
+# 3DS
+.map
