@@ -5,6 +5,11 @@
 
 namespace WalrusRPG
 {
+    /**
+     * A ManagedArchive is an Archive managed by the RessourceManager.
+     * It acts as a RAII wrapper of the ResourceManager's require/release
+     * functions.
+     */
     class ManagedArchive
     {
       protected:
@@ -14,6 +19,7 @@ namespace WalrusRPG
       public:
         ManagedArchive(const char *path);
         ~ManagedArchive();
+        // Small utility to use the Managed archive as an Archive.
         operator PIAF::Archive *() const;
     };
 

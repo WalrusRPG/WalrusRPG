@@ -24,12 +24,15 @@ ManagedArchive::operator Archive *() const
     return arc;
 }
 
-struct node
+namespace
 {
-    Archive *arc;
-    uint16_t refcount;
-};
-static unordered_map<const char *, node> files;
+    struct node
+    {
+        Archive *arc;
+        uint16_t refcount;
+    };
+    unordered_map<const char *, node> files;
+}
 
 void ResourceManager::init()
 {
@@ -37,6 +40,7 @@ void ResourceManager::init()
 
 void ResourceManager::deinit()
 {
+    // Pruning unloaded files and deleting still opened files.
     for (auto ptr = files.begin(), end = files.end(); ptr != end; ++ptr)
     {
         if (ptr->second.refcount == 0)
@@ -53,7 +57,7 @@ void ResourceManager::deinit()
 Archive *ResourceManager::require(const char *path)
 {
     auto entry = files.find(path);
-    // Not found? Open it.
+    // Not found? Open the file.
     if (entry == files.end())
     {
         log("Resource Manager : New : %s", path);
