@@ -65,7 +65,7 @@ void Textbox::set_text(char *new_text)
 
     buffer.clear();
     // Parsing the passed string into a token list.
-    // TODO?: Convert the vector into a dynamically allocated array?
+    // TODO : Convert the vector into a dynamically allocated array?
     for (signed i = 0; i < strlen_tokens(new_text); ++i)
     {
         TextboxChar t;

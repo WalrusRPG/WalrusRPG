@@ -15,19 +15,21 @@ using WalrusRPG::PIAF::Archive;
 using WalrusRPG::Graphics::Texture;
 using namespace WalrusRPG::Graphics;
 
+
 int main(int argc, char *argv[])
 {
     UNUSED(argc);
+    Graphics::init();
+    Logger::init();
     Logger::log("WalrusRPG Init");
     Logger::debug("This is a debug line");
     Logger::warn("Warning color!");
     Logger::error("/!\\This shouldn't have happened!");
     Status::init();
-    Graphics::init();
     Timing::init();
     Quirks::init(argv[0]);
-    Text::init();
 
+    Text::init();
     Archive arc("data/wip_data.wrf");
     Texture tex(arc.get("ov.png"));
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
@@ -62,13 +64,15 @@ int main(int argc, char *argv[])
 
     Logger::log("WalrusRPG Deinit");
     StateMachine::deinit();
+    Text::deinit();
+
     Quirks::deinit();
     Timing::deinit();
-    Graphics::deinit();
     Status::deinit();
     delete[] dungeonTest;
     delete[] dungeonTest2;
     Logger::log("WalrusRPG Exit");
+    Graphics::deinit();
 
     return 0;
 }

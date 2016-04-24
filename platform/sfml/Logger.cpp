@@ -54,6 +54,10 @@ namespace
 // NOTE : I really wish there would be a better way to handle these stupid va_lists. So
 // much redundant code...
 
+void Logger::init()
+{
+}
+
 void Logger::log(const char *fmt, ...)
 {
     prepare_buffer();
