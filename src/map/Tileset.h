@@ -18,7 +18,7 @@ namespace WalrusRPG
      |  |  |
      -------
     */
-    enum TilemapCollisionPartsFlag
+    enum TilesetCollisionPartsFlag
     {
         TOP_LEFT_CORNER = 1 << 0,
         TOP_RIGHT_CORNER = 1 << 1,
@@ -26,7 +26,7 @@ namespace WalrusRPG
         BOTTOM_RIGHT_CORNER = 1 << 3,
     };
 
-    class Tilemap
+    class Tileset
     {
       public:
         constexpr static int TILE_DIMENSION = 16;
@@ -43,9 +43,9 @@ namespace WalrusRPG
 
       public:
         // Tempoary generation for
-        Tilemap(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
+        Tileset(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
                 uint16_t nb_tiles);
-        ~Tilemap();
+        ~Tileset();
         const WalrusRPG::Graphics::Texture &get_texture() const;
         WalrusRPG::Utils::Rect get_tile(uint16_t id) const;
         uint8_t get_collision(uint16_t id) const;

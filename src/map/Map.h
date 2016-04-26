@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "Texture.h"
-#include "Tilemap.h"
+#include "Tileset.h"
 #include "piaf/Archive.h"
 #include "render/Camera.h"
 #include "render/TileRenderer.h"
@@ -30,7 +30,7 @@ namespace WalrusRPG
         uint16_t *layer1;
         // TODO?: add a boolean/getter to know if a second layer exist?
       public:
-        Tilemap tmap;
+        Tileset tmap;
 
         Map(int width, int height, uint16_t *layer0, uint16_t *layer1,
             WalrusRPG::Graphics::Texture &tex);
