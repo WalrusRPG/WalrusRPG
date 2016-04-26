@@ -34,18 +34,24 @@ namespace
         if (cdata == NULL)
         {
             Logger::error("Null pointer Exception");
+            #ifdef WRPG_EXCEPTIONS
             throw MapException("%s: Null pointer Exception", __FILE__);
+            #endif
         }
         if (datasize < 28)
         {
             Logger::error("File too small for header");
+            #ifdef WRPG_EXCEPTIONS
             throw MapException("%s: File too small for header", __FILE__);
+            #endif
         }
 
         if (strncmp(cdata, "WMap", 4))
         {
             Logger::error("Bad map header");
+            #ifdef WRPG_EXCEPTIONS
             throw MapException("%s: Bad map header", __FILE__);
+            #endif
         }
 
         expected_checksum = read_big_endian_value<uint32_t>(&cdata[4]);
@@ -53,7 +59,9 @@ namespace
         if (expected_checksum != real_checksum)
         {
             Logger::error("Bad chekcsum");
+            #ifdef WRPG_EXCEPTIONS
             throw MapException("%s: Bad chekcsum", __FILE__);
+            #endif
         }
 
         map_version = read_big_endian_value<uint32_t>(&cdata[8]);
@@ -64,7 +72,9 @@ namespace
         if (expected_data_size != real_data_size)
         {
             Logger::error("Bad data size");
+            #ifdef WRPG_EXCEPTIONS
             throw MapException("%s: Bad data size", __FILE__);
+            #endif
         }
 
         map_width = read_big_endian_value<uint16_t>(&cdata[16]);
@@ -74,14 +84,18 @@ namespace
         if (map_n_layers < 1 || map_n_layers > 2)
         {
             Logger::error("Wrong map layer number");
+            #ifdef WRPG_EXCEPTIONS
             throw MapException("%s: Wrong map layer number", __FILE__);
+            #endif
         }
 
         map_n_events = read_big_endian_value<uint16_t>(&cdata[22]);
         if (map_n_events != 0)
         {
             Logger::warn("Events not supported yet");
+            #ifdef WRPG_EXCEPTIONS
             throw MapException("%s: Events not supported yet", __FILE__);
+            #endif
         }
 
         map_compression = (MapCompression) read_big_endian_value<uint32_t>(&cdata[24]);
@@ -110,18 +124,20 @@ namespace
                 break;
             /* // NOT IMPLEMENTED YET //
             case RLE_PER_LAYER:
-            // TDOO
+            // TODO : RLE support for map
             break;
             case RLE_ALL_LAYERS:
             // TODO
             break;
             case ZLIB:
-            // TODO
+            // TODO : ZLIB support for map
             break;
             */
             default:
                 Logger::error("Wrong compression method");
+                #ifdef WRPG_EXCEPTIONS
                 throw MapException("%s: Wrong compression method", __FILE__);
+                #endif
                 break;
         }
     }

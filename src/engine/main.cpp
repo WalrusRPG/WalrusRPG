@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "StateMachine.h"
 #include "Timing.h"
 #include "Logger.h"
@@ -49,14 +50,44 @@ int main(int argc, char *argv[])
     */
     File f = arc.get("map.wrm");
     Map map(f, tex);
-    tinystl::vector<Frame> stripe21;
-    tinystl::vector<Frame> stripe22;
-    stripe21.push_back({21, 23});
-    stripe21.push_back({22, 31});
-    stripe22.push_back({22, 37});
-    stripe22.push_back({21, 41});
-    map.tmap.anim.add_animation(21, {stripe21, true, 0});
-    map.tmap.anim.add_animation(22, {stripe22, true, 0});
+    tinystl::vector<Frame> stripe80;
+    tinystl::vector<Frame> stripe126;
+
+    tinystl::vector<Frame> stripe205;
+    tinystl::vector<Frame> stripe221;
+    tinystl::vector<Frame> stripe237;
+    tinystl::vector<Frame> stripe253;
+    for (int i = 0; i < 15; i++)
+    {
+        static unsigned int frames[]{80, 81, 82, 96, 97, 98, 112, 113, 114};
+        stripe80.push_back({frames[rand() % 9], 10u + (rand() % 20u)});
+    }
+    stripe126.push_back({126, 15});
+    stripe126.push_back({127, 15});
+
+    stripe205.push_back({205, 10});
+    stripe205.push_back({206, 10});
+    stripe205.push_back({207, 10});
+
+    stripe221.push_back({221, 10});
+    stripe221.push_back({222, 10});
+    stripe221.push_back({223, 10});
+
+    stripe237.push_back({237, 10});
+    stripe237.push_back({238, 10});
+    stripe237.push_back({239, 10});
+
+    stripe253.push_back({253, 10});
+    stripe253.push_back({254, 10});
+    stripe253.push_back({255, 10});
+
+
+    map.tmap.anim.add_animation(80, {stripe80, true, 0});
+    map.tmap.anim.add_animation(126, {stripe126, true, 0});
+    map.tmap.anim.add_animation(205, {stripe205, true, 0});
+    map.tmap.anim.add_animation(221, {stripe221, true, 0});
+    map.tmap.anim.add_animation(237, {stripe237, true, 0});
+    map.tmap.anim.add_animation(253, {stripe253, true, 0});
 
     StateMachine::init();
     StateMachine::push(new States::StateMap(0, 0, map));
