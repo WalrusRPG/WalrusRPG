@@ -3,6 +3,7 @@
 #include "Timing.h"
 #include "platform.h"
 #include "Graphics.h"
+#include "Status.h"
 #include "render/Text.h"
 #include "version.h"
 #include "input/Input.h"
@@ -99,8 +100,9 @@ void StateMachine::run()
 
     // TODO : Better way to handle FPS while not breaking anything. There are some issues
     // if the update loop takes too much time.
-    while (!stack.empty())
+    while (!stack.empty() && !Status::mustQuit())
     {
+        Status::update();
         update_stamp = Timing::gettime();
         update_time = update_stamp - last_update;
         Input::key_poll();
@@ -125,14 +127,6 @@ void StateMachine::run()
             // TODO : use a boolean to show/hide and to avoid that frigging wanring.
             // draw_buttons();
             Graphics::frame_end();
-        }
-
-        // TODO : better exit handling.
-        if (Input::key_pressed(Key::K_SELECT))
-        {
-            while (Input::key_down(Key::K_SELECT))
-                Input::key_poll();
-            StateMachine::pop();
         }
 
 #ifdef ACTIVE_WAIT

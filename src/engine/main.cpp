@@ -4,6 +4,7 @@
 #include "render/Text.h"
 #include "Graphics.h"
 #include "Quirks.h"
+#include "Status.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
@@ -14,15 +15,18 @@ using WalrusRPG::PIAF::Archive;
 using WalrusRPG::Graphics::Texture;
 using namespace WalrusRPG::Graphics;
 
+
 int main(int argc, char *argv[])
 {
     UNUSED(argc);
-    Logger::log("WalrusRPG Init");
     Graphics::init();
+    Logger::init();
+    Logger::log("WalrusRPG Init");
+    Status::init();
     Timing::init();
     Quirks::init(argv[0]);
-    Text::init();
 
+    Text::init();
     Archive arc("data/wip_data.wrf");
     Texture tex(arc.get("ov.png"));
     WalrusRPG::PIAF::File f1 = arc.get("l1.bin");
@@ -57,12 +61,16 @@ int main(int argc, char *argv[])
 
     Logger::log("WalrusRPG Deinit");
     StateMachine::deinit();
+    Text::deinit();
+
     Quirks::deinit();
     Timing::deinit();
     Graphics::deinit();
+    Status::deinit();
     delete[] dungeonTest;
     delete[] dungeonTest2;
     Logger::log("WalrusRPG Exit");
+    Graphics::deinit();
 
     return 0;
 }
