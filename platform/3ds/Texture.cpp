@@ -15,7 +15,7 @@ using WalrusRPG::Utils::Rect;
 
 #include "Logger.h"
 
-Texture::Texture(char *data) : data()
+Texture::Texture(char *data = nullptr) : data()
 {
     uint16_t *data_16 = (uint16_t *) data;
     this->data =

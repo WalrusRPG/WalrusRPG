@@ -147,10 +147,10 @@ namespace
 Map::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
     : width(width), height(height), layer0(layer0), layer1(layer1), tmap(tex, nullptr, 0)
 {
-    Logger::warn("No correct support of tilemap collision now");
+    Logger::warn("Deprecated");
 }
 
-Map::Map(File &map_data, Texture &tex) : tmap(tex, nullptr, 0)
+Map::Map(File &map_data, File &tmap_data, Texture &tex) : tmap(tmap_data, tex)
 {
     Logger::warn("No correct support of tilemap collision now");
     load_map((void *) map_data.get(), map_data.file_size, width, height, layer0, layer1);
@@ -159,6 +159,7 @@ Map::Map(File &map_data, Texture &tex) : tmap(tex, nullptr, 0)
 
 Map::~Map()
 {
+    Logger::debug("Hello");
 }
 
 void Map::update(unsigned dt)

@@ -2,6 +2,7 @@
 #define INCLUDE_TILEMAP_H
 
 #include "Texture.h"
+#include "piaf/Archive.h"
 #include "utility/Rect.h"
 #include "render/Animator.h"
 
@@ -10,7 +11,9 @@ namespace WalrusRPG
     /**
      This enum stores flags to enable square quadrants in a tile's hitbox.
      Note : Check collision branch to see why.
-     -------
+     -------        Tileset(WalrusRPG::PIAF::File &tset_data, WalrusRPG::Graphics::Texture
+     &tex);
+
      |  |  |
      | 1|2 |
      |--|--|
@@ -26,10 +29,17 @@ namespace WalrusRPG
         BOTTOM_RIGHT_CORNER = 1 << 3,
     };
 
+    struct Tilechip
+    {
+        uint8_t collision_mask;
+    };
+
     class Tileset
     {
       public:
         constexpr static int TILE_DIMENSION = 16;
+        constexpr static int TILESET_HEADER_SIZE = 24;
+        constexpr static int TILESET_CHIP_DATA_SIZE = 4;
         Animator anim;
 
       protected:
@@ -38,19 +48,33 @@ namespace WalrusRPG
         uint16_t nb_tiles;
         // Precalculated for faster access.
         uint16_t nb_tile_width, nb_tile_height;
-        uint8_t *collision_masks;
+        Tilechip *chips;
 
 
       public:
         // Tempoary generation for
         Tileset(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
                 uint16_t nb_tiles);
+        Tileset(WalrusRPG::PIAF::File &tset_data, WalrusRPG::Graphics::Texture &tex);
         ~Tileset();
+
         const WalrusRPG::Graphics::Texture &get_texture() const;
         WalrusRPG::Utils::Rect get_tile(uint16_t id) const;
         uint8_t get_collision(uint16_t id) const;
         void render_tile(uint16_t id, int x, int y) const;
         void render_collision_mask(uint16_t id, int x, int y) const;
+    };
+
+    class TilesetException : public std::exception
+    {
+      private:
+        char msg[1024];
+
+      public:
+        TilesetException(const char *format, ...);
+        virtual ~TilesetException();
+
+        const char *what() const throw();
     };
 }
 #endif

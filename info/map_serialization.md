@@ -107,7 +107,7 @@ Map load_map(void* data, uint32_t datasize) throw MapLoadException {
 # Tileset Serialization
 
 ```markdown
-SET_MAGIC_HEADER     : 'WTST'          <=> 4 bytes
+SET_MAGIC_HEADER     : 'WTst'          <=> 4 bytes
 SET_HEADER_CHECKSUM  : unsigned int    <=> 4 bytes
 SET_VERSION          : unsigned int    <=> 4 bytes
 SET_SHEET_FILENAME   : char[8]         <=> 8 bytes
@@ -138,19 +138,19 @@ Tilemap load_tilemap(void* data, uint32_t datasize) {
   Tilechip *chips;
 
   char* cdata = (char*) data;
-  if(cdata == NULL) throw NPE(); // Null Pointer Exception
+  if(cdata == NULL) throw TLE(); // Null Pointer Exception
 
   if (datasize < 24)
   {
-    throw MLE("File too small for header.");
+    throw TLE("File too small for header.");
   }
-  if(strncmp(cdata, "WTST", 4)) throw MLE("Bad map header.");
+  if(strncmp(cdata, "WTST", 4)) throw TLE("Bad map header.");
 
   expected_checksum = read_big_endian_value<uint32_t>(&cdata[4]);
   real_checksum = crc32(0L, &cdata[8], 16);
   if(expected_checksum != real_checksum)
   {
-    throw MLE("Bad checksum");
+    throw TLE("Bad checksum");
   }
 
   version = read_big_endian_value<uint32_t>(&cdata[8]);

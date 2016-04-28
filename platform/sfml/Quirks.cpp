@@ -15,7 +15,7 @@ void Quirks::init(const char *argv_0)
 
 void Quirks::deinit()
 {
-    Logger::log("Graphics deinit");
+    Logger::log("Quirks deinit");
 }
 
 std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)
