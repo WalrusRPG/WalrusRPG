@@ -26,7 +26,7 @@ namespace
         {
             Logger::error("WTst : NPE"); // Null Pointer Exception
 #ifdef WRPG_EXCEPTIONS
-            throw TilesetException("WTst : NPE"); // Null Pointer Exception
+            throw TilesetException("%s : Null Pointer Exception", __FILE__); // Null Pointer Exception
 #endif
         }
 
@@ -34,14 +34,14 @@ namespace
         {
             Logger::error("File too small for header.");
 #ifdef WRPG_EXCEPTIONS
-            throw TilesetException("File too small for header.");
+            throw TilesetException("%s, File too small for header.", __FILE__);
 #endif
         }
         if (strncmp(cdata, "WTst", 4))
         {
             Logger::error("Bad tileset header. : %4s", cdata);
 #ifdef WRPG_EXCEPTIONS
-            throw TilesetException("Bad tileset header.");
+            throw TilesetException("%s, Bad tileset header.", __FILE__);
 #endif
         }
 
@@ -51,7 +51,7 @@ namespace
         {
             Logger::error("Bad checksum");
 #ifdef WRPG_EXCEPTIONS
-            throw TilesetException("Bad checksum");
+            throw TilesetException("%s, Bad checksum", __FILE__);
 #endif
         }
         set_version = read_big_endian_value<uint32_t>(&cdata[8]);
