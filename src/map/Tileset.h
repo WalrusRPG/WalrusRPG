@@ -39,7 +39,7 @@ namespace WalrusRPG
       public:
         constexpr static int TILE_DIMENSION = 16;
         constexpr static int TILESET_HEADER_SIZE = 24;
-        constexpr static int TILESET_CHIP_DATA_SIZE = 4;
+        constexpr static int TILESET_CHIP_DATA_SIZE = 1;
         Animator anim;
 
       protected:

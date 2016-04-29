@@ -7,7 +7,7 @@
   <image source="complete_spritesheet.png" width="256" height="256"/>
   <tile id="0">
    <properties>
-    <property name="collision_mask" type="int" value="16"/>
+    <property name="collision_mask" type="int" value="15"/>
    </properties>
   </tile>
   <tile id="8">

@@ -152,14 +152,12 @@ Map::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex
 
 Map::Map(File &map_data, File &tmap_data, Texture &tex) : tmap(tmap_data, tex)
 {
-    Logger::warn("No correct support of tilemap collision now");
     load_map((void *) map_data.get(), map_data.file_size, width, height, layer0, layer1);
 }
 
 
 Map::~Map()
 {
-    Logger::debug("Hello");
 }
 
 void Map::update(unsigned dt)
@@ -197,6 +195,8 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
             else
                 tile_over = 0;
             tmap.render_tile(tile_over, offset_x + i * t_width, offset_y + j * t_height);
+            // tmap.render_collision_mask(tile_over, offset_x + i * t_width, offset_y + j
+            // * t_height);
 
             // layer1 : Over-layer
             if (this->layer1 == nullptr)
@@ -207,8 +207,12 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
             else
                 tile_over = 0;
             if (tile_over != 0)
+            {
                 tmap.render_tile(tile_over, offset_x + i * t_width,
                                  offset_y + j * t_height);
+                // tmap.render_collision_mask(tile_over, offset_x + i * t_width, offset_y
+                // + j * t_height);
+            }
         }
     }
 }
