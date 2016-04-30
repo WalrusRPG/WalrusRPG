@@ -11,7 +11,7 @@ CFLAGS_COMMON += -DTARGET_SFML=1 -DWRPG_EXCEPTIONS=1
 CC = gcc
 CPP = g++
 
-EXE = $(OUT)/$(NAME)
+EXE = $(OUT)/$(NAME).exe
 
 $(EXE): $(ELF)
 	@cp $(ELF) $(EXE)
