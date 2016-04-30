@@ -40,7 +40,7 @@ void ResourceManager::init()
 
 void ResourceManager::deinit()
 {
-    // Pruning unloaded files and deleting still opened files.
+    // Pruning unloaded files and unloading files which are still open.
     for (auto ptr = files.begin(), end = files.end(); ptr != end; ++ptr)
     {
         if (ptr->second.refcount == 0)
