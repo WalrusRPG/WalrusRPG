@@ -11,9 +11,7 @@ namespace WalrusRPG
     /**
      This enum stores flags to enable square quadrants in a tile's hitbox.
      Note : Check collision branch to see why.
-     -------        Tileset(WalrusRPG::PIAF::File &tset_data, WalrusRPG::Graphics::Texture
-     &tex);
-
+     -------
      |  |  |
      | 1|2 |
      |--|--|

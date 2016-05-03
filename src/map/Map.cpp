@@ -187,7 +187,6 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
 
     // rendering part.
     Rect r = tmap.get_texture().get_dimensions();
-    put_sprite(tmap.get_texture(), 0, 0, {0, 0, r.width, r.height});
     for (signed j = 0; j < delta_y; j++)
     {
         for (signed i = 0; i < delta_x; i++)
