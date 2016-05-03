@@ -56,6 +56,8 @@ namespace WalrusRPG
         Tileset(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
                 uint16_t nb_tiles);
         Tileset(WalrusRPG::PIAF::File &tset_data, WalrusRPG::Graphics::Texture &tex);
+        // Small thing to allow Map to init it directly from its consturctor.
+        Tileset(WalrusRPG::PIAF::File &&tset_data, WalrusRPG::Graphics::Texture &&tex);
         ~Tileset();
 
         const WalrusRPG::Graphics::Texture &get_texture() const;

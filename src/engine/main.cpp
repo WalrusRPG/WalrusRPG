@@ -30,11 +30,7 @@ int main(int argc, char *argv[])
 
     Text::init();
     Archive arc("data/wip_data.wrf");
-    Texture tex(arc.get("castle.png"));
-
-    File f = arc.get("map.wrm");
-    File f2 = arc.get("set.wts");
-    Map map(f, f2, tex);
+    Map map(arc, "map.wrm", "set.wts", "castle.png");
     tinystl::vector<Frame> stripe80;
     tinystl::vector<Frame> stripe126;
 

@@ -150,11 +150,20 @@ Map::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex
     Logger::warn("Deprecated");
 }
 
+
+Map::Map(Archive &data_container, const char *map_filename, const char *tset_filename,
+         const char *tex_filename)
+    : tmap(data_container.get(tset_filename), data_container.get(tex_filename))
+{
+    File map_file = data_container.get(map_filename);
+    load_map((void *) map_file.get(), map_file.file_size, width, height, layer0, layer1);
+}
+/*
 Map::Map(File &map_data, File &tmap_data, Texture &tex) : tmap(tmap_data, tex)
 {
+    // WalrusRPG::PIAF::File &map_data, WalrusRPG::PIAF::File &tmap_data,
     load_map((void *) map_data.get(), map_data.file_size, width, height, layer0, layer1);
-}
-
+}*/
 
 Map::~Map()
 {

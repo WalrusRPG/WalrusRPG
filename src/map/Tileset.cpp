@@ -26,7 +26,8 @@ namespace
         {
             Logger::error("WTst : NPE"); // Null Pointer Exception
 #ifdef WRPG_EXCEPTIONS
-            throw TilesetException("%s : Null Pointer Exception", __FILE__); // Null Pointer Exception
+            throw TilesetException("%s : Null Pointer Exception",
+                                   __FILE__); // Null Pointer Exception
 #endif
         }
 
@@ -63,7 +64,6 @@ namespace
         // memcpy(sheet_filename, &cdata[12], sizeof(unsigned char) * 8);
         set_sprite_size = read_big_endian_value<uint32_t>(&cdata[20]);
         nb_tiles = read_big_endian_value<uint16_t>(&cdata[22]);
-        Logger::log("nb_tiles : %d", nb_tiles);
         chips = new Tilechip[nb_tiles];
 
         for (int i = 0; i < nb_tiles; i++)
@@ -88,6 +88,9 @@ Tileset::Tileset(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
     nb_tile_height = tex.get_dimensions().height / TILE_DIMENSION;
 }
 
+Tileset::Tileset(File &&tset_data, Texture &&tex) : Tileset::Tileset(tset_data, tex)
+{
+}
 Tileset::Tileset(File &tset_data, Texture &tex) : anim(), tex(tex), chips(nullptr)
 {
     nb_tile_width = tex.get_dimensions().width / TILE_DIMENSION;
