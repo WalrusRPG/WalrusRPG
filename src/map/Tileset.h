@@ -55,12 +55,12 @@ namespace WalrusRPG
         // Tempoary generation for
         Tileset(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
                 uint16_t nb_tiles);
-        Tileset(WalrusRPG::PIAF::File &tset_data, WalrusRPG::Graphics::Texture &tex);
+        Tileset(WalrusRPG::PIAF::File &tset_data, WalrusRPG::PIAF::File &tex_file);
         // Small thing to allow Map to init it directly from its consturctor.
-        Tileset(WalrusRPG::PIAF::File &&tset_data, WalrusRPG::Graphics::Texture &&tex);
+        Tileset(WalrusRPG::PIAF::File &&tset_data, WalrusRPG::PIAF::File &&tex_file);
         ~Tileset();
 
-        const WalrusRPG::Graphics::Texture &get_texture() const;
+        WalrusRPG::Graphics::Texture &get_texture();
         WalrusRPG::Utils::Rect get_tile(uint16_t id) const;
         uint8_t get_collision(uint16_t id) const;
         void render_tile(uint16_t id, int x, int y) const;

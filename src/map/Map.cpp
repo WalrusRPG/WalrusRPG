@@ -158,12 +158,6 @@ Map::Map(Archive &data_container, const char *map_filename, const char *tset_fil
     File map_file = data_container.get(map_filename);
     load_map((void *) map_file.get(), map_file.file_size, width, height, layer0, layer1);
 }
-/*
-Map::Map(File &map_data, File &tmap_data, Texture &tex) : tmap(tmap_data, tex)
-{
-    // WalrusRPG::PIAF::File &map_data, WalrusRPG::PIAF::File &tmap_data,
-    load_map((void *) map_data.get(), map_data.file_size, width, height, layer0, layer1);
-}*/
 
 Map::~Map()
 {
@@ -192,6 +186,8 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
     signed delta_y = 240 / t_height + 1;
 
     // rendering part.
+    Rect r = tmap.get_texture().get_dimensions();
+    put_sprite(tmap.get_texture(), 0, 0, {0, 0, r.width, r.height});
     for (signed j = 0; j < delta_y; j++)
     {
         for (signed i = 0; i < delta_x; i++)

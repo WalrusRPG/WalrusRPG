@@ -88,10 +88,11 @@ Tileset::Tileset(WalrusRPG::Graphics::Texture &tex, uint8_t *collision_masks,
     nb_tile_height = tex.get_dimensions().height / TILE_DIMENSION;
 }
 
-Tileset::Tileset(File &&tset_data, Texture &&tex) : Tileset::Tileset(tset_data, tex)
+Tileset::Tileset(File &&tset_data, File &&tex_file)
+    : Tileset::Tileset(tset_data, tex_file)
 {
 }
-Tileset::Tileset(File &tset_data, Texture &tex) : anim(), tex(tex), chips(nullptr)
+Tileset::Tileset(File &tset_data, File &tex_file) : anim(), tex(tex_file), chips(nullptr)
 {
     nb_tile_width = tex.get_dimensions().width / TILE_DIMENSION;
     nb_tile_height = tex.get_dimensions().height / TILE_DIMENSION;
@@ -103,7 +104,7 @@ Tileset::~Tileset()
     delete[] this->chips;
 }
 
-const Texture &Tileset::get_texture() const
+Texture &Tileset::get_texture()
 {
     return tex;
 }
