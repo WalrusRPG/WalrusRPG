@@ -22,8 +22,6 @@ namespace WalrusRPG
     class Map
     {
       protected:
-        // <Tiles> data;
-        // <Tileset> tileset;
         uint16_t width;
         uint16_t height;
         uint16_t *layer0;

@@ -186,7 +186,6 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
     signed delta_y = 240 / t_height + 1;
 
     // rendering part.
-    Rect r = tmap.get_texture().get_dimensions();
     for (signed j = 0; j < delta_y; j++)
     {
         for (signed i = 0; i < delta_x; i++)
