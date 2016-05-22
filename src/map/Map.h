@@ -19,6 +19,10 @@ namespace WalrusRPG
         ZLIB,
     };
 
+    constexpr unsigned MAP_VERSION = 0x00010000;
+
+    // TODO : Add tile animations.
+    // TODO : Implement compressed data loading routines
     class Map
     {
       protected:
