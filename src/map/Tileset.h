@@ -21,10 +21,10 @@ namespace WalrusRPG
     */
     enum TilesetCollisionPartsFlag
     {
-        TOP_LEFT_CORNER = 1 << 0,
-        TOP_RIGHT_CORNER = 1 << 1,
-        BOTTOM_LEFT_CORNER = 1 << 2,
-        BOTTOM_RIGHT_CORNER = 1 << 3,
+        TOP_LEFT_CORNER = 0b0001,
+        TOP_RIGHT_CORNER = 0b0010,
+        BOTTOM_LEFT_CORNER = 0b0100,
+        BOTTOM_RIGHT_CORNER = 0b1000,
     };
 
     struct Tilechip
@@ -36,6 +36,7 @@ namespace WalrusRPG
     {
       public:
         constexpr static int TILE_DIMENSION = 16;
+        constexpr static int TILE_HALF_DIMENSION = TILE_DIMENSION / 2;
         constexpr static int TILESET_HEADER_SIZE = 24;
         constexpr static int TILESET_CHIP_DATA_SIZE = 1;
         Animator anim;

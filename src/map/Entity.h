@@ -16,12 +16,21 @@ namespace WalrusRPG
     class Entity
     {
       protected:
-        WalrusRPG::Utils::Rect coords;
-        WalrusRPG::Renderer *tset;
         unsigned sprite_id;
 
+
       public:
-        Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
+        WalrusRPG::Renderer *tset;
+        // position of top-left corner
+        float x, y;
+
+        // dimensions
+        unsigned w, h;
+
+        // velocity
+        float vx, vy;
+
+        Entity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
                unsigned sprite_id);
         ~Entity();
         void render(Camera &camera, unsigned dt) const;

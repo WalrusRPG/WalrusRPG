@@ -41,6 +41,7 @@ namespace WalrusRPG
         bool is_pixel_solid(int x, int y) const;
         int get_width() const;
         int get_height() const;
+        bool object_collision(WalrusRPG::Utils::Rect object);
     };
 
 

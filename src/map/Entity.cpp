@@ -5,25 +5,25 @@
 using WalrusRPG::Entity;
 using namespace WalrusRPG::Utils;
 
-Entity::Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
+Entity::Entity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
                unsigned sprite_id)
-    : coords(x, y, w, h), tset(tset), sprite_id(sprite_id)
+    : x(x), y(y), w(w), h(h), tset(tset), sprite_id(sprite_id)
 {
 }
 
 Entity::~Entity()
 {
-    // TODO if you allocate dynamically members
+    delete tset;
 }
 
 void Entity::render(Camera &camera, unsigned dt) const
 {
     UNUSED(dt);
-
-    if (camera.is_visible(coords))
+    if (tset == nullptr)
+        return;
+    if (camera.is_visible({(int) x, (int) y, w, h}))
     {
-        tset->render(sprite_id,
-                     Rect(coords.x - camera.get_x(), coords.y - camera.get_y()));
+        tset->render(sprite_id, Rect(x - camera.get_x(), y - camera.get_y()));
         //(*tset).render_tile(sprite_id, coords.x - camera.get_x(), coords.y -
         // camera.get_y(), dt);
     }

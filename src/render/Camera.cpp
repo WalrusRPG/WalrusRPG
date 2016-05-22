@@ -27,14 +27,14 @@ void Camera::update(unsigned dt)
                 velocity += acceleration * dt;
          */
 
-    if (Input::key_down(Key::K_DOWN))
-        y++;
-    if (Input::key_down(Key::K_UP))
-        y--;
-    if (Input::key_down(Key::K_RIGHT))
-        x++;
-    if (Input::key_down(Key::K_LEFT))
-        x--;
+    // if (Input::key_down(Key::K_DOWN))
+    //     y++;
+    // if (Input::key_down(Key::K_UP))
+    //     y--;
+    // if (Input::key_down(Key::K_RIGHT))
+    //     x++;
+    // if (Input::key_down(Key::K_LEFT))
+    //     x--;
 }
 
 void Camera::set_x(signed x)

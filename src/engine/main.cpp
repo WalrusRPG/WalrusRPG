@@ -10,7 +10,6 @@
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
 #include "utility/misc.h"
-#include "StateCollision.h"
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;
@@ -72,8 +71,7 @@ int main(int argc, char *argv[])
     map.tmap.anim.add_animation(253, {stripe253, true, 0});
 
     StateMachine::init();
-    // StateMachine::push(new States::StateMap(0, 0, map));
-    StateMachine::push(new States::StateCollision());
+    StateMachine::push(new States::StateMap(0, 0, map));
     StateMachine::run();
 
     Logger::log("WalrusRPG Deinit");

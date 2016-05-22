@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "render/Font.h"
 #include "textbox/Textbox.h"
+#include "Entity.h"
 
 namespace WalrusRPG
 {
@@ -21,6 +22,7 @@ namespace WalrusRPG
             WalrusRPG::Graphics::Texture tex_haeccity;
             WalrusRPG::Graphics::Font txt;
             WalrusRPG::Textbox box;
+            WalrusRPG::Entity p;
 
           public:
             StateMap(int x, int y, Map &map);

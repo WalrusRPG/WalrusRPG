@@ -6,6 +6,7 @@
 #include "Graphics.h"
 #include "Logger.h"
 #include "utility/Rect.h"
+#include "collision/Collision.h"
 #include "utility/misc.h"
 #include "piaf/Archive.h"
 
@@ -198,8 +199,8 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
             else
                 tile_over = 0;
             tmap.render_tile(tile_over, offset_x + i * t_width, offset_y + j * t_height);
-            // tmap.render_collision_mask(tile_over, offset_x + i * t_width, offset_y + j
-            // * t_height);
+            // tmap.render_collision_mask(tile_over, offset_x + i * t_width,
+            //                            offset_y + j * t_height);
 
             // layer1 : Over-layer
             if (this->layer1 == nullptr)
@@ -213,8 +214,8 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
             {
                 tmap.render_tile(tile_over, offset_x + i * t_width,
                                  offset_y + j * t_height);
-                // tmap.render_collision_mask(tile_over, offset_x + i * t_width, offset_y
-                // + j * t_height);
+                // tmap.render_collision_mask(tile_over, offset_x + i * t_width,
+                //    offset_y + j * t_height);
             }
         }
     }
@@ -240,4 +241,93 @@ int Map::get_width() const
 int Map::get_height() const
 {
     return this->width;
+}
+
+bool Map::object_collision(Rect object)
+{
+    int left_tile = object.x / Tileset::TILE_DIMENSION;
+    int right_tile = (object.x + object.width - 1) / Tileset::TILE_DIMENSION;
+    int top_tile = object.y / Tileset::TILE_DIMENSION;
+    int bottom_tile = (object.y + object.height - 1) / Tileset::TILE_DIMENSION;
+
+    if (left_tile < 0)
+        left_tile = 0;
+    if (right_tile >= width)
+        right_tile = width - 1;
+    if (top_tile < 0)
+        top_tile = 0;
+    if (bottom_tile >= height)
+        bottom_tile = height - 1;
+
+    for (int i = left_tile; i <= right_tile; i++)
+    {
+        for (int j = top_tile; j <= bottom_tile; j++)
+        {
+            char t = tmap.get_collision(layer0[j * width + i]);
+            if (t)
+            {
+                if ((t & TOP_LEFT_CORNER) &&
+                    AABBCheck(object,
+                              {Tileset::TILE_DIMENSION * i, Tileset::TILE_DIMENSION * j,
+                               Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+                if ((t & TOP_RIGHT_CORNER) &&
+                    AABBCheck(
+                        object,
+                        Rect{Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
+                             Tileset::TILE_DIMENSION * j, Tileset::TILE_HALF_DIMENSION,
+                             Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+                if ((t & BOTTOM_LEFT_CORNER) &&
+                    AABBCheck(object,
+                              {Tileset::TILE_DIMENSION * i,
+                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+                if ((t & BOTTOM_RIGHT_CORNER) &&
+                    AABBCheck(object,
+                              {Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+            }
+            if (layer1[j * width + i] == 0)
+                continue;
+            t = tmap.get_collision(layer1[j * width + i]);
+            if (t)
+            {
+                if ((t & TOP_LEFT_CORNER) &&
+                    AABBCheck(object,
+                              {Tileset::TILE_DIMENSION * i, Tileset::TILE_DIMENSION * j,
+                               Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+                if ((t & TOP_RIGHT_CORNER) &&
+                    AABBCheck(
+                        object,
+                        Rect{Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
+                             Tileset::TILE_DIMENSION * j, Tileset::TILE_HALF_DIMENSION,
+                             Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+                if ((t & BOTTOM_LEFT_CORNER) &&
+                    AABBCheck(object,
+                              {Tileset::TILE_DIMENSION * i,
+                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+                if ((t & BOTTOM_RIGHT_CORNER) &&
+                    AABBCheck(object,
+                              {Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION,
+                               Tileset::TILE_HALF_DIMENSION}))
+                    return true;
+            }
+        }
+    }
+    return false;
 }
