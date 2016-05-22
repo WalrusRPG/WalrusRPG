@@ -66,7 +66,13 @@ namespace
         }
 
         map_version = read_big_endian_value<uint32_t>(&cdata[8]);
-        // TODO : version check
+        if(map_version != MAP_VERSION)
+        {
+            Logger::error("Bad map version");
+#ifdef WRPG_EXCEPTIONS
+            throw MapException("%s: Bad map version (0x%x != 0x%x)", __FILE__, map_version, MAP_VERSION);
+#endif
+        }
 
         expected_data_size = read_big_endian_value<uint32_t>(&cdata[12]);
         real_data_size = datasize - 28;
