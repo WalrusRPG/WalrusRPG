@@ -1,7 +1,8 @@
 #include "Map.h"
+#include <zlib.h>
 #include <cstdio>
 #include <cstring>
-#include <zlib.h>
+#include <cmath>
 #include "render/TileRenderer.h"
 #include "Graphics.h"
 #include "Logger.h"
@@ -10,6 +11,7 @@
 #include "utility/misc.h"
 #include "piaf/Archive.h"
 
+using WalrusRPG::Entity;
 using WalrusRPG::Map;
 using WalrusRPG::MapCompression;
 using WalrusRPG::MapException;
@@ -17,6 +19,7 @@ using namespace WalrusRPG;
 using namespace WalrusRPG::Utils;
 using namespace WalrusRPG::PIAF;
 using WalrusRPG::Graphics::Texture;
+using tinystl::vector;
 
 // Graphics::Texture tex_overworld((char *) overworld);
 namespace
@@ -66,11 +69,12 @@ namespace
         }
 
         map_version = read_big_endian_value<uint32_t>(&cdata[8]);
-        if(map_version != MAP_VERSION)
+        if (map_version != MAP_VERSION)
         {
             Logger::error("Bad map version");
 #ifdef WRPG_EXCEPTIONS
-            throw MapException("%s: Bad map version (0x%x != 0x%x)", __FILE__, map_version, MAP_VERSION);
+            throw MapException("%s: Bad map version (0x%x != 0x%x)", __FILE__,
+                               map_version, MAP_VERSION);
 #endif
         }
 
@@ -174,11 +178,52 @@ void Map::update(unsigned dt)
 {
     // TODO update map's data according to elasped time
     tmap.anim.update(dt);
+    for (vector<Entity *>::iterator ptr = entities.begin(); ptr < entities.end(); ++ptr)
+    {
+        Entity *e = *ptr;
+        e->update(dt);
+
+        // TODO : move this logic into entity's code.
+        float x_sigma = e->vx < 0. ? -1. : 1.;
+        float vx = 0.;
+        while (vx != e->vx)
+        {
+            float add = (std::fabs(vx + x_sigma) > std::fabs(e->vx)) ?
+                            (x_sigma * std::fabs(e->vx - vx)) :
+                            x_sigma;
+            if (object_collision({(int) (e->x + vx + add),
+                                  (int) e->y + Tileset::TILE_DIMENSION - 4, e->w, e->h}))
+                break;
+            vx += add;
+        }
+        e->x += vx;
+
+        float y_sigma = e->vy < 0. ? -1. : 1.;
+        float vy = 0;
+        while (vy != e->vy)
+        {
+            float add = (std::fabs(vy + y_sigma) > std::fabs(e->vy)) ?
+                            (y_sigma * std::fabs(e->vy - vy)) :
+                            y_sigma;
+            if (object_collision({(int) e->x,
+                                  (int) (e->y + vy + add + Tileset::TILE_DIMENSION - 4),
+                                  e->w, e->h}))
+                break;
+            vy += add;
+        }
+        e->y += vy;
+    }
+
+    std::sort(entities.begin(), entities.end(), [](Entity *a, Entity *b)
+              {
+                  return a->y < b->y;
+              });
 }
 
-void Map::render(WalrusRPG::Camera &camera, unsigned dt)
+void Map::render_lower_layer(WalrusRPG::Camera &camera, unsigned dt)
 {
-    UNUSED(dt);
+    if (this->layer0 == nullptr)
+        return;
     signed t_width = tmap.TILE_DIMENSION;
     signed t_height = tmap.TILE_DIMENSION;
 
@@ -207,10 +252,36 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
             tmap.render_tile(tile_over, offset_x + i * t_width, offset_y + j * t_height);
             // tmap.render_collision_mask(tile_over, offset_x + i * t_width,
             //                            offset_y + j * t_height);
+        }
+    }
+}
 
+void Map::render_upper_layer(WalrusRPG::Camera &camera, unsigned dt)
+{
+    if (this->layer1 == nullptr)
+        return;
+
+    signed t_width = tmap.TILE_DIMENSION;
+    signed t_height = tmap.TILE_DIMENSION;
+
+    // Substractions here because we want to always round down when dividing
+    signed offset_x = camera.get_x() % t_width * -1 - (camera.get_x() < 0) * t_width;
+    signed offset_y = camera.get_y() % t_height * -1 - (camera.get_y() < 0) * t_height;
+    signed start_x = camera.get_x() / t_width - (camera.get_x() < 0);
+    signed start_y = camera.get_y() / t_height - (camera.get_y() < 0);
+
+    // pre-calculating variables to speed up loop condition check
+    signed delta_x = 320 / t_width + 1;
+    signed delta_y = 240 / t_height + 1;
+
+    // rendering part.
+    for (signed j = 0; j < delta_y; j++)
+    {
+        for (signed i = 0; i < delta_x; i++)
+        {
+            int index, tile_over;
+            index = (start_x + i) + (start_y + j) * this->width;
             // layer1 : Over-layer
-            if (this->layer1 == nullptr)
-                continue;
             if (in_range(start_x + i, 0, (signed) width) &&
                 in_range(start_y + j, 0, (signed) height))
                 tile_over = this->layer1[index];
@@ -226,6 +297,20 @@ void Map::render(WalrusRPG::Camera &camera, unsigned dt)
         }
     }
 }
+
+void Map::render(WalrusRPG::Camera &camera, unsigned dt)
+{
+    render_lower_layer(camera, dt);
+    for (auto it = entities.begin(); it < entities.end(); it++)
+        (*it)->render(camera, dt);
+    render_upper_layer(camera, dt);
+}
+
+void Map::add_entity(Entity *entity)
+{
+    entities.push_back(entity);
+}
+
 
 bool Map::is_tile_solid(int x, int y) const
 {

@@ -32,9 +32,9 @@ namespace WalrusRPG
 
         Entity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
                unsigned sprite_id);
-        ~Entity();
-        void render(Camera &camera, unsigned dt) const;
-        void update(unsigned dt);
+        virtual ~Entity();
+        virtual void render(Camera &camera, unsigned dt) const;
+        virtual void update(unsigned dt);
     };
 }
 
