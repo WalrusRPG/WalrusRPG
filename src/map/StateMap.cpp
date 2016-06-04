@@ -42,10 +42,10 @@ namespace
 StateMap::StateMap(int x, int y, Map &map)
     : started(false), camera(x, y), map(map), data("data/wip_data.wrf"),
       tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci")),
-      box(txt), p(32, 40, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION,
-                  new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
-                                   Tileset::TILE_DIMENSION),
-                  128)
+      box(txt),
+      p(32, 40, 10, 4, new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
+                                        Tileset::TILE_DIMENSION),
+        128)
 {
     box.set_text((
         char *) "Hello world! I am "

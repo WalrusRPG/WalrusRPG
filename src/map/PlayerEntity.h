@@ -13,6 +13,7 @@ namespace WalrusRPG
                      unsigned sprite_id);
         ~PlayerEntity();
         void update(unsigned dt) override;
+        virtual void render(Camera &camera, unsigned dt) const override;
     };
 }
 #endif
