@@ -5,6 +5,11 @@
  </properties>
  <tileset firstgid="1" name="complete_spritesheet" tilewidth="16" tileheight="16" tilecount="256" columns="16">
   <image source="complete_spritesheet.png" width="256" height="256"/>
+  <tile id="0">
+   <properties>
+    <property name="collision_mask" type="int" value="15"/>
+   </properties>
+  </tile>
   <tile id="8">
    <properties>
     <property name="collision_mask" type="int" value="15"/>
@@ -30,6 +35,41 @@
   </tile>
   <tile id="18">
    <objectgroup draworder="index"/>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="collision_mask" type="int" value="15"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="collision_mask" type="int" value="12"/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="collision_mask" type="int" value="12"/>
+   </properties>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="collision_mask" type="int" value="15"/>
+   </properties>
+  </tile>
+  <tile id="106">
+   <properties>
+    <property name="collision_mask" type="int" value="15"/>
+   </properties>
+  </tile>
+  <tile id="107">
+   <properties>
+    <property name="collision_mask" type="int" value="15"/>
+   </properties>
+  </tile>
+  <tile id="138">
+   <properties>
+    <property name="collsion_mask" type="int" value="12"/>
+   </properties>
   </tile>
   <tile id="140">
    <properties>
@@ -309,12 +349,12 @@
    <tile gid="12"/>
    <tile gid="9"/>
    <tile gid="121"/>
-   <tile gid="121"/>
+   <tile gid="36"/>
    <tile gid="121"/>
    <tile gid="95"/>
    <tile gid="96"/>
    <tile gid="121"/>
-   <tile gid="121"/>
+   <tile gid="36"/>
    <tile gid="121"/>
    <tile gid="9"/>
    <tile gid="12"/>
@@ -989,12 +1029,12 @@
    <tile gid="238"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="206"/>
@@ -1015,12 +1055,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="140"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="140"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
