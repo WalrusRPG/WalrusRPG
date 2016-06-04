@@ -10,6 +10,7 @@ PlayerEntity::PlayerEntity(float x, float y, unsigned w, unsigned h,
                            WalrusRPG::Renderer *tset, unsigned sprite_id)
     : Entity(x, y, w, h, tset, sprite_id)
 {
+    moving = true;
 }
 
 PlayerEntity::~PlayerEntity()

@@ -30,6 +30,9 @@ namespace WalrusRPG
         // velocity
         float vx, vy;
 
+        bool moving;
+        bool solid;
+
         Entity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
                unsigned sprite_id);
         virtual ~Entity();

@@ -183,35 +183,41 @@ void Map::update(unsigned dt)
         Entity *e = *ptr;
         e->update(dt);
 
-        // TODO : move this logic into entity's code.
-        float x_sigma = e->vx < 0. ? -1. : 1.;
-        float vx = 0.;
-        while (vx != e->vx)
+        // Entity deplacment managment
+        if (e->moving)
         {
-            float add = (std::fabs(vx + x_sigma) > std::fabs(e->vx)) ?
-                            (x_sigma * std::fabs(e->vx - vx)) :
-                            x_sigma;
-            if (object_collision({(int) (e->x + vx + add),
-                                  (int) e->y + Tileset::TILE_DIMENSION - 4, e->w, e->h}))
-                break;
-            vx += add;
-        }
-        e->x += vx;
+            float x_sigma = e->vx < 0. ? -1. : 1.;
+            float vx = 0.;
+            while (vx != e->vx)
+            {
+                float add = (std::fabs(vx + x_sigma) > std::fabs(e->vx)) ?
+                                (x_sigma * std::fabs(e->vx - vx)) :
+                                x_sigma;
+                Rect projected{(int) (e->x + vx + add), (int) e->y, e->w, e->h};
+                if (object_collision(projected))
+                    break;
+                if (entity_entity_collision(projected, e))
+                    break;
+                vx += add;
+            }
+            e->x += vx;
 
-        float y_sigma = e->vy < 0. ? -1. : 1.;
-        float vy = 0;
-        while (vy != e->vy)
-        {
-            float add = (std::fabs(vy + y_sigma) > std::fabs(e->vy)) ?
-                            (y_sigma * std::fabs(e->vy - vy)) :
-                            y_sigma;
-            if (object_collision({(int) e->x,
-                                  (int) (e->y + vy + add + Tileset::TILE_DIMENSION - 4),
-                                  e->w, e->h}))
-                break;
-            vy += add;
+            float y_sigma = e->vy < 0. ? -1. : 1.;
+            float vy = 0;
+            while (vy != e->vy)
+            {
+                float add = (std::fabs(vy + y_sigma) > std::fabs(e->vy)) ?
+                                (y_sigma * std::fabs(e->vy - vy)) :
+                                y_sigma;
+                Rect projected{(int) e->x, (int) (e->y + vy + add), e->w, e->h};
+                if (object_collision(projected))
+                    break;
+                if (entity_entity_collision(projected, e))
+                    break;
+                vy += add;
+            }
+            e->y += vy;
         }
-        e->y += vy;
     }
 
     std::sort(entities.begin(), entities.end(), [](Entity *a, Entity *b)
@@ -332,6 +338,23 @@ int Map::get_width() const
 int Map::get_height() const
 {
     return this->width;
+}
+
+bool Map::entity_entity_collision(Rect a, Entity *ref)
+{
+    // TODO : QuadTree
+    for (auto ptr = entities.begin(); ptr < entities.end(); ptr++)
+    {
+        Entity *e = *ptr;
+        if (e == ref || !e->solid)
+            continue;
+
+        Rect b = {(int) e->x, (int) e->y, (unsigned) e->w, (unsigned) e->h};
+
+        if (AABBCheck(a, b))
+            return true;
+    }
+    return false;
 }
 
 bool Map::object_collision(Rect object)

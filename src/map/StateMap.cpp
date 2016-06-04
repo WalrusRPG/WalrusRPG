@@ -42,7 +42,7 @@ namespace
 StateMap::StateMap(int x, int y, Map &map)
     : started(false), camera(x, y), map(map), data("data/wip_data.wrf"),
       tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci")),
-      box(txt), p(32, 40, Tileset::TILE_DIMENSION, 4,
+      box(txt), p(32, 40, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION,
                   new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
                                    Tileset::TILE_DIMENSION),
                   128)
@@ -61,6 +61,18 @@ StateMap::StateMap(int x, int y, Map &map)
                 "for me.\n"
                 "I wonder... Heh, Let's see if it works correctly, shall we?");
     map.add_entity(&p);
+    TileRenderer *tr = new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
+                                        Tileset::TILE_DIMENSION);
+    map.add_entity(
+        new Entity(128, 64, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 150));
+    map.add_entity(
+        new Entity(128, 96, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134));
+    map.add_entity(
+        new Entity(136, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134));
+    map.add_entity(
+        new Entity(196, 112, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134));
+    map.add_entity(
+        new Entity(196, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134));
 }
 
 

@@ -7,7 +7,7 @@ using namespace WalrusRPG::Utils;
 
 Entity::Entity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
                unsigned sprite_id)
-    : x(x), y(y), w(w), h(h), tset(tset), sprite_id(sprite_id)
+    : x(x), y(y), w(w), h(h), tset(tset), sprite_id(sprite_id), moving(false), solid(true)
 {
 }
 
