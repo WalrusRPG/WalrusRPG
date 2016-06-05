@@ -3,6 +3,7 @@
 #include "input/Input.h"
 #include "render/Text.h"
 #include "piaf/Archive.h"
+#include "engine/ResourceManager.h"
 #include "Logger.h"
 #include "render/TileRenderer.h"
 
@@ -39,8 +40,8 @@ namespace
 
 // TODO : We definitely need a Resource Manager
 StateMap::StateMap(int x, int y, Map &map)
-    : started(false), camera(x, y), map(map), data("data/wip_data.wrf"),
-      tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci")),
+    : started(false), camera(x, y), map(map), data(ManagedArchive("data/wip_data.wrf")),
+      tex_haeccity(data->get("t_haeccity")), txt(tex_haeccity, data->get("f_haeccity")),
       box(txt),
       p(32, 40, 10, 4, new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
                                         Tileset::TILE_DIMENSION),

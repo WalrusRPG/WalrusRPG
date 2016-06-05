@@ -5,6 +5,7 @@
 #include "render/Text.h"
 #include "Graphics.h"
 #include "Quirks.h"
+#include "ResourceManager.h"
 #include "Status.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
@@ -27,10 +28,11 @@ int main(int argc, char *argv[])
     Status::init();
     Timing::init();
     Quirks::init(argv[0]);
-
+    ResourceManager::init();
     Text::init();
-    Archive arc("data/wip_data.wrf");
-    Map map(arc, "map.wrm", "set.wts", "castle.png");
+    ManagedArchive m("data/wip_data.wrf");
+    Archive *arc = m;
+    Map map(*arc, "map.wrm", "set.wts", "castle.png");
     tinystl::vector<Frame> stripe80;
     tinystl::vector<Frame> stripe126;
 
@@ -76,8 +78,8 @@ int main(int argc, char *argv[])
 
     Logger::log("WalrusRPG Deinit");
     StateMachine::deinit();
+    ResourceManager::deinit();
     Text::deinit();
-
     Quirks::deinit();
     Timing::deinit();
     Status::deinit();

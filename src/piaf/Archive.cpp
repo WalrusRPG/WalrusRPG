@@ -225,6 +225,7 @@ Archive::~Archive()
     log("PIAF : Freeing file");
     if (file != nullptr)
         fclose(file);
+
     if (entries != nullptr)
         delete[] entries;
 

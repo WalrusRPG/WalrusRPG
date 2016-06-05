@@ -4,11 +4,12 @@
 #include "Text.h"
 #include "Logger.h"
 #include "Graphics.h"
+#include "engine/ResourceManager.h"
 #include "render/Font.h"
 #include "piaf/Archive.h"
 
 using namespace WalrusRPG::Graphics; /*Text*/
-using namespace WalrusRPG::Graphics;
+using namespace WalrusRPG::ResourceManager;
 using namespace WalrusRPG::Utils;
 using namespace WalrusRPG::Logger;
 using namespace WalrusRPG::PIAF;
@@ -19,9 +20,10 @@ Texture *tex;
 void Text::init()
 {
     log("Text init.");
-    Archive arc("data/wrpg_core.wrf");
-    tex = new Texture(arc.get("t_dbgfnt"));
-    fnt = new Font(*tex, arc.get("f_dbgfnt"));
+    WalrusRPG::ManagedArchive m("data/wrpg_core.wrf");
+    Archive *arc(m);
+    tex = new Texture(arc->get("t_dbgfnt"));
+    fnt = new Font(*tex, arc->get("f_dbgfnt"));
 }
 
 void Text::deinit()
