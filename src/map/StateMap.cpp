@@ -5,7 +5,6 @@
 #include "piaf/Archive.h"
 #include "Logger.h"
 #include "render/TileRenderer.h"
-#include <algorithm>
 
 using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;

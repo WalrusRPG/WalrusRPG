@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 #include "render/TileRenderer.h"
 #include "Graphics.h"
 #include "Logger.h"
