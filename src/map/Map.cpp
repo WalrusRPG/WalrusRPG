@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "render/Text.h"
 #include <zlib.h>
 #include <cstdio>
 #include <cstring>
@@ -17,6 +18,7 @@ using WalrusRPG::Map;
 using WalrusRPG::MapCompression;
 using WalrusRPG::MapException;
 using namespace WalrusRPG;
+using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Utils;
 using namespace WalrusRPG::PIAF;
 using WalrusRPG::Graphics::Texture;
@@ -26,7 +28,8 @@ using tinystl::vector;
 namespace
 {
     void load_map(void *data, uint32_t datasize, uint16_t &map_width,
-                  uint16_t &map_height, uint16_t *&layer0, uint16_t *&layer1)
+                  uint16_t &map_height, uint16_t *&layer0, uint16_t *&layer1,
+                  uint16_t *&layer2)
     {
         char *cdata = (char *) data;
         uint32_t map_version;
@@ -93,7 +96,7 @@ namespace
         map_height = read_big_endian_value<uint16_t>(&cdata[18]);
 
         map_n_layers = read_big_endian_value<uint16_t>(&cdata[20]);
-        if (map_n_layers < 1 || map_n_layers > 2)
+        if (map_n_layers < 1 || map_n_layers > 3)
         {
             Logger::error("Wrong map layer number");
 #ifdef WRPG_EXCEPTIONS
@@ -114,6 +117,7 @@ namespace
 
         layer0 = new uint16_t[map_width * map_height];
         layer1 = new uint16_t[map_width * map_height];
+        layer2 = new uint16_t[map_width * map_height];
         switch (map_compression)
         {
             // copy layers from &udata[6] and
@@ -132,6 +136,13 @@ namespace
                 {
                     layer1[i] = read_big_endian_value<uint16_t>(
                         &cdata[28 + sizeof(uint16_t) * (map_width * map_height + i)]);
+                }
+                if (map_n_layers < 3)
+                    break;
+                for (unsigned i = 0, limit = map_width * map_height; i < limit; ++i)
+                {
+                    layer2[i] = read_big_endian_value<uint16_t>(
+                        &cdata[28 + sizeof(uint16_t) * (map_width * map_height * 2 + i)]);
                 }
                 break;
             /* // NOT IMPLEMENTED YET //
@@ -168,7 +179,8 @@ Map::Map(Archive &data_container, const char *map_filename, const char *tset_fil
     : tmap(data_container.get(tset_filename), data_container.get(tex_filename))
 {
     File map_file = data_container.get(map_filename);
-    load_map((void *) map_file.get(), map_file.file_size, width, height, layer0, layer1);
+    load_map((void *) map_file.get(), map_file.file_size, width, height, layer0, layer1,
+             layer2);
 }
 
 Map::~Map()
@@ -187,22 +199,6 @@ void Map::update(unsigned dt)
         // Entity deplacment managment
         if (e->moving)
         {
-            float x_sigma = e->vx < 0. ? -1. : 1.;
-            float vx = 0.;
-            while (vx != e->vx)
-            {
-                float add = (std::fabs(vx + x_sigma) > std::fabs(e->vx)) ?
-                                (x_sigma * std::fabs(e->vx - vx)) :
-                                x_sigma;
-                Rect projected{(int) (e->x + vx + add), (int) e->y, e->w, e->h};
-                if (object_collision(projected))
-                    break;
-                if (entity_entity_collision(projected, e))
-                    break;
-                vx += add;
-            }
-            e->x += vx;
-
             float y_sigma = e->vy < 0. ? -1. : 1.;
             float vy = 0;
             while (vy != e->vy)
@@ -218,6 +214,22 @@ void Map::update(unsigned dt)
                 vy += add;
             }
             e->y += vy;
+
+            float x_sigma = e->vx < 0. ? -1. : 1.;
+            float vx = 0.;
+            while (vx != e->vx)
+            {
+                float add = (std::fabs(vx + x_sigma) > std::fabs(e->vx)) ?
+                                (x_sigma * std::fabs(e->vx - vx)) :
+                                x_sigma;
+                Rect projected{(int) (e->x + vx + add), (int) e->y, e->w, e->h};
+                if (object_collision(projected))
+                    break;
+                if (entity_entity_collision(projected, e))
+                    break;
+                vx += add;
+            }
+            e->x += vx;
         }
     }
 
@@ -263,9 +275,74 @@ void Map::render_lower_layer(WalrusRPG::Camera &camera, unsigned dt)
     }
 }
 
-void Map::render_upper_layer(WalrusRPG::Camera &camera, unsigned dt)
+void Map::render_entities_layer(WalrusRPG::Camera &camera, unsigned dt)
 {
     if (this->layer1 == nullptr)
+        return;
+
+    signed t_width = tmap.TILE_DIMENSION;
+    signed t_height = tmap.TILE_DIMENSION;
+
+    // Substractions here because we want to always round down when dividing
+    signed offset_x = camera.get_x() % t_width * -1 - (camera.get_x() < 0) * t_width;
+    signed offset_y = camera.get_y() % t_height * -1 - (camera.get_y() < 0) * t_height;
+    signed start_x = camera.get_x() / t_width - (camera.get_x() < 0);
+    signed start_y = camera.get_y() / t_height - (camera.get_y() < 0);
+
+    // pre-calculating variables to speed up loop condition check
+    signed delta_x = 320 / t_width + 1;
+    signed delta_y = 240 / t_height + 1;
+
+    signed object_y = camera.get_y();
+    signed object_index = camera.get_y();
+    // WARNING : It supposes the entities are sorted.
+    if (!entities.empty())
+    {
+        object_y = entities[0]->y - camera.get_y();
+    }
+
+    signed index_object = 0;
+
+    // rendering part.
+    for (signed j = 0; j < delta_y; j++)
+    {
+        signed y_tile = (start_y + j) * t_height;
+        signed y_tile_2 = y_tile + t_height;
+        while (index_object < entities.size())
+        {
+            Entity *e = entities[index_object];
+            if (e->y + e->h <= y_tile_2)
+            {
+                e->render(camera, dt);
+                index_object++;
+            }
+            else
+                break;
+        }
+        for (signed i = 0; i < delta_x; i++)
+        {
+            int index, tile_over;
+            index = (start_x + i) + (start_y + j) * this->width;
+            // layer1 : Over-layer
+            if (in_range(start_x + i, 0, (signed) width) &&
+                in_range(start_y + j, 0, (signed) height))
+                tile_over = this->layer1[index];
+            else
+                tile_over = 0;
+            if (tile_over != 0)
+            {
+                tmap.render_tile(tile_over, offset_x + i * t_width,
+                                 offset_y + j * t_height);
+                // tmap.render_collision_mask(tile_over, offset_x + i * t_width,
+                //    offset_y + j * t_height);
+            }
+        }
+    }
+}
+
+void Map::render_upper_layer(WalrusRPG::Camera &camera, unsigned dt)
+{
+    if (this->layer2 == nullptr)
         return;
 
     signed t_width = tmap.TILE_DIMENSION;
@@ -288,10 +365,10 @@ void Map::render_upper_layer(WalrusRPG::Camera &camera, unsigned dt)
         {
             int index, tile_over;
             index = (start_x + i) + (start_y + j) * this->width;
-            // layer1 : Over-layer
+            // layer2 : Over-layer
             if (in_range(start_x + i, 0, (signed) width) &&
                 in_range(start_y + j, 0, (signed) height))
-                tile_over = this->layer1[index];
+                tile_over = this->layer2[index];
             else
                 tile_over = 0;
             if (tile_over != 0)
@@ -308,8 +385,7 @@ void Map::render_upper_layer(WalrusRPG::Camera &camera, unsigned dt)
 void Map::render(WalrusRPG::Camera &camera, unsigned dt)
 {
     render_lower_layer(camera, dt);
-    for (auto it = entities.begin(); it < entities.end(); it++)
-        (*it)->render(camera, dt);
+    render_entities_layer(camera, dt);
     render_upper_layer(camera, dt);
 }
 
