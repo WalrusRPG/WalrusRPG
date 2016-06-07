@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
         stripe21.push_back({22, 31});
         stripe22.push_back({22, 37});
         stripe22.push_back({21, 41});
-        map.anim.add_animation(21, {stripe21, true, 0});
-        map.anim.add_animation(22, {stripe22, true, 0});
+        map.anim.add_animation(21, {stripe21, true});
+        map.anim.add_animation(22, {stripe22, true});
         StateMachine::init();
         StateMachine::push(new States::StateMap(0, 0, map));
         StateMachine::run();
