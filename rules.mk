@@ -5,9 +5,9 @@ all: $(EXE)
 include $(wildcard */rules.mk)
 
 DATA_FILES=$(addsuffix $(DATA_FILE_SUFFIX), $(wildcard data/*))
-MISC_FILES=$(wildcard bundle_files/common/* bundle_files/$(PLATFORM)/*)
+MISC_FILES=$(wildcard bundle_files/*)
 RELEASE_DIRECTORY=release/$(PLATFORM)
-RELEASE_FILES=$(addprefix $(RELEASE_DIRECTORY)/, $(DATA_FILES))
+RELEASE_FILES=$(addprefix $(RELEASE_DIRECTORY)/, $(addsuffix $(DATA_FILE_SUFFIX), $(wildcard data/*)))
 RELEASE_MISC_FILES=$(addprefix $(RELEASE_DIRECTORY)/, $(notdir $(MISC_FILES)))
 
 # Object dependency files
@@ -36,10 +36,6 @@ $(ELF): $(OBJS)
 	@echo "CCLD: $@"
 	@+$(CC) $(LDFLAGS) $^ $(LIBS) -o $(ELF)
 
-debug_flags:
-	@echo "Misc files : $(MISC_FILES)"
-	@echo "Misc files : $(RELEASE_MISC_FILES)"
-
 clean:
 	@echo "RM: $(OUT)"
 	@rm -rf $(OUT)
@@ -51,21 +47,21 @@ make_release_dirs:
 
 
 # Data files
-$(RELEASE_FILES) : $(DATA_FILES) | make_release_dirs
-	@echo "$< => $@"
-	@cp -u "$<" "$@"
+$(RELEASE_DIRECTORY)/%$(DATA_FILE_SUFFIX) : % | make_release_dirs
+	@echo "$^ => $@"
+	@cp -u "$^" "$@"
 
 # Misc bundle files
-$(RELEASE_MISC_FILES) : $(MISC_FILES) | make_release_dirs
-	@echo "$< => $@"
-	cp -u "$<" "$@"
+$(RELEASE_DIRECTORY)/% : bundle_files/% | make_release_dirs
+	@echo "$^ => $@"
+	@cp -u "$^" "$@"
 
 # Executable
 $(RELEASE_DIRECTORY)/$(notdir $(EXE)): $(EXE)
 	@echo "$^ => $@"
 	@cp -u "$^" "$@"
 
-release: $(RELEASE_FILES) $(RELEASE_MISC_FILES) $(RELEASE_DIRECTORY)/$(notdir $(EXE))
+release: $(EXE) $(RELEASE_FILES) $(RELEASE_MISC_FILES) $(RELEASE_DIRECTORY)/$(notdir $(EXE))
 
 #Archive
 release/$(PLATFORM).tar.gz:
