@@ -65,12 +65,12 @@ int main(int argc, char *argv[])
     stripe253.push_back({255, 10});
 
 
-    map.tmap.anim.add_animation(80, {stripe80, true, 0});
-    map.tmap.anim.add_animation(126, {stripe126, true, 0});
-    map.tmap.anim.add_animation(205, {stripe205, true, 0});
-    map.tmap.anim.add_animation(221, {stripe221, true, 0});
-    map.tmap.anim.add_animation(237, {stripe237, true, 0});
-    map.tmap.anim.add_animation(253, {stripe253, true, 0});
+    map.tmap.anim.add_animation(80, {stripe80, true});
+    map.tmap.anim.add_animation(126, {stripe126, true});
+    map.tmap.anim.add_animation(205, {stripe205, true});
+    map.tmap.anim.add_animation(221, {stripe221, true});
+    map.tmap.anim.add_animation(237, {stripe237, true});
+    map.tmap.anim.add_animation(253, {stripe253, true});
 
     StateMachine::init();
     StateMachine::push(new States::StateMap(0, 0, map));

@@ -3,7 +3,7 @@
 
 #include <TINYSTL/vector.h>
 #include <TINYSTL/unordered_map.h>
-
+#include <utility>
 namespace WalrusRPG
 {
     struct Frame
@@ -13,6 +13,32 @@ namespace WalrusRPG
     };
     struct Animation
     {
+        /*
+            This thing? It's just to remove the last arugment from the structured
+           initilizer constructor.
+            Yeah. it's shitty af to have such constructors defined but it looks like C++
+           *does* want this.
+         */
+        Animation(tinystl::vector<WalrusRPG::Frame> stripe, bool looping)
+            : stripe(stripe), looping(looping)
+        {
+        }
+        Animation() : stripe(), looping()
+        {
+        }
+        Animation(const Animation &a) noexcept : stripe(a.stripe), looping(a.looping)
+        {
+        }
+        Animation(Animation &&a) noexcept : stripe(std::move(a.stripe)),
+                                            looping(std::move(a.looping))
+        {
+        }
+        Animation &operator=(Animation arg)
+        {
+            std::swap(stripe, arg.stripe);
+            std::swap(looping, arg.looping);
+            return *this;
+        }
         tinystl::vector<WalrusRPG::Frame> stripe;
         bool looping;
         int duration;
