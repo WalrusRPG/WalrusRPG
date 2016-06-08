@@ -1,6 +1,6 @@
 nspire_LOCAL_PATH := $(call whereami)
 
-SRCS_C += $(wildcard $(nspire_LOCAL_PATH)/platform/*.c)
+SRCS_C += $(wildcard $(nspire_LOCAL_PATH)/*.c)
 SRCS_CPP += $(wildcard $(nspire_LOCAL_PATH)/*.cpp)
 INCLUDE += $(nspire_LOCAL_PATH)/public
 DEPS += lodepng
