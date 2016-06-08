@@ -142,7 +142,7 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Ground" width="26" height="27" visible="0">
+ <layer name="Ground" width="26" height="27">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
