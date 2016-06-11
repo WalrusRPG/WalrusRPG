@@ -25,7 +25,7 @@ std::unique_ptr<char> Quirks::solve_absolute_path(const char *path)
 
 bool Quirks::get_key(keycode_t key)
 {
-    return hidKeysDown() & key;
+    return hidKeysHeld() & key;
 }
 
 #include <stdlib.h>
