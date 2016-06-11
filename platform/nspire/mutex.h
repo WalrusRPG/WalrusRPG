@@ -15,21 +15,18 @@ inline void spin_lock(unsigned *s)
         "swp %0, %1, [%2] \n"
         "teq %0, %3 \n"
         "bne 1b \n"
-        : "=&r" (tmp2)
-        : "r" (tmp), "r"(s), "r"(0)
-        : "cc", "memory"
-        );
+        : "=&r"(tmp2)
+        : "r"(tmp), "r"(s), "r"(0)
+        : "cc", "memory");
 }
 
 int mutex_lock(unsigned *s)
 {
     unsigned tmp = 1, tmp2;
-    __asm__ __volatile__(
-        "swp %0, %1, [%2] \n"
-        : "=&r"(tmp2)
-        : "r"(tmp), "r"(s)
-        : "cc", "memory"
-        );
+    __asm__ __volatile__("swp %0, %1, [%2] \n"
+                         : "=&r"(tmp2)
+                         : "r"(tmp), "r"(s)
+                         : "cc", "memory");
 
     return tmp2;
 }
