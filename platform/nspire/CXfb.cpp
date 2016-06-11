@@ -71,7 +71,8 @@ void GRAPHICS::buffer_free()
 
 void GRAPHICS::buffer_swap_screen()
 {
-    if (mutex_lock(&buffer_swap_lock)) return;
+    if (mutex_lock(&buffer_swap_lock))
+        return;
 
     if (buffer_swap_ready)
     {
