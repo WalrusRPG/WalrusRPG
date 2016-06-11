@@ -26,7 +26,7 @@ void Status::update()
 {
     if (!aptMainLoop())
         askedToQuit = true;
-    if (Quirks::get_key(KEY_ZL))
+    if (Quirks::get_key(KEY_ZL) && Quirks::get_key(KEY_ZR))
         askedToQuit = true;
 }
 
