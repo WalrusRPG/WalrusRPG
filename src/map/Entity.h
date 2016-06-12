@@ -7,6 +7,15 @@
 
 namespace WalrusRPG
 {
+    namespace States
+    {
+        class StateMap;
+    }
+    enum InteractionType
+    {
+        UNKNOWN,
+        CHECK
+    };
     /**
          * Well, for now, this class will be a non abstract for ALPHA PROGRAMMING REASONS.
          * Expect this sooner or later to be abstract.
@@ -17,7 +26,7 @@ namespace WalrusRPG
     {
       protected:
         unsigned sprite_id;
-
+        States::StateMap &container;
 
       public:
         WalrusRPG::Renderer *tset;
@@ -33,11 +42,12 @@ namespace WalrusRPG
         bool moving;
         bool solid;
 
-        Entity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
-               unsigned sprite_id);
+        Entity(States::StateMap &container, float x, float y, unsigned w, unsigned h,
+               WalrusRPG::Renderer *tset, unsigned sprite_id);
         virtual ~Entity();
         virtual void render(Camera &camera, unsigned dt) const;
         virtual void update(unsigned dt);
+        virtual void interact_with(Entity &origin, InteractionType type);
     };
 }
 

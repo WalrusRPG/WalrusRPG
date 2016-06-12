@@ -11,13 +11,13 @@ namespace WalrusRPG
     {
       protected:
         Animator animator;
-        int direction;
 
       public:
-        PlayerEntity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
-                     unsigned sprite_id);
+        int direction;
+        PlayerEntity(States::StateMap &container, float x, float y, unsigned w,
+                     unsigned h, WalrusRPG::Renderer *tset, unsigned sprite_id);
         ~PlayerEntity();
-        void update(unsigned dt) override;
+        virtual void update(unsigned dt) override;
         virtual void render(Camera &camera, unsigned dt) const override;
     };
 }

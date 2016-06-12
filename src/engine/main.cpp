@@ -3,6 +3,7 @@
 #include "Timing.h"
 #include "Logger.h"
 #include "render/Text.h"
+#include "collision/Collision.h"
 #include "Graphics.h"
 #include "Quirks.h"
 #include "ResourceManager.h"

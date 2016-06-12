@@ -10,11 +10,12 @@
 
 namespace WalrusRPG
 {
+    class PlayerEntity;
     namespace States
     {
         class StateMap : public State
         {
-          protected:
+          public:
             bool started;
             Camera camera;
             Map &map;
@@ -24,7 +25,6 @@ namespace WalrusRPG
             WalrusRPG::Textbox box;
             WalrusRPG::PlayerEntity p;
 
-          public:
             StateMap(int x, int y, Map &map);
             void render(unsigned dt);
             void update(unsigned dt);

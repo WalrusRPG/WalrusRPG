@@ -1,13 +1,15 @@
 #include "Entity.h"
+#include "StateMap.h"
 #include "utility/misc.h"
 #include "utility/Rect.h"
 
 using WalrusRPG::Entity;
 using namespace WalrusRPG::Utils;
 
-Entity::Entity(float x, float y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
-               unsigned sprite_id)
-    : x(x), y(y), w(w), h(h), tset(tset), sprite_id(sprite_id), moving(false), solid(true)
+Entity::Entity(States::StateMap &container, float x, float y, unsigned w, unsigned h,
+               WalrusRPG::Renderer *tset, unsigned sprite_id)
+    : container(container), x(x), y(y), w(w), h(h), tset(tset), sprite_id(sprite_id),
+      moving(false), solid(true)
 {
 }
 
@@ -39,4 +41,13 @@ void Entity::update(unsigned dt)
                 position += velocity * dt;
                 velocity += acceleration * dt;
          */
+}
+
+void Entity::interact_with(Entity &origin, InteractionType type)
+{
+    container.box.set_text("Undefined behaviour.");
+    container.started = true;
+
+    UNUSED(origin);
+    UNUSED(type);
 }

@@ -1,4 +1,5 @@
 #include "PlayerEntity.h"
+#include "StateMap.h"
 #include "Map.h"
 #include "input/Input.h"
 #include "utility/Rect.h"
@@ -10,9 +11,9 @@ using WalrusRPG::Camera;
 using WalrusRPG::Utils::Rect;
 using namespace WalrusRPG::Input;
 
-PlayerEntity::PlayerEntity(float x, float y, unsigned w, unsigned h,
-                           WalrusRPG::Renderer *tset, unsigned sprite_id)
-    : Entity(x, y, w, h, tset, sprite_id), direction(0)
+PlayerEntity::PlayerEntity(States::StateMap &container, float x, float y, unsigned w,
+                           unsigned h, WalrusRPG::Renderer *tset, unsigned sprite_id)
+    : Entity(container, x, y, w, h, tset, sprite_id), direction(0)
 {
     moving = true;
 

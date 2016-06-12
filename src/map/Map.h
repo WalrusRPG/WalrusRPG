@@ -34,7 +34,6 @@ namespace WalrusRPG
         uint16_t *layer0;
         uint16_t *layer1;
         uint16_t *layer2;
-        tinystl::vector<Entity *> entities;
         // TODO?: add a boolean/getter to know if a second layer exist?
 
         void render_lower_layer(Camera &camera, unsigned dt);
@@ -42,6 +41,7 @@ namespace WalrusRPG
         void render_upper_layer(Camera &camera, unsigned dt);
 
       public:
+        tinystl::vector<Entity *> entities;
         Tileset tmap;
 
         Map(int width, int height, uint16_t *layer0, uint16_t *layer1,

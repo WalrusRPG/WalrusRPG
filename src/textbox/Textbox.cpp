@@ -49,7 +49,7 @@ Textbox::~Textbox()
 {
 }
 
-void Textbox::set_text(char *new_text)
+void Textbox::set_text(const char *new_text)
 {
     // Clearing the state variables.
     letter_wait = 0;
