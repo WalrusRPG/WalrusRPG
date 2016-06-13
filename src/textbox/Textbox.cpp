@@ -238,9 +238,13 @@ void Textbox::render(unsigned dt)
             {
                 switch (b.routine)
                 {
-                    // Change current color
+                    // Change current color (16-bit mode)
                     case 0x01:
                         current_color = ((b.arg1 << 8) + b.arg2);
+                        break;
+                    // Change current color (RGB mode)
+                    case 0x02:
+                        current_color = {b.arg1, b.arg2, b.arg3};
                         break;
                 }
                 continue;
