@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "utility/misc.h"
 #include "input/Input.h"
+#include "Logger.h"
 
 using WalrusRPG::MAGIC_TOKEN;
 using WalrusRPG::COMMAND_LEGNTH;
@@ -122,6 +123,7 @@ void Textbox::add_letter(unsigned nb_letters)
                     break;
             }
             line_nb_characters[nb_line_to_update]++;
+            i--;
         }
         else
         {
@@ -163,6 +165,7 @@ void Textbox::add_letter(unsigned nb_letters)
             // Putting the parsed character in the current text line.
             line_nb_characters[nb_line_to_update]++;
         }
+        letter_wait = letter_wait_cooldown;
     }
     // Check if the text box finished its work
     if (buffer_index >= static_cast<signed>(buffer.size() - 1))
@@ -170,7 +173,6 @@ void Textbox::add_letter(unsigned nb_letters)
         state = Done;
     }
     // You prefer having to wait for characters, no?
-    letter_wait = letter_wait_cooldown;
 }
 
 void Textbox::update(unsigned dt)
