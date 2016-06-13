@@ -13,6 +13,7 @@ namespace WalrusRPG
         Animator animator;
 
       public:
+        bool controllable;
         int direction;
         PlayerEntity(States::StateMap &container, float x, float y, unsigned w,
                      unsigned h, WalrusRPG::Renderer *tset, unsigned sprite_id);

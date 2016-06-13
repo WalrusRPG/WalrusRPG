@@ -92,15 +92,18 @@ void StateMap::update(unsigned dt)
     camera.set_center_y(p.y + p.h / 2);
 
     unsigned t = dt * (key_down(K_B) ? 16 : 1);
+    map.update(dt);
     if (started)
     {
         box.update(t);
         if (key_pressed(K_A) && box.state == Done)
+        {
             started = false;
+            p.controllable = true;
+        }
     }
     else
     {
-        map.update(dt);
         if (key_pressed(K_A))
         {
             // Check direction.

@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "input/Input.h"
 #include "utility/Rect.h"
+#include "Logger.h"
 
 using WalrusRPG::Animation;
 using WalrusRPG::PlayerEntity;
@@ -13,7 +14,7 @@ using namespace WalrusRPG::Input;
 
 PlayerEntity::PlayerEntity(States::StateMap &container, float x, float y, unsigned w,
                            unsigned h, WalrusRPG::Renderer *tset, unsigned sprite_id)
-    : Entity(container, x, y, w, h, tset, sprite_id), direction(0)
+    : Entity(container, x, y, w, h, tset, sprite_id), controllable(true), direction(0)
 {
     moving = true;
 
@@ -65,27 +66,31 @@ PlayerEntity::~PlayerEntity()
 
 void PlayerEntity::update(unsigned dt)
 {
+    Logger::log("Controllable : %d", controllable);
     vx = 0;
     vy = 0;
-    if (key_down(Key::K_LEFT))
+    if (controllable)
     {
-        vx = -1. * dt;
-        direction = 2;
-    }
-    if (key_down(Key::K_RIGHT))
-    {
-        vx = 1. * dt;
-        direction = 3;
-    }
-    if (key_down(Key::K_UP))
-    {
-        vy = -1. * dt;
-        direction = 0;
-    }
-    if (key_down(Key::K_DOWN))
-    {
-        vy = 1. * dt;
-        direction = 1;
+        if (key_down(Key::K_LEFT))
+        {
+            vx = -1. * dt;
+            direction = 2;
+        }
+        if (key_down(Key::K_RIGHT))
+        {
+            vx = 1. * dt;
+            direction = 3;
+        }
+        if (key_down(Key::K_UP))
+        {
+            vy = -1. * dt;
+            direction = 0;
+        }
+        if (key_down(Key::K_DOWN))
+        {
+            vy = 1. * dt;
+            direction = 1;
+        }
     }
     animator.update(dt);
 }

@@ -28,4 +28,5 @@ void TalkEntity::interact_with(Entity &origin, InteractionType type)
 {
     container.box.set_text(msg);
     container.started = true;
+    container.p.controllable = false;
 }
