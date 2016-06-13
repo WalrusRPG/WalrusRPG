@@ -66,7 +66,6 @@ PlayerEntity::~PlayerEntity()
 
 void PlayerEntity::update(unsigned dt)
 {
-    Logger::log("Controllable : %d", controllable);
     vx = 0;
     vy = 0;
     if (controllable)
