@@ -37,7 +37,8 @@ namespace
 Textbox::Textbox(Rect dimensions, Font fnt)
     : fnt(fnt), buffer(0), buffer_index(-1), global_string_offset(0),
       current_color(Graphics::White), letter_wait(0), letter_wait_cooldown(5),
-      dimensions(dimensions), state(Waiting), color_before_line{{0xFFFF},{0xFFFF},{0xFFFF}}
+      dimensions(dimensions), state(Waiting),
+      color_before_line{{0xFFFF}, {0xFFFF}, {0xFFFF}}
 {
 }
 
@@ -275,14 +276,15 @@ void Textbox::render(unsigned dt)
                 cur_x += fnt.chars[static_cast<signed>(c)].dimensions.width + 1;
         }
         global_index += line_nb_characters[l];
-        if(l < nb_lines-1)
-            color_before_line[l+1] = current_color;
+        if (l < nb_lines - 1)
+            color_before_line[l + 1] = current_color;
     }
     // State indicator.
     Pixel indicator_color = Graphics::Black;
     if (state == Full)
         indicator_color = Graphics::Red;
-    else if (state == Done){
+    else if (state == Done)
+    {
         indicator_color = Graphics::Blue;
     }
 

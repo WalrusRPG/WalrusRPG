@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "render/Font.h"
 #include "textbox/Textbox.h"
+#include "engine/ResourceManager.h"
 
 namespace WalrusRPG
 {
@@ -17,13 +18,14 @@ namespace WalrusRPG
             bool started;
             Camera camera;
             Map &map;
-            WalrusRPG::PIAF::Archive *data;
+            WalrusRPG::ManagedArchive data;
             WalrusRPG::Graphics::Texture tex_haeccity;
             WalrusRPG::Graphics::Font txt;
             WalrusRPG::Textbox box;
 
           public:
             StateMap(int x, int y, Map &map);
+            ~StateMap();
             void render(unsigned dt);
             void update(unsigned dt);
             void putchar_haeccity(unsigned char c, unsigned x, unsigned y);
