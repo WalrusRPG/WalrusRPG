@@ -63,7 +63,7 @@ unsigned Animator::get_animation_frame(unsigned id) const
     return find_frame(ptr->second, elapsed_time);
 }
 
-void Animator::update(unsigned dt)
+void Animator::update()
 {
-    elapsed_time += dt;
+    elapsed_time ++;
 }

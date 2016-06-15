@@ -18,9 +18,8 @@ Entity::~Entity()
     delete tset;
 }
 
-void Entity::render(Camera &camera, unsigned dt) const
+void Entity::render(Camera &camera) const
 {
-    UNUSED(dt);
     if (tset == nullptr)
         return;
     if (camera.is_visible({(int) x, (int) y, w, h}))
@@ -31,9 +30,8 @@ void Entity::render(Camera &camera, unsigned dt) const
     }
 }
 
-void Entity::update(unsigned dt)
+void Entity::update()
 {
-    UNUSED(dt);
     // TODO update map's data according to elasped time
     /*
                 // Need to think aagain on how to go to a target point and/or we need to

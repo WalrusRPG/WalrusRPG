@@ -29,7 +29,7 @@ namespace WalrusRPG
         // This doesn't need any render as it's the utility which helps rendering. Unless
         // you want to show debnug things.
         // void render(float dt) const;
-        void update(unsigned dt);
+        void update();
 
         void set_x(signed x);
         signed get_x() const;

@@ -76,16 +76,18 @@ StateMap::~StateMap()
 {
 }
 
-void StateMap::update(unsigned dt)
+void StateMap::update()
 {
     camera.set_center_x(p.x + p.w / 2);
     camera.set_center_y(p.y + p.h / 2);
 
-    unsigned t = dt * (key_down(K_B) ? 16 : 1);
-    map.update(dt);
+    unsigned t = (key_down(K_B) ? 16 : 1);
+    map.update();
+
     if (started)
     {
-        box.update(t);
+        for(int i = 0; i < t; i++)
+            box.update();
         if (key_pressed(K_A) && box.state == Done)
         {
             started = false;
@@ -137,14 +139,14 @@ void StateMap::update(unsigned dt)
             // }
         }
     }
-    camera.update(t);
+    camera.update();
 }
 
-void StateMap::render(unsigned dt)
+void StateMap::render()
 {
-    map.render(camera, dt);
+    map.render(camera);
     print_debug_camera_data(camera, txt);
     print_debug_map_data(map, txt);
     if (started)
-        box.render(dt);
+        box.render();
 }

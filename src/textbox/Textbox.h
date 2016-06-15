@@ -65,8 +65,8 @@ namespace WalrusRPG
 
         void set_text(const char *new_msg);
 
-        void update(unsigned dt);
-        void render(unsigned dt);
+        void update();
+        void render();
     };
 }
 #endif

@@ -16,9 +16,8 @@ Camera::~Camera()
     // TODO if you allocate dynamically members
 }
 
-void Camera::update(unsigned dt)
+void Camera::update()
 {
-    UNUSED(dt);
     // TODO update map's data according to elasped time
     /*
                 // Need to think aagain on how to go to a target point and/or we need to

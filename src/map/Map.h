@@ -36,9 +36,9 @@ namespace WalrusRPG
         uint16_t *layer2;
         // TODO?: add a boolean/getter to know if a second layer exist?
 
-        void render_lower_layer(Camera &camera, unsigned dt);
-        void render_entities_layer(Camera &camera, unsigned dt);
-        void render_upper_layer(Camera &camera, unsigned dt);
+        void render_lower_layer(Camera &camera);
+        void render_entities_layer(Camera &camera);
+        void render_upper_layer(Camera &camera);
 
       public:
         tinystl::vector<Entity *> entities;
@@ -50,8 +50,8 @@ namespace WalrusRPG
             const char *tset_filename, const char *tex_filename);
         ~Map();
         void add_entity(Entity *entity);
-        void render(Camera &camera, unsigned dt);
-        void update(unsigned dt);
+        void render(Camera &camera);
+        void update();
         bool is_tile_solid(int x, int y) const;
         bool is_pixel_solid(int x, int y) const;
         int get_width() const;

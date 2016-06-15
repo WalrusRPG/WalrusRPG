@@ -17,8 +17,8 @@ namespace WalrusRPG
         TalkEntity(States::StateMap &container, float x, float y, unsigned w, unsigned h,
                    WalrusRPG::Renderer *tset, unsigned sprite_id, const char *msg);
         ~TalkEntity();
-        virtual void update(unsigned dt) override;
-        virtual void render(Camera &camera, unsigned dt) const override;
+        virtual void update() override;
+        virtual void render(Camera &camera) const override;
         virtual void interact_with(Entity &origin, InteractionType type) override;
     };
 }

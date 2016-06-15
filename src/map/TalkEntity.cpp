@@ -15,13 +15,13 @@ TalkEntity::~TalkEntity()
 {
 }
 
-void TalkEntity::update(unsigned dt)
+void TalkEntity::update()
 {
 }
 
-void TalkEntity::render(Camera &camera, unsigned dt) const
+void TalkEntity::render(Camera &camera) const
 {
-    Entity::render(camera, dt);
+    Entity::render(camera);
 }
 
 void TalkEntity::interact_with(Entity &origin, InteractionType type)

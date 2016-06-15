@@ -45,8 +45,8 @@ namespace WalrusRPG
         Entity(States::StateMap &container, float x, float y, unsigned w, unsigned h,
                WalrusRPG::Renderer *tset, unsigned sprite_id);
         virtual ~Entity();
-        virtual void render(Camera &camera, unsigned dt) const;
-        virtual void update(unsigned dt);
+        virtual void render(Camera &camera) const;
+        virtual void update();
         virtual void interact_with(Entity &origin, InteractionType type);
     };
 }

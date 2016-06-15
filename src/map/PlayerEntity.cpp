@@ -64,7 +64,7 @@ PlayerEntity::~PlayerEntity()
 }
 
 
-void PlayerEntity::update(unsigned dt)
+void PlayerEntity::update()
 {
     vx = 0;
     vy = 0;
@@ -72,29 +72,29 @@ void PlayerEntity::update(unsigned dt)
     {
         if (key_down(Key::K_LEFT))
         {
-            vx = -1. * dt;
+            vx = -1.;
             direction = 2;
         }
         if (key_down(Key::K_RIGHT))
         {
-            vx = 1. * dt;
+            vx = 1.;
             direction = 3;
         }
         if (key_down(Key::K_UP))
         {
-            vy = -1. * dt;
+            vy = -1.;
             direction = 0;
         }
         if (key_down(Key::K_DOWN))
         {
-            vy = 1. * dt;
+            vy = 1.;
             direction = 1;
         }
     }
-    animator.update(dt);
+    animator.update();
 }
 
-void PlayerEntity::render(Camera &camera, unsigned dt) const
+void PlayerEntity::render(Camera &camera) const
 {
     if (tset == nullptr)
         return;

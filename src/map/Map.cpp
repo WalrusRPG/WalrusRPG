@@ -187,14 +187,14 @@ Map::~Map()
 {
 }
 
-void Map::update(unsigned dt)
+void Map::update()
 {
     // TODO update map's data according to elasped time
-    tmap.anim.update(dt);
+    tmap.anim.update();
     for (vector<Entity *>::iterator ptr = entities.begin(); ptr < entities.end(); ++ptr)
     {
         Entity *e = *ptr;
-        e->update(dt);
+        e->update();
 
         // Entity deplacment managment
         if (e->moving)
@@ -239,7 +239,7 @@ void Map::update(unsigned dt)
               });
 }
 
-void Map::render_lower_layer(WalrusRPG::Camera &camera, unsigned dt)
+void Map::render_lower_layer(WalrusRPG::Camera &camera)
 {
     if (this->layer0 == nullptr)
         return;
@@ -275,7 +275,7 @@ void Map::render_lower_layer(WalrusRPG::Camera &camera, unsigned dt)
     }
 }
 
-void Map::render_entities_layer(WalrusRPG::Camera &camera, unsigned dt)
+void Map::render_entities_layer(WalrusRPG::Camera &camera)
 {
     if (this->layer1 == nullptr)
         return;
@@ -313,7 +313,7 @@ void Map::render_entities_layer(WalrusRPG::Camera &camera, unsigned dt)
             Entity *e = entities[index_object];
             if (e->y + e->h <= y_tile_2)
             {
-                e->render(camera, dt);
+                e->render(camera);
                 index_object++;
             }
             else
@@ -340,7 +340,7 @@ void Map::render_entities_layer(WalrusRPG::Camera &camera, unsigned dt)
     }
 }
 
-void Map::render_upper_layer(WalrusRPG::Camera &camera, unsigned dt)
+void Map::render_upper_layer(WalrusRPG::Camera &camera)
 {
     if (this->layer2 == nullptr)
         return;
@@ -382,11 +382,11 @@ void Map::render_upper_layer(WalrusRPG::Camera &camera, unsigned dt)
     }
 }
 
-void Map::render(WalrusRPG::Camera &camera, unsigned dt)
+void Map::render(WalrusRPG::Camera &camera)
 {
-    render_lower_layer(camera, dt);
-    render_entities_layer(camera, dt);
-    render_upper_layer(camera, dt);
+    render_lower_layer(camera);
+    render_entities_layer(camera);
+    render_upper_layer(camera);
 }
 
 void Map::add_entity(Entity *entity)

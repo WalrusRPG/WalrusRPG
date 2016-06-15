@@ -191,7 +191,7 @@ void Textbox::add_letter(unsigned nb_letters)
     // You prefer having to wait for characters, no?
 }
 
-void Textbox::update(unsigned dt)
+void Textbox::update()
 {
     // Small state machine.
     switch (state)
@@ -204,7 +204,7 @@ void Textbox::update(unsigned dt)
             if ((buffer_index >= 0) &&
                 (buffer_index >= static_cast<signed>(buffer.size())))
                 return;
-            letter_wait -= dt;
+            letter_wait --;
             if (letter_wait <= 0)
             {
                 unsigned add = (-letter_wait) / letter_wait_cooldown + 1;
@@ -235,9 +235,8 @@ void Textbox::update(unsigned dt)
     }
 }
 
-void Textbox::render(unsigned dt)
+void Textbox::render()
 {
-    UNUSED(dt);
     if (buffer_index < 0)
         return;
     // TODO : store the last character's color to correctly reapply it if a line return

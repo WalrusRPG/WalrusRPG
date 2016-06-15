@@ -18,8 +18,8 @@ namespace WalrusRPG
         PlayerEntity(States::StateMap &container, float x, float y, unsigned w,
                      unsigned h, WalrusRPG::Renderer *tset, unsigned sprite_id);
         ~PlayerEntity();
-        virtual void update(unsigned dt) override;
-        virtual void render(Camera &camera, unsigned dt) const override;
+        virtual void update() override;
+        virtual void render(Camera &camera) const override;
     };
 }
 #endif

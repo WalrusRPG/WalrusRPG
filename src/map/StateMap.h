@@ -28,8 +28,8 @@ namespace WalrusRPG
 
             StateMap(int x, int y, Map &map);
             ~StateMap();
-            void render(unsigned dt);
-            void update(unsigned dt);
+            void render();
+            void update();
             void putchar_haeccity(unsigned char c, unsigned x, unsigned y);
             void putchar_haeccity_tint(unsigned char c, unsigned x, unsigned y,
                                        const WalrusRPG::Graphics::Pixel &col);
