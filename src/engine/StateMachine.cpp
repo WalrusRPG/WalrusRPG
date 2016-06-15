@@ -108,7 +108,6 @@ void StateMachine::run()
     unsigned lag = 0;
     while (!stack.empty() && !Status::mustQuit())
     {
-
         Status::update();
         Input::key_poll();
         update_stamp = Timing::gettime();
@@ -116,7 +115,8 @@ void StateMachine::run()
         last_update = update_stamp;
         lag += update_time;
 
-        while(lag >= loop_time) {
+        while (lag >= loop_time)
+        {
             stack.back()->update();
             lag -= loop_time;
         }

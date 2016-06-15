@@ -204,7 +204,7 @@ void Textbox::update()
             if ((buffer_index >= 0) &&
                 (buffer_index >= static_cast<signed>(buffer.size())))
                 return;
-            letter_wait --;
+            letter_wait--;
             if (letter_wait <= 0)
             {
                 unsigned add = (-letter_wait) / letter_wait_cooldown + 1;

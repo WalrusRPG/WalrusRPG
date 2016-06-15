@@ -65,5 +65,5 @@ unsigned Animator::get_animation_frame(unsigned id) const
 
 void Animator::update()
 {
-    elapsed_time ++;
+    elapsed_time++;
 }
