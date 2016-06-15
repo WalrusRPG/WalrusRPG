@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
     Text::deinit();
     Quirks::deinit();
     Timing::deinit();
-    Graphics::deinit();
     Status::deinit();
     Logger::log("WalrusRPG Exit");
     Graphics::deinit();
