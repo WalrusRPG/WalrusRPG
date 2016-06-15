@@ -114,6 +114,7 @@ void Textbox::add_letter(unsigned nb_letters)
         // Parsing commands.
         if (buffer[buffer_index].c == MAGIC_TOKEN)
         {
+            letter_wait = letter_wait_cooldown;
             switch (buffer[buffer_index].routine)
             {
                 // wait a bit
@@ -162,6 +163,7 @@ void Textbox::add_letter(unsigned nb_letters)
                 line_widths[nb_line_to_update] += p.dimensions.width + 1;
             // Putting the parsed character in the current text line.
             line_nb_characters[nb_line_to_update]++;
+            letter_wait = letter_wait_cooldown;
         }
     }
     // Check if the text box finished its work
@@ -170,7 +172,6 @@ void Textbox::add_letter(unsigned nb_letters)
         state = Done;
     }
     // You prefer having to wait for characters, no?
-    letter_wait = letter_wait_cooldown;
 }
 
 void Textbox::update(unsigned dt)
