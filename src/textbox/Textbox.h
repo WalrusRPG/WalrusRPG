@@ -62,7 +62,7 @@ namespace WalrusRPG
         Textbox(Utils::Rect dimensions, Graphics::Font fnt);
         ~Textbox();
 
-        void set_text(char *new_msg);
+        void set_text(const char *new_msg);
 
         void update(unsigned dt);
         void render(unsigned dt);
