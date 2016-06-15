@@ -36,8 +36,9 @@ namespace
 
 Textbox::Textbox(Rect dimensions, Font fnt)
     : fnt(fnt), buffer(0), buffer_index(-1), global_string_offset(0),
-      current_color(0, 0, 0), letter_wait(0), letter_wait_cooldown(10),
-      dimensions(dimensions), state(Waiting)
+      current_color(Graphics::White), letter_wait(0), letter_wait_cooldown(5),
+      dimensions(dimensions), state(Waiting),
+      color_before_line{{0xFFFF}, {0xFFFF}, {0xFFFF}}
 {
 }
 
@@ -49,11 +50,11 @@ Textbox::~Textbox()
 {
 }
 
-void Textbox::set_text(char *new_text)
+void Textbox::set_text(const char *new_text)
 {
     // Clearing the state variables.
     letter_wait = 0;
-    letter_wait_cooldown = 10;
+    letter_wait_cooldown = 2;
     buffer_index = -1;
     global_string_offset = 0;
     nb_line_to_update = 0;
@@ -106,7 +107,8 @@ void Textbox::add_letter(unsigned nb_letters)
     // and changing it would most likely break it everywhere.
     for (unsigned i = 0;
          (i < nb_letters) &&
-         (buffer_index < 0 || buffer_index < static_cast<signed>(buffer.size()) - 1);
+         (buffer_index < 0 || buffer_index < static_cast<signed>(buffer.size()) - 1) &&
+         state == Updating;
          ++i)
     {
         // As the index starts with -1, increment it before doing anything.
@@ -114,14 +116,28 @@ void Textbox::add_letter(unsigned nb_letters)
         // Parsing commands.
         if (buffer[buffer_index].c == MAGIC_TOKEN)
         {
+            letter_wait = letter_wait_cooldown;
             switch (buffer[buffer_index].routine)
             {
                 // wait a bit
                 case 0x81:
                     letter_wait = buffer[buffer_index].arg1;
+                    // Override the "skip this character"
+                    i++;
                     break;
+                // Force Full state
+                case 0x82:
+                    state = Full;
+                    // Override the "skip this character"
+                    i++;
+                    break;
+                // Puts the character to the origin. Best used after 0x82
+                case 0x83:
+                    nb_line_to_update = 0;
+                    line_nb_characters[0] = 0;
             }
             line_nb_characters[nb_line_to_update]++;
+            i--;
         }
         else
         {
@@ -162,6 +178,7 @@ void Textbox::add_letter(unsigned nb_letters)
                 line_widths[nb_line_to_update] += p.dimensions.width + 1;
             // Putting the parsed character in the current text line.
             line_nb_characters[nb_line_to_update]++;
+            letter_wait = letter_wait_cooldown;
         }
     }
     // Check if the text box finished its work
@@ -170,7 +187,6 @@ void Textbox::add_letter(unsigned nb_letters)
         state = Done;
     }
     // You prefer having to wait for characters, no?
-    letter_wait = letter_wait_cooldown;
 }
 
 void Textbox::update(unsigned dt)
@@ -202,6 +218,7 @@ void Textbox::update(unsigned dt)
 
                 line_widths[0] = line_widths[nb_lines - 1];
                 line_nb_characters[0] = line_nb_characters[nb_lines - 1];
+                color_before_line[0] = color_before_line[nb_lines - 1];
 
                 for (unsigned i = 1; i < nb_lines; ++i)
                 {
@@ -223,13 +240,13 @@ void Textbox::render(unsigned dt)
         return;
     // TODO : store the last character's color to correctly reapply it if a line return
     // happens?
-    current_color = 0xFFFF;
     put_rectangle(dimensions, Graphics::Black);
     unsigned global_index = global_string_offset;
     for (unsigned l = 0; l < nb_lines; l++)
     {
         unsigned cur_x = dimensions.x;
         unsigned cur_y = dimensions.y + l * fnt.baseline;
+        current_color = color_before_line[l];
         for (unsigned line_index = 0; line_index < line_nb_characters[l]; ++line_index)
         {
             TextboxChar b = buffer[global_index + line_index];
@@ -238,9 +255,13 @@ void Textbox::render(unsigned dt)
             {
                 switch (b.routine)
                 {
-                    // Change current color
+                    // Change current color (16-bit mode)
                     case 0x01:
                         current_color = ((b.arg1 << 8) + b.arg2);
+                        break;
+                    // Change current color (RGB mode)
+                    case 0x02:
+                        current_color = {b.arg1, b.arg2, b.arg3};
                         break;
                 }
                 continue;
@@ -255,13 +276,17 @@ void Textbox::render(unsigned dt)
                 cur_x += fnt.chars[static_cast<signed>(c)].dimensions.width + 1;
         }
         global_index += line_nb_characters[l];
+        if (l < nb_lines - 1)
+            color_before_line[l + 1] = current_color;
     }
     // State indicator.
     Pixel indicator_color = Graphics::Black;
     if (state == Full)
         indicator_color = Graphics::Red;
     else if (state == Done)
+    {
         indicator_color = Graphics::Blue;
+    }
 
     if (indicator_color != Graphics::Black)
         put_rectangle({dimensions.x + static_cast<signed>(dimensions.width) - 3,

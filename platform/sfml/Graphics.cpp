@@ -1,3 +1,4 @@
+#include <cmath>
 #include "Graphics.h"
 #include "Logger.h"
 #include "sfwindow.h"

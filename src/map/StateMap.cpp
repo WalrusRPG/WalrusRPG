@@ -1,3 +1,4 @@
+#include <cmath>
 #include "StateMap.h"
 #include "Graphics.h"
 #include "input/Input.h"
@@ -37,8 +38,8 @@ namespace
 // TODO : We definitely need a Resource Manager
 StateMap::StateMap(int x, int y, Map &map)
     : started(false), camera(x, y), map(map), data("data/wip_data.wrf"),
-      tex_haeccity(data.get("t_haecci")), txt(tex_haeccity, data.get("f_haecci")),
-      box(txt)
+      tex_haeccity((*data).get("t_haeccity")),
+      txt(tex_haeccity, (*data).get("f_haeccity")), box(txt)
 {
 #if TARGET_SFML
     active_map_mode = 0;
@@ -58,9 +59,13 @@ StateMap::StateMap(int x, int y, Map &map)
                 "I wonder... Heh, Let's see if it works correctly, shall we?");
 }
 
+StateMap::~StateMap()
+{
+}
+
 void StateMap::update(unsigned dt)
 {
-    unsigned t = dt * (key_down(K_B) ? 16 : 1);
+    unsigned t = dt * (key_down(K_B) ? 3 : 1);
     if (key_pressed(K_A))
     {
         if (!started && box.state != Done)
@@ -189,8 +194,8 @@ void StateMap::debug(unsigned dt)
         float x2 = (camera.get_x() + 320) / (float) 16;
         float y = camera.get_y() / (float) 16;
         float y2 = (camera.get_y() + 240) / (float) 16;
-        list->AddRect({floorf(x * 3 + s.x), floorf(y * 3 + s.y)},
-                      {floorf(x2 * 3 + s.x), floorf(y2 * 3 + s.y)}, 0xFFFFFF00);
+        list->AddRect({std::floor(x * 3 + s.x), std::floor(y * 3 + s.y)},
+                      {std::floor(x2 * 3 + s.x), std::floor(y2 * 3 + s.y)}, 0xFFFFFF00);
 
         ImGui::EndChild();
     }

@@ -4,6 +4,7 @@ all: $(EXE)
 
 include $(wildcard */rules.mk)
 
+DATA_FILES=$(addsuffix $(DATA_FILE_SUFFIX), $(wildcard data/*))
 MISC_FILES=$(wildcard bundle_files/*)
 RELEASE_DIRECTORY=release/$(PLATFORM)
 RELEASE_FILES=$(addprefix $(RELEASE_DIRECTORY)/, $(addsuffix $(DATA_FILE_SUFFIX), $(wildcard data/*)))

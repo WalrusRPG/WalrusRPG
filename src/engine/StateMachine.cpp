@@ -87,6 +87,11 @@ void StateMachine::init()
 void StateMachine::deinit()
 {
     log("State Machine deinit");
+    while (!stack.empty())
+    {
+        delete stack.back();
+        stack.pop_back();
+    }
     stack.clear();
 }
 

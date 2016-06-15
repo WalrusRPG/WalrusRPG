@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "render/Font.h"
 #include "textbox/Textbox.h"
+#include "engine/ResourceManager.h"
 
 namespace WalrusRPG
 {
@@ -21,13 +22,14 @@ namespace WalrusRPG
             unsigned active_map_mode;
             ImVec2 scrolling = ImVec2(0.0f, 0.0f);
 #endif
-            WalrusRPG::PIAF::Archive data;
+            WalrusRPG::ManagedArchive data;
             WalrusRPG::Graphics::Texture tex_haeccity;
             WalrusRPG::Graphics::Font txt;
             WalrusRPG::Textbox box;
 
           public:
             StateMap(int x, int y, Map &map);
+            ~StateMap();
             void render(unsigned dt);
             void update(unsigned dt);
 #if TARGET_SFML

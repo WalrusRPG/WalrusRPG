@@ -24,6 +24,19 @@ CC = arm-none-eabi-gcc
 CPP = arm-none-eabi-g++
 
 EXE = $(OUT)/$(NAME).3dsx
+SMDH = $(OUT)/$(NAME).smdh
 
-run: all
+RELEASE_SMDH := $(addprefix $(RELEASE_DIRECTORY)/, $(notdir $(SMDH)))
+
+all: $(EXE) $(SMDH)
+
+# SMDH file
+$(RELEASE_DIRECTORY)/$(notdir $(SMDH)): $(SMDH)
+	@echo "$^ => $(RELEASE_DIRECTORY)/$@"
+	@cp -u "$^" "$(RELEASE_DIRECTORY)/$@"
+
+release: $(RELEASE_SMDH)
+
+
+run: all $(SMDH)
 	3dslink $(EXE)
