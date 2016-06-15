@@ -44,8 +44,6 @@ namespace WalrusRPG
         tinystl::vector<Entity *> entities;
         Tileset tmap;
 
-        Map(int width, int height, uint16_t *layer0, uint16_t *layer1,
-            WalrusRPG::Graphics::Texture &tex);
         Map(WalrusRPG::PIAF::Archive &data_container, const char *map_filename,
             const char *tset_filename, const char *tex_filename);
         ~Map();

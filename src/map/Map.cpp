@@ -39,6 +39,7 @@ namespace
         enum MapCompression map_compression =
             MapCompression::RAW; // or whatever Map_Compression will be
 
+        // Basic NPE check
         if (cdata == NULL)
         {
             Logger::error("Null pointer Exception");
@@ -46,6 +47,7 @@ namespace
             throw MapException("%s: Null pointer Exception", __FILE__);
 #endif
         }
+        // Check for datasize
         if (datasize < 28)
         {
             Logger::error("File too small for header");
@@ -53,7 +55,7 @@ namespace
             throw MapException("%s: File too small for header", __FILE__);
 #endif
         }
-
+        // Magic cookie! Who wants cookies?
         if (strncmp(cdata, "WMap", 4))
         {
             Logger::error("Bad map header");
@@ -62,6 +64,7 @@ namespace
 #endif
         }
 
+        // Checks for header integrity.
         expected_checksum = read_big_endian_value<uint32_t>(&cdata[4]);
         real_checksum = crc32(0L, (unsigned char *) &cdata[8], 20);
         if (expected_checksum != real_checksum)
@@ -71,7 +74,7 @@ namespace
             throw MapException("%s: Bad chekcsum", __FILE__);
 #endif
         }
-
+        // Check the map version.
         map_version = read_big_endian_value<uint32_t>(&cdata[8]);
         if (map_version != MAP_VERSION)
         {
@@ -81,7 +84,7 @@ namespace
                                map_version, MAP_VERSION);
 #endif
         }
-
+        // I think you got the drill now, no?
         expected_data_size = read_big_endian_value<uint32_t>(&cdata[12]);
         real_data_size = datasize - 28;
         if (expected_data_size != real_data_size)
@@ -104,6 +107,7 @@ namespace
 #endif
         }
 
+        // SHould this belong to the meta file?
         map_n_events = read_big_endian_value<uint16_t>(&cdata[22]);
         if (map_n_events != 0)
         {
@@ -115,6 +119,7 @@ namespace
 
         map_compression = (MapCompression) read_big_endian_value<uint32_t>(&cdata[24]);
 
+        // We get to *that* part, buckle up.
         layer0 = new uint16_t[map_width * map_height];
         layer1 = new uint16_t[map_width * map_height];
         layer2 = new uint16_t[map_width * map_height];
@@ -125,6 +130,7 @@ namespace
             case MapCompression::RAW:
                 if (map_n_layers < 1)
                     break;
+                // Ground layer
                 for (unsigned i = 0, limit = map_width * map_height; i < limit; ++i)
                 {
                     layer0[i] = read_big_endian_value<uint16_t>(
@@ -132,6 +138,7 @@ namespace
                 }
                 if (map_n_layers < 2)
                     break;
+                // Middle layer
                 for (unsigned i = 0, limit = map_width * map_height; i < limit; ++i)
                 {
                     layer1[i] = read_big_endian_value<uint16_t>(
@@ -139,6 +146,7 @@ namespace
                 }
                 if (map_n_layers < 3)
                     break;
+                // Over layer
                 for (unsigned i = 0, limit = map_width * map_height; i < limit; ++i)
                 {
                     layer2[i] = read_big_endian_value<uint16_t>(
@@ -164,13 +172,39 @@ namespace
                 break;
         }
     }
-}
 
-
-Map::Map(int width, int height, uint16_t *layer0, uint16_t *layer1, Texture &tex)
-    : width(width), height(height), layer0(layer0), layer1(layer1), tmap(tex, nullptr, 0)
-{
-    Logger::warn("Deprecated");
+    bool quadrant_check(Rect &object, uint8_t collision_mask, int x, int y)
+    {
+        // Half tile stuff happens.
+        // Top left corner
+        if ((collision_mask & TOP_LEFT_CORNER) &&
+            AABBCheck(object,
+                      {Tileset::TILE_DIMENSION * x, Tileset::TILE_DIMENSION * y,
+                       Tileset::TILE_HALF_DIMENSION, Tileset::TILE_HALF_DIMENSION}))
+            return true;
+        // Top ~dog~ right corner
+        if ((collision_mask & TOP_RIGHT_CORNER) &&
+            AABBCheck(object,
+                      Rect{Tileset::TILE_DIMENSION * x + Tileset::TILE_HALF_DIMENSION,
+                           Tileset::TILE_DIMENSION * y, Tileset::TILE_HALF_DIMENSION,
+                           Tileset::TILE_HALF_DIMENSION}))
+            return true;
+        // Bottom left corner
+        if ((collision_mask & BOTTOM_LEFT_CORNER) &&
+            AABBCheck(object,
+                      {Tileset::TILE_DIMENSION * x,
+                       Tileset::TILE_DIMENSION * y + Tileset::TILE_HALF_DIMENSION,
+                       Tileset::TILE_HALF_DIMENSION, Tileset::TILE_HALF_DIMENSION}))
+            return true;
+        // Bottom right
+        if ((collision_mask & BOTTOM_RIGHT_CORNER) &&
+            AABBCheck(object,
+                      {Tileset::TILE_DIMENSION * x + Tileset::TILE_HALF_DIMENSION,
+                       Tileset::TILE_DIMENSION * y + Tileset::TILE_HALF_DIMENSION,
+                       Tileset::TILE_HALF_DIMENSION, Tileset::TILE_HALF_DIMENSION}))
+            return true;
+        return false;
+    }
 }
 
 
@@ -199,8 +233,14 @@ void Map::update()
         // Entity deplacment managment
         if (e->moving)
         {
+            // Splitting entity movement by axis.
+            // Y axis
             float y_sigma = e->vy < 0. ? -1. : 1.;
             float vy = 0;
+            // Checking for each pixel if a collision happens.
+            // Todo ; initial target collision check so the step-by-step process shouldn't
+            // be
+            // done all the time
             while (vy != e->vy)
             {
                 float add = (std::fabs(vy + y_sigma) > std::fabs(e->vy)) ?
@@ -215,8 +255,13 @@ void Map::update()
             }
             e->y += vy;
 
+            // X axis (after updating the y position)
             float x_sigma = e->vx < 0. ? -1. : 1.;
             float vx = 0.;
+            // Checking for each pixel if a collision happens.
+            // Todo ; initial target collision check so the step-by-step process shouldn't
+            // be
+            // done all the time
             while (vx != e->vx)
             {
                 float add = (std::fabs(vx + x_sigma) > std::fabs(e->vx)) ?
@@ -233,12 +278,18 @@ void Map::update()
         }
     }
 
+    // Post update sort for the render part, making the sweep placement faster.
+    // This may be the only time a lambda can be useful to me in C++.
     std::sort(entities.begin(), entities.end(), [](Entity *a, Entity *b)
               {
                   return a->y < b->y;
               });
 }
 
+// Renders the ground layer.
+// If we have three routines, it's only because the inner loop is customised for mutliple
+// reasons
+// TODO : check if lambda can be useful to factorize the code without losing performances
 void Map::render_lower_layer(WalrusRPG::Camera &camera)
 {
     if (this->layer0 == nullptr)
@@ -261,20 +312,22 @@ void Map::render_lower_layer(WalrusRPG::Camera &camera)
     {
         for (signed i = 0; i < delta_x; i++)
         {
-            int index, tile_over;
+            int index, tile_over = 0;
             index = (start_x + i) + (start_y + j) * this->width;
             if (in_range(start_x + i, 0, (signed) width) &&
                 in_range(start_y + j, 0, (signed) height))
                 tile_over = this->layer0[index];
-            else
-                tile_over = 0;
             tmap.render_tile(tile_over, offset_x + i * t_width, offset_y + j * t_height);
-            // tmap.render_collision_mask(tile_over, offset_x + i * t_width,
-            //                            offset_y + j * t_height);
         }
     }
 }
 
+// Renders the middle/entity layer. Also draws the entity at the same time so tiles can
+// overlap
+//  or be overlapped by entities.
+// If we have three routines, it's only because the inner loop is customised for mutliple
+// reasons
+// TODO : check if lambda can be useful to factorize the code without losing performances
 void Map::render_entities_layer(WalrusRPG::Camera &camera)
 {
     if (this->layer1 == nullptr)
@@ -306,6 +359,8 @@ void Map::render_entities_layer(WalrusRPG::Camera &camera)
     // rendering part.
     for (signed j = 0; j < delta_y; j++)
     {
+        // Draw each entity until we run out of them or if they are in front of the
+        // tiles to be drawn.
         signed y_tile = (start_y + j) * t_height;
         signed y_tile_2 = y_tile + t_height;
         while (index_object < entities.size())
@@ -321,25 +376,24 @@ void Map::render_entities_layer(WalrusRPG::Camera &camera)
         }
         for (signed i = 0; i < delta_x; i++)
         {
-            int index, tile_over;
+            int index, tile_over = 0;
             index = (start_x + i) + (start_y + j) * this->width;
             // layer1 : Over-layer
             if (in_range(start_x + i, 0, (signed) width) &&
                 in_range(start_y + j, 0, (signed) height))
                 tile_over = this->layer1[index];
-            else
-                tile_over = 0;
+
             if (tile_over != 0)
-            {
                 tmap.render_tile(tile_over, offset_x + i * t_width,
                                  offset_y + j * t_height);
-                // tmap.render_collision_mask(tile_over, offset_x + i * t_width,
-                //    offset_y + j * t_height);
-            }
         }
     }
 }
 
+// Render the over layer.
+// If we have three routines, it's only because the inner loop is customised for mutliple
+// reasons
+// TODO : check if lambda can be useful to factorize the code without losing performances
 void Map::render_upper_layer(WalrusRPG::Camera &camera)
 {
     if (this->layer2 == nullptr)
@@ -363,21 +417,16 @@ void Map::render_upper_layer(WalrusRPG::Camera &camera)
     {
         for (signed i = 0; i < delta_x; i++)
         {
-            int index, tile_over;
+            int index, tile_over = 0;
             index = (start_x + i) + (start_y + j) * this->width;
             // layer2 : Over-layer
             if (in_range(start_x + i, 0, (signed) width) &&
                 in_range(start_y + j, 0, (signed) height))
                 tile_over = this->layer2[index];
-            else
-                tile_over = 0;
+
             if (tile_over != 0)
-            {
                 tmap.render_tile(tile_over, offset_x + i * t_width,
                                  offset_y + j * t_height);
-                // tmap.render_collision_mask(tile_over, offset_x + i * t_width,
-                //    offset_y + j * t_height);
-            }
         }
     }
 }
@@ -394,12 +443,13 @@ void Map::add_entity(Entity *entity)
     entities.push_back(entity);
 }
 
-
+// Checks if a tile (ground or middle) does have a collision mask
 bool Map::is_tile_solid(int x, int y) const
 {
     if (x >= width || y >= height || x < 0 || y < 0)
         return true;
-    return tmap.get_collision(this->layer0[y * width + x]) != 0;
+    return (tmap.get_collision(this->layer0[y * width + x]) != 0) ||
+           (tmap.get_collision(this->layer1[y * width + x]) != 0);
 }
 
 bool Map::is_pixel_solid(int x, int y) const
@@ -417,6 +467,8 @@ int Map::get_height() const
     return this->width;
 }
 
+// Checks if a rect collides with an entity.
+// The reference only exists to avoid self collisions.
 bool Map::entity_entity_collision(Rect a, Entity *ref)
 {
     // TODO : QuadTree
@@ -434,6 +486,7 @@ bool Map::entity_entity_collision(Rect a, Entity *ref)
     return false;
 }
 
+// Checks if a rect collides with the map.
 bool Map::object_collision(Rect object)
 {
     int left_tile = object.x / Tileset::TILE_DIMENSION;
@@ -454,70 +507,18 @@ bool Map::object_collision(Rect object)
     {
         for (int j = top_tile; j <= bottom_tile; j++)
         {
+            // Check if colliding with ground layer
             char t = tmap.get_collision(layer0[j * width + i]);
-            if (t)
-            {
-                if ((t & TOP_LEFT_CORNER) &&
-                    AABBCheck(object,
-                              {Tileset::TILE_DIMENSION * i, Tileset::TILE_DIMENSION * j,
-                               Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-                if ((t & TOP_RIGHT_CORNER) &&
-                    AABBCheck(
-                        object,
-                        Rect{Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
-                             Tileset::TILE_DIMENSION * j, Tileset::TILE_HALF_DIMENSION,
-                             Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-                if ((t & BOTTOM_LEFT_CORNER) &&
-                    AABBCheck(object,
-                              {Tileset::TILE_DIMENSION * i,
-                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-                if ((t & BOTTOM_RIGHT_CORNER) &&
-                    AABBCheck(object,
-                              {Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-            }
+            if (t && quadrant_check(object, t, i, j))
+                return true;
+
             if (layer1[j * width + i] == 0)
                 continue;
+
+            // Check if colliding with middle layer
             t = tmap.get_collision(layer1[j * width + i]);
-            if (t)
-            {
-                if ((t & TOP_LEFT_CORNER) &&
-                    AABBCheck(object,
-                              {Tileset::TILE_DIMENSION * i, Tileset::TILE_DIMENSION * j,
-                               Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-                if ((t & TOP_RIGHT_CORNER) &&
-                    AABBCheck(
-                        object,
-                        Rect{Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
-                             Tileset::TILE_DIMENSION * j, Tileset::TILE_HALF_DIMENSION,
-                             Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-                if ((t & BOTTOM_LEFT_CORNER) &&
-                    AABBCheck(object,
-                              {Tileset::TILE_DIMENSION * i,
-                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-                if ((t & BOTTOM_RIGHT_CORNER) &&
-                    AABBCheck(object,
-                              {Tileset::TILE_DIMENSION * i + Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_DIMENSION * j + Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION,
-                               Tileset::TILE_HALF_DIMENSION}))
-                    return true;
-            }
+            if (t && quadrant_check(object, t, i, j))
+                return true;
         }
     }
     return false;
