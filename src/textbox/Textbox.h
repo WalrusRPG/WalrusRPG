@@ -49,6 +49,7 @@ namespace WalrusRPG
         unsigned nb_line_to_update;
         unsigned line_nb_characters[nb_lines];
         unsigned line_widths[nb_lines];
+        Graphics::Pixel color_before_line[nb_lines];
         Graphics::Pixel current_color;
         signed letter_wait;
         signed letter_wait_cooldown;
