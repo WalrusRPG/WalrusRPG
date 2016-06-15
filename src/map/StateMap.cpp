@@ -4,7 +4,6 @@
 #include "render/Text.h"
 #include "collision/Collision.h"
 #include "piaf/Archive.h"
-#include "engine/ResourceManager.h"
 #include "Logger.h"
 #include "render/TileRenderer.h"
 #include "TalkEntity.h"
@@ -43,12 +42,13 @@ namespace
 
 // TODO : We definitely need a Resource Manager
 StateMap::StateMap(int x, int y, Map &map)
-    : started(false), camera(x, y), map(map), data(ManagedArchive("data/wip_data.wrf")),
-      tex_haeccity(data->get("t_haeccity")), txt(tex_haeccity, data->get("f_haeccity")),
-      box(txt), p(*this, 32, 40, 10, 4,
-                  new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
-                                   Tileset::TILE_DIMENSION),
-                  128)
+    : started(false), camera(x, y), map(map), data("data/wip_data.wrf"),
+      tex_haeccity((*data).get("t_haeccity")),
+      txt(tex_haeccity, (*data).get("f_haeccity")), box(txt),
+      p(*this, 32, 40, 10, 4,
+        new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
+                         Tileset::TILE_DIMENSION),
+        128)
 {
     map.add_entity(&p);
     TileRenderer *tr = new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
@@ -72,6 +72,9 @@ StateMap::StateMap(int x, int y, Map &map)
     */
 }
 
+StateMap::~StateMap()
+{
+}
 
 void StateMap::update(unsigned dt)
 {
