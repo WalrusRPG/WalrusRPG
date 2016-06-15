@@ -49,11 +49,11 @@ Textbox::~Textbox()
 {
 }
 
-void Textbox::set_text(char *new_text)
+void Textbox::set_text(const char *new_text)
 {
     // Clearing the state variables.
     letter_wait = 0;
-    letter_wait_cooldown = 10;
+    letter_wait_cooldown = 2;
     buffer_index = -1;
     global_string_offset = 0;
     nb_line_to_update = 0;
