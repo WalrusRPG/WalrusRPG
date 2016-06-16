@@ -38,6 +38,17 @@ Font::Font(Texture &font_tex, WalrusRPG::PIAF::File font_config)
 #endif
     }
 
+    uint32_t font_verion = read_big_endian_value<uint32_t>(&ptr[8]);
+    if (font_verion != FONT_VERSION)
+    {
+        Logger::error("%s: Wront font version : %x != %x\n", __FILE__, FONT_VERSION,
+                      font_verion);
+#ifdef WRPG_EXCEPTIONS
+        throw FontException("%s: Wront font version : %x != %x\n", __FILE__, FONT_VERSION,
+                            font_verion);
+#endif
+    }
+
     baseline = read_big_endian_value<uint32_t>(&ptr[12]);
     space_width = read_big_endian_value<uint32_t>(&ptr[20]);
 

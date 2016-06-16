@@ -10,6 +10,8 @@ namespace WalrusRPG
 {
     namespace Graphics
     {
+        constexpr uint32_t FONT_VERSION = 0x00010000;
+
         struct CharacterParameters
         {
             // Sprite clip
