@@ -46,6 +46,18 @@ namespace WalrusRPG
                              const WalrusRPG::Graphics::Pixel &col, const char *format,
                              ...) const;
         };
+
+        class FontException : public std::exception
+        {
+          private:
+            char msg[1024];
+
+          public:
+            FontException(const char *format, ...);
+            virtual ~FontException();
+
+            const char *what() const throw();
+        };
     }
 }
 
