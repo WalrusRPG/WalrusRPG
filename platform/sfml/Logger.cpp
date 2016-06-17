@@ -12,6 +12,10 @@ using namespace WalrusRPG;
 namespace
 {
     tinystl::vector<char *> log_list;
+    bool show_log;
+    bool show_debug = true;
+    bool show_warn = true;
+    bool show_error = true;
     char log_buffer[1024];
     int offset = 0;
 
@@ -110,7 +114,13 @@ void Logger::error(const char *fmt, ...)
 void Logger::debug_render()
 {
     ImGui::Begin("Logger");
-
+    ImGui::Checkbox("Log", &show_log);
+    ImGui::SameLine();
+    ImGui::Checkbox("Debug", &show_debug);
+    ImGui::SameLine();
+    ImGui::Checkbox("Warn", &show_warn);
+    ImGui::SameLine();
+    ImGui::Checkbox("Error", &show_error);
     ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false,
                       ImGuiWindowFlags_HorizontalScrollbar);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
@@ -120,14 +130,22 @@ void Logger::debug_render()
         ImVec4 col = ImColor(255, 255, 255); // A better implementation may store a type
                                              // per-item. For the sample let's just parse
                                              // the text.
-        if (strstr(item, "[LOG]"))
+        if (strstr(item, "[LOG]")){
+            if(!show_log) continue;
             col = ImColor(128, 128, 128);
-        if (strstr(item, "[DEBUG]"))
+        }
+        if (strstr(item, "[DEBUG]")){
+            if(!show_debug) continue;
             col = ImColor(168, 168, 224);
-        if (strstr(item, "[WARN]"))
+        }
+        if (strstr(item, "[WARN]")){
+            if(!show_warn) continue;
             col = ImColor(224, 224, 64);
-        if (strstr(item, "[ERROR]"))
+        }
+        if (strstr(item, "[ERROR]")){
+            if(!show_error) continue;
             col = ImColor(224, 64, 64);
+        }
         ImGui::PushStyleColor(ImGuiCol_Text, col);
         ImGui::TextUnformatted(item);
         ImGui::PopStyleColor();
