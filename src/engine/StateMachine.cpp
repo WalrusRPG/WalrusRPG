@@ -7,6 +7,7 @@
 #include "render/Text.h"
 #include "version.h"
 #include "input/Input.h"
+#include "utility/misc.h"
 
 using namespace WalrusRPG; /*::StateMachine*/
 using namespace WalrusRPG::Graphics;
@@ -138,6 +139,7 @@ void StateMachine::run()
             }
             // TODO : use a boolean to show/hide and to avoid that frigging wanring.
             // draw_buttons();
+            UNUSED(draw_buttons);
             Graphics::frame_end();
         }
 

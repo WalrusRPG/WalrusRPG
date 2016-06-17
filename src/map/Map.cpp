@@ -347,14 +347,13 @@ void Map::render_entities_layer(WalrusRPG::Camera &camera)
     signed delta_y = 240 / t_height + 1;
 
     signed object_y = camera.get_y();
-    signed object_index = camera.get_y();
     // WARNING : It supposes the entities are sorted.
     if (!entities.empty())
     {
         object_y = entities[0]->y - camera.get_y();
     }
 
-    signed index_object = 0;
+    size_t index_object = 0;
 
     // rendering part.
     for (signed j = 0; j < delta_y; j++)

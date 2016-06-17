@@ -86,7 +86,7 @@ void StateMap::update()
 
     if (started)
     {
-        for (int i = 0; i < t; i++)
+        for (unsigned i = 0; i < t; i++)
             box.update();
         if (key_pressed(K_A) && box.state == Done)
         {

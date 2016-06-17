@@ -8,7 +8,7 @@ using namespace WalrusRPG::Utils;
 
 Entity::Entity(States::StateMap &container, float x, float y, unsigned w, unsigned h,
                WalrusRPG::Renderer *tset, unsigned sprite_id)
-    : container(container), x(x), y(y), w(w), h(h), tset(tset), sprite_id(sprite_id),
+    : sprite_id(sprite_id), container(container), tset(tset), x(x), y(y), w(w), h(h),
       moving(false), solid(true)
 {
 }

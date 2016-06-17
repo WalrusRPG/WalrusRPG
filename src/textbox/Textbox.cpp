@@ -37,9 +37,8 @@ namespace
 
 Textbox::Textbox(Rect dimensions, Font fnt)
     : fnt(fnt), buffer(0), buffer_index(-1), global_string_offset(0),
-      current_color(Graphics::White), letter_wait(0), letter_wait_cooldown(5),
-      dimensions(dimensions), state(Waiting),
-      color_before_line{{0xFFFF}, {0xFFFF}, {0xFFFF}}
+      color_before_line{{0xFFFF}, {0xFFFF}, {0xFFFF}}, current_color(Graphics::White),
+      letter_wait(0), letter_wait_cooldown(5), dimensions(dimensions), state(Waiting)
 {
 }
 
