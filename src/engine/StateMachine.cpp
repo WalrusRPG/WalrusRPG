@@ -7,6 +7,7 @@
 #include "render/Text.h"
 #include "version.h"
 #include "input/Input.h"
+#include "utility/misc.h"
 
 using namespace WalrusRPG; /*::StateMachine*/
 using namespace WalrusRPG::Graphics;
@@ -105,14 +106,21 @@ void StateMachine::run()
 
     // TODO : Better way to handle FPS while not breaking anything. There are some issues
     // if the update loop takes too much time.
+    unsigned lag = 0;
     while (!stack.empty() && !Status::mustQuit())
     {
         Status::update();
+        Input::key_poll();
         update_stamp = Timing::gettime();
         update_time = update_stamp - last_update;
-        Input::key_poll();
-        stack.back()->update(100 * update_time / TIMER_FREQ);
         last_update = update_stamp;
+        lag += update_time;
+
+        while (lag >= loop_time)
+        {
+            stack.back()->update();
+            lag -= loop_time;
+        }
 
         if (Timing::gettime() < loop_next)
         {
@@ -120,7 +128,7 @@ void StateMachine::run()
             frame_time = frame_stamp - last_frame;
             Graphics::frame_begin();
             // Update the current state
-            stack.back()->render(100 * frame_time / TIMER_FREQ);
+            stack.back()->render();
             last_frame = frame_stamp;
 
             // Text::print_format(0, 0, "WRPG build %s", git_version);
@@ -131,6 +139,7 @@ void StateMachine::run()
             }
             // TODO : use a boolean to show/hide and to avoid that frigging wanring.
             // draw_buttons();
+            UNUSED(draw_buttons);
             Graphics::frame_end();
         }
 

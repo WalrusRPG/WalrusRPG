@@ -10,6 +10,8 @@ namespace WalrusRPG
 {
     namespace Graphics
     {
+        constexpr uint32_t FONT_VERSION = 0x00010000;
+
         struct CharacterParameters
         {
             // Sprite clip
@@ -45,6 +47,18 @@ namespace WalrusRPG
             void draw_format(uint16_t x, uint16_t y,
                              const WalrusRPG::Graphics::Pixel &col, const char *format,
                              ...) const;
+        };
+
+        class FontException : public std::exception
+        {
+          private:
+            char msg[1024];
+
+          public:
+            FontException(const char *format, ...);
+            virtual ~FontException();
+
+            const char *what() const throw();
         };
     }
 }

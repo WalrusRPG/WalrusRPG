@@ -9,8 +9,8 @@ namespace WalrusRPG
         {
           public:
             virtual ~State(){};
-            virtual void update(unsigned dt) = 0;
-            virtual void render(unsigned dt) = 0;
+            virtual void update() = 0;
+            virtual void render() = 0;
         };
     }
 }

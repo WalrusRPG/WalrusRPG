@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "utility/misc.h"
 #include "input/Input.h"
+#include "Logger.h"
 
 using WalrusRPG::MAGIC_TOKEN;
 using WalrusRPG::COMMAND_LEGNTH;
@@ -36,9 +37,8 @@ namespace
 
 Textbox::Textbox(Rect dimensions, Font fnt)
     : fnt(fnt), buffer(0), buffer_index(-1), global_string_offset(0),
-      current_color(Graphics::White), letter_wait(0), letter_wait_cooldown(5),
-      dimensions(dimensions), state(Waiting),
-      color_before_line{{0xFFFF}, {0xFFFF}, {0xFFFF}}
+      color_before_line{{0xFFFF}, {0xFFFF}, {0xFFFF}}, current_color(Graphics::White),
+      letter_wait(0), letter_wait_cooldown(5), dimensions(dimensions), state(Waiting)
 {
 }
 
@@ -180,6 +180,7 @@ void Textbox::add_letter(unsigned nb_letters)
             line_nb_characters[nb_line_to_update]++;
             letter_wait = letter_wait_cooldown;
         }
+        letter_wait = letter_wait_cooldown;
     }
     // Check if the text box finished its work
     if (buffer_index >= static_cast<signed>(buffer.size() - 1))
@@ -189,7 +190,7 @@ void Textbox::add_letter(unsigned nb_letters)
     // You prefer having to wait for characters, no?
 }
 
-void Textbox::update(unsigned dt)
+void Textbox::update()
 {
     // Small state machine.
     switch (state)
@@ -202,7 +203,7 @@ void Textbox::update(unsigned dt)
             if ((buffer_index >= 0) &&
                 (buffer_index >= static_cast<signed>(buffer.size())))
                 return;
-            letter_wait -= dt;
+            letter_wait--;
             if (letter_wait <= 0)
             {
                 unsigned add = (-letter_wait) / letter_wait_cooldown + 1;
@@ -233,9 +234,8 @@ void Textbox::update(unsigned dt)
     }
 }
 
-void Textbox::render(unsigned dt)
+void Textbox::render()
 {
-    UNUSED(dt);
     if (buffer_index < 0)
         return;
     // TODO : store the last character's color to correctly reapply it if a line return

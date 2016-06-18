@@ -3,9 +3,12 @@
 #include <cstdio>
 #include <cstdarg>
 #include "Font.h"
+#include "Logger.h"
 #include "utility/misc.h"
 
+using namespace WalrusRPG; /*::Logger*/
 using WalrusRPG::Graphics::Font;
+using WalrusRPG::Graphics::FontException;
 using WalrusRPG::Graphics::CharacterParameters;
 using WalrusRPG::Graphics::Texture;
 using WalrusRPG::Graphics::Pixel;
@@ -17,14 +20,33 @@ Font::Font(Texture &font_tex, WalrusRPG::PIAF::File font_config)
     // TODO : forgot to put the version and the font type
     if (strncmp((const char *) ptr, "WFONT", 4) != 0)
     {
-        // TODO : wrong header
+        Logger::error("%s: Bad magic cookie", __FILE__);
+#ifdef WRPG_EXCEPTIONS
+        throw FontException("%s: Bad magic cookie", __FILE__);
+#endif
     }
     uint32_t expected_checksum = read_big_endian_value<uint32_t>(&ptr[4]);
     uint32_t calculated_checksum =
         crc32(0L, (const unsigned char *) (&ptr[8]), font_config.file_size - 8);
     if (expected_checksum != calculated_checksum)
     {
-        // printf("Bad checksum : %x != %x\n", expected_checksum, calculated_checksum);
+        Logger::error("%s: Bad checksum : %x != %x\n", __FILE__, expected_checksum,
+                      calculated_checksum);
+#ifdef WRPG_EXCEPTIONS
+        throw FontException("%s: Bad checksum : %x != %x\n", __FILE__, expected_checksum,
+                            calculated_checksum);
+#endif
+    }
+
+    uint32_t font_verion = read_big_endian_value<uint32_t>(&ptr[8]);
+    if (font_verion != FONT_VERSION)
+    {
+        Logger::error("%s: Wront font version : %x != %x\n", __FILE__, FONT_VERSION,
+                      font_verion);
+#ifdef WRPG_EXCEPTIONS
+        throw FontException("%s: Wront font version : %x != %x\n", __FILE__, FONT_VERSION,
+                            font_verion);
+#endif
     }
 
     baseline = read_big_endian_value<uint32_t>(&ptr[12]);

@@ -1,64 +1,169 @@
+# Map Serialization
+
 ```markdown
-MAP_MAGIC_HEADER : 'WRPG_MAP'    <=> 8 bytes
-MAP_WIDTH        : unsigned int  <=> 4 bytes
-MAP_HEIGHT       : unsigned int  <=> 4 bytes
-MAP_N_LAYERS     : unsigned char <=> 4 byte
-MAP_COMPRESSION  : enumeration   <=> 4 bytes (IIRC, unless we force using some sort of enum class and use a smaller size)
-  - 0 : RAW
-  - 1 : RLE_PER_LAYER (stop when a layer ends)
-  - 2 : RLE_ALL_LAYERS (stop at the end of the last layer)
-  - 3 : ZLIB (?)
+MAP_MAGIC_HEADER     : 'WMAP'          <=> 4 bytes
+MAP_HEADER_CHECKSUM  : unsigned int    <=> 4 bytes
+MAP_VERSION          : unsigned int    <=> 4 bytes
+MAP_DATA_SIZE        : unsigned int    <=> 4 bytes
+MAP_WIDTH            : unsigned short  <=> 2 bytes
+MAP_HEIGHT           : unsigned short  <=> 2 bytes
+MAP_N_LAYERS         : unsigned short  <=> 2 bytes
+# TODO : This is moving to the meta-map file, alongside the objects and metadata.
+MAP_N_EVENTS         : unsigned short  <=> 2 bytes
+MAP_DATA_COMPRESSION : enumeration     <=> 4 bytes (IIRC, unless we force using some sort of enum class and use a smaller size)
+  - 0 : UNKWOWN
+  - 1 : RAW
+  - 2 : RLE_PER_LAYER (stop when a layer ends)
+  - 3 : RLE_ALL_LAYERS (stop at the end of the last layer)
+  - 4 : ZLIB (?)
   - 4 : ...
-MAP_DATA         : variable size <=> n*4 bytes
+MAP_DATA            : variable size   <=> n*4 bytes
+# TODO : This is moving to the meta-map file, alongside the objects and metadata.
+MAP_EVENT_DATA      : MAP_N_EVENTS * sizeof(Event) <=> ?
 // MAP_CHECKSUM?
-Size for a map of n*m * l layers = 24 bytes + up to n*m*l*4 bytes
+Size for a map of n*m * l layers = 28 bytes + up to n*m*l*4 bytes
 ```
 
+## TODO
+- Add tilemap link (via filename in same archive?)
+- Determine what's an event.
+
+## Outdated source draft
+**Check Map.cpp for a up to date implementation.**
 Loader draft:
 ```c++
-struct Map_Data {
-    char magic_string[8];
-    unsigned width : 4;
-    unsigned height : 4;
-    unsigned n_layers : 4;
-    enum Map_Compression compression;
+#include <cstring>
+Map load_map(void* data, uint32_t datasize) throw MapLoadException {
+  uint32_t map_version;
+  uint32_t expected_checksum, real_checksum;
+  uint32_t expected_data_size, real_data_size;
+  uint16_t map_width = 0, map_height = 0, map_n_layers = 0, map_n_events;
+  enum Map_Compression map_compression = RAW; // or whatever Map_Compression will be
+
+  char* cdata = (char*) data;
+  if(cdata == NULL) throw NPE(); // Null Pointer Exception
+
+  if (datasize < 28)
+  {
+    throw MLE("File too small for header.");
+  }
+
+  if(strncmp(cdata, "WMAP", 4)) throw MLE("Bad map header.");
+
+  expected_checksum = read_big_endian_value<uint32_t>(&cdata[4]);
+  real_checksum = crc32(0L, &cdata[8], 20);
+  if(expected_checksum != real_checksum)
+  {
+    throw MLE("Bad checksum");
+  }
+
+  version = read_big_endian_value<uint32_t>(&cdata[8]);
+  // TODO : version check
+
+  expected_data_size = read_big_endian_value<uint32_t>(&cdata[12]);
+  real_data_size = datasize - 24;
+  if(expected_data_size != real_data_size)
+  {
+    throw MLE("Bad data size");      
+  }
+
+  map_witdh = read_big_endian_value<uint16_t>(&cdata[16]);
+  map_height = read_big_endian_value<uint16_t>(&cdata[18]);
+
+  map_n_layers = read_big_endian_value<uint16_t>(&cdata[20]);
+  if(map_n_layers < 1 || map_n_layers > 2) throw MLE("Wrong map layer number.");
+
+  map_n_events = read_big_endian_value<uint16_t>(&cdata[22]);
+  if(map_n_events != 0) thorw MLE("Events not supported yet.");
+
+  map_compression = read_big_endian_value<uint32_t>(&cdata[24]);
+
+  unsigned *layer0, *layer1;
+  switch(map_compression) {
+    // copy layers from &udata[6] and &udata[6*(map_width*map_height/sizeof(uint32_t))]
+    case RAW:
+    // TODO
+    break;
+    /* // NOT IMPLEMENTED YET //
+    case RLE_PER_LAYER:
+    // TDOO
+    break;
+    case RLE_ALL_LAYERS:
+    // TODO
+    break;
+    case ZLIB:
+    // TODO
+    break;
+    */
+    default:
+      throw MLE("Wrong compression");
+  }
+
+  return Map(map_width, map_height, layer0, layer1);
+}
+// **
+```
+
+# Tileset Serialization
+
+```markdown
+SET_MAGIC_HEADER     : 'WTst'          <=> 4 bytes
+SET_HEADER_CHECKSUM  : unsigned int    <=> 4 bytes
+SET_VERSION          : unsigned int    <=> 4 bytes
+SET_SHEET_FILENAME   : char[8]         <=> 8 bytes
+SET_SPRITE_SIZE      : unsigned short  <=> 2 bytes
+SET_N_TILES          : unsigned short  <=> 2 bytes
+---
+TILES_DATA           : struct          <=> n bytes
+  - COLLISION_MASK   : unsigned char   <=> 1 byte
+Size for a tilemap of n tiles = 24 bytes + up to 1 * n bytes
+```
+
+Tilemap Loader draft:
+
+```c++
+struct Tilechip {
+  uint8_t collision_mask;
 };
 
+constexpr unsigned TILESET_CHIP_DATA_SIZE = 1;
+constexpr unsigned TILESET_HEADER_SIZE = 24;
+
 #include <cstring>
-  Map load_map(void* data) throw MapLoadException {
-    unsigned map_width = 0, map_height = 0, map_n_layers = 0;
-    enum Map_Compression map_compression = RAW; // or whatever Map_Compression will be
-    char* cdata = (char*) data;
-    unsigned* udata = (unsigned*) data;
-    if(cdata == NULL) throw NPE(); // Null Pointer Exception
-    if(strncmp(cdata, "WRPG_MAP", 8)) throw MLE("Bad map header.");
-    // Assuming big endian
-    map_width = ((cdata[8]&7) << 24) | ((cdata[9]&7) << 16) | ((cdata[10]&7) << 8) | (((cdata[11]&7)));
-    map_height = ((cdata[12]&7) << 24) | ((cdata[13]&7) << 16) | ((cdata[14]&7) << 8) | (((cdata[15]&7)));
-    map_n_layers = ((cdata[16]&7) << 24) | ((cdata[17]&7) << 16) | ((cdata[18]&7) << 8) | (((cdata[19]&7)));
-    if(map_n_layers < 1 || map_n_layers > 2) thorw MLE("Wrong map layer number.");
+Tilemap load_tilemap(void* data, uint32_t datasize) {
+  uint32_t expected_checksum, real_checksum;
+  uint32_t set_version;
+  uint32_t set_sprite_size;
+  char sheet_filename[8] = {0};
+  Tilechip *chips;
 
-    map_compression = ((cdata[20]&7) << 24) | ((cdata[21]&7) << 16) | ((cdata[22]&7) << 8) | (((cdata[23]&7)));
+  char* cdata = (char*) data;
+  if(cdata == NULL) throw TLE(); // Null Pointer Exception
 
-    unsigned *layer0, *layer1;
-    switch(map_compression) {
-      // copy layers from &udata[6] and &udata[6*(map_width*map_height/sizeof(unsigned))]
-      case RAW:
-      // TODO
-      break;
-      case RLE_PER_LAYER:
-      // TDOO
-      break;
-      case RLE_ALL_LAYERS:
-      // TODO
-      break;
-      case ZLIB:
-      // TODO
-      break;
-      default:
-        throw MLE("Wrong compression");
-    }
-
-    return Map(map_width, map_height, layer0, layer1);
+  if (datasize < 24)
+  {
+    throw TLE("File too small for header.");
   }
+  if(strncmp(cdata, "WTST", 4)) throw TLE("Bad map header.");
+
+  expected_checksum = read_big_endian_value<uint32_t>(&cdata[4]);
+  real_checksum = crc32(0L, &cdata[8], 16);
+  if(expected_checksum != real_checksum)
+  {
+    throw TLE("Bad checksum");
+  }
+
+  version = read_big_endian_value<uint32_t>(&cdata[8]);
+  // TODO : version check
+  memcpy(sheet_filename, &cdata[12], sizeof(unsigned char)*8);
+  set_sprite_size = read_big_endian_value<uint32_t>(&cdata[20]);
+  set_n_tiles = read_big_endian_value<uint32_t>(&cdata[22]);
+
+  chips = new Tilechip[set_n_tiles];
+
+  for(int i = ); i < set_n_tiles; i++) {
+    chips[i].collision_mask = read_big_endian_value<uint8_t>(&cdata[TILESET_HEADER_SIZE + i*TILESET_CHIP_DATA_SIZE]);
+  }
+
+}
 ```

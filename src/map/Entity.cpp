@@ -1,37 +1,37 @@
 #include "Entity.h"
+#include "StateMap.h"
 #include "utility/misc.h"
 #include "utility/Rect.h"
 
 using WalrusRPG::Entity;
 using namespace WalrusRPG::Utils;
 
-Entity::Entity(int x, int y, unsigned w, unsigned h, WalrusRPG::Renderer *tset,
-               unsigned sprite_id)
-    : coords(x, y, w, h), tset(tset), sprite_id(sprite_id)
+Entity::Entity(States::StateMap &container, float x, float y, unsigned w, unsigned h,
+               WalrusRPG::Renderer *tset, unsigned sprite_id)
+    : sprite_id(sprite_id), container(container), tset(tset), x(x), y(y), w(w), h(h),
+      moving(false), solid(true)
 {
 }
 
 Entity::~Entity()
 {
-    // TODO if you allocate dynamically members
+    delete tset;
 }
 
-void Entity::render(Camera &camera, unsigned dt) const
+void Entity::render(Camera &camera) const
 {
-    UNUSED(dt);
-
-    if (camera.is_visible(coords))
+    if (tset == nullptr)
+        return;
+    if (camera.is_visible({(int) x, (int) y, w, h}))
     {
-        tset->render(sprite_id,
-                     Rect(coords.x - camera.get_x(), coords.y - camera.get_y()));
+        tset->render(sprite_id, Rect(x - camera.get_x(), y - camera.get_y()));
         //(*tset).render_tile(sprite_id, coords.x - camera.get_x(), coords.y -
         // camera.get_y(), dt);
     }
 }
 
-void Entity::update(unsigned dt)
+void Entity::update()
 {
-    UNUSED(dt);
     // TODO update map's data according to elasped time
     /*
                 // Need to think aagain on how to go to a target point and/or we need to
@@ -39,4 +39,13 @@ void Entity::update(unsigned dt)
                 position += velocity * dt;
                 velocity += acceleration * dt;
          */
+}
+
+void Entity::interact_with(Entity &origin, InteractionType type)
+{
+    container.box.set_text("Undefined behaviour.");
+    container.started = true;
+
+    UNUSED(origin);
+    UNUSED(type);
 }

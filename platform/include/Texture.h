@@ -25,7 +25,7 @@ namespace WalrusRPG
             texture_data_t data;
 
             Texture(WalrusRPG::PIAF::File entry);
-            Texture(char *data);
+            Texture(char *data = nullptr);
             ~Texture();
             // Getters
             const WalrusRPG::Utils::Rect get_dimensions();

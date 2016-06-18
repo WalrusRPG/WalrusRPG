@@ -53,14 +53,17 @@ void Animator::add_animation(int index, Animation anim)
     animations[index].duration = get_animation_duration(anim);
 }
 
-unsigned Animator::get_animation_frame(unsigned id)
+unsigned Animator::get_animation_frame(unsigned id) const
 {
-    if (animations[id].stripe.empty())
+    auto ptr = animations.find(id);
+    if (ptr == animations.end())
         return id;
-    return find_frame(animations[id], elapsed_time);
+    if (ptr->second.stripe.empty())
+        return id;
+    return find_frame(ptr->second, elapsed_time);
 }
 
-void Animator::update(unsigned dt)
+void Animator::update()
 {
-    elapsed_time += dt;
+    elapsed_time++;
 }

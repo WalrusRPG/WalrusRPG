@@ -16,9 +16,8 @@ Camera::~Camera()
     // TODO if you allocate dynamically members
 }
 
-void Camera::update(unsigned dt)
+void Camera::update()
 {
-    UNUSED(dt);
     // TODO update map's data according to elasped time
     /*
                 // Need to think aagain on how to go to a target point and/or we need to
@@ -27,14 +26,14 @@ void Camera::update(unsigned dt)
                 velocity += acceleration * dt;
          */
 
-    if (Input::key_down(Key::K_DOWN))
-        y++;
-    if (Input::key_down(Key::K_UP))
-        y--;
-    if (Input::key_down(Key::K_RIGHT))
-        x++;
-    if (Input::key_down(Key::K_LEFT))
-        x--;
+    // if (Input::key_down(Key::K_DOWN))
+    //     y++;
+    // if (Input::key_down(Key::K_UP))
+    //     y--;
+    // if (Input::key_down(Key::K_RIGHT))
+    //     x++;
+    // if (Input::key_down(Key::K_LEFT))
+    //     x--;
 }
 
 void Camera::set_x(signed x)
