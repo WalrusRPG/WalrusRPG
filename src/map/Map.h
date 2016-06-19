@@ -33,6 +33,7 @@ namespace WalrusRPG
         uint16_t *layer0;
         uint16_t *layer1;
         uint16_t *layer2;
+
       protected:
         uint16_t width;
         uint16_t height;

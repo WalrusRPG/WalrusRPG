@@ -130,20 +130,28 @@ void Logger::debug_render()
         ImVec4 col = ImColor(255, 255, 255); // A better implementation may store a type
                                              // per-item. For the sample let's just parse
                                              // the text.
-        if (strstr(item, "[LOG]")){
-            if(!show_log) continue;
+        if (strstr(item, "[LOG]"))
+        {
+            if (!show_log)
+                continue;
             col = ImColor(128, 128, 128);
         }
-        if (strstr(item, "[DEBUG]")){
-            if(!show_debug) continue;
+        if (strstr(item, "[DEBUG]"))
+        {
+            if (!show_debug)
+                continue;
             col = ImColor(168, 168, 224);
         }
-        if (strstr(item, "[WARN]")){
-            if(!show_warn) continue;
+        if (strstr(item, "[WARN]"))
+        {
+            if (!show_warn)
+                continue;
             col = ImColor(224, 224, 64);
         }
-        if (strstr(item, "[ERROR]")){
-            if(!show_error) continue;
+        if (strstr(item, "[ERROR]"))
+        {
+            if (!show_error)
+                continue;
             col = ImColor(224, 64, 64);
         }
         ImGui::PushStyleColor(ImGuiCol_Text, col);

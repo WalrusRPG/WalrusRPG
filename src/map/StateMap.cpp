@@ -63,14 +63,14 @@ StateMap::StateMap(int x, int y, Map &map)
     map.add_entity(new TalkEntity(
         *this, 138, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134,
         "Doot doot. Thanks \xFF\x02\xFF\x00\x00Mr. Skeltal\xFF\x02\xFF\xFF\xFF!"));
-    /*
-    map.add_entity(
-        new Entity(*this, 196, 112, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
-    134));
-    map.add_entity(
-        new Entity(*this, 196, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
-    134));
-    */
+/*
+map.add_entity(
+    new Entity(*this, 196, 112, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
+134));
+map.add_entity(
+    new Entity(*this, 196, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
+134));
+*/
 #if TARGET_SFML
     active_map_mode = 0;
 #endif
@@ -215,7 +215,8 @@ void StateMap::debug(unsigned dt)
                     else if (active_map_mode == 1)
                     {
                         auto ptr = map.anim.animations.find(tile);
-                        if (ptr != map.anim.animations.end() && ptr->second.stripe.size() > 1)
+                        if (ptr != map.anim.animations.end() &&
+                            ptr->second.stripe.size() > 1)
                             list->AddRectFilled({x, y}, {x + 3, y + 3},
                                                 0xFFFF0000 +
                                                     map.anim.get_animation_frame(tile));
@@ -246,7 +247,8 @@ void StateMap::debug(unsigned dt)
                         {
                             ImU32 c{0xFF00FF00};
                             auto ptr = map.anim.animations.find(tile2);
-                            if (ptr != map.anim.animations.end() && ptr->second.stripe.size() > 1)
+                            if (ptr != map.anim.animations.end() &&
+                                ptr->second.stripe.size() > 1)
                                 list->AddRectFilled({x, y}, {x + 3, y + 3}, c);
                         }
                     }

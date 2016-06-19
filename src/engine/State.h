@@ -20,7 +20,6 @@ namespace WalrusRPG
 #if TARGET_SFML
             virtual void debug(unsigned dt) = 0;
 #endif
-
         };
     }
 }
