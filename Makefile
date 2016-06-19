@@ -1,6 +1,6 @@
 NAME = WalrusRPG
 
-DEBUG = FALSE
+DEBUG = TRUE
 
 CFLAGS_COMMON = -Wall -W $(addprefix -I,$(INCLUDE) $(INCLUDE_EXT)) -MMD -MP -pipe
 

@@ -9,12 +9,12 @@ DEPS += lodepng
 LIBDIRS	:= $(CTRULIB) $(CURDIR)/../libsf2d $(PORTLIBS)
 INCLUDE_EXT += $(3ds_LOCAL_PATH)/public $(foreach dir,$(LIBDIRS),$(dir)/include)
 
-ARCH = -march=armv6k -mtune=mpcore -mfloat-abi=hard
+ARCH = -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -DARM11 -D_3DS
 
-LIBS = -lm -lctru -lsf2d -lz
-LDFLAGS += -specs=3dsx.specs -g -march=armv6k -mtune=mpcore -mfloat-abi=hard $(ARCH) -Wl,--gc-sections,-Map,$(notdir $*.map) $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+LIBS = -lsf2d -lctru -lm -lz
+LDFLAGS += -specs=3dsx.specs $(ARCH) -Wl,--gc-sections,-Map,$(notdir $*.map) $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-CFLAGS_COMMON += -DTARGET_3DS=1 -DARM11 -D_3DS -fno-rtti -fno-exceptions
+CFLAGS_COMMON += -DTARGET_3DS=1 $(ARCH) -fno-rtti -fno-exceptions
 
 APP_TITLE		:= WalrusRPG
 APP_DESCRIPTION	:= Here we go, fellows.
