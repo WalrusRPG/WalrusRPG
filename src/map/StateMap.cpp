@@ -63,17 +63,14 @@ StateMap::StateMap(int x, int y, Map &map)
     map.add_entity(new TalkEntity(
         *this, 138, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134,
         "Doot doot. Thanks \xFF\x02\xFF\x00\x00Mr. Skeltal\xFF\x02\xFF\xFF\xFF!"));
-/*
-map.add_entity(
-    new Entity(*this, 196, 112, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
-134));
-map.add_entity(
-    new Entity(*this, 196, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
-134));
-*/
-#if TARGET_SFML
-    active_map_mode = 0;
-#endif
+    /*
+    map.add_entity(
+        new Entity(*this, 196, 112, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
+    134));
+    map.add_entity(
+        new Entity(*this, 196, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
+    134));
+    */
 }
 
 StateMap::~StateMap()
@@ -159,6 +156,25 @@ void StateMap::render()
 
 #if TARGET_SFML
 
+void StateMap::debug_layer(uint16_t *layer, ImU32 color, ImDrawList *list, ImVec2 offset)
+{
+    for (signed i = 0; i < map.get_height(); i++)
+    {
+        for (signed j = 0; j < map.get_width(); j++)
+        {
+            float x = offset.x + 4 * j;
+            float y = offset.y + 4 * i;
+            uint16_t tile = layer[i * map.get_width() + j];
+            {
+                if (tile != 0)
+                {
+                    list->AddRectFilled({x, y}, {x + 4, y + 4}, color);
+                }
+            }
+        }
+    }
+}
+
 void StateMap::debug()
 {
     ImGui::Begin("Map State");
@@ -175,14 +191,22 @@ void StateMap::debug()
     ImGui::Text("Map");
     ImGui::Indent();
     ImGui::Value("W", map.get_width());
-    ImGui::Unindent();
     ImGui::SameLine();
     ImGui::Value("H", map.get_height());
+    ImGui::Value("Nb entities", (int) map.entities.size());
+    ImGui::Unindent();
 
-    if (ImGui::RadioButton("Layers", active_map_mode == 0))
-        active_map_mode = 0;
-    if (ImGui::RadioButton("Animated", active_map_mode == 1))
-        active_map_mode = 1;
+    ImGui::Text("Layers");
+    if (ImGui::Checkbox("Ground", &show_layer_ground))
+        ;
+    ImGui::SameLine();
+    if (ImGui::Checkbox("Middle", &show_layer_middle))
+        ;
+    ImGui::SameLine();
+    if (ImGui::Checkbox("Over", &show_layer_over))
+        ;
+    if (ImGui::Checkbox("Entities", &show_entities))
+        ;
 
     if (ImGui::BeginChild("map_frame", {0, 0}, true))
     {
@@ -194,72 +218,30 @@ void StateMap::debug()
         ImVec2 s = ImGui::GetCursorScreenPos();
         s = {s.x - scrolling.x, s.y - scrolling.y};
         ImDrawList *list = ImGui::GetWindowDrawList();
-        if (map.layer0 != nullptr)
+        if (show_layer_ground && map.layer0 != nullptr)
+            StateMap::debug_layer(map.layer0, 0x88888888, list, s);
+        if (show_layer_middle && map.layer1 != nullptr)
+            StateMap::debug_layer(map.layer1, 0xFF0000FF, list, s);
+        if (show_entities)
         {
-            for (signed i = 0; i < map.get_height(); i++)
+            for (auto ptr = map.entities.begin(); ptr != map.entities.end(); ptr++)
             {
-                for (signed j = 0; j < map.get_width(); j++)
-                {
-                    float x = s.x + 3 * j;
-                    float y = s.y + 3 * i;
-                    uint16_t tile = map.layer0[i * map.get_width() + j];
-                    if (active_map_mode == 0)
-                    {
-                        if (tile != 0)
-                        {
-                            ImU32 c{0x88888888};
-                            list->AddRectFilled({x, y}, {x + 3, y + 3}, c);
-                        }
-                    }
-                    else if (active_map_mode == 1)
-                    {
-                        auto ptr = map.tmap.anim.animations.find(tile);
-                        if (ptr != map.tmap.anim.animations.end() &&
-                            ptr->second.stripe.size() > 1)
-                            list->AddRectFilled(
-                                {x, y}, {x + 3, y + 3},
-                                0xFFFF0000 + map.tmap.anim.get_animation_frame(tile));
-                    }
-                }
+                Entity *e = *ptr;
+                float x = s.x + e->x / Tileset::TILE_DIMENSION * 4;
+                float x2 = s.x + (e->x + e->w) / Tileset::TILE_DIMENSION * 4;
+                float y = s.y + e->y / Tileset::TILE_DIMENSION * 4;
+                float y2 = s.y + (e->y + e->h) / Tileset::TILE_DIMENSION * 4;
+                list->AddRectFilled({x, y}, {x2, y2}, 0xFFFFFFFF);
             }
         }
-        if (map.layer1 != nullptr)
-        {
-            for (signed i = 0; i < map.get_height(); i++)
-            {
-                for (signed j = 0; j < map.get_width(); j++)
-                {
-                    float x = s.x + 3 * j;
-                    float y = s.y + 3 * i;
-                    uint16_t tile2 = map.layer1[i * map.get_width() + j];
-                    if (active_map_mode == 0)
-                    {
-                        if (tile2 != 0)
-                        {
-                            ImU32 c{0xFF0000FF};
-                            list->AddRectFilled({x, y}, {x + 3, y + 3}, c);
-                        }
-                    }
-                    else if (active_map_mode == 1)
-                    {
-                        if (tile2 != 0)
-                        {
-                            ImU32 c{0xFF00FF00};
-                            auto ptr = map.tmap.anim.animations.find(tile2);
-                            if (ptr != map.tmap.anim.animations.end() &&
-                                ptr->second.stripe.size() > 1)
-                                list->AddRectFilled({x, y}, {x + 3, y + 3}, c);
-                        }
-                    }
-                }
-            }
-        }
-        float x = camera.get_x() / (float) 16;
-        float x2 = (camera.get_x() + 320) / (float) 16;
-        float y = camera.get_y() / (float) 16;
-        float y2 = (camera.get_y() + 240) / (float) 16;
-        list->AddRect({std::floor(x * 3 + s.x), std::floor(y * 3 + s.y)},
-                      {std::floor(x2 * 3 + s.x), std::floor(y2 * 3 + s.y)}, 0xFFFFFF00);
+        if (show_layer_over && map.layer2 != nullptr)
+            StateMap::debug_layer(map.layer2, 0x800000FF, list, s);
+        float x = camera.get_x() / (float) Tileset::TILE_DIMENSION;
+        float x2 = (camera.get_x() + 320) / (float) Tileset::TILE_DIMENSION;
+        float y = camera.get_y() / (float) Tileset::TILE_DIMENSION;
+        float y2 = (camera.get_y() + 240) / (float) Tileset::TILE_DIMENSION;
+        list->AddRect({std::floor(x * 4 + s.x), std::floor(y * 4 + s.y)},
+                      {std::floor(x2 * 4 + s.x), std::floor(y2 * 4 + s.y)}, 0xFFFFFF00);
 
         ImGui::EndChild();
     }

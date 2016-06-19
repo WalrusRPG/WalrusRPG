@@ -21,7 +21,10 @@ namespace WalrusRPG
             Camera camera;
             Map &map;
 #if TARGET_SFML
-            unsigned active_map_mode;
+            bool show_layer_ground;
+            bool show_layer_middle;
+            bool show_layer_over;
+            bool show_entities;
             ImVec2 scrolling = ImVec2(0.0f, 0.0f);
 #endif
             WalrusRPG::ManagedArchive data;
@@ -38,6 +41,8 @@ namespace WalrusRPG
 
 #if TARGET_SFML
             void debug();
+            void debug_layer(uint16_t *layer, ImU32 color, ImDrawList *list,
+                             ImVec2 offset = {0, 0});
 #endif
 
             void putchar_haeccity(unsigned char c, unsigned x, unsigned y);

@@ -11,6 +11,8 @@
 
 #if TARGET_SFML
 #include <SFML/System.hpp>
+#include "imgui-events-SFML.h"
+#include "imgui-rendering-SFML.h"
 #endif
 
 using namespace WalrusRPG; /*::StateMachine*/
