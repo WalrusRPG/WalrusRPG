@@ -8,6 +8,7 @@
 #include "Logger.h"
 #include "render/TileRenderer.h"
 #include "TalkEntity.h"
+#include "DoorEntity.h"
 
 using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;
@@ -23,6 +24,7 @@ using WalrusRPG::Textbox;
 using WalrusRPG::Entity;
 using WalrusRPG::TileRenderer;
 using WalrusRPG::TalkEntity;
+using WalrusRPG::DoorEntity;
 
 namespace
 {
@@ -63,6 +65,17 @@ StateMap::StateMap(int x, int y, Map &map)
     map.add_entity(new TalkEntity(
         *this, 138, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134,
         "Doot doot. Thanks \xFF\x02\xFF\x00\x00Mr. Skeltal\xFF\x02\xFF\xFF\xFF!"));
+
+
+    map.add_entity(new TalkEntity(
+        *this, 138, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134,
+        "Doot doot. Thanks \xFF\x02\xFF\x00\x00Mr. Skeltal\xFF\x02\xFF\xFF\xFF!"));
+
+
+    map.add_entity(new DoorEntity(*this, 48, 240, Tileset::TILE_DIMENSION,
+                                  Tileset::TILE_DIMENSION, tr, 4, 7));
+    map.add_entity(new DoorEntity(*this, 352, 240, Tileset::TILE_DIMENSION,
+                                  Tileset::TILE_DIMENSION, tr, 4, 7));
     /*
     map.add_entity(
         new Entity(*this, 196, 112, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,

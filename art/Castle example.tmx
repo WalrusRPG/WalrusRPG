@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="27" tilewidth="16" tileheight="16" nextobjectid="23">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="27" tilewidth="16" tileheight="16" nextobjectid="25">
  <properties>
   <property name="test" type="int" value="1337"/>
  </properties>
@@ -1295,7 +1295,7 @@
    <tile gid="12"/>
    <tile gid="81"/>
    <tile gid="11"/>
-   <tile gid="5"/>
+   <tile gid="0"/>
    <tile gid="11"/>
    <tile gid="9"/>
    <tile gid="9"/>
@@ -1314,7 +1314,7 @@
    <tile gid="9"/>
    <tile gid="9"/>
    <tile gid="11"/>
-   <tile gid="5"/>
+   <tile gid="0"/>
    <tile gid="11"/>
    <tile gid="9"/>
    <tile gid="12"/>
@@ -1690,7 +1690,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="24"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1707,7 +1706,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -2276,5 +2276,9 @@
   <object id="20" name="Slime" gid="225" x="128" y="96" width="16" height="16"/>
   <object id="21" name="Slime" gid="209" x="256" y="64" width="16" height="16"/>
   <object id="22" name="Vessel" gid="145" x="256" y="128" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Objects">
+  <object id="23" type="Door" gid="5" x="352" y="256" width="16" height="16"/>
+  <object id="24" type="Door" gid="5" x="48" y="256" width="16" height="16"/>
  </objectgroup>
 </map>
