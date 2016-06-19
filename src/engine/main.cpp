@@ -26,6 +26,9 @@ int main(int argc, char *argv[])
     Graphics::init();
     Logger::init();
     Logger::log("WalrusRPG Init");
+    Logger::debug("This is a debug line");
+    Logger::warn("Warning color!");
+    Logger::error("/!\\This shouldn't have happened!");
     Status::init();
     Timing::init();
     Quirks::init(argv[0]);

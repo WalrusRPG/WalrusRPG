@@ -28,12 +28,15 @@ namespace WalrusRPG
     // TODO : Implement compressed data loading routines
     class Map
     {
-      protected:
-        uint16_t width;
-        uint16_t height;
+      public:
+        Animator anim;
         uint16_t *layer0;
         uint16_t *layer1;
         uint16_t *layer2;
+      protected:
+        uint16_t width;
+        uint16_t height;
+
         // TODO?: add a boolean/getter to know if a second layer exist?
 
         void render_lower_layer(Camera &camera);

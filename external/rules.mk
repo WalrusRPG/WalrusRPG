@@ -9,3 +9,8 @@ ifneq (, $(findstring lodepng, $(DEPS)))
     INCLUDE_EXT += $(external_LOCAL_PATH)/lodepng
     SRCS_CPP += $(external_LOCAL_PATH)/lodepng/lodepng.cpp
 endif
+
+ifneq (, $(findstring imgui, $(DEPS)))
+    INCLUDE_EXT += $(external_LOCAL_PATH)/imgui $(external_LOCAL_PATH)/imgui-backends/SFML
+	SRCS_CPP += $(external_LOCAL_PATH)/imgui/imgui.cpp $(external_LOCAL_PATH)/imgui/imgui_draw.cpp
+endif

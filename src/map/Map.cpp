@@ -167,7 +167,7 @@ namespace
             default:
                 Logger::error("Wrong compression method");
 #ifdef WRPG_EXCEPTIONS
-                throw MapException("%s: Wrong compression method", __FILE__);
+                throw MapException("%s: Wrong compression method : 0x%x", __FILE__);
 #endif
                 break;
         }

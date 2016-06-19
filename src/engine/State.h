@@ -1,6 +1,12 @@
 #ifndef INCLUDE_STATE_H
 #define INCLUDE_STATE_H
 
+#if TARGET_SFML
+#include "imgui.h"
+#include "imgui-events-SFML.h"
+#include "imgui-rendering-SFML.h"
+#endif
+
 namespace WalrusRPG
 {
     namespace States
@@ -11,6 +17,10 @@ namespace WalrusRPG
             virtual ~State(){};
             virtual void update() = 0;
             virtual void render() = 0;
+#if TARGET_SFML
+            virtual void debug(unsigned dt) = 0;
+#endif
+
         };
     }
 }

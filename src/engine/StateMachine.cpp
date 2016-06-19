@@ -9,6 +9,10 @@
 #include "input/Input.h"
 #include "utility/misc.h"
 
+#if TARGET_SFML
+#include <SFML/System.hpp>
+#endif
+
 using namespace WalrusRPG; /*::StateMachine*/
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Timing;
@@ -19,50 +23,67 @@ using WalrusRPG::States::State;
 
 namespace
 {
+#if TARGET_SFML
+    float update_times[200] = {0};
+    float render_times[200] = {0};
+    bool show_logger = false;
+    bool show_state_debug = false;
+
     /**
      * Debug function showing a button state.
      */
-    void draw_button(signed x, signed y, KeyState state)
+    void draw_button(ImDrawList *list, signed x, signed y, KeyState state)
     {
-        put_horizontal_line(x + 1, x + 5, y, Gray);
-        put_horizontal_line(x + 1, x + 5, y + 6, Gray);
-        put_vertical_line(x, y + 1, y + 5, Gray);
-        put_vertical_line(x + 6, y + 1, y + 5, Gray);
+        uint32_t button_color;
         switch (state)
         {
             case KeyState::KS_RELEASED:
-                put_rectangle({x + 1, y + 1, 5, 5}, White);
+                button_color = 0xFFFFFFFF;
                 break;
             case KeyState::KS_JUST_RELEASED:
-                put_rectangle({x + 1, y + 1, 5, 5}, Magenta);
+                button_color = 0xFFFFFF00;
                 break;
             case KeyState::KS_JUST_PRESSED:
-                put_rectangle({x + 1, y + 1, 5, 5}, Cyan);
+                button_color = 0xFFFF00FF;
                 break;
             case KeyState::KS_PRESSED:
-                put_rectangle({x + 1, y + 1, 5, 5}, Black);
+                button_color = 0xFF000000;
                 break;
         }
+        list->AddRectFilled({static_cast<float>(x), static_cast<float>(y)},
+                            {static_cast<float>(x) + 8, static_cast<float>(y) + 8},
+                            button_color);
     }
+
     /**
      * Draws WRPG's buttons states.
      */
     void draw_buttons()
     {
-        draw_button(0, 24, key_get_state(Key::K_L));
-        draw_button(56, 24, key_get_state(Key::K_R));
+        ImGui::BeginGroup();
+        ImGui::Text("Input state");
+        ImGui::Indent();
+        ImVec2 s = ImGui::GetCursorScreenPos();
+        ImDrawList *list = ImGui::GetWindowDrawList();
+        draw_button(list, s.x + 0, s.y, key_get_state(Key::K_L));
+        draw_button(list, s.x + 56, s.y, key_get_state(Key::K_R));
 
-        draw_button(8, 32, key_get_state(Key::K_UP));
-        draw_button(0, 40, key_get_state(Key::K_LEFT));
-        draw_button(16, 40, key_get_state(Key::K_RIGHT));
-        draw_button(8, 48, key_get_state(Key::K_DOWN));
+        draw_button(list, s.x + 8, s.y + 8, key_get_state(Key::K_UP));
+        draw_button(list, s.x + 0, s.y + 16, key_get_state(Key::K_LEFT));
+        draw_button(list, s.x + 16, s.y + 16, key_get_state(Key::K_RIGHT));
+        draw_button(list, s.x + 8, s.y + 24, key_get_state(Key::K_DOWN));
 
-        draw_button(28, 48, key_get_state(Key::K_SELECT));
-        draw_button(36, 48, key_get_state(Key::K_START));
+        draw_button(list, s.x + 27, s.y + 24, key_get_state(Key::K_SELECT));
+        draw_button(list, s.x + 37, s.y + 24, key_get_state(Key::K_START));
 
-        draw_button(48, 44, key_get_state(Key::K_B));
-        draw_button(56, 36, key_get_state(Key::K_A));
+        draw_button(list, s.x + 48, s.y + 20, key_get_state(Key::K_B));
+        draw_button(list, s.x + 56, s.y + 12, key_get_state(Key::K_A));
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 32 +
+                             ImGui::GetTextLineHeightWithSpacing());
+        ImGui::Unindent();
+        ImGui::EndGroup();
     }
+#endif
 
     // State stack. Pointer because polymorphism.
     static tinystl::vector<WalrusRPG::States::State *> stack;
@@ -137,9 +158,52 @@ void StateMachine::run()
                 Text::print_format(0, 240 - 8, "%ufps, %uups", TIMER_FREQ / frame_time,
                                    TIMER_FREQ / update_time);
             }
-            // TODO : use a boolean to show/hide and to avoid that frigging wanring.
-            // draw_buttons();
-            UNUSED(draw_buttons);
+
+#if TARGET_SFML
+            // Updating time graph
+            float update_time = (frame_stamp - update_stamp) / 1000.;
+            float render_time = (Timing::gettime() - frame_stamp) / 1000.;
+            for (int i = 0; i < 200; ++i)
+            {
+                update_times[i] = update_times[i + 1];
+                render_times[i] = render_times[i + 1];
+            }
+            update_times[199] = update_time;
+            render_times[199] = render_time;
+            // Drawing FPS and render graphs
+            ImGui::BeginGroup();
+            ImGui::Text("FPS: %.2f", TIMER_FREQ / (float) frame_time);
+            ImGui::PlotLines("", update_times, 200, 0, "Update");
+            ImGui::SameLine();
+            ImGui::Text("%.2fms", update_time);
+            ImGui::PlotLines("", render_times, 200, 0, "Render");
+            ImGui::SameLine();
+            ImGui::Text("%.2fms", render_time);
+            ImGui::EndGroup();
+
+            ImGui::Separator();
+
+            // Drawing Window Toggles
+            ImGui::Text("Toggles");
+            ImGui::Indent();
+            ImGui::BeginGroup();
+            ImGui::Checkbox("Logger", &show_logger);
+            ImGui::Checkbox("State", &show_state_debug);
+            ImGui::EndGroup();
+            ImGui::Unindent();
+
+            ImGui::Separator();
+
+            // Drawing buttons
+            draw_buttons();
+
+
+            if (show_logger)
+                Logger::debug_render();
+            if (show_state_debug)
+                stack.back()->debug(100 * frame_time / TIMER_FREQ);
+#endif
+
             Graphics::frame_end();
         }
 

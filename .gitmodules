@@ -4,3 +4,9 @@
 [submodule "external/lodepng"]
 	path = external/lodepng
 	url = https://github.com/lvandeve/lodepng.git
+[submodule "external/imgui"]
+	path = external/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "external/imgui-backends"]
+	path = external/imgui-backends
+	url = https://github.com/Mischa-Alff/imgui-backends.git

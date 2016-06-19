@@ -20,6 +20,10 @@ namespace WalrusRPG
             bool started;
             Camera camera;
             Map &map;
+#if TARGET_SFML
+            unsigned active_map_mode;
+            ImVec2 scrolling = ImVec2(0.0f, 0.0f);
+#endif
             WalrusRPG::ManagedArchive data;
             WalrusRPG::Graphics::Texture tex_haeccity;
             WalrusRPG::Graphics::Font txt;
@@ -28,8 +32,14 @@ namespace WalrusRPG
 
             StateMap(int x, int y, Map &map);
             ~StateMap();
+
             void render();
             void update();
+
+#if TARGET_SFML
+            void debug(unsigned dt);
+#endif
+
             void putchar_haeccity(unsigned char c, unsigned x, unsigned y);
             void putchar_haeccity_tint(unsigned char c, unsigned x, unsigned y,
                                        const WalrusRPG::Graphics::Pixel &col);
