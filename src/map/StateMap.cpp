@@ -159,7 +159,7 @@ void StateMap::render()
 
 #if TARGET_SFML
 
-void StateMap::debug(unsigned dt)
+void StateMap::debug()
 {
     ImGui::Begin("Map State");
     ImGui::BeginGroup();
@@ -172,7 +172,6 @@ void StateMap::debug(unsigned dt)
 
     ImGui::Separator();
 
-    ImGui::BeginGroup();
     ImGui::Text("Map");
     ImGui::Indent();
     ImGui::Value("W", map.get_width());
@@ -214,12 +213,12 @@ void StateMap::debug(unsigned dt)
                     }
                     else if (active_map_mode == 1)
                     {
-                        auto ptr = map.anim.animations.find(tile);
-                        if (ptr != map.anim.animations.end() &&
+                        auto ptr = map.tmap.anim.animations.find(tile);
+                        if (ptr != map.tmap.anim.animations.end() &&
                             ptr->second.stripe.size() > 1)
-                            list->AddRectFilled({x, y}, {x + 3, y + 3},
-                                                0xFFFF0000 +
-                                                    map.anim.get_animation_frame(tile));
+                            list->AddRectFilled(
+                                {x, y}, {x + 3, y + 3},
+                                0xFFFF0000 + map.tmap.anim.get_animation_frame(tile));
                     }
                 }
             }
@@ -246,8 +245,8 @@ void StateMap::debug(unsigned dt)
                         if (tile2 != 0)
                         {
                             ImU32 c{0xFF00FF00};
-                            auto ptr = map.anim.animations.find(tile2);
-                            if (ptr != map.anim.animations.end() &&
+                            auto ptr = map.tmap.anim.animations.find(tile2);
+                            if (ptr != map.tmap.anim.animations.end() &&
                                 ptr->second.stripe.size() > 1)
                                 list->AddRectFilled({x, y}, {x + 3, y + 3}, c);
                         }
@@ -264,7 +263,6 @@ void StateMap::debug(unsigned dt)
 
         ImGui::EndChild();
     }
-    ImGui::EndGroup();
     ImGui::End();
 }
 #endif

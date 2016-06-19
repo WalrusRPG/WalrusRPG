@@ -37,7 +37,7 @@ namespace WalrusRPG
             void update();
 
 #if TARGET_SFML
-            void debug(unsigned dt);
+            void debug();
 #endif
 
             void putchar_haeccity(unsigned char c, unsigned x, unsigned y);

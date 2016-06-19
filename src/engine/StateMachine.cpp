@@ -201,7 +201,7 @@ void StateMachine::run()
             if (show_logger)
                 Logger::debug_render();
             if (show_state_debug)
-                stack.back()->debug(100 * frame_time / TIMER_FREQ);
+                stack.back()->debug();
 #endif
 
             Graphics::frame_end();

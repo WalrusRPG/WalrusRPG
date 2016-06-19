@@ -29,7 +29,6 @@ namespace WalrusRPG
     class Map
     {
       public:
-        Animator anim;
         uint16_t *layer0;
         uint16_t *layer1;
         uint16_t *layer2;
