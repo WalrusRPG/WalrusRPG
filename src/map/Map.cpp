@@ -599,9 +599,6 @@ bool Map::entity_entity_collision(Rect a, Entity *ref)
                 return true;
         }
 
-    // TODO : QuadTree
-
-
     return false;
 }
 
