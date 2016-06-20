@@ -22,22 +22,39 @@ namespace WalrusRPG
         ZLIB,
     };
 
-    constexpr unsigned MAP_VERSION = 0x00010000;
+    constexpr const unsigned MAP_VERSION = 0x00010000;
+    // The map containing a virtual gridto manage entity collection.
+    // This grid counts in tiles.
+    constexpr const unsigned MAP_OBJECT_GRID_TILE_WIDTH = 8;
+    constexpr const unsigned MAP_OBJECT_GRID_PIXEL_WIDTH =
+        MAP_OBJECT_GRID_TILE_WIDTH * TILE_DIMENSION;
 
     // TODO : Add tile animations.
     // TODO : Implement compressed data loading routines
     class Map
     {
+        friend class States::StateMap;
+
       public:
         uint16_t *layer0;
         uint16_t *layer1;
         uint16_t *layer2;
+        tinystl::unordered_set<Entity *> **entity_container;
 
       protected:
         uint16_t width;
         uint16_t height;
 
         // TODO?: add a boolean/getter to know if a second layer exist?
+
+        void get_grid_corners(Utils::Rect r, tinystl::unordered_set<Entity *> *&top_left,
+                              tinystl::unordered_set<Entity *> *&top_right,
+                              tinystl::unordered_set<Entity *> *&bottom_left,
+                              tinystl::unordered_set<Entity *> *&bottom_right);
+
+        void reset_entity_grid();
+        void add_entity_to_grid(Entity *e);
+        void remove_entity_from_grid(Entity *e);
 
         void render_lower_layer(Camera &camera);
         void render_entities_layer(Camera &camera);

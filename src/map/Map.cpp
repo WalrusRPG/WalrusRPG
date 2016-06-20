@@ -17,12 +17,14 @@ using WalrusRPG::Entity;
 using WalrusRPG::Map;
 using WalrusRPG::MapCompression;
 using WalrusRPG::MapException;
+using WalrusRPG::MAP_OBJECT_GRID_TILE_WIDTH;
 using namespace WalrusRPG;
 using namespace WalrusRPG::Graphics;
 using namespace WalrusRPG::Utils;
 using namespace WalrusRPG::PIAF;
 using WalrusRPG::Graphics::Texture;
 using tinystl::vector;
+using tinystl::unordered_set;
 
 // Graphics::Texture tex_overworld((char *) overworld);
 namespace
@@ -179,28 +181,27 @@ namespace
         // Top left corner
         if ((collision_mask & TOP_LEFT_CORNER) &&
             AABBCheck(object,
-                      {Tileset::TILE_DIMENSION * x, Tileset::TILE_DIMENSION * y,
+                      {TILE_DIMENSION * x, TILE_DIMENSION * y,
                        Tileset::TILE_HALF_DIMENSION, Tileset::TILE_HALF_DIMENSION}))
             return true;
         // Top ~dog~ right corner
         if ((collision_mask & TOP_RIGHT_CORNER) &&
-            AABBCheck(object,
-                      Rect{Tileset::TILE_DIMENSION * x + Tileset::TILE_HALF_DIMENSION,
-                           Tileset::TILE_DIMENSION * y, Tileset::TILE_HALF_DIMENSION,
-                           Tileset::TILE_HALF_DIMENSION}))
+            AABBCheck(object, Rect{TILE_DIMENSION * x + Tileset::TILE_HALF_DIMENSION,
+                                   TILE_DIMENSION * y, Tileset::TILE_HALF_DIMENSION,
+                                   Tileset::TILE_HALF_DIMENSION}))
             return true;
         // Bottom left corner
         if ((collision_mask & BOTTOM_LEFT_CORNER) &&
             AABBCheck(object,
-                      {Tileset::TILE_DIMENSION * x,
-                       Tileset::TILE_DIMENSION * y + Tileset::TILE_HALF_DIMENSION,
+                      {TILE_DIMENSION * x,
+                       TILE_DIMENSION * y + Tileset::TILE_HALF_DIMENSION,
                        Tileset::TILE_HALF_DIMENSION, Tileset::TILE_HALF_DIMENSION}))
             return true;
         // Bottom right
         if ((collision_mask & BOTTOM_RIGHT_CORNER) &&
             AABBCheck(object,
-                      {Tileset::TILE_DIMENSION * x + Tileset::TILE_HALF_DIMENSION,
-                       Tileset::TILE_DIMENSION * y + Tileset::TILE_HALF_DIMENSION,
+                      {TILE_DIMENSION * x + Tileset::TILE_HALF_DIMENSION,
+                       TILE_DIMENSION * y + Tileset::TILE_HALF_DIMENSION,
                        Tileset::TILE_HALF_DIMENSION, Tileset::TILE_HALF_DIMENSION}))
             return true;
         return false;
@@ -215,10 +216,99 @@ Map::Map(Archive &data_container, const char *map_filename, const char *tset_fil
     File map_file = data_container.get(map_filename);
     load_map((void *) map_file.get(), map_file.file_size, width, height, layer0, layer1,
              layer2);
+    entity_container =
+        new unordered_set<Entity *> *[height / MAP_OBJECT_GRID_TILE_WIDTH + 1];
+    for (int i = 0; i < height / MAP_OBJECT_GRID_TILE_WIDTH + 1; ++i)
+    {
+        entity_container[i] =
+            new unordered_set<Entity *>[width / MAP_OBJECT_GRID_TILE_WIDTH + 1];
+    }
 }
 
 Map::~Map()
 {
+    for (int i = 0; i < height / MAP_OBJECT_GRID_TILE_WIDTH + 1; ++i)
+    {
+        delete[] entity_container[i];
+    }
+    delete[] entity_container;
+}
+
+
+void Map::get_grid_corners(Rect r, tinystl::unordered_set<Entity *> *&top_left,
+                           tinystl::unordered_set<Entity *> *&top_right,
+                           tinystl::unordered_set<Entity *> *&bottom_left,
+                           tinystl::unordered_set<Entity *> *&bottom_right)
+{
+    int x_min = (r.x) / MAP_OBJECT_GRID_PIXEL_WIDTH;
+    int y_min = (r.y) / MAP_OBJECT_GRID_PIXEL_WIDTH;
+    int x_max = (r.x + r.width) / MAP_OBJECT_GRID_PIXEL_WIDTH;
+    int y_max = (r.y + r.height) / MAP_OBJECT_GRID_PIXEL_WIDTH;
+    bool x_min_ok = x_min >= 0 && x_min < width / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+    bool x_max_ok = x_max >= 0 && x_max < width / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+    bool y_min_ok = y_min >= 0 && y_min < height / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+    bool y_max_ok = y_max >= 0 && y_max < height / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+
+    if (x_min_ok && y_min_ok)
+        top_left = &entity_container[y_min][x_min];
+    if (x_max_ok && y_min_ok && x_min != x_max)
+        top_right = &entity_container[y_min][x_max];
+    if (x_min_ok && y_max_ok && y_min != y_max)
+        bottom_left = &entity_container[y_max][x_min];
+    if (x_max_ok && y_max_ok && x_min != x_max && y_min != y_max)
+        bottom_right = &entity_container[y_max][x_max];
+}
+
+
+void Map::add_entity_to_grid(Entity *e)
+{
+    if (!e->solid)
+        return;
+    unordered_set<Entity *> *top_left = nullptr, *top_right = nullptr,
+                            *bottom_left = nullptr, *bottom_right = nullptr;
+    get_grid_corners({(int) e->x, (int) e->y, e->w, e->h}, top_left, top_right,
+                     bottom_left, bottom_right);
+
+    if (top_left != nullptr)
+        top_left->insert(e);
+    if (top_right != nullptr)
+        top_right->insert(e);
+    if (bottom_left != nullptr)
+        bottom_left->insert(e);
+    if (bottom_right != nullptr)
+        bottom_right->insert(e);
+}
+
+void Map::remove_entity_from_grid(Entity *e)
+{
+    unordered_set<Entity *> *top_left = nullptr, *top_right = nullptr,
+                            *bottom_left = nullptr, *bottom_right = nullptr;
+    get_grid_corners({(int) e->x, (int) e->y, e->w, e->h}, top_left, top_right,
+                     bottom_left, bottom_right);
+
+    if (top_left != nullptr)
+        top_left->erase(e);
+    if (top_right != nullptr)
+        top_right->erase(e);
+    if (bottom_left != nullptr)
+        bottom_left->erase(e);
+    if (bottom_right != nullptr)
+        bottom_right->erase(e);
+}
+
+void Map::reset_entity_grid()
+{
+    for (int i = 0; i < height / MAP_OBJECT_GRID_TILE_WIDTH + 1; ++i)
+    {
+        for (int j = 0; j < width / MAP_OBJECT_GRID_TILE_WIDTH + 1; ++j)
+        {
+            entity_container[i][j].clear();
+        }
+    }
+    for (vector<Entity *>::iterator ptr = entities.begin(); ptr < entities.end(); ++ptr)
+    {
+        add_entity_to_grid(*ptr);
+    }
 }
 
 void Map::update()
@@ -233,6 +323,7 @@ void Map::update()
         // Entity deplacment managment
         if (e->moving)
         {
+            remove_entity_from_grid(e);
             // Splitting entity movement by axis.
             // Y axis
             float y_sigma = e->vy < 0. ? -1. : 1.;
@@ -275,6 +366,7 @@ void Map::update()
                 vx += add;
             }
             e->x += vx;
+            add_entity_to_grid(e);
         }
     }
 
@@ -294,8 +386,8 @@ void Map::render_lower_layer(WalrusRPG::Camera &camera)
 {
     if (this->layer0 == nullptr)
         return;
-    signed t_width = tmap.TILE_DIMENSION;
-    signed t_height = tmap.TILE_DIMENSION;
+    signed t_width = TILE_DIMENSION;
+    signed t_height = TILE_DIMENSION;
 
     // Substractions here because we want to always round down when dividing
     signed offset_x = camera.get_x() % t_width * -1 - (camera.get_x() < 0) * t_width;
@@ -333,8 +425,8 @@ void Map::render_entities_layer(WalrusRPG::Camera &camera)
     if (this->layer1 == nullptr)
         return;
 
-    signed t_width = tmap.TILE_DIMENSION;
-    signed t_height = tmap.TILE_DIMENSION;
+    signed t_width = TILE_DIMENSION;
+    signed t_height = TILE_DIMENSION;
 
     // Substractions here because we want to always round down when dividing
     signed offset_x = camera.get_x() % t_width * -1 - (camera.get_x() < 0) * t_width;
@@ -398,8 +490,8 @@ void Map::render_upper_layer(WalrusRPG::Camera &camera)
     if (this->layer2 == nullptr)
         return;
 
-    signed t_width = tmap.TILE_DIMENSION;
-    signed t_height = tmap.TILE_DIMENSION;
+    signed t_width = TILE_DIMENSION;
+    signed t_height = TILE_DIMENSION;
 
     // Substractions here because we want to always round down when dividing
     signed offset_x = camera.get_x() % t_width * -1 - (camera.get_x() < 0) * t_width;
@@ -453,7 +545,7 @@ bool Map::is_tile_solid(int x, int y) const
 
 bool Map::is_pixel_solid(int x, int y) const
 {
-    return is_tile_solid(x / tmap.TILE_DIMENSION, y / tmap.TILE_DIMENSION);
+    return is_tile_solid(x / TILE_DIMENSION, y / TILE_DIMENSION);
 }
 
 int Map::get_width() const
@@ -470,28 +562,56 @@ int Map::get_height() const
 // The reference only exists to avoid self collisions.
 bool Map::entity_entity_collision(Rect a, Entity *ref)
 {
+    unordered_set<Entity *> *top_left = nullptr, *top_right = nullptr,
+                            *bottom_left = nullptr, *bottom_right = nullptr;
+    get_grid_corners(a, top_left, top_right, bottom_left, bottom_right);
+
+    if (top_left != nullptr)
+        for (auto ptr = top_left->begin(); ptr != top_left->end(); ++ptr)
+        {
+            Entity *e = *ptr;
+            Rect b = {(int) e->x, (int) e->y, (unsigned) e->w, (unsigned) e->h};
+            if (AABBCheck(a, b))
+                return true;
+        }
+    if (top_right != nullptr)
+        for (auto ptr = top_right->begin(); ptr != top_right->end(); ++ptr)
+        {
+            Entity *e = *ptr;
+            Rect b = {(int) e->x, (int) e->y, (unsigned) e->w, (unsigned) e->h};
+            if (AABBCheck(a, b))
+                return true;
+        }
+    if (bottom_left != nullptr)
+        for (auto ptr = bottom_left->begin(); ptr != bottom_left->end(); ++ptr)
+        {
+            Entity *e = *ptr;
+            Rect b = {(int) e->x, (int) e->y, (unsigned) e->w, (unsigned) e->h};
+            if (AABBCheck(a, b))
+                return true;
+        }
+    if (bottom_right != nullptr)
+        for (auto ptr = bottom_right->begin(); ptr != bottom_right->end(); ++ptr)
+        {
+            Entity *e = *ptr;
+            Rect b = {(int) e->x, (int) e->y, (unsigned) e->w, (unsigned) e->h};
+            if (AABBCheck(a, b))
+                return true;
+        }
+
     // TODO : QuadTree
-    for (auto ptr = entities.begin(); ptr < entities.end(); ptr++)
-    {
-        Entity *e = *ptr;
-        if (e == ref || !e->solid)
-            continue;
 
-        Rect b = {(int) e->x, (int) e->y, (unsigned) e->w, (unsigned) e->h};
 
-        if (AABBCheck(a, b))
-            return true;
-    }
     return false;
 }
 
 // Checks if a rect collides with the map.
 bool Map::object_collision(Rect object)
 {
-    int left_tile = object.x / Tileset::TILE_DIMENSION;
-    int right_tile = (object.x + object.width - 1) / Tileset::TILE_DIMENSION;
-    int top_tile = object.y / Tileset::TILE_DIMENSION;
-    int bottom_tile = (object.y + object.height - 1) / Tileset::TILE_DIMENSION;
+    int left_tile = object.x / TILE_DIMENSION;
+    int right_tile = (object.x + object.width - 1) / TILE_DIMENSION;
+    int top_tile = object.y / TILE_DIMENSION;
+    int bottom_tile = (object.y + object.height - 1) / TILE_DIMENSION;
 
     if (left_tile < 0)
         left_tile = 0;

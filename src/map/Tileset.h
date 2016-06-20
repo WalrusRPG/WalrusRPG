@@ -32,10 +32,10 @@ namespace WalrusRPG
         uint8_t collision_mask;
     };
 
+    constexpr const int TILE_DIMENSION = 16;
     class Tileset
     {
       public:
-        constexpr static int TILE_DIMENSION = 16;
         constexpr static int TILE_HALF_DIMENSION = TILE_DIMENSION / 2;
         constexpr static int TILESET_HEADER_SIZE = 24;
         constexpr static int TILESET_CHIP_DATA_SIZE = 1;

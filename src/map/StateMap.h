@@ -25,6 +25,7 @@ namespace WalrusRPG
             bool show_layer_middle;
             bool show_layer_over;
             bool show_entities;
+            bool show_entity_grid;
             ImVec2 scrolling = ImVec2(0.0f, 0.0f);
 #endif
             WalrusRPG::ManagedArchive data;

@@ -113,7 +113,8 @@ void Logger::error(const char *fmt, ...)
 
 void Logger::debug_render()
 {
-    ImGui::Begin("Logger");
+    if (!ImGui::Begin("Logger"))
+        return;
     ImGui::Checkbox("Log", &show_log);
     ImGui::SameLine();
     ImGui::Checkbox("Debug", &show_debug);

@@ -25,6 +25,7 @@ using WalrusRPG::Entity;
 using WalrusRPG::TileRenderer;
 using WalrusRPG::TalkEntity;
 using WalrusRPG::DoorEntity;
+using WalrusRPG::MAP_OBJECT_GRID_TILE_WIDTH;
 
 namespace
 {
@@ -49,39 +50,37 @@ StateMap::StateMap(int x, int y, Map &map)
       tex_haeccity((*data).get("t_haeccity")),
       txt(tex_haeccity, (*data).get("f_haeccity")), box(txt),
       p(*this, 32, 40, 10, 4,
-        new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
-                         Tileset::TILE_DIMENSION),
-        128)
+        new TileRenderer(map.tmap.get_texture(), TILE_DIMENSION, TILE_DIMENSION), 128)
 {
     map.add_entity(&p);
-    TileRenderer *tr = new TileRenderer(map.tmap.get_texture(), Tileset::TILE_DIMENSION,
-                                        Tileset::TILE_DIMENSION);
-    map.add_entity(new TalkEntity(*this, 128, 64, Tileset::TILE_DIMENSION,
-                                  Tileset::TILE_DIMENSION, tr, 150,
+    TileRenderer *tr =
+        new TileRenderer(map.tmap.get_texture(), TILE_DIMENSION, TILE_DIMENSION);
+    map.add_entity(new TalkEntity(*this, 128, 64, TILE_DIMENSION, TILE_DIMENSION, tr, 150,
                                   "Hello, I'm a skeleton."));
-    map.add_entity(new TalkEntity(*this, 128, 96, Tileset::TILE_DIMENSION,
-                                  Tileset::TILE_DIMENSION, tr, 134,
+    map.add_entity(new TalkEntity(*this, 128, 96, TILE_DIMENSION, TILE_DIMENSION, tr, 134,
                                   "Hello, I'm another skeleton."));
     map.add_entity(new TalkEntity(
-        *this, 138, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134,
+        *this, 138, 104, TILE_DIMENSION, TILE_DIMENSION, tr, 134,
         "Doot doot. Thanks \xFF\x02\xFF\x00\x00Mr. Skeltal\xFF\x02\xFF\xFF\xFF!"));
 
 
     map.add_entity(new TalkEntity(
-        *this, 138, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr, 134,
+        *this, 138, 104, TILE_DIMENSION, TILE_DIMENSION, tr, 134,
         "Doot doot. Thanks \xFF\x02\xFF\x00\x00Mr. Skeltal\xFF\x02\xFF\xFF\xFF!"));
 
 
-    map.add_entity(new DoorEntity(*this, 48, 240, Tileset::TILE_DIMENSION,
-                                  Tileset::TILE_DIMENSION, tr, 4, 7));
-    map.add_entity(new DoorEntity(*this, 352, 240, Tileset::TILE_DIMENSION,
-                                  Tileset::TILE_DIMENSION, tr, 4, 7));
+    map.add_entity(
+        new DoorEntity(*this, 48, 240, TILE_DIMENSION, TILE_DIMENSION, tr, 4, 7));
+    map.add_entity(
+        new DoorEntity(*this, 352, 240, TILE_DIMENSION, TILE_DIMENSION, tr, 4, 7));
+
+    map.reset_entity_grid();
     /*
     map.add_entity(
-        new Entity(*this, 196, 112, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
+        new Entity(*this, 196, 112, TILE_DIMENSION, TILE_DIMENSION, tr,
     134));
     map.add_entity(
-        new Entity(*this, 196, 104, Tileset::TILE_DIMENSION, Tileset::TILE_DIMENSION, tr,
+        new Entity(*this, 196, 104, TILE_DIMENSION, TILE_DIMENSION, tr,
     134));
     */
 }
@@ -190,7 +189,8 @@ void StateMap::debug_layer(uint16_t *layer, ImU32 color, ImDrawList *list, ImVec
 
 void StateMap::debug()
 {
-    ImGui::Begin("Map State");
+    if (!ImGui::Begin("Map state"))
+        return;
     ImGui::BeginGroup();
     ImGui::Text("Camera");
     ImGui::Indent();
@@ -198,7 +198,6 @@ void StateMap::debug()
     ImGui::SameLine();
     ImGui::Value("Y", camera.get_y());
     ImGui::EndGroup();
-
     ImGui::Separator();
 
     ImGui::Text("Map");
@@ -220,6 +219,11 @@ void StateMap::debug()
         ;
     if (ImGui::Checkbox("Entities", &show_entities))
         ;
+    if (show_entities)
+    {
+        ImGui::SameLine();
+        ImGui::Checkbox("Grid", &show_entity_grid);
+    }
 
     if (ImGui::BeginChild("map_frame", {0, 0}, true))
     {
@@ -240,24 +244,58 @@ void StateMap::debug()
             for (auto ptr = map.entities.begin(); ptr != map.entities.end(); ptr++)
             {
                 Entity *e = *ptr;
-                float x = s.x + e->x / Tileset::TILE_DIMENSION * 4;
-                float x2 = s.x + (e->x + e->w) / Tileset::TILE_DIMENSION * 4;
-                float y = s.y + e->y / Tileset::TILE_DIMENSION * 4;
-                float y2 = s.y + (e->y + e->h) / Tileset::TILE_DIMENSION * 4;
+                float x = s.x + e->x / TILE_DIMENSION * 4;
+                float x2 = s.x + (e->x + e->w) / TILE_DIMENSION * 4;
+                float y = s.y + e->y / TILE_DIMENSION * 4;
+                float y2 = s.y + (e->y + e->h) / TILE_DIMENSION * 4;
                 list->AddRectFilled({x, y}, {x2, y2}, 0xFFFFFFFF);
+            }
+            // Entity Grid
+            if (show_entity_grid)
+            {
+                for (int i = 0, max_i = map.get_height() / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+                     i < max_i; ++i)
+                {
+                    for (int j = 0,
+                             max_j = map.get_width() / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+                         j < max_j; ++j)
+                    {
+                        list->AddRect(
+                            {std::floor(j * MAP_OBJECT_GRID_TILE_WIDTH * 4 + s.x),
+                             std::floor(i * MAP_OBJECT_GRID_TILE_WIDTH * 4 + s.y)},
+                            {std::floor((j + 1) * MAP_OBJECT_GRID_TILE_WIDTH * 4 + s.x),
+                             std::floor((i + 1) * MAP_OBJECT_GRID_TILE_WIDTH * 4 + s.y)},
+                            0x80FFFFFF);
+                    }
+                }
             }
         }
         if (show_layer_over && map.layer2 != nullptr)
             StateMap::debug_layer(map.layer2, 0x800000FF, list, s);
-        float x = camera.get_x() / (float) Tileset::TILE_DIMENSION;
-        float x2 = (camera.get_x() + 320) / (float) Tileset::TILE_DIMENSION;
-        float y = camera.get_y() / (float) Tileset::TILE_DIMENSION;
-        float y2 = (camera.get_y() + 240) / (float) Tileset::TILE_DIMENSION;
+        float x = camera.get_x() / (float) TILE_DIMENSION;
+        float x2 = (camera.get_x() + 320) / (float) TILE_DIMENSION;
+        float y = camera.get_y() / (float) TILE_DIMENSION;
+        float y2 = (camera.get_y() + 240) / (float) TILE_DIMENSION;
         list->AddRect({std::floor(x * 4 + s.x), std::floor(y * 4 + s.y)},
                       {std::floor(x2 * 4 + s.x), std::floor(y2 * 4 + s.y)}, 0xFFFFFF00);
-
-        ImGui::EndChild();
     }
+    ImGui::EndChild();
+    if (show_entity_grid)
+    {
+        ImGui::Text("Grid entity population");
+        for (int i = 0, max_i = map.get_height() / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+             i < max_i; ++i)
+        {
+            for (int j = 0, max_j = map.get_width() / MAP_OBJECT_GRID_TILE_WIDTH + 1;
+                 j < max_j; ++j)
+            {
+                ImGui::Text("%3d", map.entity_container[i][j].size());
+                ImGui::SameLine();
+            }
+            ImGui::Text("");
+        }
+    }
+
     ImGui::End();
 }
 #endif
