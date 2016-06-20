@@ -143,6 +143,8 @@ void StateMap::update()
                 {
                     e->interact_with(p, InteractionType::CHECK);
                     Logger::log("Interacted with %p", e);
+                    map.remove_entity_from_grid(e);
+                    map.add_entity_to_grid(e);
                 }
             }
             // if (!started && box.state != Done)
