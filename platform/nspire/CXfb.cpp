@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include <cstring>
 #include "CXfb.h"
-#include "mutex.h"
 #include "utility/misc.h"
 #include "utility/minmax.h"
 
@@ -18,7 +17,6 @@ uint32_t lcd_imsc_bkp;
 
 #define BUFFER_SIZE 320 * 240 * 2
 uint16_t *buffer_screen = NULL, *buffer_render = NULL, *buffer_ready = NULL, *buffer_os;
-unsigned buffer_swap_lock;
 bool buffer_swap_ready;
 
 /*
@@ -46,7 +44,6 @@ void GRAPHICS::buffer_allocate()
 
     buffer_os = (uint16_t *) *lcd_base;
     *lcd_base = (uint32_t) buffer_screen;
-    buffer_swap_lock = 0;
     buffer_swap_ready = false;
 
     // Set up the controller in order to use vsync signals
@@ -71,9 +68,6 @@ void GRAPHICS::buffer_free()
 
 void GRAPHICS::buffer_swap_screen()
 {
-    if (mutex_lock(&buffer_swap_lock))
-        return;
-
     if (buffer_swap_ready)
     {
         uint16_t *buffer_screen_tmp = buffer_screen;
@@ -83,20 +77,14 @@ void GRAPHICS::buffer_swap_screen()
         *lcd_base = (uint32_t) buffer_screen;
         buffer_swap_ready = false;
     }
-
-    mutex_unlock(&buffer_swap_lock);
 }
 
 void GRAPHICS::buffer_swap_render()
 {
-    spin_lock(&buffer_swap_lock);
-
     uint16_t *buffer_ready_tmp = buffer_ready;
     buffer_ready = buffer_render;
     buffer_render = buffer_ready_tmp;
     buffer_swap_ready = true;
-
-    mutex_unlock(&buffer_swap_lock);
 }
 
 void GRAPHICS::buffer_fill(uint16_t color)
