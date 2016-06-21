@@ -81,6 +81,7 @@ void GRAPHICS::buffer_swap_screen()
 
 void GRAPHICS::buffer_swap_render()
 {
+    buffer_swap_ready = false;
     uint16_t *buffer_ready_tmp = buffer_ready;
     buffer_ready = buffer_render;
     buffer_render = buffer_ready_tmp;
