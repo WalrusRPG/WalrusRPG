@@ -34,6 +34,7 @@ $(OUT)/%.o: %.cpp | $(BUILT_SRCS)
 $(ELF): $(OBJS)
 	@mkdir -p $(dir $@)
 	@echo "CCLD: $@"
+	#@+$(CC) $^ -o $(ELF) $(LDFLAGS)
 	@+$(CC) $(LDFLAGS) $^ $(LIBS) -o $(ELF)
 
 clean:
