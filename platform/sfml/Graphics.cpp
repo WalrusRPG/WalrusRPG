@@ -4,9 +4,6 @@
 #include "sfwindow.h"
 #include <SFML/Graphics.hpp>
 #include "utility/misc.h"
-#include "imgui.h"
-#include "imgui-events-SFML.h"
-#include "imgui-rendering-SFML.h"
 
 using namespace WalrusRPG; /*::Graphics*/
 using WalrusRPG::Utils::Rect;
@@ -15,6 +12,11 @@ sf::RenderWindow window;
 sf::View view;
 sf::RenderTexture buffer;
 
+#ifdef IMGUI
+#include "imgui.h"
+#include "imgui-events-SFML.h"
+#include "imgui-rendering-SFML.h"
+#endif
 
 void Graphics::init()
 {
@@ -25,15 +27,19 @@ void Graphics::init()
     window.setFramerateLimit(60);
     view = sf::View(window.getDefaultView());
     buffer.create(320, 240);
+#ifdef IMGUI
     ImGui::SFML::SetRenderTarget(window);
     ImGui::SFML::InitImGuiRendering();
     ImGui::SFML::SetWindow(window);
     ImGui::SFML::InitImGuiEvents();
+#endif
 }
 
 void Graphics::deinit()
 {
+#ifdef IMGUI
     ImGui::SFML::Shutdown();
+#endif
     Logger::log("Graphics deinit");
     window.close();
 }
@@ -41,6 +47,7 @@ void Graphics::deinit()
 void Graphics::frame_begin()
 {
     window.clear(sf::Color::Black);
+#ifdef IMGUI
     ImGui::SFML::UpdateImGui();
     ImGui::SFML::UpdateImGuiRendering();
     sf::Event e;
@@ -48,6 +55,7 @@ void Graphics::frame_begin()
     {
         ImGui::SFML::ProcessEvent(e);
     }
+#endif
 }
 
 void Graphics::frame_end()
@@ -63,7 +71,9 @@ void Graphics::frame_end()
     sprite.setScale(scale, scale);
     sprite.setPosition((winsize.x - 320.f * scale) / 2, (winsize.y - 240.f * scale) / 2);
     window.draw(sprite);
+#ifdef IMGUI
     ImGui::Render();
+#endif
     window.display();
 }
 

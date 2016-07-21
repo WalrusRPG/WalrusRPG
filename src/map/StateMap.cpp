@@ -161,14 +161,14 @@ void StateMap::render()
 {
     map.render(camera);
     print_debug_camera_data(camera, txt);
-#if !TARGET_SFML
+#if !IMGUI
     print_debug_map_data(map, txt);
 #endif
     if (started)
         box.render();
 }
 
-#if TARGET_SFML
+#if IMGUI
 
 void StateMap::debug_layer(uint16_t *layer, ImU32 color, ImDrawList *list, ImVec2 offset)
 {

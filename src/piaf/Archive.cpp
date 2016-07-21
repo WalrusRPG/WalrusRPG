@@ -1,5 +1,4 @@
 #include <cstring>
-#include <cstdio>
 #include <memory>
 #include <zlib.h>
 #if TARGET_NSPIRE

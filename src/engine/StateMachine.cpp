@@ -9,7 +9,7 @@
 #include "input/Input.h"
 #include "utility/misc.h"
 
-#if TARGET_SFML
+#if IMGUI
 #include <SFML/System.hpp>
 #include "imgui-events-SFML.h"
 #include "imgui-rendering-SFML.h"
@@ -25,7 +25,7 @@ using WalrusRPG::States::State;
 
 namespace
 {
-#if TARGET_SFML
+#if IMGUI
     float update_times[200] = {0};
     float render_times[200] = {0};
     bool show_logger = false;
@@ -161,7 +161,7 @@ void StateMachine::run()
                                    TIMER_FREQ / update_time);
             }
 
-#if TARGET_SFML
+#ifdef IMGUI
             // Updating time graph
             float update_time = (frame_stamp - update_stamp) / 1000.;
             float render_time = (Timing::gettime() - frame_stamp) / 1000.;

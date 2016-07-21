@@ -1,10 +1,14 @@
 #include "Logger.h"
 #include <stdio.h>
+#include <memory.h>
 #include <stdarg.h>
 #include <time.h>
-#include "imgui.h"
 #include "TINYSTL/vector.h"
 #include <algorithm>
+
+#ifdef IMGUI
+#include "imgui.h"
+#endif
 
 
 using namespace WalrusRPG;
@@ -111,6 +115,7 @@ void Logger::error(const char *fmt, ...)
 }
 
 
+#ifdef IMGUI
 void Logger::debug_render()
 {
     if (!ImGui::Begin("Logger"))
@@ -163,3 +168,4 @@ void Logger::debug_render()
     ImGui::EndChild();
     ImGui::End();
 }
+#endif

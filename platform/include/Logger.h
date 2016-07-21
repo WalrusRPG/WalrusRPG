@@ -12,7 +12,7 @@ namespace WalrusRPG
         void warn(const char *fmt, ...);
         void error(const char *fmt, ...);
 
-#ifdef TARGET_SFML
+#ifdef IMGUI
         void debug_render();
 #endif
     }

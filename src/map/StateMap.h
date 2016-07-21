@@ -20,7 +20,7 @@ namespace WalrusRPG
             bool started;
             Camera camera;
             Map &map;
-#if TARGET_SFML
+#if IMGUI
             bool show_layer_ground;
             bool show_layer_middle;
             bool show_layer_over;
@@ -40,7 +40,7 @@ namespace WalrusRPG
             void render();
             void update();
 
-#if TARGET_SFML
+#if IMGUI
             void debug();
             void debug_layer(uint16_t *layer, ImU32 color, ImDrawList *list,
                              ImVec2 offset = {0, 0});
