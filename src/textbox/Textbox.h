@@ -2,9 +2,9 @@
 #define INCLUDE_TEXTBOX_H
 
 #include "Graphics.h"
+#include "TINYSTL/vector.h"
 #include "render/Font.h"
 #include "utility/Rect.h"
-#include "TINYSTL/vector.h"
 
 namespace WalrusRPG
 {

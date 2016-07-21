@@ -1,11 +1,11 @@
+#include "Quirks.h"
+#include "Interrupts.h"
+#include "Logger.h"
+#include "platform.h"
+#include <TINYSTL/string.h>
 #include <cstddef>
 #include <cstring>
 #include <memory>
-#include <TINYSTL/string.h>
-#include "Quirks.h"
-#include "Logger.h"
-#include "Interrupts.h"
-#include "platform.h"
 
 
 using namespace WalrusRPG;

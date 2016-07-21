@@ -1,8 +1,8 @@
 #include "Logger.h"
 #include "Map.h"
 #include "Tileset.h"
-#include <cstring>
 #include <cstdarg>
+#include <cstring>
 
 using WalrusRPG::MapException;
 using WalrusRPG::TilesetException;

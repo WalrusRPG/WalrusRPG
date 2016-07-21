@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include "StateMap.h"
-#include "utility/misc.h"
 #include "utility/Rect.h"
+#include "utility/misc.h"
 
 using WalrusRPG::Entity;
 using namespace WalrusRPG::Utils;

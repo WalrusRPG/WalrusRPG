@@ -1,13 +1,13 @@
 #ifndef INCLUDE_STATEMAP_H
 #define INCLUDE_STATEMAP_H
 
-#include "engine/State.h"
-#include "piaf/Archive.h"
 #include "Map.h"
-#include "render/Font.h"
-#include "textbox/Textbox.h"
 #include "PlayerEntity.h"
 #include "engine/ResourceManager.h"
+#include "engine/State.h"
+#include "piaf/Archive.h"
+#include "render/Font.h"
+#include "textbox/Textbox.h"
 
 namespace WalrusRPG
 {

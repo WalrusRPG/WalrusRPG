@@ -1,8 +1,8 @@
-#include <cstring>
 #include "Quirks.h"
 #include "Logger.h"
-#include "utility/misc.h"
 #include "sfwindow.h"
+#include "utility/misc.h"
+#include <cstring>
 
 using namespace WalrusRPG;
 using tinystl::string;

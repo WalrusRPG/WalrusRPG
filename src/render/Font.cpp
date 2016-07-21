@@ -1,10 +1,10 @@
-#include <string.h>
-#include <zlib.h>
-#include <cstdio>
-#include <cstdarg>
 #include "Font.h"
 #include "Logger.h"
 #include "utility/misc.h"
+#include <cstdarg>
+#include <cstdio>
+#include <string.h>
+#include <zlib.h>
 
 using namespace WalrusRPG; /*::Logger*/
 using WalrusRPG::Graphics::Font;

@@ -1,9 +1,9 @@
 #ifndef INCLUDE_QUIRKS_H
 #define INCLUDE_QUIRKS_H
 
-#include <memory>
-#include <TINYSTL/string.h>
 #include "platform.h"
+#include <TINYSTL/string.h>
+#include <memory>
 
 namespace WalrusRPG
 {

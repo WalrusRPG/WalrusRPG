@@ -1,17 +1,17 @@
 #include "Map.h"
-#include "render/Text.h"
-#include <zlib.h>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <algorithm>
-#include "render/TileRenderer.h"
 #include "Graphics.h"
 #include "Logger.h"
-#include "utility/Rect.h"
 #include "collision/Collision.h"
-#include "utility/misc.h"
 #include "piaf/Archive.h"
+#include "render/Text.h"
+#include "render/TileRenderer.h"
+#include "utility/Rect.h"
+#include "utility/misc.h"
+#include <algorithm>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <zlib.h>
 
 using WalrusRPG::Entity;
 using WalrusRPG::Map;
@@ -372,10 +372,8 @@ void Map::update()
 
     // Post update sort for the render part, making the sweep placement faster.
     // This may be the only time a lambda can be useful to me in C++.
-    std::sort(entities.begin(), entities.end(), [](Entity *a, Entity *b)
-              {
-                  return a->y < b->y;
-              });
+    std::sort(entities.begin(), entities.end(),
+              [](Entity *a, Entity *b) { return a->y < b->y; });
 }
 
 // Renders the ground layer.

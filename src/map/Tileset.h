@@ -3,8 +3,8 @@
 
 #include "Texture.h"
 #include "piaf/Archive.h"
-#include "utility/Rect.h"
 #include "render/Animator.h"
+#include "utility/Rect.h"
 
 namespace WalrusRPG
 {

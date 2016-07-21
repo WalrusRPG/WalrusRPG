@@ -13,8 +13,7 @@ namespace WalrusRPG
         class Pixel
         {
           public:
-            union
-            {
+            union {
                 std::uint16_t value;
 
               public: // hack to be able to do pixel.r. Clever!

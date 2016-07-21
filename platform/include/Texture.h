@@ -6,10 +6,10 @@
  * Texture backend abstraction
  */
 
-#include "utility/Rect.h"
+#include "piaf/Archive.h"
 #include "platform.h"
 #include "render/Pixel.h"
-#include "piaf/Archive.h"
+#include "utility/Rect.h"
 //#include "PLATFORM/texture_type.h"
 
 namespace WalrusRPG

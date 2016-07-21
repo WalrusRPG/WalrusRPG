@@ -1,8 +1,8 @@
 #ifndef INCLUDE_PLATFORM_H
 #define INCLUDE_PLATFORM_H
 
-#include <cstdint>
 #include <3ds.h>
+#include <cstdint>
 #include <sf2d.h>
 
 #define TIMER_FREQ 10000

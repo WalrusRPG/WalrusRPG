@@ -1,9 +1,9 @@
-#include <cmath>
 #include "Graphics.h"
 #include "Logger.h"
 #include "sfwindow.h"
-#include <SFML/Graphics.hpp>
 #include "utility/misc.h"
+#include <SFML/Graphics.hpp>
+#include <cmath>
 
 using namespace WalrusRPG; /*::Graphics*/
 using WalrusRPG::Utils::Rect;
@@ -13,9 +13,9 @@ sf::View view;
 sf::RenderTexture buffer;
 
 #ifdef IMGUI
-#include "imgui.h"
 #include "imgui-events-SFML.h"
 #include "imgui-rendering-SFML.h"
+#include "imgui.h"
 #endif
 
 void Graphics::init()

@@ -1,18 +1,18 @@
 #include "StateMachine.h"
-#include "Logger.h"
-#include "Timing.h"
-#include "platform.h"
 #include "Graphics.h"
+#include "Logger.h"
 #include "Status.h"
-#include "render/Text.h"
-#include "version.h"
+#include "Timing.h"
 #include "input/Input.h"
+#include "platform.h"
+#include "render/Text.h"
 #include "utility/misc.h"
+#include "version.h"
 
 #if IMGUI
-#include <SFML/System.hpp>
 #include "imgui-events-SFML.h"
 #include "imgui-rendering-SFML.h"
+#include <SFML/System.hpp>
 #endif
 
 using namespace WalrusRPG; /*::StateMachine*/

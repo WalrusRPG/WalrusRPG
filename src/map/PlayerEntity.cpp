@@ -1,9 +1,9 @@
 #include "PlayerEntity.h"
-#include "StateMap.h"
+#include "Logger.h"
 #include "Map.h"
+#include "StateMap.h"
 #include "input/Input.h"
 #include "utility/Rect.h"
-#include "Logger.h"
 
 using WalrusRPG::Animation;
 using WalrusRPG::PlayerEntity;

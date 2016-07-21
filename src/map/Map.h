@@ -1,15 +1,15 @@
 #ifndef INCLUDE_MAP_H
 #define INCLUDE_MAP_H
 
-#include <stdint.h>
+#include "Entity.h"
 #include "TINYSTL/unordered_set.h"
 #include "TINYSTL/vector.h"
-#include "Entity.h"
 #include "Texture.h"
 #include "Tileset.h"
 #include "piaf/Archive.h"
 #include "render/Camera.h"
 #include "render/TileRenderer.h"
+#include <stdint.h>
 
 namespace WalrusRPG
 {

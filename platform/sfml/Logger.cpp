@@ -1,10 +1,10 @@
 #include "Logger.h"
-#include <stdio.h>
-#include <memory.h>
-#include <stdarg.h>
-#include <time.h>
 #include "TINYSTL/vector.h"
 #include <algorithm>
+#include <memory.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <time.h>
 
 #ifdef IMGUI
 #include "imgui.h"

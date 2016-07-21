@@ -1,11 +1,11 @@
 #include "Texture.h"
+#include "render/Pixel.h"
+#include "utility/misc.h"
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/OpenGL.hpp>
-#include <SFML/Graphics/Rect.hpp>
 #include <cstdint>
 #include <cstdlib>
-#include "utility/misc.h"
-#include "render/Pixel.h"
 
 using namespace WalrusRPG::Graphics; /*Texture*/
 using WalrusRPG::Graphics::Pixel;

@@ -1,8 +1,8 @@
 #include "Logger.h"
-#include <stdio.h>
-#include <stdarg.h>
-#include <time.h>
 #include <3ds/console.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <time.h>
 
 using namespace WalrusRPG;
 

@@ -1,6 +1,6 @@
 #include "Camera.h"
-#include "utility/misc.h"
 #include "input/Input.h"
+#include "utility/misc.h"
 
 using WalrusRPG::Camera;
 using namespace WalrusRPG;

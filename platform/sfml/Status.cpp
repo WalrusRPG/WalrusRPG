@@ -1,9 +1,9 @@
 #include "Status.h"
 #include "Logger.h"
 #include "Quirks.h"
+#include "platform.h"
 #include "sfwindow.h"
 #include <SFML/Window/Event.hpp>
-#include "platform.h"
 
 using namespace WalrusRPG;
 

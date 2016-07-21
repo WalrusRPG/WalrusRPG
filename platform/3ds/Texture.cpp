@@ -1,11 +1,11 @@
 #include "Texture.h"
+#include "lodepng.h"
+#include "render/Pixel.h"
+#include "utility/misc.h"
+#include <3ds.h>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include "utility/misc.h"
-#include "render/Pixel.h"
-#include "lodepng.h"
-#include <3ds.h>
 #include <sf2d.h>
 
 using namespace WalrusRPG::Graphics; /*Texture*/

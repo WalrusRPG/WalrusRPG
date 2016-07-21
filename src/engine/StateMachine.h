@@ -1,8 +1,8 @@
 #ifndef INCLUDE_STATEMACHINE_H
 #define INCLUDE_STATEMACHINE_H
 
-#include <TINYSTL/vector.h>
 #include "State.h"
+#include <TINYSTL/vector.h>
 
 namespace WalrusRPG
 {

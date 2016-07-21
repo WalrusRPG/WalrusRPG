@@ -1,6 +1,6 @@
 #include "Status.h"
-#include "Quirks.h"
 #include "Logger.h"
+#include "Quirks.h"
 
 using namespace WalrusRPG; /*Status*/
 

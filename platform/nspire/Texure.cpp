@@ -1,10 +1,10 @@
-#include "Texture.h"
-#include "piaf/Archive.h"
-#include "utility/Rect.h"
-#include "render/Pixel.h"
-#include "utility/misc.h"
-#include "lodepng.h"
 #include "Graphics.h"
+#include "Texture.h"
+#include "lodepng.h"
+#include "piaf/Archive.h"
+#include "render/Pixel.h"
+#include "utility/Rect.h"
+#include "utility/misc.h"
 using WalrusRPG::Graphics::Black;
 using WalrusRPG::Graphics::Pixel;
 using WalrusRPG::Graphics::Texture;

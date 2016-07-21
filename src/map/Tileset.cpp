@@ -1,9 +1,9 @@
+#include "Tileset.h"
+#include "Graphics.h"
+#include "Logger.h"
+#include "utility/misc.h"
 #include <cstring>
 #include <zlib.h>
-#include "Tileset.h"
-#include "Logger.h"
-#include "Graphics.h"
-#include "utility/misc.h"
 
 using WalrusRPG::Tileset;
 using WalrusRPG::TilesetException;

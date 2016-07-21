@@ -6,10 +6,10 @@
  * Graphics backend abstraction
  */
 
-#include <cstdint>
+#include "Texture.h"
 #include "render/Pixel.h"
 #include "utility/Rect.h"
-#include "Texture.h"
+#include <cstdint>
 
 namespace WalrusRPG
 {

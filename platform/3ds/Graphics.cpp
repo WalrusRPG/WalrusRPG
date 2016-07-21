@@ -1,9 +1,9 @@
 #include "Graphics.h"
+#include "Logger.h"
 #include "render/Pixel.h"
 #include "utility/Rect.h"
-#include "Logger.h"
-#include "utility/misc.h"
 #include "utility/minmax.h"
+#include "utility/misc.h"
 #include <3ds.h>
 #include <sf2d.h>
 

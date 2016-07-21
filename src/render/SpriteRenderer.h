@@ -1,10 +1,10 @@
 #ifndef INCLUDE_SPRITERENDERER_H
 #define INCLUDE_SPRITERENDERER_H
 
-#include <TINYSTL/unordered_map.h>
-#include "utility/Rect.h"
-#include "render/Renderer.h"
 #include "Texture.h"
+#include "render/Renderer.h"
+#include "utility/Rect.h"
+#include <TINYSTL/unordered_map.h>
 
 namespace WalrusRPG
 {

@@ -1,7 +1,7 @@
-#include <TINYSTL/unordered_map.h>
 #include "SpriteRenderer.h"
 #include "Graphics.h"
 #include "render/Pixel.h"
+#include <TINYSTL/unordered_map.h>
 
 using WalrusRPG::SpriteRenderer;
 using namespace WalrusRPG;

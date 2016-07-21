@@ -5,8 +5,8 @@
 #include "../../platform/nspire/Interrupts.h"
 #endif
 #include "Archive.h"
-#include "Quirks.h"
 #include "Logger.h"
+#include "Quirks.h"
 #include "utility/misc.h"
 
 using tinystl::string;

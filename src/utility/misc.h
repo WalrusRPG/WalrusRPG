@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-#define UNUSED(expr) (void)(expr)
+#define UNUSED(expr) (void) (expr)
 
 #define abs(x) ((x) < 0 ? -(x) : (x))
 

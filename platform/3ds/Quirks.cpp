@@ -1,8 +1,8 @@
 #include "Quirks.h"
+#include "Logger.h"
 #include <cstddef>
 #include <cstring>
 #include <memory>
-#include "Logger.h"
 
 using namespace WalrusRPG;
 

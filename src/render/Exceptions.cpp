@@ -1,7 +1,7 @@
-#include "Logger.h"
 #include "Font.h"
-#include <cstring>
+#include "Logger.h"
 #include <cstdarg>
+#include <cstring>
 
 using WalrusRPG::Graphics::FontException;
 using namespace WalrusRPG::Logger;

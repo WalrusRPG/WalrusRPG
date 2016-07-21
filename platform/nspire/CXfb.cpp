@@ -1,9 +1,9 @@
-#include <cstdlib>
-#include <cstring>
 #include "CXfb.h"
 #include "mutex.h"
-#include "utility/misc.h"
 #include "utility/minmax.h"
+#include "utility/misc.h"
+#include <cstdlib>
+#include <cstring>
 
 #define GRAPHICS Nspire::CXfb
 

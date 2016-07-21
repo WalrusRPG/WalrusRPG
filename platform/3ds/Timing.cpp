@@ -1,8 +1,8 @@
 #include "Timing.h"
 #include "Logger.h"
 #include "platform.h"
-#include <cstdio>
 #include <3ds/svc.h>
+#include <cstdio>
 
 constexpr u64 TIMER_PRECISION = 268123480;
 constexpr u64 TIMER_SCALEDOWN = TIMER_PRECISION / TIMER_FREQ;

@@ -1,9 +1,9 @@
 #ifndef INCLUDE_TILERENDERER_H
 #define INCLUDE_TILERENDERER_H
 
-#include "utility/Rect.h"
 #include "Renderer.h"
 #include "Texture.h"
+#include "utility/Rect.h"
 
 namespace WalrusRPG
 {

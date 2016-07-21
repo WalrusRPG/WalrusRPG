@@ -1,12 +1,12 @@
-#include <cstdio>
-#include <cstdarg>
-#include <cstring>
 #include "Text.h"
-#include "Logger.h"
 #include "Graphics.h"
+#include "Logger.h"
 #include "engine/ResourceManager.h"
-#include "render/Font.h"
 #include "piaf/Archive.h"
+#include "render/Font.h"
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
 
 using namespace WalrusRPG::Graphics; /*Text*/
 using namespace WalrusRPG::ResourceManager;

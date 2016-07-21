@@ -1,8 +1,8 @@
 #ifndef INCLUDE_ANIMATOR_H
 #define INCLUDE_ANIMATOR_H
 
-#include <TINYSTL/vector.h>
 #include <TINYSTL/unordered_map.h>
+#include <TINYSTL/vector.h>
 #include <utility>
 namespace WalrusRPG
 {

@@ -1,17 +1,17 @@
-#include <cstdlib>
-#include "StateMachine.h"
-#include "Timing.h"
-#include "Logger.h"
-#include "render/Text.h"
-#include "collision/Collision.h"
 #include "Graphics.h"
+#include "Logger.h"
 #include "Quirks.h"
 #include "ResourceManager.h"
+#include "StateMachine.h"
 #include "Status.h"
+#include "Timing.h"
+#include "collision/Collision.h"
 #include "map/Map.h"
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
+#include "render/Text.h"
 #include "utility/misc.h"
+#include <cstdlib>
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;

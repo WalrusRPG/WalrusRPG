@@ -1,14 +1,14 @@
-#include <cmath>
 #include "StateMap.h"
-#include "Graphics.h"
-#include "input/Input.h"
-#include "render/Text.h"
-#include "collision/Collision.h"
-#include "piaf/Archive.h"
-#include "Logger.h"
-#include "render/TileRenderer.h"
-#include "TalkEntity.h"
 #include "DoorEntity.h"
+#include "Graphics.h"
+#include "Logger.h"
+#include "TalkEntity.h"
+#include "collision/Collision.h"
+#include "input/Input.h"
+#include "piaf/Archive.h"
+#include "render/Text.h"
+#include "render/TileRenderer.h"
+#include <cmath>
 
 using WalrusRPG::States::StateMap;
 using namespace WalrusRPG;

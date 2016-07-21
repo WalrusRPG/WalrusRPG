@@ -1,9 +1,9 @@
-#include <stdio.h>
 #include "Graphics.h"
-#include "Logger.h"
 #include "CXfb.h"
-#include "utility/misc.h"
+#include "Logger.h"
 #include "utility/minmax.h"
+#include "utility/misc.h"
+#include <stdio.h>
 
 using namespace WalrusRPG; /*::Graphics*/
 using namespace Nspire;

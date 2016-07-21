@@ -1,8 +1,8 @@
 #ifndef INCLUDE_CXFB_H
 #define INCLUDE_CXFB_H
 
-#include <cstdint>
 #include "utility/Rect.h"
+#include <cstdint>
 
 namespace Nspire
 {

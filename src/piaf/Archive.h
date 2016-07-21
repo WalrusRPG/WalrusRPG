@@ -1,11 +1,11 @@
 #ifndef INCLUDE_ARCHIVE_H
 #define INCLUDE_ARCHIVE_H
 
-#include <exception>
+#include <TINYSTL/string.h>
+#include <cstdarg>
 #include <cstdint>
 #include <cstdio>
-#include <cstdarg>
-#include <TINYSTL/string.h>
+#include <exception>
 
 namespace WalrusRPG
 {

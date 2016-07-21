@@ -2,9 +2,9 @@
 #define INCLUDE_STATE_H
 
 #if IMGUI
-#include "imgui.h"
 #include "imgui-events-SFML.h"
 #include "imgui-rendering-SFML.h"
+#include "imgui.h"
 #endif
 
 namespace WalrusRPG
@@ -18,7 +18,7 @@ namespace WalrusRPG
             virtual void update() = 0;
             virtual void render() = 0;
 #if IMGUI
-            virtual void debug() {};
+            virtual void debug(){};
 #endif
         };
     }
