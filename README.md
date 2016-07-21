@@ -36,11 +36,10 @@ build system later.
 
 ## Compiling
 
-The build system currently depends on Vogtinator's [ConvertImg](https://github.com/Vogtinator/ConvertImg),
-as well as GNU Make and the Ndless toolchain when compiling for the Nspire,
+The build system currently depends on GNU Make and the Ndless toolchain when compiling for the Nspire,
 or SFML for systems that it supports.
 
-We use the [tinystl](https://github.com/mendsley/tinystl) library to keep binaries small, so be
+We use the [tinystl](https://github.com/mendsley/tinystl)library to keep binaries small (the C++STL is pretty heavy), [imgui](https://github.com/ocornut/imgui) for debug HUD on SFML and [lodepng](http://lodev.org/lodepng/) to load textures, so be
 sure to clone the submodules as well !
 
 To compile the project, simply run make (-j friendly).
