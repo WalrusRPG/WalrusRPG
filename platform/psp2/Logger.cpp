@@ -1,8 +1,8 @@
 #include "Logger.h"
-#include <debugnet.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <time.h>
+#include <debugnet.h>
 
 using namespace WalrusRPG;
 

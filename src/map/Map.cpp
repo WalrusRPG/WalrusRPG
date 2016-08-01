@@ -6,12 +6,12 @@
 #include "render/Text.h"
 #include "render/TileRenderer.h"
 #include "utility/Rect.h"
-#include "utility/misc.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <cstring>
 #include <zlib.h>
+#include "utility/misc.h"
 
 using WalrusRPG::Entity;
 using WalrusRPG::Map;

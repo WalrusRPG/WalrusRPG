@@ -34,7 +34,7 @@ $(EXE): $(EBOOT) $(SFO)
 	vita-pack-vpk  -b $(EBOOT) -s $(SFO) $(EXE) $(foreach file,$(DATA_FILES),--add $(file)=$(file))
 
 $(SFO):
-	vita-mksfoex -s TITLE_ID=FEED00001
+	vita-mksfoex -s TITLE_ID=FEED00001 'WalrusRPG' $(SFO)
 
 $(EBOOT): $(VELF)
 	vita-make-fself $(VELF) $(EBOOT)

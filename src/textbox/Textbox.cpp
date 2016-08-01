@@ -1,9 +1,9 @@
 #include "Textbox.h"
 #include "Logger.h"
 #include "input/Input.h"
-#include "utility/misc.h"
 #include <cstdlib>
 #include <cstring>
+#include "utility/misc.h"
 
 using WalrusRPG::MAGIC_TOKEN;
 using WalrusRPG::COMMAND_LEGNTH;

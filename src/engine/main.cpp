@@ -10,8 +10,8 @@
 #include "map/StateMap.h"
 #include "piaf/Archive.h"
 #include "render/Text.h"
-#include "utility/misc.h"
 #include <cstdlib>
+#include "utility/misc.h"
 
 using namespace WalrusRPG;
 using WalrusRPG::PIAF::Archive;

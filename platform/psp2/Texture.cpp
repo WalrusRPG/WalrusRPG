@@ -36,6 +36,7 @@ Texture::Texture(WalrusRPG::PIAF::File entry)
 
 Texture::~Texture()
 {
+    vita2d_wait_rendering_done();
     vita2d_free_texture(data);
 }
 

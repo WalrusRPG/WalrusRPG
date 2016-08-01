@@ -21,7 +21,7 @@ namespace
     constexpr int OFFSET_Y = 0;
     void set_scissor()
     {
-        vita2d_set_region_clip(SCE_GXM_REGION_CLIP_OUTSIDE, 0, 0, 320, 240);
+        vita2d_set_region_clip(SCE_GXM_REGION_CLIP_INSIDE, 0, 0, 639, 479);
     }
 }
 
@@ -31,7 +31,7 @@ void Graphics::init()
     vita2d_init();
     vita2d_set_clear_color(RGBA8(0x0, 0, 0, 0xFF));
     vita2d_set_vblank_wait(1);
-    vita2d_set_region_clip(SCE_GXM_REGION_CLIP_OUTSIDE, 0, 0, 320, 240);
+    set_scissor();
 }
 
 void Graphics::deinit()
@@ -44,6 +44,7 @@ void Graphics::frame_begin()
 {
     vita2d_start_drawing();
     vita2d_clear_screen();
+    set_scissor();
 }
 
 void Graphics::frame_end()
@@ -69,9 +70,9 @@ void Graphics::put_sprite_tint(const Texture &sheet, int x, int y, const Rect &w
 void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y,
                                    const Rect &sprite_window, const Rect &clipping_window)
 {
-    vita2d_set_region_clip(SCE_GXM_REGION_CLIP_OUTSIDE, clipping_window.x + OFFSET_X,
-                           clipping_window.y + OFFSET_Y, clipping_window.width,
-                           clipping_window.height);
+    vita2d_set_region_clip(SCE_GXM_REGION_CLIP_INSIDE, clipping_window.x*2 + OFFSET_X,
+                           clipping_window.y*2 + OFFSET_Y, clipping_window.width*2,
+                           clipping_window.height*2);
     vita2d_draw_texture_part_scale(sheet.data, x * 2, y * 2, sprite_window.x,
                                    sprite_window.y, sprite_window.width,
                                    sprite_window.height, 2, 2);
@@ -81,7 +82,7 @@ void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y,
 
 void Graphics::fill(const Pixel &color)
 {
-    vita2d_draw_rectangle(0, 0, 320, 240, pixel2u32(color));
+    vita2d_draw_rectangle(0, 0, 640, 480, pixel2u32(color));
 }
 
 void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
