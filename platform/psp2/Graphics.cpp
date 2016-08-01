@@ -17,11 +17,11 @@ namespace
     {
         return RGBA8(pix.r << 3, pix.g << 2, pix.b << 3, 0xFF);
     }
-    constexpr int OFFSET_X = 0;
-    constexpr int OFFSET_Y = 0;
+    constexpr int OFFSET_X = 160;
+    constexpr int OFFSET_Y = 32;
     void set_scissor()
     {
-        vita2d_set_region_clip(SCE_GXM_REGION_CLIP_INSIDE, 0, 0, 639, 479);
+        vita2d_set_region_clip(SCE_GXM_REGION_CLIP_INSIDE, OFFSET_X, OFFSET_Y,OFFSET_X+639, OFFSET_Y+479);
     }
 }
 
@@ -82,7 +82,7 @@ void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y,
 
 void Graphics::fill(const Pixel &color)
 {
-    vita2d_draw_rectangle(0, 0, 640, 480, pixel2u32(color));
+    vita2d_draw_rectangle(OFFSET_X, OFFSET_Y, 640, 480, pixel2u32(color));
 }
 
 void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
@@ -128,7 +128,7 @@ void Graphics::put_vertical_line(uint16_t x, uint16_t y, uint16_t y2, const Pixe
 void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
                         const Pixel &color)
 {
-    vita2d_draw_line(x * 2, y - 2, x2 * 2, y2 * 2, color);
+    vita2d_draw_line(x * 2 + OFFSET_X, y - 2 + OFFSET_Y, x2 * 2, y2 * 2, color);
     return;
 
     // Because sf2dlib has issues with lines, let's port Nspire's functions.
