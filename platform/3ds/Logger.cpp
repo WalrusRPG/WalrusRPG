@@ -30,6 +30,8 @@ void Logger::init()
     console = consoleInit(GFX_BOTTOM, NULL);
 }
 
+void Logger::deinit() {}
+
 void Logger::log(const char *fmt, ...)
 {
     print_premessage("  [LOG]");

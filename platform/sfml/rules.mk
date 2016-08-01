@@ -16,8 +16,9 @@ ifneq ($(DEBUG),FALSE)
 CFLAGS_COMMON += -DIMGUI=1
 endif
 
-CC = clang
-CPP = clang++
+CC = gcc
+CPP = g++
+LD = $(CC)
 
 EXE = $(OUT)/$(NAME)
 

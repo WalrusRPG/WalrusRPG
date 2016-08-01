@@ -19,7 +19,7 @@ void Status::init()
 
 void Status::deinit()
 {
-    Logger::log("Status deinit");
+    // Logger::log("Status deinit");
 }
 
 void Status::update()

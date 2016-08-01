@@ -11,6 +11,7 @@ YCM_EXTRA_CFLAGS := -m32 -I$(NDLESS_GIT)/ndless-sdk/include -I$(HOME)/.ndless/in
 
 CC = nspire-gcc
 CPP = nspire-g++
+LD = $(CC)
 
 ZEHN = genzehn
 ZEHNFLAGS = --name "$(NAME)" --compress

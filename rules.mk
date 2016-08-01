@@ -25,7 +25,7 @@ $(OUT)/%.o: %.c | $(BUILT_SRCS)
 $(OUT)/%.o: %.cpp | $(BUILT_SRCS)
 	@echo "CPP: $@"
 	@mkdir -p $(dir $@)
-	@$(CPP) $(CPPFLAGS) -c $< -o $@
+	@$(LD) $(CPPFLAGS) -c $< -o $@
 
 %.o: %.cpp | $(BUILT_SRCS)
 	@echo "CPP: $@"

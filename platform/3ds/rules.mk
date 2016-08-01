@@ -22,7 +22,7 @@ APP_AUTHOR		:= Eiyeron
 
 CC = arm-none-eabi-gcc
 CPP = arm-none-eabi-g++
-
+LD = $(CPP)
 EXE = $(OUT)/$(NAME).3dsx
 SMDH = $(OUT)/$(NAME).smdh
 

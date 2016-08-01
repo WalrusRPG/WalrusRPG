@@ -21,6 +21,7 @@ APP_AUTHOR		:= Eiyeron
 
 CC = arm-vita-eabi-gcc
 CPP = arm-vita-eabi-g++
+LD = $(CPP)
 STRIP = arm-vita-eabi-strip
 
 EXE = $(OUT)/$(NAME).vpk

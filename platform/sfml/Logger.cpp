@@ -66,6 +66,9 @@ void Logger::init()
 {
 }
 
+void Logger::deinit()
+{}
+
 void Logger::log(const char *fmt, ...)
 {
     prepare_buffer();

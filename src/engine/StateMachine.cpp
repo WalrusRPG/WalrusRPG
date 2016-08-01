@@ -119,7 +119,6 @@ void StateMachine::pop()
     delete stack.back();
     stack.pop_back();
 }
-#include <psp2/kernel/processmgr.h>
 
 void StateMachine::run()
 {
