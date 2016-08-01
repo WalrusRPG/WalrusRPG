@@ -89,9 +89,10 @@ int main(int argc, char *argv[])
     Text::deinit();
     Quirks::deinit();
     Timing::deinit();
-    Status::deinit();
     Logger::log("WalrusRPG Exit");
+    Logger::deinit();
     Graphics::deinit();
+    Status::deinit();
 
     return 0;
 }

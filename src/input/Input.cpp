@@ -57,7 +57,18 @@ u32 kDown = 0;
 u32 kHeld = 0;
 u32 kUp = 0;
 #endif
+#ifdef TARGET_PSP2
+#include <psp2/ctrl.h>
+static InputMap key_map[] = {
+    {Key::K_A, SCE_CTRL_CROSS},     {Key::K_B, SCE_CTRL_CIRCLE},
+    {Key::K_L, SCE_CTRL_LTRIGGER},  {Key::K_R, SCE_CTRL_RTRIGGER},
 
+    {Key::K_UP, SCE_CTRL_UP},       {Key::K_DOWN, SCE_CTRL_DOWN},
+    {Key::K_LEFT, SCE_CTRL_LEFT},   {Key::K_RIGHT, SCE_CTRL_RIGHT},
+
+    {Key::K_START, SCE_CTRL_START}, {Key::K_SELECT, SCE_CTRL_SELECT},
+};
+#endif
 KeyState Input::key_get_state(Key key)
 {
     // "Just" pressed/released before held/inactive to let these events through
@@ -81,6 +92,14 @@ void Input::key_poll()
     kDown = hidKeysDown();
     kHeld = hidKeysHeld();
     kUp = hidKeysUp();
+#elif TARGET_PSP2
+    SceCtrlData data_pad;
+    sceCtrlReadBufferPositive(0, &data_pad, 1);
+    for (unsigned i = 0; i < K_SIZE; i++)
+    {
+        key_states[i].previous = key_states[i].current;
+        key_states[i].current = data_pad.buttons & (key_map[i].key_code);
+    }
 #else
     for (unsigned i = 0; i < K_SIZE; i++)
     {

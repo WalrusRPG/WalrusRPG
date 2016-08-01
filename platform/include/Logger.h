@@ -7,6 +7,7 @@ namespace WalrusRPG
     namespace Logger
     {
         void init();
+        void deinit();
         void log(const char *fmt, ...);
         void debug(const char *fmt, ...);
         void warn(const char *fmt, ...);

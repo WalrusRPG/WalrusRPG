@@ -8,7 +8,7 @@ using WalrusRPG::MapException;
 using WalrusRPG::TilesetException;
 using namespace WalrusRPG::Logger;
 
-MapException::MapException(const char *format, ...) : msg("")
+MapException::MapException(const char *format, ...) : msg{0}
 {
     va_list list;
     va_start(list, format);
@@ -26,7 +26,7 @@ const char *MapException::what() const throw()
     return msg;
 }
 
-TilesetException::TilesetException(const char *format, ...) : msg("")
+TilesetException::TilesetException(const char *format, ...) : msg{0}
 {
     va_list list;
     va_start(list, format);

@@ -119,6 +119,7 @@ void StateMachine::pop()
     delete stack.back();
     stack.pop_back();
 }
+#include <psp2/kernel/processmgr.h>
 
 void StateMachine::run()
 {
@@ -145,7 +146,7 @@ void StateMachine::run()
             lag -= loop_time;
         }
 
-        if (Timing::gettime() < loop_next)
+        // if (Timing::gettime() < loop_next)
         {
             frame_stamp = Timing::gettime();
             frame_time = frame_stamp - last_frame;

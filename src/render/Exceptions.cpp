@@ -6,7 +6,7 @@
 using WalrusRPG::Graphics::FontException;
 using namespace WalrusRPG::Logger;
 
-FontException::FontException(const char *format, ...) : msg("")
+FontException::FontException(const char *format, ...) : msg{0}
 {
     va_list list;
     va_start(list, format);
