@@ -164,11 +164,14 @@ void Graphics::put_line(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2,
 
 void Graphics::put_rectangle(const Rect &rect, const Pixel &color)
 {
-    uint16_t xmax = min(320, rect.x + rect.width);
-    uint16_t ymax = min(240, rect.y + rect.height);
-    for (uint16_t x = rect.x; x < xmax; x++)
+    int16_t xmin = max(0, rect.x);
+    int16_t ymin = max(0, rect.y);
+    int16_t xmax = min(320, rect.x + (signed)rect.width);
+    int16_t ymax = min(240, rect.y + (signed)rect.height);
+    if(xmax < 0 || ymax < 0 || xmin >= 320 || ymin >= 240) return;
+    for (int16_t x = xmin; x < xmax; x++)
     {
-        for (uint16_t y = rect.y; y < ymax; y++)
+        for (int16_t y = ymin; y < ymax; y++)
         {
             CXfb::draw_pixel(x, y, color.value);
         }
