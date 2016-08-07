@@ -17,4 +17,4 @@ config.mk
 imgui.ini
 
 # 3DS
-.map
+*.map
