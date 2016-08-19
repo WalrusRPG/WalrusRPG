@@ -11,8 +11,6 @@ using namespace WalrusRPG; /*::Graphics*/
 using WalrusRPG::Graphics::Pixel;
 using WalrusRPG::Utils::Rect;
 
-sf2d_rendertarget *target = nullptr;
-
 inline u32 pixel2u32(const Pixel &pix)
 {
     return RGBA8(pix.r << 3, pix.g << 2, pix.b << 3, 0xFF);
@@ -41,7 +39,6 @@ void Graphics::init()
 void Graphics::deinit()
 {
     Logger::log("Graphics deinit");
-    sf2d_free_target(target);
     sf2d_fini();
 }
 
@@ -85,7 +82,7 @@ void Graphics::put_sprite_clipping(const Texture &sheet, int x, int y,
 
 void Graphics::fill(const Pixel &color)
 {
-    sf2d_clear_target(target, pixel2u32(color));
+    sf2d_draw_rectangle(0, 0, 320, 240, pixel2u32(color));
 }
 
 void Graphics::put_pixel(uint16_t x, uint16_t y, const Pixel &color)
