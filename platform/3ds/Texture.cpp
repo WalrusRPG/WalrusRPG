@@ -20,7 +20,7 @@ Texture::Texture(char *data) : data()
     uint16_t *data_16 = (uint16_t *) data;
     this->data =
         sf2d_create_texture(data_16[0], data_16[1], TEXFMT_RGB565, SF2D_PLACE_VRAM);
-    memcpy(this->data->data, &data_16[3], data_16[0] * data_16[1] * sizeof(uint16_t));
+    memcpy(&this->data->tex, &data_16[3], data_16[0] * data_16[1] * sizeof(uint16_t));
 }
 
 Texture::Texture(WalrusRPG::PIAF::File entry)

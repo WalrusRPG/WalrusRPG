@@ -11,7 +11,7 @@ INCLUDE_EXT += $(3ds_LOCAL_PATH)/public $(foreach dir,$(LIBDIRS),$(dir)/include)
 
 ARCH = -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -DARM11 -D_3DS
 
-LIBS = -lsf2d -lctru -lm -lz
+LIBS = -lcitro3d -lsf2d -lctru -lm -lz
 LDFLAGS += -specs=3dsx.specs $(ARCH) -Wl,--gc-sections,-Map,$(notdir $*.map) $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 CFLAGS_COMMON += -DTARGET_3DS=1 $(ARCH) -fno-rtti -fno-exceptions
