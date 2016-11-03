@@ -57,14 +57,14 @@ void GRAPHICS::buffer_allocate()
 
 void GRAPHICS::buffer_free()
 {
-    free(buffer_screen);
-    free(buffer_render);
-    free(buffer_ready);
+    *lcd_control = lcd_control_bkp;
+    *lcd_imsc = lcd_imsc_bkp;
 
     *lcd_base = (uint32_t) buffer_os;
 
-    *lcd_control = lcd_control_bkp;
-    *lcd_imsc = lcd_imsc_bkp;
+    free(buffer_screen);
+    free(buffer_render);
+    free(buffer_ready);
 }
 
 void GRAPHICS::buffer_swap_screen()
